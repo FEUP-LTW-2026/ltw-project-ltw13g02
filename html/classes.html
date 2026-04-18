@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classes</title>
+</head>
+<body>
+  
+  <header>
+    <nav>
+      <a href="index.html" class="logo">gymRAT Logo</a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="trainer.html">Trainers</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="filters">
+      <h4>Filters</h4>
+
+      <label> Day of the week:
+        <select name="week-day">
+          <option value="all" selected>All</option>
+          <option value="monday">Monday</option>
+          <option value="tuesday">Tuesday</option>
+          <option value="wednesday">Wednesday</option>
+          <option value="thursday">Thursday</option>
+          <option value="friday">Friday</option>
+          <option value="saturday">Saturday</option>
+          <option value="sunday">Sunday</option>
+        </select>
+      </label>
+
+      <label> Time of day:
+        <select name="time">
+          <option value="all" selected>All</option>
+          <option value="morning">Morning</option>
+          <option value="afternoon">Afternoon</option>
+          <option value="evening">Evening</option>
+        </select>
+      </label>
+
+      <label> Class type:
+        <select name="type">
+          <option value="all" selected>All</option>
+          <option value="weightlifting">Weightlifting</option>
+          <option value="yoga">Yoga</option>
+          <option value="pilates">Pilates</option>
+          <option value="cardio">Cardio</option>
+          <option value="boxing">Boxing</option>
+          <option value="crossfit">CrossFit</option>
+        </select>
+      </label>
+
+      <label> Trainer:
+        <select name="trainer">
+          <option value="all" selected>All Trainers</option>
+          <option value="john-doe">John Doe</option>
+          <option value="jane-smith">Jane Smith</option>
+          <option value="michael-brown">Michael Brown</option>
+          <option value="emily-jones">Emily Jones</option>
+        </select>
+      </label>
+    </section>
+
+    <section id="classes-list">
+      
+      <article class="class">
+        <h5>Morning Yoga</h5>
+        <img src="https://picsum.photos/200" alt="Morning Yoga">
+        <p>Monday, Wednesday, Friday - 7:00 AM - 8:00 AM</p>
+        <p>Trainer: <a href="trainer.html">Jane Smith</a></p>
+        <p id="participants">10/25</p>
+        <a id="enroll" href="class.html">Enroll</a>
+      </article>
+
+      <article class="class">
+        <h5>Cardio Blast</h5>
+        <img src="https://picsum.photos/200" alt="Cardio Blast">
+        <p>Tuesday, Thursday - 6:00 PM - 7:00 PM</p>
+        <p>Trainer: <a href="trainer.html">Michael Brown</a></p>
+        <p id="participants">10/25</p>
+        <a id="enroll" href="class.html">Enroll</a>
+      </article>
+
+      <article class="class">
+        <img src="https://picsum.photos/200" alt="Weightlifting">
+        <h5>Weightlifting</h5>
+        <p>Monday, Wednesday - 5:00 PM - 6:00 PM</p>
+        <p>Trainer: <a href="trainer.html">John Doe</a></p>
+        <p id="participants">10/25</p>
+        <a id="enroll" href="class.html">Enroll</a>
+      </article>
+
+    </section>   
+  </main>
+
+  <footer>
+    <section>
+      <h2 id="contact-title">Contact</h2>
+      <address>
+        <p>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></p>
+        <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+        <p>Address: 21 Power Street, Fit City</p>
+      </address>
+    </section>
+
+    <section>
+      <h2 id="social-title">Follow us</h2>
+      <p>
+        <span>[IG]</span>
+        <span>[FB]</span>
+        <span>[YT]</span>
+      </p>
+    </section>
+
+    <p>&copy; 2026 gymRAT. All rights reserved.</p>
+  </footer>
+</body>
+</html>
