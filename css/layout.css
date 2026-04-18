@@ -1,0 +1,25 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+header {
+  background-color: var(--color-header);
+}
+
+main > section:first-child {
+  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
+}
+
+main > section:nth-child(2n) {
+  background-color: var(--color-even-section);
+}
+
+footer {
+  background-color: var(--color-footer);
+}
