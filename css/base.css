@@ -5,6 +5,7 @@
 :root {
   --color-bg: #f0f0f3;
 
+  --color-title: #fff;
   --color-text: #000;
   --color-paragraph: #a9a9a9;
   --color-nav: #515151;
@@ -44,6 +45,11 @@ body {
 
 p {
   color: var(--color-paragraph);
+}
+
+h1 {
+  color: var(--color-title);
+  font-size: 4rem;
 }
 
 h2 {

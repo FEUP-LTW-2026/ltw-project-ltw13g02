@@ -9,6 +9,10 @@ body {
   margin: 0 auto;
 }
 
+.intro {
+  padding: 3em 0;
+}
+
 header {
   background-color: var(--color-header);
 }
