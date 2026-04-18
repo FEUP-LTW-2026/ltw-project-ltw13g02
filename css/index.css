@@ -1,0 +1,13 @@
+figure {
+  margin: 0;
+}
+
+section#hero .container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; 
+}
+
+section#hero .container div {
+  max-width: 50%;
+}

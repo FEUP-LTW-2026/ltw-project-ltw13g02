@@ -4,7 +4,8 @@ body {
 }
 
 .container {
-  width: 90vw;
+  width: 95em;
+  max-width: 97%;
   margin: 0 auto;
 }
 

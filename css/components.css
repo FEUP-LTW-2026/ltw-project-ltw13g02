@@ -1,0 +1,67 @@
+header {
+  padding: 0;
+}
+
+nav.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav.container .logo {
+  height: 5em;
+}
+
+nav.container > * {
+  margin: 0;
+  padding: 1rem 1rem;
+}
+
+nav.container .nav-links {
+  display: flex;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+nav.container .auth-links {
+  display: flex;
+  gap: var(--space-m);
+  flex-wrap: wrap;
+}
+
+nav.container ul li{
+  display: block;
+}
+
+nav.container .nav-links li a {
+  text-decoration: none;
+  color: var(--color-nav  );
+  font-weight: var(--font-text-highlight);
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}
+
+nav.container .nav-links li a:hover {
+  color: var(--color-primary);
+}
+
+.btn {
+  text-decoration: none;
+  border-radius: var(--radius-button);
+  font-weight: var(--font-btn-weight);
+}
+
+.btn.nav {
+  padding: var(--space-s) var(--space-m);
+}
+
+.btn.auth {
+  color: var(--color-text);
+  border: 3px solid var(--color-btn-outline);
+}
+
+.btn.join {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 3px solid var(--color-primary);
+}
