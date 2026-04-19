@@ -1,5 +1,5 @@
 body > header {
-  background-color: var(--color-header);
+  background-color: var(--color-secondary);
 
   padding: 0;
   position: sticky;
@@ -54,7 +54,7 @@ nav.container .auth-links {
 
 nav.container .nav-links li a {
   text-decoration: none;
-  color: var(--color-nav);
+  color: var(--color-gray);
   font-weight: var(--weight-strong);
   font-size: var(--font-size-s);
   transition: color 0.3s ease;
@@ -93,8 +93,8 @@ nav.container .nav-links li a:hover {
 
 .btn.blue {
   background-color: var(--color-primary);
-  color: var(--color-bg);
-  border: 2px solid var(--color-primary-hover);
+  color: var(--color-secondary);
+  border: 2px solid var(--color-primary-border);
 }
 
 .btn.blue:hover {
@@ -105,7 +105,7 @@ nav.container .nav-links li a:hover {
 .btn.white {
   background-color: var(--color-secondary);
   color: var(--color-primary);
-  border: 2px solid var(--color-secondary-hover);
+  border: 2px solid var(--color-secondary-border);
 }
 
 .btn.white:hover {
@@ -113,34 +113,33 @@ nav.container .nav-links li a:hover {
   border: 2px solid var(--color-secondary-hover-outline);
 }
 
-.btn.transparent {
+.btn.transparent-light {
   background-color: transparent;
-  color: var(--color-title);
-  border: 2px solid var(--color-btn-outline);
+  color: var(--color-secondary);
+  border: 2px solid var(--color-very-light-gray);
 }
 
-.btn.transparent:hover {
-  background-color: var(--color-btn-transparent-hover);
-  border: 2px solid var(--color-btn-auth-hover);
+.btn.transparent-light:hover {
+  background-color: var(--color-btn-transparent-light-hover);
+  border: 2px solid var(--color-very-light-gray);
 }
 
-.btn.auth {
-  color: var(--color-text);
-  border: 2px solid var(--color-btn-outline);
+.btn.transparent-dark {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 2px solid var(--color-gray);
 }
 
-.btn.auth:hover {
-  background-color: var(--color-btn-auth-hover);
-  border: 2px solid var(--color-nav);
+.btn.transparent-dark:hover {
+  background-color: var(--color-very-light-gray);
+  border: 2px solid var(--color-gray);
 }
-
-
 
 .card {
   display: flex;
   flex-direction: column;
 
-  background-color: var(--color-card);
+  background-color: var(--color-secondary);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   
@@ -195,7 +194,7 @@ footer .grid {
 
 footer section h2 {
   font-size: 1.25rem;
-  color: var(--color-title);
+  color: var(--color-secondary);
 }
 
 footer section ul {
@@ -224,11 +223,11 @@ footer address {
 }
 
 footer a:hover {
-  color: var(--color-title);
+  color: var(--color-secondary);
 }
 
 footer #summary p:first-of-type {
   font-size: 1.25rem;
   font-weight: var(--weight-strong);
-  color: var(--color-title);
+  color: var(--color-secondary);
 }

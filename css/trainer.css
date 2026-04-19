@@ -22,7 +22,7 @@ section#trainer-profile .container > div {
     max-width: 25rem;
 
     & h3 {
-        color: var(--color-title);
+        color: var(--color-secondary);
     }
 
     & p {
@@ -77,7 +77,7 @@ section#trainer-info .container > article:first-of-type ul {
                 font-size: var(--font-size-s);
                 font-weight: var(--weight-medium);
                 line-height: 1.3;
-                color: var(--color-text);
+                color: var(--color-black);
             }
 
             & .material-symbols-outlined {
@@ -170,7 +170,7 @@ section#reviews .container {
 
         & h4 {
             margin: 0;
-            color: var(--color-text);
+            color: var(--color-black);
             font-size: var(--font-size-s);
             font-weight: var(--weight-medium);
         }
@@ -202,24 +202,12 @@ section#reviews .container {
 
     & .comment-form h3 {
         margin: 0 0 var(-space-s);
-        color: var(--color-title);
+        color: var(--color-secondary);
     }
 
     & .comment-form label {
         font-weight: var(--weight-medium);
-        color: var(--color-title);
-    }
-
-    & .comment-form input,
-    & .comment-form select,
-    & .comment-form textarea {
-        width: 100%;
-
-        background-color: var(--color-card);
-        border: 1px solid var(--color-btn-outline);
-        border-radius: 10px;
-        padding: var(--space-m);
-        font: inherit;
+        color: var(--color-secondary);
     }
 
     & .comment-form textarea {
