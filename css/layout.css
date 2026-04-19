@@ -25,6 +25,6 @@ main > section:nth-child(2n) {
   background-color: var(--color-even-section);
 }
 
-footer {
+body > footer {
   background-color: var(--color-footer);
 }
