@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-  width: 95em;
+  width: 85em;
   max-width: 97%;
   margin: 0 auto;
 }
@@ -16,11 +16,6 @@ body {
 
 header {
   background-color: var(--color-header);
-}
-
-main > section:first-child {
-  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
-  padding: 3em 0;
 }
 
 main > section:nth-child(2n) {
