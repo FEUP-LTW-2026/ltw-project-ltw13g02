@@ -1,18 +1,12 @@
-figure {
-  margin: 0;
-}
-
 section#hero {
   height: 95vh;
-  display: flex;
-  align-items: center; 
 }
 
 section#hero .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10rem;
+  gap: var(--space-xl);
 }
 
 section#hero .container div {
@@ -30,8 +24,8 @@ section#hero .container .hero-actions {
 
 section#hero .container img {
   width: 100%;
-  height: auto;
-  display: block;
+  max-width: 700px;
+  object-fit: cover;
 }
 
 section#hero .container div h2 {
@@ -69,7 +63,6 @@ section#membership .container .plans {
 section#membership .container .plans article.card {
   flex: 1;
   height: 35em;
-
   padding: var(--space-xl);
 }
 
@@ -94,4 +87,72 @@ section#membership .container .plans .card span {
   color: var(--color-primary);
   font-size: var(--membership-title-font-size);
   font-weight: var(--font-membership-weight);
+}
+
+@media (max-width: 1200px) {
+  section#hero .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  section#hero .container img {
+    display: none;
+  }
+}
+
+@media (max-width: 900px){
+  section#membership .container .plans {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --hero-title-font-size: 3rem;
+    --hero-paragraph-font-size: 1.1rem;
+    --membership-title-font-size: 2rem;
+
+    --space-sections: 2.5rem;
+    --space-xxl: 2rem;
+    --space-xl: 1.5rem;
+    --space-l: 1rem;
+    --space-m: 0.75rem;
+    --space-s: 0.5rem;
+  }
+
+  section#hero {
+    height: auto;
+    min-height: 90vh; 
+    padding-bottom: 0; 
+  }
+
+  
+  section#hero.intro {
+    padding: var(--space-l) 0; 
+  }
+
+  section#hero .container div {
+    max-width: 100%;
+  }
+
+  
+  section#hero .container div p {
+    max-width: 90%; 
+    margin: 0 auto;
+  }
+
+  section#hero .container .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  section#hero .container .hero-actions .btn {
+    width: 80%;
+  }
+
+  section#membership h2, section#membership p {
+    text-align: center;
+  }
 }
