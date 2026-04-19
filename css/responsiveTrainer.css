@@ -1,0 +1,105 @@
+/* Responsice for the trainer profile */
+
+@media (max-width: 60rem){
+    section#trainer-profile {
+        min-height: auto;
+        padding: 2rem 0;
+    }
+
+    section#trainer-profile .container {
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+
+    section#trainer-profile .container img {
+        width: min(42%, 22rem);
+    }
+
+    section#trainer-profile .container > div {
+        max-width: none;
+    }
+
+    section#trainer-info .container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    section#trainer-info .container > article:first-of-type ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    section#trainer-info .container > article:nth-of-type(2) ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    section#classes .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        & h2 {
+            flex: 0 0 100%;
+        }
+
+        & article {
+            flex: 1 1 calc(50% - 0.5rem);
+        }
+    }
+
+    section#reviews .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 2rem;
+    }
+
+    section#reviews .container .comment-form {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+}
+
+@media (max-width: 30rem) {
+    section#trainer-info .container > article:first-of-type ul {
+        grid-template-columns: 1fr;
+    }
+
+    section#trainer-profile .container {
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        & > div {
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+
+            max-width: 30rem;
+
+            background: linear-gradient(
+                    to top,
+                    rgba(0,0,0,0.65),
+                    rgba(0,0,0,0.2)
+            );
+            padding: 1rem;
+            border-radius: 12px;
+
+            & h2 {
+                font-size: 2.5rem;
+            }
+        }
+    }
+    section#trainer-profile .container > div h3,
+    section#trainer-profile .container > div p {
+        color: var(--color-title);
+    }
+}
