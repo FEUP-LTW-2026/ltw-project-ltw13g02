@@ -8,23 +8,28 @@
   --color-title: #fff;
   --color-text: #000;
   --color-paragraph: #a9a9a9;
+  --color-nav: #515151;
 
   --color-primary: #1d6df5;
   --color-header: #fff;
   --color-first-section: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
   --color-even-section: #f5f5f7;
   --color-footer: #0f1117;
+  --color-btn-outline: #d3d3d3;
 
   --font: 'Nunito Sans';
+  --font-btn-weight: 800;
+  --hero-title-font-size: 5rem;
+  --hero-paragraph-font-size: 1.5rem;
 
   --radius-button: 10px;
   --radius-img: 16px;
 
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 1rem;
-  --space-4: 1.5rem;
-  --space-5: 2rem;
+  --space-xs: 0.25rem;
+  --space-s: 0.5rem;
+  --space-m: 1rem;
+  --space-l: 1.5rem;
+  --space-xl: 2rem;
 }
 
 
