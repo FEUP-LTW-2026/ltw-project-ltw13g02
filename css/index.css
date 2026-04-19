@@ -41,19 +41,11 @@ section#hero .container div p {
   font-size: var(--hero-paragraph-font-size);
 }
 
-section#hero .container div .highlighted {
-  color: var(--color-primary);
-}
-
 .detail {
   color: var(--color-primary);
   font-weight: var(--font-btn-weight);
   font-size: 1.25rem;
   margin-bottom: var(--space-s);
-}
-
-section#membership {
-  padding: var(--space-sections) 0;
 }
 
 section#membership .container h2{
