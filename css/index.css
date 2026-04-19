@@ -23,7 +23,7 @@ section#hero .container .hero-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-l) 0;
+  margin: var(--space-l) 0;
   gap: var(--space-m);
   flex-wrap: wrap;
 }
@@ -49,4 +49,57 @@ section#hero .container div p {
 
 section#hero .container div .highlighted {
   color: var(--color-primary);
+}
+
+.detail {
+  color: var(--color-primary);
+  font-weight: var(--font-btn-weight);
+  font-size: 1.25rem;
+  margin-bottom: var(--space-s);
+}
+
+section#membership {
+  padding: var(--space-sections) 0;
+}
+
+section#membership .container h2{
+  margin: 0;
+}
+
+section#membership .container .plans {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-l);
+  margin: var(--space-l) 0;
+}
+
+section#membership .container .plans article.card {
+  flex: 1;
+  height: 35em;
+
+  padding: var(--space-xl);
+}
+
+section#membership .container .plans .card h3 {
+  margin: var(--space-m) 0;
+}
+
+section#membership .container .plans .card p:nth-of-type(2) {
+  border-top: 3px dashed var(--color-primary);
+  padding-top: var(--space-xl);
+  font-size: var(--hero-paragraph-font-size);
+  margin: 0;
+  color: var(--color-text);
+}
+
+section#membership .container .plans .card a {
+  align-self: center;
+  margin-top: auto;
+}
+
+section#membership .container .plans .card span {
+  color: var(--color-primary);
+  font-size: var(--membership-title-font-size);
+  font-weight: var(--font-membership-weight);
 }

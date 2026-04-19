@@ -1,6 +1,27 @@
-header {
+body > header {
+  background-color: var(--color-header);
+
   padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  border-bottom: 2px solid rgb(0 0 0 / 0.08)
 }
+
+.intro {
+  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
+  padding: var(--space-xxl) 0;
+}
+
+main > section:nth-child(2n) {
+  background-color: var(--color-even-section);
+}
+
+body > footer {
+  background-color: var(--color-footer);
+}
+
 
 nav.container {
   display: flex;
@@ -28,10 +49,6 @@ nav.container .auth-links {
   flex-wrap: wrap;
 }
 
-nav.container ul li{
-  display: block;
-}
-
 nav.container .nav-links li a {
   text-decoration: none;
   color: var(--color-nav);
@@ -45,9 +62,24 @@ nav.container .nav-links li a:hover {
 }
 
 .btn {
+  display: inline-block;
   text-decoration: none;
   border-radius: var(--radius-button);
   font-weight: var(--font-btn-weight);
+}
+
+.btn.medium {
+  padding: var(--space-s) var(--space-m);
+}
+
+.btn.large {
+  padding: var(--space-m) var(--space-l);
+}
+
+.btn.blue {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 3px solid var(--color-primary);
 }
 
 .btn.transparent {
@@ -56,12 +88,9 @@ nav.container .nav-links li a:hover {
   border: 3px solid var(--color-btn-outline);
 }
 
-.btn.nav {
-  padding: var(--space-s) var(--space-m);
-}
-
-.btn.hero {
-  padding: var(--space-m) var(--space-l);
+.btn.wide {
+  width: 100%;
+  text-align: center;
 }
 
 .btn.auth {
@@ -69,12 +98,39 @@ nav.container .nav-links li a:hover {
   border: 3px solid var(--color-btn-outline);
 }
 
-.btn.join {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border: 3px solid var(--color-primary);
+.btn:hover {
+  transform: translateY(-1px);
 }
 
+.btn.blue:hover {
+  background-color: var(--color-btn-blue-hover);
+  border: 3px solid var(--color-btn-blue-hover);
+}
+
+.btn.auth:hover {
+  border: 3px solid var(--color-nav);
+  background-color: var(--color-btn-auth-hover);
+}
+
+.btn.transparent:hover {
+  border: 3px solid var(--color-btn-auth-hover);
+  background-color: var(--color-btn-transparent-hover);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+
+  transition: transform 300ms, box-shadow 300ms;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
 footer div.container.flex-container {
   display: flex;
