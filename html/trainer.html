@@ -4,10 +4,13 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Home - gymRAT</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
       <link rel="stylesheet" href="../css/normalize.css" />
       <link rel="stylesheet" href="../css/base.css" />
       <link rel="stylesheet" href="../css/layout.css" />
       <link rel="stylesheet" href="../css/components.css" />
+      <link rel="stylesheet" href="../css/trainer.css" />
+      <link rel="stylesheet" href="../css/classes.css">
   </head>
   <body>
     <header>
@@ -28,31 +31,44 @@
     </nav>
   </header>
     <main>
-      <section>
+      <section id="trainer-profile">
         <div class="container">
-          <h2>Alex Rivera</h2>
-          <img src="https://picsum.photos/200" alt="Trainer">
-          <p>Rating</p>
+          <img src="https://picsum.photos/500/700" alt="Trainer">
+          <div>
+            <h2>Alex <span id="highlighted">Rivera</span></h2>
+            <p>⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
+            <h3>Biography</h3>
+            <p>Hi, I’m Alex Rivera, a certified personal trainer with over 8 years of experience helping clients reach their fitness goals. I specialize in strength training and functional fitness, focusing on building practical, sustainable habits that lead to long-term success.</p>
+          </div>
         </div>
       </section>
 
       <section id="trainer-info">
         <div class="container">
           <article>
-            <h3>Biography</h3>
-            <p>
-                Alex Rivera is a certified personal trainer with over 8 years of experience
-                helping clients achieve their fitness goals. Specializing in strength training
-                and functional fitness, Alex focuses on building sustainable habits and
-                long-term results.
-            </p>
-          </article>
-
-          <article>
             <h3>Specialties</h3>
             <ul>
-              <li>Strength Training</li>
-              <li>Weight Loss</li>
+              <li>
+                <header>
+                  <span class="material-symbols-outlined">exercise</span>
+                  <h4>Strength Training</h4>
+                </header>
+                <p>Focused on building muscle, improving strength, and enhancing overall performance through structured and progressive training programs.</p>
+              </li>
+              <li>
+                <header>
+                  <span class="material-symbols-outlined">monitor_weight</span>
+                  <h4>Weight Loss</h4>
+                </header>
+                <p>Combining effective workouts with sustainable habits to help you lose weight, stay consistent, and maintain long-term results.</p>
+              </li>
+              <li>
+                <header>
+                  <span class="material-symbols-outlined">personal_injury</span>
+                  <h4>Injury Rehab & Prevention</h4>
+                </header>
+                <p>Designed to support recovery and reduce the risk of injury by improving mobility, stability, and proper movement patterns.</p>
+              </li>
             </ul>
           </article>
 
@@ -68,18 +84,66 @@
 
       <section id="classes">
         <div class="container">
-          <article>
-            <h3>HIIT Blast</h3>
-            <p>Tags: Cardio, Fat Burn, High Intensity</p>
-            <p>
-                A fast-paced high-intensity interval training session designed to burn
-                calories and boost endurance in just 30 minutes.
-            </p>
+          <h3>Classes with Alex</h3>
+          <article class="class-card">
+            <header>
+              <img src="https://picsum.photos/400/300" alt="Morning Yoga">
+            </header>
+
+            <section>
+              <h3>Morning Yoga</h3>
+              <p>Monday, Wednesday, Friday</p>
+              <p><time datetime="19:00">7:00 AM</time> - <time datetime="20:00">8:00 AM</time></p>
+              <p>Trainer: <a class="trainer" href="trainer.html#trainer-profile">Alex Rivera</a></p>
+            </section>
+
+            <footer>
+              <section>
+                  <span>
+                    <span class="material-symbols-outlined">timer</span>
+                    <time datetime="PT60M">60 min</time>
+                  </span>
+
+                <span>
+                    <span class="material-symbols-outlined">person</span>
+                    <span id="participants">10/25</span>
+                  </span>
+              </section>
+              <a id="details" href="class.html">Details</a>
+            </footer>
+          </article>
+
+          <article class="class-card">
+            <header>
+              <img src="https://picsum.photos/400/300" alt="Cardio Blast">
+            </header>
+
+            <section>
+              <h3>Cardio Blast</h3>
+              <p>Tuesday, Thursday</p>
+              <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00</time> PM</p>
+              <p>Trainer: <a class="trainer" href="trainer.html#trainer-profile">Alex Rivera</a></p>
+            </section>
+
+            <footer>
+              <section>
+                  <span>
+                    <span class="material-symbols-outlined">timer</span>
+                    <time datetime="PT60M">60 min</time>
+                  </span>
+
+                <span>
+                    <span class="material-symbols-outlined">person</span>
+                    <span id="participants">10/25</span>
+                  </span>
+              </section>
+              <a id="details" href="class.html">Details</a>
+            </footer>
           </article>
         </div>
       </section>
 
-      <section id="ratings">
+      <section id="reviews">
         <div class="container">
           <h3>Reviews</h3>
           <article class="review">
@@ -89,6 +153,14 @@
                 Amazing trainer! Alex helped me lose 10kg and feel more confident than ever.
             </p>
           </article>
+          <article class="review">
+            <h4>Joao Cunha</h4>
+            <p>Rating</p>
+            <p>
+              Amazing trainer! Alex helped me lose 10kg and feel more confident than ever.
+            </p>
+          </article>
+
         </div>
       </section>
     </main>
