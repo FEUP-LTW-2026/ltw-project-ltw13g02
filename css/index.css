@@ -34,25 +34,14 @@ section#hero .container img {
   display: block;
 }
 
-section#hero .container div h2 {
-  font-size: var(--hero-title-font-size);
-  color: var(--color-title);
-}
-
-section#hero .container div h2 span{
+section#hero .container div h2 span {
   display: block;
 }
 
 section#hero .container div p {
-  font-size: var(--hero-paragraph-font-size);
+  font-size: var(--font-size-medium);
 }
 
-.detail {
-  color: var(--color-primary);
-  font-weight: var(--font-btn-weight);
-  font-size: 1.25rem;
-  margin-bottom: var(--space-s);
-}
 
 section#membership .container h2{
   margin: 0;
@@ -92,6 +81,6 @@ section#membership .container .plans .card a {
 
 section#membership .container .plans .card span {
   color: var(--color-primary);
-  font-size: var(--membership-title-font-size);
-  font-weight: var(--font-membership-weight);
+  font-size: var(--font-size-large);
+  font-weight: var(--medium-weight);
 }

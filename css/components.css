@@ -10,12 +10,12 @@ body > header {
 }
 
 .intro {
-  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
+  background: var(--color-intro);
   padding: var(--space-xxl) 0;
 }
 
 .intro + section {
-   padding: var(--space-sections) 0;
+   padding: var(--space-xxl) 0;
 }
 
 main > section:nth-child(2n) {
@@ -55,7 +55,7 @@ nav.container .auth-links {
 nav.container .nav-links li a {
   text-decoration: none;
   color: var(--color-nav);
-  font-weight: var(--font-btn-weight);
+  font-weight: var(--strong-weight);
   font-size: 1.25rem;
   transition: color 0.3s ease;
 }
@@ -64,11 +64,14 @@ nav.container .nav-links li a:hover {
   color: var(--color-primary);
 }
 
+
 .btn {
   display: inline-block;
   text-decoration: none;
   border-radius: var(--radius-button);
-  font-weight: var(--font-btn-weight);
+  font-weight: var(--strong-weight);
+
+  transition: transform 300ms;
 }
 
 .btn.medium {
@@ -120,6 +123,7 @@ nav.container .nav-links li a:hover {
   background-color: var(--color-btn-transparent-hover);
 }
 
+
 .card {
   display: flex;
   flex-direction: column;
@@ -135,8 +139,31 @@ nav.container .nav-links li a:hover {
   transform: translateY(-5px);
 }
 
+
 span.highlighted {
   color: var(--color-primary);
+}
+
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+
+  color: var(--color-primary);
+  font-weight: var(--strong-weight);
+  font-size: 1.25rem;
+  letter-spacing: 0.25rem;
+  margin-bottom: var(--space-s);
+}
+
+.detail::before {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 2px;
+  background: var(--color-primary);
 }
 
 footer {
@@ -190,6 +217,6 @@ footer a:hover {
 
 footer #summary p:first-of-type {
   font-size: 1.25rem;
-  font-weight: var(--font-btn-weight);
+  font-weight: var(--strong-weight);
   color: var(--color-title);
 }
