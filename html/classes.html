@@ -23,9 +23,9 @@
         <li><a href="trainer.html">Trainers</a></li>
       </ul>
       <ul class="auth-links">
-        <li><a class="btn nav auth" href="login.html">LOGIN</a></li>
-        <li><a class="btn nav auth" href="signup.html">SIGN UP</a></li>
-        <li><a class="btn nav join" href="login.html">JOIN NOW</a></li>
+        <li><a class="btn medium auth" href="login.html">LOGIN</a></li>
+        <li><a class="btn medium auth" href="signup.html">SIGN UP</a></li>
+        <li><a class="btn medium blue" href="#membership">JOIN NOW</a></li>
       </ul>
     </nav>
   </header>
@@ -91,7 +91,7 @@
         </section>
 
         <section id="classes-list">
-          <article class="class-card">
+          <article class="card class-card">
             <header>
               <img src="https://picsum.photos/400/300" alt="Morning Yoga">
             </header>
@@ -112,14 +112,14 @@
 
                 <span>
                   <span class="material-symbols-outlined">person</span>
-                  <span id="participants">10/25</span>
+                  <span>10/25</span>
                 </span>
               </section>
-              <a id="details" href="class.html">Details</a>
+              <a class="btn medium blue" href="class.html">Details</a>
             </footer>
           </article>
 
-          <article class="class-card">
+          <article class="card class-card">
             <header>
               <img src="https://picsum.photos/400/300" alt="Cardio Blast">
             </header>
@@ -140,14 +140,14 @@
 
                 <span>
                   <span class="material-symbols-outlined">person</span>
-                  <span id="participants">10/25</span>
+                  <span>10/25</span>
                 </span>
               </section>
-              <a id="details" href="class.html">Details</a>
+              <a class="btn medium blue" href="class.html">Details</a>
             </footer>
           </article>
 
-          <article class="class-card">
+          <article class="card class-card">
             <header>
               <img src="https://picsum.photos/400/300" alt="Weightlifting">
             </header>
@@ -168,10 +168,10 @@
 
                 <span>
                   <span class="material-symbols-outlined">person</span>
-                  <span id="participants">10/25</span>
+                  <span>10/25</span>
                 </span>
               </section>
-              <a id="details" href="class.html">Details</a>
+              <a class="btn medium blue" href="class.html">Details</a>
             </footer>
           </article>
         </section>
@@ -181,17 +181,49 @@
 
   <footer>
     <div class="container">
-      <div class="flex-container">
-        <section>
-          <h2 id="contact-title">Contact</h2>
+      <div class="grid">
+        <section id="summary">
+          <a href="index.html">
+            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
+          </a>
+          <p>GYM RAT</p>
+          <p>Your fitness journey starts here.</p>
+        </section>
+        <section id="browse">
+          <h2>Browse</h2>
+          <nav>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="classes.html">Classes</a></li>
+              <li><a href="trainer.html">Trainers</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section id="legal">
+          <h2>Legal</h2>
+          <nav>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section id="contact">
+          <h2>Contact</h2>
           <address>
-            <p>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></p>
-            <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
-            <p>Address: 21 Power Street, Fit City</p>
+            <ul>
+              <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
+              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+              <li>Address: 21 Power Street, Fit City</li>
+            </ul>
           </address>
         </section>
+        <section id="copyright">
+          <p>&copy; 2026 gymRAT. All rights reserved.</p>
+          <a href="#">Privacy Policy</a>
+        </section>
       </div>
-      <p>&copy; 2026 gymRAT. All rights reserved.</p>
     </div>
   </footer>
 </body>
