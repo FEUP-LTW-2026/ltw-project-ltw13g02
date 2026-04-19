@@ -1,5 +1,10 @@
 header {
   padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  border-bottom: 2px solid rgb(0 0 0 / 0.08)
 }
 
 nav.container {
@@ -28,10 +33,6 @@ nav.container .auth-links {
   flex-wrap: wrap;
 }
 
-nav.container ul li{
-  display: block;
-}
-
 nav.container .nav-links li a {
   text-decoration: none;
   color: var(--color-nav);
@@ -45,6 +46,7 @@ nav.container .nav-links li a:hover {
 }
 
 .btn {
+  display: inline-block;
   text-decoration: none;
   border-radius: var(--radius-button);
   font-weight: var(--font-btn-weight);
@@ -53,7 +55,7 @@ nav.container .nav-links li a:hover {
 .btn.transparent {
   background-color: transparent;
   color: var(--color-title);
-  border: 3px solid var(--color-btn-outline);
+  border: 3px solid var(--color-nav);
 }
 
 .btn.nav {
@@ -62,6 +64,12 @@ nav.container .nav-links li a:hover {
 
 .btn.hero {
   padding: var(--space-m) var(--space-l);
+}
+
+.btn.membership {
+  padding: var(--space-m) var(--space-l);
+  width: 100%;
+  text-align: center;
 }
 
 .btn.auth {
@@ -73,6 +81,25 @@ nav.container .nav-links li a:hover {
   background-color: var(--color-primary);
   color: var(--color-bg);
   border: 3px solid var(--color-primary);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn.join:hover {
+  background-color: var(--color-btn-join-hover);
+  border: 3px solid var(--color-btn-join-hover);
+}
+
+.btn.auth:hover {
+  border: 3px solid var(--color-nav);
+  background-color: var(--color-btn-auth-hover);
+}
+
+.btn.transparent:hover {
+  border: 3px solid var(--color-btn-auth-hover);
+  background-color: var(--color-btn-transparent-hover);
 }
 
 
