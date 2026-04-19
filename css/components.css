@@ -1,0 +1,109 @@
+header {
+  padding: 0;
+}
+
+nav.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav.container .logo {
+  height: 6em;
+}
+
+nav.container > * {
+  margin: 0;
+}
+
+nav.container .nav-links {
+  display: flex;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+nav.container .auth-links {
+  display: flex;
+  gap: var(--space-m);
+  flex-wrap: wrap;
+}
+
+nav.container ul li{
+  display: block;
+}
+
+nav.container .nav-links li a {
+  text-decoration: none;
+  color: var(--color-nav);
+  font-weight: var(--font-btn-weight);
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}
+
+nav.container .nav-links li a:hover {
+  color: var(--color-primary);
+}
+
+.btn {
+  text-decoration: none;
+  border-radius: var(--radius-button);
+  font-weight: var(--font-btn-weight);
+}
+
+.btn.transparent {
+  background-color: transparent;
+  color: var(--color-title);
+  border: 3px solid var(--color-btn-outline);
+}
+
+.btn.nav {
+  padding: var(--space-s) var(--space-m);
+}
+
+.btn.hero {
+  padding: var(--space-m) var(--space-l);
+}
+
+.btn.auth {
+  color: var(--color-text);
+  border: 3px solid var(--color-btn-outline);
+}
+
+.btn.join {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 3px solid var(--color-primary);
+}
+
+
+footer div.container.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+footer div.container section h2 {
+  font-size: 1.5rem;
+  color: var(--color-title);
+  margin-bottom: var(--space-s);
+}
+
+footer div.container section address {
+  font-style: normal;
+  color: var(--color-paragraph);
+  line-height: 1.5;
+}
+
+footer div.container section address a {
+  color: var(--color-paragraph);
+  text-decoration: none;
+}
+
+footer div.container section address a:hover {
+  color: var(--color-primary);
+}
+
+footer div.container > p {
+  text-align: center;
+  color: var(--color-paragraph);
+  margin-top: var(--space-l);
+}
