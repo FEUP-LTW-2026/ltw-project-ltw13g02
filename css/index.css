@@ -2,12 +2,51 @@ figure {
   margin: 0;
 }
 
-section#hero .container {
+section#hero {
+  height: 95vh;
   display: flex;
-  justify-content: space-around;
   align-items: center; 
 }
 
+section#hero .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10rem;
+}
+
 section#hero .container div {
-  max-width: 50%;
+  max-width: 25em;
+}
+
+section#hero .container .hero-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-l) 0;
+  gap: var(--space-m);
+  flex-wrap: wrap;
+}
+
+section#hero .container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+section#hero .container div h2 {
+  font-size: var(--hero-title-font-size);
+  color: var(--color-title);
+}
+
+section#hero .container div h2 span{
+  display: block;
+}
+
+section#hero .container div p {
+  font-size: var(--hero-paragraph-font-size);
+}
+
+section#hero .container div .highlighted {
+  color: var(--color-primary);
 }

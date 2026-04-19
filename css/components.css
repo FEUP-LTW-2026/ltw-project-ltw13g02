@@ -9,12 +9,11 @@ nav.container {
 }
 
 nav.container .logo {
-  height: 5em;
+  height: 6em;
 }
 
 nav.container > * {
   margin: 0;
-  padding: 1rem 1rem;
 }
 
 nav.container .nav-links {
@@ -35,8 +34,8 @@ nav.container ul li{
 
 nav.container .nav-links li a {
   text-decoration: none;
-  color: var(--color-nav  );
-  font-weight: var(--font-text-highlight);
+  color: var(--color-nav);
+  font-weight: var(--font-btn-weight);
   font-size: 1.25rem;
   transition: color 0.3s ease;
 }
@@ -51,8 +50,18 @@ nav.container .nav-links li a:hover {
   font-weight: var(--font-btn-weight);
 }
 
+.btn.transparent {
+  background-color: transparent;
+  color: var(--color-title);
+  border: 3px solid var(--color-btn-outline);
+}
+
 .btn.nav {
   padding: var(--space-s) var(--space-m);
+}
+
+.btn.hero {
+  padding: var(--space-m) var(--space-l);
 }
 
 .btn.auth {
@@ -64,4 +73,37 @@ nav.container .nav-links li a:hover {
   background-color: var(--color-primary);
   color: var(--color-bg);
   border: 3px solid var(--color-primary);
+}
+
+
+footer div.container.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+footer div.container section h2 {
+  font-size: 1.5rem;
+  color: var(--color-title);
+  margin-bottom: var(--space-s);
+}
+
+footer div.container section address {
+  font-style: normal;
+  color: var(--color-paragraph);
+  line-height: 1.5;
+}
+
+footer div.container section address a {
+  color: var(--color-paragraph);
+  text-decoration: none;
+}
+
+footer div.container section address a:hover {
+  color: var(--color-primary);
+}
+
+footer div.container > p {
+  text-align: center;
+  color: var(--color-paragraph);
+  margin-top: var(--space-l);
 }
