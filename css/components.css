@@ -1,4 +1,6 @@
-header {
+body > header {
+  background-color: var(--color-header);
+
   padding: 0;
   position: sticky;
   top: 0;
@@ -6,6 +8,20 @@ header {
   backdrop-filter: blur(4px);
   border-bottom: 2px solid rgb(0 0 0 / 0.08)
 }
+
+.intro {
+  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
+  padding: var(--space-xxl) 0;
+}
+
+main > section:nth-child(2n) {
+  background-color: var(--color-even-section);
+}
+
+body > footer {
+  background-color: var(--color-footer);
+}
+
 
 nav.container {
   display: flex;
@@ -52,22 +68,27 @@ nav.container .nav-links li a:hover {
   font-weight: var(--font-btn-weight);
 }
 
-.btn.transparent {
-  background-color: transparent;
-  color: var(--color-title);
-  border: 3px solid var(--color-nav);
-}
-
-.btn.nav {
+.btn.medium {
   padding: var(--space-s) var(--space-m);
 }
 
-.btn.hero {
+.btn.large {
   padding: var(--space-m) var(--space-l);
 }
 
-.btn.membership {
-  padding: var(--space-m) var(--space-l);
+.btn.blue {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 3px solid var(--color-primary);
+}
+
+.btn.transparent {
+  background-color: transparent;
+  color: var(--color-title);
+  border: 3px solid var(--color-btn-outline);
+}
+
+.btn.wide {
   width: 100%;
   text-align: center;
 }
@@ -77,19 +98,13 @@ nav.container .nav-links li a:hover {
   border: 3px solid var(--color-btn-outline);
 }
 
-.btn.join {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border: 3px solid var(--color-primary);
-}
-
 .btn:hover {
   transform: translateY(-1px);
 }
 
-.btn.join:hover {
-  background-color: var(--color-btn-join-hover);
-  border: 3px solid var(--color-btn-join-hover);
+.btn.blue:hover {
+  background-color: var(--color-btn-blue-hover);
+  border: 3px solid var(--color-btn-blue-hover);
 }
 
 .btn.auth:hover {
@@ -102,6 +117,20 @@ nav.container .nav-links li a:hover {
   background-color: var(--color-btn-transparent-hover);
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+
+  transition: transform 300ms, box-shadow 300ms;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
 footer div.container.flex-container {
   display: flex;
