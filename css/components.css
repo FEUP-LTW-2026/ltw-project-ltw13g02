@@ -102,35 +102,57 @@ nav.container .nav-links li a:hover {
   background-color: var(--color-btn-transparent-hover);
 }
 
-
-footer div.container.flex-container {
-  display: flex;
-  justify-content: space-between;
+footer {
+  padding: var(--space-sections) 0;
 }
 
-footer div.container section h2 {
-  font-size: 1.5rem;
+footer .container {
+  max-width: 70%;
+}
+
+footer .grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  width: 90%;
+  margin: 0 auto;
+}
+
+footer section h2 {
+  font-size: 1.25rem;
   color: var(--color-title);
-  margin-bottom: var(--space-s);
 }
 
-footer div.container section address {
-  font-style: normal;
-  color: var(--color-paragraph);
-  line-height: 1.5;
+footer section ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
 }
 
-footer div.container section address a {
+footer p, footer li, footer a {
   color: var(--color-paragraph);
   text-decoration: none;
 }
 
-footer div.container section address a:hover {
-  color: var(--color-primary);
+footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-footer div.container > p {
-  text-align: center;
-  color: var(--color-paragraph);
-  margin-top: var(--space-l);
+footer img.logo {
+  height:8rem;
+}
+
+footer address {
+  font-style: normal;
+}
+
+footer a:hover {
+  color: var(--color-title);
+}
+
+footer #summary p:first-of-type {
+  font-size: 1.25rem;
+  font-weight: var(--font-btn-weight);
+  color: var(--color-title);
 }
