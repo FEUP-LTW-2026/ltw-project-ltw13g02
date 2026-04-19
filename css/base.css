@@ -9,27 +9,36 @@
   --color-text: #000;
   --color-paragraph: #a9a9a9;
   --color-nav: #515151;
+
   --color-primary: #1d6df5;
+  --color-primary-hover: #1d64de;
+  --color-primary-hover-outline: #1a57c0;
+
+  --color-secondary: #fff;
+  --color-secondary-hover: #e6e6e6;
+  --color-secondary-hover-outline: #cecece;
+
   --color-header: #fff;
   --color-intro: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
   --color-even-section: #f5f5f7;
   --color-card: #fff;
   --color-footer: #0f1117;
-  --color-btn-blue-hover: #003ca5;
   --color-btn-auth-hover: #d3d3d3;
   --color-btn-outline: #d3d3d3;
   --color-btn-transparent-hover: #e2e2e222;
-
+  --color-reviews: #d4aa01;
+  
   --font: 'Host Grotesk';
   
   --font-size-title: 5rem;
-  --font-size-large: 3rem;
-  --font-size-medium: 1.5rem;
-  --font-size-small: 1.3rem;
-  
-  --strong-weight: 800;
-  --medium-weight: 700;
-  --weak-weight: 600;
+  --font-size-l: 3rem;
+  --font-size-m: 1.5rem;
+  --font-size-s: 1.3rem;
+  --font-size-xs: 0.95rem;
+
+  --weight-strong: 800;
+  --weight-medium: 700;
+  --weight-weak: 600;
 
   --radius-button: 10px;
   --radius-card: 16px;
@@ -37,8 +46,8 @@
 
   --shadow-card: 0 10px 10px rgba(0, 0, 0, 0.2);
 
-  --space-xs: 0.25rem;
-  --space-s: 0.5rem;
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
   --space-m: 1rem;
   --space-l: 1.5rem;
   --space-xl: 2rem;
@@ -50,15 +59,10 @@ html {
   scroll-behavior: smooth;
 }
 
-
 /*  Default styling for HTML elements */
 
 * {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -78,17 +82,17 @@ h1 {
 
 h2 {
   font-size: 3rem;
-  font-weight: var(--strong-weight);
+  font-weight: var(--weight-strong);
 }
 
 h3 {
   font-size: 2rem;
-  font-weight: var(--medium-weight);
+  font-weight: var(--weight-medium);
 }
 
 h4 {
   font-size: 1.5rem;
-  font-weight: var(--weak-weight);
+  font-weight: var(--weight-weak);
 }
 
 a {

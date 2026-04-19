@@ -55,8 +55,8 @@ nav.container .auth-links {
 nav.container .nav-links li a {
   text-decoration: none;
   color: var(--color-nav);
-  font-weight: var(--strong-weight);
-  font-size: 1.25rem;
+  font-weight: var(--weight-strong);
+  font-size: var(--font-size-s);
   transition: color 0.3s ease;
 }
 
@@ -69,29 +69,21 @@ nav.container .nav-links li a:hover {
   display: inline-block;
   text-decoration: none;
   border-radius: var(--radius-button);
-  font-weight: var(--strong-weight);
+  font-weight: var(--weight-strong);
 
   transition: transform 300ms;
 }
 
+.btn:hover {
+  transform: translateY(-1px);
+}
+
 .btn.medium {
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-xs) var(--space-m);
 }
 
 .btn.large {
   padding: var(--space-m) var(--space-l);
-}
-
-.btn.blue {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border: 3px solid var(--color-primary);
-}
-
-.btn.transparent {
-  background-color: transparent;
-  color: var(--color-title);
-  border: 3px solid var(--color-btn-outline);
 }
 
 .btn.wide {
@@ -99,29 +91,49 @@ nav.container .nav-links li a:hover {
   text-align: center;
 }
 
-.btn.auth {
-  color: var(--color-text);
-  border: 3px solid var(--color-btn-outline);
-}
-
-.btn:hover {
-  transform: translateY(-1px);
+.btn.blue {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 2px solid var(--color-primary-hover);
 }
 
 .btn.blue:hover {
-  background-color: var(--color-btn-blue-hover);
-  border: 3px solid var(--color-btn-blue-hover);
+  background-color: var(--color-primary-hover);
+  border: 2px solid var(--color-primary-hover-outline);
 }
 
-.btn.auth:hover {
-  border: 3px solid var(--color-nav);
-  background-color: var(--color-btn-auth-hover);
+.btn.white {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: 2px solid var(--color-secondary-hover);
+}
+
+.btn.white:hover {
+  background-color: var(--color-secondary-hover);
+  border: 2px solid var(--color-secondary-hover-outline);
+}
+
+.btn.transparent {
+  background-color: transparent;
+  color: var(--color-title);
+  border: 2px solid var(--color-btn-outline);
 }
 
 .btn.transparent:hover {
-  border: 3px solid var(--color-btn-auth-hover);
   background-color: var(--color-btn-transparent-hover);
+  border: 2px solid var(--color-btn-auth-hover);
 }
+
+.btn.auth {
+  color: var(--color-text);
+  border: 2px solid var(--color-btn-outline);
+}
+
+.btn.auth:hover {
+  background-color: var(--color-btn-auth-hover);
+  border: 2px solid var(--color-nav);
+}
+
 
 
 .card {
@@ -148,13 +160,13 @@ span.highlighted {
 .detail {
   display: flex;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--space-xs);
 
   color: var(--color-primary);
-  font-weight: var(--strong-weight);
+  font-weight: var(--weight-strong);
   font-size: 1.25rem;
   letter-spacing: 0.25rem;
-  margin-bottom: var(--space-s);
+  margin-bottom: var(--space-xs);
 }
 
 .detail::before {
@@ -217,6 +229,6 @@ footer a:hover {
 
 footer #summary p:first-of-type {
   font-size: 1.25rem;
-  font-weight: var(--strong-weight);
+  font-weight: var(--weight-strong);
   color: var(--color-title);
 }

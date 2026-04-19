@@ -39,7 +39,7 @@ section#hero .container div h2 span {
 }
 
 section#hero .container div p {
-  font-size: var(--font-size-medium);
+  font-size: var( --font-size-m);
 }
 
 
@@ -81,6 +81,6 @@ section#membership .container .plans .card a {
 
 section#membership .container .plans .card span {
   color: var(--color-primary);
-  font-size: var(--font-size-large);
-  font-weight: var(--medium-weight);
+  font-size: var( --font-size-l);
+  font-weight: var(--weight-medium);
 }
