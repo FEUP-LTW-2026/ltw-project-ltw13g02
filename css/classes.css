@@ -21,6 +21,7 @@
   }
 
   & section {
+    font-size: large;
     padding: 0 var(--space-l);
 
     & .trainer {

@@ -8,20 +8,3 @@ body {
   max-width: 97%;
   margin: 0 auto;
 }
-
-.intro {
-  background: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
-  padding: 3em 0;
-}
-
-header {
-  background-color: var(--color-header);
-}
-
-main > section:nth-child(2n) {
-  background-color: var(--color-even-section);
-}
-
-body > footer {
-  background-color: var(--color-footer);
-}
