@@ -23,7 +23,7 @@ section#hero .container .hero-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-l) 0;
+  margin: var(--space-l) 0;
   gap: var(--space-m);
   flex-wrap: wrap;
 }
@@ -49,4 +49,67 @@ section#hero .container div p {
 
 section#hero .container div .highlighted {
   color: var(--color-primary);
+}
+
+.detail {
+  color: var(--color-primary);
+  font-weight: var(--font-btn-weight);
+  font-size: 1.25rem;
+  margin-bottom: var(--space-s);
+}
+
+section#membership {
+  padding: var(--space-sections) 0;
+}
+
+section#membership .container h2{
+  margin: 0;
+}
+
+section#membership .container .plans {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-l);
+  margin: var(--space-l) 0;
+}
+
+section#membership .container .plans article {
+  flex: 1;
+  max-width: 30em;
+  height: 35em;
+  background-color: var(--color-class-card);
+  border-radius: var(--radius-img);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl);
+  transition: transform 300ms, box-shadow 300ms;
+}
+
+section#membership .container .plans article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+section#membership .container .plans h3 {
+  margin: var(--space-m) 0;
+}
+
+section#membership .container .plans article p:nth-of-type(2) {
+  border-top: 3px dashed var(--color-primary);
+  padding-top: var(--space-xl);
+  font-size: var(--hero-paragraph-font-size);
+  margin: 0;
+  color: var(--color-text);
+}
+
+section#membership .container .plans article a {
+  align-self: center;
+  margin-top: auto;
+}
+
+section#membership .container .plans article span {
+  color: var(--color-primary);
+  font-size: var(--membership-title-font-size);
+  font-weight: var(--font-membership-weight);
 }
