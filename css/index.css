@@ -58,10 +58,6 @@ section#hero .container div .highlighted {
   margin-bottom: var(--space-s);
 }
 
-section#membership {
-  padding: var(--space-sections) 0;
-}
-
 section#membership .container h2{
   margin: 0;
 }

@@ -1,9 +1,56 @@
+#filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+
+  padding: var(--space-l);
+  
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,240,243,0.96));
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+
+  & h3 {
+    margin: 0;
+  }
+
+  & form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+
+    & label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+
+      & select {
+        width: 100%;
+        padding: var(--space-s);
+        background-color: var(--color-card);
+
+        border: 1px solid var(--color-btn-outline);
+        border-radius: var(--radius-button);
+
+        cursor: pointer;
+
+        &:focus {
+          border: 1px solid var(--color-primary);
+        }
+
+        & option {
+          font-family: var(--font);
+        }
+      }
+    }
+  }
+}
+
 #classes-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2em;
+  gap: var(--space-l);
 
-  padding: 5em 0;
+  padding: var(--space-sections) 0;
 }
 
 .class-card {
@@ -20,7 +67,7 @@
     }
   }
 
-  & section {
+  & > section {
     font-size: large;
     padding: 0 var(--space-l);
 
@@ -57,9 +104,4 @@
       }
     }
   }
-}
-
-.class-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(120, 120, 120, 0.30);
 }

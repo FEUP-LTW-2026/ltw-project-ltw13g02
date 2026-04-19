@@ -14,6 +14,10 @@ body > header {
   padding: var(--space-xxl) 0;
 }
 
+.intro + section {
+   padding: var(--space-sections) 0;
+}
+
 main > section:nth-child(2n) {
   background-color: var(--color-even-section);
 }
@@ -21,7 +25,6 @@ main > section:nth-child(2n) {
 body > footer {
   background-color: var(--color-footer);
 }
-
 
 nav.container {
   display: flex;
@@ -123,13 +126,13 @@ nav.container .nav-links li a:hover {
 
   background-color: var(--color-card);
   border-radius: var(--radius-card);
-
+  box-shadow: var(--shadow-card);
+  
   transition: transform 300ms, box-shadow 300ms;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 footer div.container.flex-container {
