@@ -30,6 +30,8 @@
   --radius-card: 16px;
   --radius-img: 16px;
 
+  --shadow-card: 0 10px 10px rgba(0, 0, 0, 0.2);
+
   --space-xs: 0.25rem;
   --space-s: 0.5rem;
   --space-m: 1rem;
