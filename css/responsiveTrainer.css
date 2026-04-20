@@ -20,20 +20,6 @@
         flex-wrap: wrap;
     }
 
-    section#classes .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-
-        & h2 {
-            flex: 0 0 100%;
-        }
-
-        & article {
-            flex: 1 1 calc(50% - 0.5rem);
-        }
-    }
-
     section#reviews .container {
         display: grid;
         grid-template-columns: 1fr;
