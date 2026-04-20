@@ -1,4 +1,6 @@
-#filters {
+@layer page {
+
+  #filters {
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
@@ -26,7 +28,7 @@
   }
 }
 
-#class-list {
+.class-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-l);
@@ -37,7 +39,7 @@
 .class-card {
   overflow: hidden;
 
-  & header {
+  & > header {
     overflow: hidden;
     height: 10em;
     
@@ -48,7 +50,7 @@
   }
 
   & > section {
-    font-size: large;
+    font-size: var(--font-size-xs);
     padding: 0 var(--space-l);
 
     & .trainer {
@@ -63,7 +65,7 @@
     }
   }
 
-  & footer {
+  & > footer {
     display: flex;
 
     justify-content: space-between;
@@ -92,21 +94,71 @@
     grid-template-rows: 1fr 1fr;
   }
 
-  #class-list {
+  .class-list {
     grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 43em) {
-  #class-list {
+  .class-list {
     grid-template-columns: 1fr;
   }
-}
+    .class-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
 
-@media (max-width: 22em) {
-  #filters form {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
-    row-gap: 1em;
+
+    & > header {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      height: 100%;
+
+      & img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & > section {
+      & h3 {
+        margin: var(--space-s) 0;
+        font-size: var(--font-size-s);
+      }
+
+      & p {
+        font-size: var(--font-size-xxxs);
+      }
+
+      & p:last-of-type {
+        display: none;
+      }
+    }
+    
+    & > footer {
+      flex-direction: column;
+      align-items: start;
+      gap: var(--space-xs);
+
+      padding-top: 0;
+      padding-bottom: var(--space-s);
+
+      font-size: var(--font-size-xxxs);
+  
+      & a {
+          width: 100%;
+          text-align: center;
+          padding: var(--space-xxs) 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 22em) {
+    #filters form {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      row-gap: 1em;
+    }
   }
 }
