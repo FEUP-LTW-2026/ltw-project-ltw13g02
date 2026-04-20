@@ -1,18 +1,6 @@
-/* Responsice for the trainer profile */
-
-@media (max-width: 60rem){
+@media (max-width: 60rem) {
     section#trainer-profile {
-        min-height: auto;
-        padding: 2rem 0;
-    }
-
-    section#trainer-profile .container {
-        gap: 1.5rem;
-        align-items: stretch;
-    }
-
-    section#trainer-profile .container img {
-        width: min(42%, 22rem);
+        padding: 3rem 2rem;
     }
 
     section#trainer-profile .container > div {
@@ -21,7 +9,6 @@
 
     section#trainer-info .container {
         flex-direction: column;
-        gap: 1.5rem;
     }
 
     section#trainer-info .container > article:first-of-type ul {
@@ -59,13 +46,6 @@
         grid-row: 3;
     }
 
-}
-
-@media (max-width: 30rem) {
-    section#trainer-info .container > article:first-of-type ul {
-        grid-template-columns: 1fr;
-    }
-
     section#trainer-profile .container {
         position: relative;
         overflow: hidden;
@@ -78,28 +58,55 @@
         }
 
         & > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
             position: absolute;
+            bottom: 1rem;
             left: 1rem;
             right: 1rem;
-            bottom: 1rem;
 
-            max-width: 30rem;
+            padding: 1rem;
+            overflow: hidden;
+            border-radius: 12px;
 
             background: linear-gradient(
                     to top,
-                    rgba(0,0,0,0.65),
-                    rgba(0,0,0,0.2)
+                    rgba(0,0,0,0.75),
+                    rgba(0,0,0,0.25)
             );
-            padding: 1rem;
-            border-radius: 12px;
 
-            & h2 {
-                font-size: 2.5rem;
+            & h2, & h3, & p {
+                color: white;
             }
         }
     }
-    section#trainer-profile .container > div h3,
+}
+
+@media (max-width: 30rem) {
+
+    section#trainer-profile .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    section#trainer-profile .container > div {
+        position: static;
+        background: none;
+        padding: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     section#trainer-profile .container > div p {
-        color: var(--color-title);
+        color: var(--color-paragraph);
+    }
+
+    section#trainer-info .container > article:first-of-type ul {
+        grid-template-columns: 1fr;
     }
 }

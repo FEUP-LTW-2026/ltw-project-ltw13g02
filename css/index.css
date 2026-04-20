@@ -28,25 +28,14 @@ section#hero .container img {
   object-fit: cover;
 }
 
-section#hero .container div h2 {
-  font-size: var(--hero-title-font-size);
-  color: var(--color-title);
-}
-
-section#hero .container div h2 span{
+section#hero .container div h2 span {
   display: block;
 }
 
 section#hero .container div p {
-  font-size: var(--hero-paragraph-font-size);
+  font-size: var( --font-size-m);
 }
 
-.detail {
-  color: var(--color-primary);
-  font-weight: var(--font-btn-weight);
-  font-size: 1.25rem;
-  margin-bottom: var(--space-s);
-}
 
 section#membership .container h2{
   margin: 0;
@@ -75,7 +64,7 @@ section#membership .container .plans .card p:nth-of-type(2) {
   padding-top: var(--space-xl);
   font-size: var(--hero-paragraph-font-size);
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-black);
 }
 
 section#membership .container .plans .card a {
@@ -85,8 +74,8 @@ section#membership .container .plans .card a {
 
 section#membership .container .plans .card span {
   color: var(--color-primary);
-  font-size: var(--membership-title-font-size);
-  font-weight: var(--font-membership-weight);
+  font-size: var( --font-size-l);
+  font-weight: var(--weight-medium);
 }
 
 @media (max-width: 1200px) {
@@ -109,9 +98,9 @@ section#membership .container .plans .card span {
 
 @media (max-width: 600px) {
   :root {
-    --hero-title-font-size: 3rem;
-    --hero-paragraph-font-size: 1.1rem;
-    --membership-title-font-size: 2rem;
+    --font-size-xl: 3rem;
+    --font-size-l: 2rem;
+    --font-size-m: 1.1rem;
 
     --space-sections: 2.5rem;
     --space-xxl: 2rem;

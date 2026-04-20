@@ -1,44 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
+
 /* CSS Variables */
 
 :root {
+  /* Colors */
   --color-bg: #f0f0f3;
-  --color-title: #fff;
-  --color-text: #000;
-  --color-paragraph: #a9a9a9;
-  --color-nav: #515151;
+  
   --color-primary: #1d6df5;
-  --color-header: #fff;
-  --color-first-section: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
+  --color-primary-border: #1d64de;
+  --color-primary-hover: var(--color-primary-border);
+  --color-primary-hover-outline: #1a57c0;
+
+  --color-secondary: #fff;
+  --color-secondary-border: #e6e6e6;
+  --color-secondary-hover: var(--color-secondary-border);
+  --color-secondary-hover-outline: #cecece;
+
+  --color-very-light-gray: #d5d5d5;
+  --color-light-gray: #9c9c9c;
+  --color-gray: #515151;
+  --color-black: #000;
+
+  --color-text: var(--color-black);
+  --color-paragraph: var(--color-light-gray);
+
+  --color-nav: var(--color-gray);
+  --color-intro: linear-gradient(135deg, #0d1a40 0%, #0a0e1a 50%, #0d1535 100%);
   --color-even-section: #f5f5f7;
-  --color-card: #fff;
   --color-footer: #0f1117;
-  --color-btn-blue-hover: #003ca5;
-  --color-btn-auth-hover: #d3d3d3;
-  --color-btn-outline: #d3d3d3;
-  --color-btn-transparent-hover: #e2e2e222;
 
+  --color-btn-transparent-light-hover: #e2e2e222;
+  --color-reviews: #d4aa01;
+  
+  /* Font related */
   --font: 'Host Grotesk';
-  --font-btn-weight: 800;
-  --hero-title-font-size: 5rem;
-  --hero-paragraph-font-size: 1.5rem;
-  --membership-title-font-size: 3rem;
-  --font-membership-weight: 700;
+  
+  --font-size-xl: 5rem;
+  --font-size-l: 3rem;
+  --font-size-m: 1.5rem;
+  --font-size-s: 1.3rem;
+  --font-size-xs: 0.95rem;
 
+  --weight-strong: 800;
+  --weight-medium: 700;
+  --weight-weak: 600;
+
+  /* Border radius */
   --radius-button: 10px;
   --radius-card: 16px;
   --radius-img: 16px;
 
   --shadow-card: 0 10px 10px rgba(0, 0, 0, 0.2);
 
-  --space-xs: 0.25rem;
-  --space-s: 0.5rem;
+  /* Spacings */
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
   --space-m: 1rem;
   --space-l: 1.5rem;
   --space-xl: 2rem;
   --space-xxl: 3rem;
-  --space-sections: 4rem;
 }
 
 /* After clicking on a link the page will scroll smoothly */
@@ -46,15 +67,10 @@ html {
   scroll-behavior: smooth;
 }
 
-
 /*  Default styling for HTML elements */
 
 * {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -64,27 +80,27 @@ body {
 }
 
 p, time, span {
-  color: var(--color-paragraph);
+  color: var(--color-light-gray);
 }
 
 h1 {
-  color: var(--color-title);
-  font-size: 4rem;
+  color: var(--color-secondary);
+  font-size: var(--font-size-xl);
 }
 
 h2 {
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: var(--weight-strong);
 }
 
 h3 {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: var(--weight-medium);
 }
 
 h4 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: var(--weight-weak);
 }
 
 a {
@@ -97,4 +113,24 @@ ul {
 
 img {
   border-radius: var(--radius-img);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: var(--space-m);
+  background-color: var(--color-secondary);
+
+  border: 1px solid var(--color-secondary-border);
+  border-radius: var(--radius-button);
+  
+  font: inherit;
+
+  &:focus {
+    border: 2px solid var(--color-primary-border);
+    outline: none;
+  }
+} 
+
+select {
+  cursor: pointer;
 }
