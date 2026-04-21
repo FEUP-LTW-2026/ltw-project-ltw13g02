@@ -38,13 +38,12 @@
   /* Font related */
   --font: 'Host Grotesk';
   
-  --font-size-xl: 5rem;
-  --font-size-l: 3rem;
-  --font-size-m: 1.5rem;
-  --font-size-s: 1.3rem;
-  --font-size-xs: 1.1rem;
-  --font-size-xxs: 0.95rem;
-  --font-size-xxxs: 0.80rem;
+  --font-size-h1: 5rem;
+  --font-size-xl: 3rem;
+  --font-size-l: 1.6rem;
+  --font-size-m: 1.3rem;
+  --font-size-s: 1.1rem;
+  --font-size-xs: 0.9rem;
 
   --weight-strong: 800;
   --weight-medium: 700;
@@ -85,16 +84,16 @@ body {
 }
 
 p, time, span {
-  color: var(--color-light-gray);
+  color: var(--color-paragraph);
 }
 
 h1 {
   color: var(--color-secondary);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-h1);
 }
 
 h2 {
-  font-size: 3rem;
+  font-size: var(--font-size-xl);
   font-weight: var(--weight-strong);
 }
 
@@ -104,8 +103,9 @@ h3 {
 }
 
 h4 {
-  font-size: 1.5rem;
-  font-weight: var(--weight-weak);
+  font-size: var(--font-size-m);
+  margin: 0;
+	font-weight: var(--weight-medium);
 }
 
 a {
