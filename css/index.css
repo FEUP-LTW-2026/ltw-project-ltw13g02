@@ -24,7 +24,7 @@
 
       & img {
         width: 100%;
-        max-width: 700px;
+        max-width: 44em;
         object-fit: cover;
       }
 
@@ -34,7 +34,7 @@
         }
 
         & p {
-          font-size: var(--font-size-m);
+          font-size: var( --font-size-l);
         }
       }
     }
@@ -67,8 +67,7 @@
           & p:nth-of-type(2) {
             border-top: 3px dashed var(--color-primary);
             padding-top: var(--space-xl);
-            font-size: var(--font-size-m);
-            font-weight: var(--weight-medium);
+            font-size: var(--hero-paragraph-font-size);
             margin: 0;
             color: var(--color-black);
           }
@@ -80,7 +79,7 @@
 
           & span {
             color: var(--color-primary);
-            font-size: var(--font-size-l);
+            font-size: var( --font-size-xl);
             font-weight: var(--weight-medium);
           }
 
@@ -113,7 +112,6 @@
       & .container {
         flex-direction: column;
         text-align: center;
-
         & img {
           display: none;
         }
@@ -144,7 +142,7 @@
 
   @media (max-width: 40em) {
     :root {
-      --font-size-xl: 4rem;
+      --font-size-h1: 4rem;
     }
 
     .container {

@@ -73,7 +73,7 @@
   }
 
   .btn {
-    font-size: 1.10rem;
+    font-size: var(--font-size-s);
     display: inline-block;
     text-decoration: none;
     border-radius: var(--radius-button);
@@ -169,7 +169,7 @@
 
     color: var(--color-primary);
     font-weight: var(--weight-strong);
-    font-size: 1.25rem;
+    font-size: var(--font-size-m);
     letter-spacing: 0.25rem;
     margin-bottom: var(--space-xs);
 
@@ -177,8 +177,8 @@
       content: '';
       display: block;
       flex-shrink: 0;
-      width: 24px;
-      height: 2px;
+      width: 2rem;
+      height: 0.2rem;
       background: var(--color-primary);
     }
   }
@@ -204,7 +204,7 @@
       flex: 1;
 
       & h2 {
-        font-size: 1.25rem;
+        font-size: var(--font-size-l);
         color: var(--color-secondary);
       }
 
@@ -218,7 +218,7 @@
         content: '';
         display: block;
         width: 5rem;
-        height: 3px;
+        height: 0.1rem;
         background-color: var(--color-primary);
         margin-bottom: var(--space-m);
       }
@@ -250,7 +250,7 @@
     }
 
     & #summary h2 {
-      font-size: 1.25rem;
+      font-size: var(--font-size-l);
       font-weight: var(--weight-strong);
       color: var(--color-secondary);
     }
@@ -285,7 +285,7 @@
       &::before {
         content: "\2630";
         display: inline-block;
-        transition: 0.3s ease-in-out;
+        transition: 300ms ease-in-out;
       }
     }
 
@@ -351,5 +351,3 @@
     }
   }
 }
-
-
