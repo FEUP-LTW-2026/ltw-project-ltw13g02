@@ -64,8 +64,8 @@
     text-decoration: none;
     color: var(--color-gray);
     font-weight: var(--weight-strong);
-    font-size: var(--font-size-s);
-    transition: color 0.3s ease;
+    font-size: var(--font-size-l);
+    transition: color 300ms ease;
   }
 
   nav.container .nav-links li a:hover {
@@ -74,7 +74,7 @@
 
 
   .btn {
-    font-size: 1.10rem;
+    font-size: var(--font-size-s);
     display: inline-block;
     text-decoration: none;
     border-radius: var(--radius-button);
@@ -172,7 +172,7 @@
 
     color: var(--color-primary);
     font-weight: var(--weight-strong);
-    font-size: 1.25rem;
+    font-size: var(--font-size-m);
     letter-spacing: 0.25rem;
     margin-bottom: var(--space-xs);
   }
@@ -181,8 +181,8 @@
     content: '';
     display: block;
     flex-shrink: 0;
-    width: 24px;
-    height: 2px;
+    width: 2rem;
+    height: 0.2rem;
     background: var(--color-primary);
   }
 
@@ -209,7 +209,7 @@
   }
 
   footer section h2 {
-    font-size: 1.25rem;
+    font-size: var(--font-size-l);
     color: var(--color-secondary);
   }
 
@@ -243,7 +243,7 @@
   }
 
   footer #summary h2 {
-    font-size: 1.25rem;
+    font-size: var(--font-size-l);
     font-weight: var(--weight-strong);
     color: var(--color-secondary);
   }
@@ -252,7 +252,7 @@
     content: "";
     display: block;
     width: 5rem;
-    height: 3px;
+    height: 0.1rem;
     background-color: var(--color-primary);
     margin-bottom: var(--space-m);
   }
@@ -284,7 +284,7 @@
     .hamburger::before {
       content: "\2630";
       display: inline-block;
-      transition: 0.3s ease-in-out;
+      transition: 300ms ease-in-out;
     }
 
     .nav-toggle:checked ~ .hamburger::before {
@@ -311,7 +311,7 @@
     nav.container .nav-links li a, nav.container .auth-links li a {
       display: inline-block;
       border: none;
-      font-size: 1.5rem;
+      font-size: var(--font-size-l);
       padding: var(--space-s) 0;
       text-align: center;
       color: var(--color-nav);
@@ -345,5 +345,3 @@
     }
   }
 }
-
-
