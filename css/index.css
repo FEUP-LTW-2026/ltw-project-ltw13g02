@@ -2,99 +2,143 @@
 
   section#hero {
     height: 95vh;
+
+    & .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-xl);
+
+      & div {
+        max-width: 25em;
+      }
+
+      & .hero-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: var(--space-l) 0;
+        gap: var(--space-m);
+        flex-wrap: wrap;
+      }
+
+      & img {
+        width: 100%;
+        max-width: 700px;
+        object-fit: cover;
+      }
+
+      & div {
+        & h2 span {
+          display: block;
+        }
+
+        & p {
+          font-size: var(--font-size-m);
+        }
+      }
+    }
   }
 
-  section#hero .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-xl);
-  }
+  section#membership {
+    & .container {
+      & h2 {
+        margin: 0;
+      }
 
-  section#hero .container div {
-    max-width: 25em;
-  }
+      & .plans {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-l);
+        margin: var(--space-l) 0;
 
-  section#hero .container .hero-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: var(--space-l) 0;
-    gap: var(--space-m);
-    flex-wrap: wrap;
-  }
+        & article.card {
+          flex: 1;
+          height: 35em;
+          padding: var(--space-xl);
+        }
 
-  section#hero .container img {
-    width: 100%;
-    max-width: 700px;
-    object-fit: cover;
-  }
+        & .card {
+          & h3 {
+            margin: var(--space-m) 0;
+          }
 
-  section#hero .container div h2 span {
-    display: block;
-  }
+          & p:nth-of-type(2) {
+            border-top: 3px dashed var(--color-primary);
+            padding-top: var(--space-xl);
+            font-size: var(--font-size-m);
+            font-weight: var(--weight-medium);
+            margin: 0;
+            color: var(--color-black);
+          }
 
-  section#hero .container div p {
-    font-size: var( --font-size-m);
-  }
+          & a {
+            align-self: center;
+            margin-top: auto;
+          }
 
+          & span {
+            color: var(--color-primary);
+            font-size: var(--font-size-l);
+            font-weight: var(--weight-medium);
+          }
 
-  section#membership .container h2{
-    margin: 0;
-  }
+          & ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 0;
+            gap: var(--space-xxs);
+          }
 
-  section#membership .container .plans {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-l);
-    margin: var(--space-l) 0;
-  }
+          & li {
+            color: var(--color-text);
+            font-size: var(--font-size-xxs);
+            margin-bottom: var(--space-s);
+          }
 
-  section#membership .container .plans article.card {
-    flex: 1;
-    height: 35em;
-    padding: var(--space-xl);
-  }
-
-  section#membership .container .plans .card h3 {
-    margin: var(--space-m) 0;
-  }
-
-  section#membership .container .plans .card p:nth-of-type(2) {
-    border-top: 3px dashed var(--color-primary);
-    padding-top: var(--space-xl);
-    font-size: var(--hero-paragraph-font-size);
-    margin: 0;
-    color: var(--color-black);
-  }
-
-  section#membership .container .plans .card a {
-    align-self: center;
-    margin-top: auto;
-  }
-
-  section#membership .container .plans .card span {
-    color: var(--color-primary);
-    font-size: var( --font-size-l);
-    font-weight: var(--weight-medium);
+          & li::before {
+            content: '✓';
+            color: var(--color-primary);
+            margin-right: var(--space-xxs);
+          }
+        }
+      }
+    }
   }
 
   @media (max-width: 1200px) {
-    section#hero .container {
-      flex-direction: column;
-      text-align: center;
-    }
+    section#hero {
+      & .container {
+        flex-direction: column;
+        text-align: center;
 
-    section#hero .container img {
-      display: none;
+        & img {
+          display: none;
+        }
+      }
     }
   }
 
-  @media (max-width: 60em){
-    section#membership .container .plans {
-      flex-direction: column;
-      align-items: stretch;
+  @media (max-width: 60em) {
+    section#membership {
+      & .container {
+        & .plans {
+          flex-direction: column;
+          align-items: stretch;
+
+          & article.card {
+            & p:nth-of-type(2) {
+              text-align: center;
+            }
+
+            & ul {
+              align-items: center;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -109,37 +153,42 @@
 
     section#hero {
       height: auto;
-      min-height: 90vh; 
-      padding-bottom: 0; 
+      min-height: 90vh;
+      padding-bottom: 0;
     }
 
-    
     section#hero.intro {
-      padding: var(--space-l) 0; 
+      padding: var(--space-l) 0;
     }
 
-    section#hero .container div {
-      max-width: 100%;
+    section#hero {
+      & .container {
+        & div {
+          max-width: 100%;
+
+          & p {
+            max-width: 90%;
+            margin: 0 auto;
+          }
+        }
+
+        & .hero-actions {
+          flex-direction: column;
+          width: 100%;
+          margin-bottom: 0;
+
+          & .btn {
+            width: 80%;
+          }
+        }
+      }
     }
 
-    
-    section#hero .container div p {
-      max-width: 90%; 
-      margin: 0 auto;
-    }
-
-    section#hero .container .hero-actions {
-      flex-direction: column;
-      width: 100%;
-      margin-bottom: 0;
-    }
-
-    section#hero .container .hero-actions .btn {
-      width: 80%;
-    }
-
-    section#membership h2, section#membership p {
-      text-align: center;
+    section#membership {
+      & h2,
+      & p {
+        text-align: center;
+      }
     }
   }
 }
