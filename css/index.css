@@ -91,25 +91,20 @@
     }
   }
 
-  @media (max-width: 900px){
+  @media (max-width: 60em){
     section#membership .container .plans {
       flex-direction: column;
       align-items: stretch;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 40em) {
     :root {
-      --font-size-h1: 3rem;
-      --font-size-xl: 2rem;
-      --font-size-l: 1.1rem;
+      --font-size-h1: 4rem;
+    }
 
-      --space-sections: 2.5rem;
-      --space-xxl: 2rem;
-      --space-xl: 1.5rem;
-      --space-l: 1rem;
-      --space-m: 0.75rem;
-      --space-s: 0.5rem;
+    .container {
+      max-width: 90%;
     }
 
     section#hero {
