@@ -42,57 +42,6 @@
   padding-top: var(--space-xxl);
 }
 
-.class-card {
-  overflow: hidden;
-
-  & > header {
-    overflow: hidden;
-    height: 10em;
-    
-    & img {
-        width: 100%;
-        border-radius: 0;
-    }
-  }
-
-  & > section {
-    font-size: var(--font-size-s);
-    padding: 0 var(--space-l);
-
-    & .trainer {
-      color: var(--color-black);
-      font-weight: var(--weight-medium);
-
-      transition: color 300ms;
-    }
-
-    & .trainer:hover {
-      color: var(--color-primary);
-    }
-  }
-
-  & > footer {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-    
-    padding: var(--space-l);
-
-    & section {
-      display: flex;
-      gap: var(--space-m);
-
-      padding: 0;
-
-      & > span {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xxs);
-      }
-    }
-  }
-}
 
 @media (max-width: 65em) {
   #filters form {
