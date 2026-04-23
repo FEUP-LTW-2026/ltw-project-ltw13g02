@@ -29,3 +29,11 @@
     margin-top: var(--section-x);
   }
 }
+
+@layer responsive {
+  @media (max-width: 40em){
+    .container {
+      max-width: 90%;
+    }
+  }
+}

@@ -46,7 +46,7 @@
         text-decoration: none;
         color: var(--color-gray);
         font-weight: var(--weight-strong);
-        font-size: var(--font-size-s);
+        font-size: var(--font-size-m);
         transition: color 0.3s ease;
 
         &:hover {
@@ -79,6 +79,10 @@
 
     &:hover {
       transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(1px);
     }
 
     &.medium {
@@ -154,6 +158,66 @@
     }
   }
 
+  .class-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-l);
+
+    padding-top: var(--space-xxl);
+  }
+
+  .class-card {
+    overflow: hidden;
+
+    & > header {
+      overflow: hidden;
+      height: 10em;
+      
+      & img {
+          width: 100%;
+          border-radius: 0;
+      }
+    }
+
+    & > section {
+      font-size: var(--font-size-s);
+      padding: 0 var(--space-l);
+
+      & .trainer {
+        color: var(--color-black);
+        font-weight: var(--weight-medium);
+
+        transition: color 300ms;
+      }
+
+      & .trainer:hover {
+        color: var(--color-primary);
+      }
+    }
+
+    & > footer {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+      
+      padding: var(--space-l);
+
+      & section {
+        display: flex;
+        gap: var(--space-m);
+
+        padding: 0;
+
+        & > span {
+          display: flex;
+          align-items: center;
+          gap: var(--space-xxs);
+        }
+      }
+    }
+  }
+
   span.highlighted {
     color: var(--color-primary);
   }
@@ -210,7 +274,7 @@
         gap: var(--space-l);
       }
 
-      & nav::before {
+      & nav::before, address::before {
         content: '';
         display: block;
         width: 5rem;
@@ -256,58 +320,9 @@
       border-top: 3px solid var(--color-secondary);
     }
   }
-
-  .class-card {
-  overflow: hidden;
-
-  & > header {
-    overflow: hidden;
-    height: 10em;
-    
-    & img {
-        width: 100%;
-        border-radius: 0;
-    }
-  }
-
-  & > section {
-    font-size: var(--font-size-s);
-    padding: 0 var(--space-l);
-
-    & .trainer {
-      color: var(--color-black);
-      font-weight: var(--weight-medium);
-
-      transition: color 300ms;
-    }
-
-    & .trainer:hover {
-      color: var(--color-primary);
-    }
-  }
-
-  & > footer {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-    
-    padding: var(--space-l);
-
-    & section {
-      display: flex;
-      gap: var(--space-m);
-
-      padding: 0;
-
-      & > span {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xxs);
-      }
-    }
-  }
 }
+
+@layer responsive {
 
   @media (max-width: 70em) {
     footer {
@@ -317,9 +332,15 @@
         text-align: center;
       }
 
-      & section nav::before {
+      & section nav::before, address::before {
         width: 100%;
       }
+    }
+  }
+
+  @media (max-width: 65em) {
+    .class-list {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -337,7 +358,7 @@
       }
     }
 
-    .nav-toggle:checked ~ .hamburger::before {
+    .hamburger:has(.nav-toggle:checked)::before {
       content: "\2715";
       transform: rotate(180deg);
     }
@@ -383,11 +404,66 @@
       }
     }
 
-    .nav-toggle:checked ~ .nav-links,
-    .nav-toggle:checked ~ .auth-links {
+    nav.container:has(.nav-toggle:checked) .nav-links,
+    nav.container:has(.nav-toggle:checked) .auth-links {
       max-height: 25rem;
       padding: var(--space-m) 0;
       opacity: 1;
+    }
+  }
+
+  @media (max-width: 43em) {
+    .class-list {
+      grid-template-columns: 1fr;
+    }
+    .class-card {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: auto auto;
+
+
+    & > header {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      height: 100%;
+
+      & img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & > section {
+      & h3 {
+        margin: var(--space-s) 0;
+        font-size: var(--font-size-l);
+      }
+
+      & p {
+        font-size: var(--font-size-xs);
+      }
+
+      & p:last-of-type {
+        display: none;
+      }
+    }
+      
+    & > footer {
+      flex-direction: column;
+      align-items: start;
+      gap: var(--space-xs);
+
+      padding-top: 0;
+      padding-bottom: var(--space-s);
+
+      font-size: var(--font-size-xs); 
+  
+      & a {
+          width: 100%;
+          text-align: center;
+          padding: var(--space-xxs) 0;
+        }
+      }
     }
   }
 

@@ -10,9 +10,7 @@
       <link rel="stylesheet" href="../css/base.css" />
       <link rel="stylesheet" href="../css/layout.css" />
       <link rel="stylesheet" href="../css/components.css" />
-      <link rel="stylesheet" href="../css/trainer.css" />
-      <link rel="stylesheet" href="../css/classes.css">
-      <link rel="stylesheet" href="../css/responsiveTrainer.css"/>
+      <link rel="stylesheet" href="../css/page/trainer.css" />
   </head>
   <body>
     <header>
@@ -20,8 +18,10 @@
         <a href="index.html">
           <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" />
         </a>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-        <label for="nav-toggle" class="hamburger" aria-label="Toggle navigation"></label>
+        
+        <label class="hamburger">
+          <input type="checkbox" class="nav-toggle" />
+        </label>
         <ul class="nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="classes.html">Classes</a></li>
@@ -102,7 +102,7 @@
                 <h3>Morning Yoga</h3>
                 <p>Monday, Wednesday, Friday</p>
                 <p><time datetime="19:00">7:00 AM</time> - <time datetime="20:00">8:00 AM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
+                <p>Trainer: <a class="trainer" href="#">Alex Rivera</a></p>
               </section>
 
               <footer>
@@ -130,7 +130,7 @@
                 <h3>Cardio Blast</h3>
                 <p>Tuesday, Thursday</p>
                 <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00</time> PM</p>
-                <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
+                <p>Trainer: <a class="trainer" href="#">Alex Rivera</a></p>
               </section>
               
               <footer>
@@ -158,7 +158,7 @@
                 <h3>Morning Yoga</h3>
                 <p>Monday, Wednesday, Friday</p>
                 <p><time datetime="19:00">7:00 AM</time> - <time datetime="20:00">8:00 AM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.html#trainer-profile">Alex Rivera</a></p>
+                <p>Trainer: <a class="trainer" href="#">Alex Rivera</a></p>
               </section>
 
               <footer>
@@ -227,52 +227,51 @@
       </section>
     </main>
 
-  <footer>
-    <div class="container">
-      <div class="grid">
-        <section id="summary">
-          <a href="index.html">
-            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
-          </a>
-          <p>GYM RAT</p>
-          <p>Your fitness journey starts here.</p>
-        </section>
-        <section id="browse">
-          <h2>Browse</h2>
-          <nav>
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="classes.html">Classes</a></li>
-              <li><a href="trainer.html">Trainers</a></li>
-            </ul>
-          </nav>
-        </section>
-        <section id="legal">
-          <h2>Legal</h2>
-          <nav>
-            <ul>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-            </ul>
-          </nav>
-        </section>
-        <section id="contact">
-          <h2>Contact</h2>
-          <address>
-            <ul>
-              <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
-              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
-              <li>Address: 21 Power Street, Fit City</li>
-            </ul>
-          </address>
-        </section>
+    <footer>
+      <div class="container">
+        <div class="grid">
+          <section id="summary">
+            <a href="index.html">
+              <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
+            </a>
+            <h2>GYM RAT</h2>
+            <p>Your fitness journey starts here.</p>
+          </section>
+          <section>
+            <h2>Browse</h2>
+            <nav>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="classes.html">Classes</a></li>
+                <li><a href="trainers.html">Trainers</a></li>
+              </ul>
+            </nav>
+          </section>
+          <section>
+            <h2>Legal</h2>
+            <nav>
+              <ul>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+              </ul>
+            </nav>
+          </section>
+          <section>
+            <h2>Contact</h2>
+            <address>
+              <ul>
+                <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
+                <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                <li>Address: 21 Power Street, Fit City</li>
+              </ul>
+            </address>
+          </section>
+        </div>
         <section id="copyright">
           <p>&copy; 2026 gymRAT. All rights reserved.</p>
-          <a href="#">Privacy Policy</a>
         </section>
       </div>
-    </div>
-  </footer>
+    </footer>
   </body>
 </html>
