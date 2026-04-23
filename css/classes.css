@@ -39,7 +39,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-l);
 
-  padding: var(--space-xxl) 0;
+  padding-top: var(--space-xxl);
 }
 
 .class-card {

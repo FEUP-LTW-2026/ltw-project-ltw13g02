@@ -1,12 +1,31 @@
-@layer base {
+@layer layout {
+  
+  html,
   body {
-  display: flex;
-  flex-direction: column;
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
   }
 
   .container {
     width: 85em;
     max-width: 97%;
     margin: 0 auto;
+  }
+
+  main > section {
+    padding: var(--space-xl) 0 var(--space-xxl);
+  }
+
+  body > footer {
+    margin-top: var(--section-x);
   }
 }

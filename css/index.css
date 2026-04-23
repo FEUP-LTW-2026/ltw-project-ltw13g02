@@ -1,7 +1,6 @@
 @layer page {
 
   section#hero {
-    height: 95vh;
 
     & .container {
       display: flex;

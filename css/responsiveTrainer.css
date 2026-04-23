@@ -78,4 +78,9 @@
             color: var(--color-paragraph);
         }
     }
+
+    section#trainer-info .container > article:first-of-type ul {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 }

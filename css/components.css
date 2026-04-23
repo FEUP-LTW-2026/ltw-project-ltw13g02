@@ -13,10 +13,6 @@
   .intro {
     background: var(--color-intro);
     padding: var(--space-xxl) 0;
-
-    & + section {
-      padding: var(--space-xxl) 0;
-    }
   }
 
   main > section:nth-child(2n) {
