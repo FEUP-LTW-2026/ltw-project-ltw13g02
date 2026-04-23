@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="../css/normalize.css" />
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/classes.css" />
   <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/classes.css" />
 </head>
 <body>
   <header>
@@ -18,8 +18,10 @@
       <a href="index.html">
         <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" />
       </a>
-      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-      <label for="nav-toggle" class="hamburger" aria-label="Toggle navigation"></label>
+      
+      <label class="hamburger">
+        <input type="checkbox" class="nav-toggle" />
+      </label>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="classes.html">Classes</a></li>
@@ -279,20 +281,20 @@
           <a href="index.html">
             <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
           </a>
-          <p>GYM RAT</p>
+          <h2>GYM RAT</h2>
           <p>Your fitness journey starts here.</p>
         </section>
-        <section id="browse">
+        <section>
           <h2>Browse</h2>
           <nav>
             <ul>
               <li><a href="index.html">Home</a></li>
               <li><a href="classes.html">Classes</a></li>
-              <li><a href="trainer.html">Trainers</a></li>
+              <li><a href="trainers.html">Trainers</a></li>
             </ul>
           </nav>
         </section>
-        <section id="legal">
+        <section>
           <h2>Legal</h2>
           <nav>
             <ul>
@@ -302,7 +304,7 @@
             </ul>
           </nav>
         </section>
-        <section id="contact">
+        <section>
           <h2>Contact</h2>
           <address>
             <ul>
@@ -312,11 +314,10 @@
             </ul>
           </address>
         </section>
-        <section id="copyright">
-          <p>&copy; 2026 gymRAT. All rights reserved.</p>
-          <a href="#">Privacy Policy</a>
-        </section>
       </div>
+      <section id="copyright">
+        <p>&copy; 2026 gymRAT. All rights reserved.</p>
+      </section>
     </div>
   </footer>
 </body>
