@@ -105,6 +105,10 @@
       }
     }
   }
+}
+
+
+@layer responsive {
 
   @media (max-width: 75em) {
     section#hero {
@@ -195,11 +199,11 @@
   @media (max-width: 20em) {
     section#hero {
       & .container {
-        & #hero-title {
+        & h1 {
           font-size: var(--font-size-xl);
         }
 
-        & #info {
+        & p {
           font-size: var(--font-size-m);
         }
       }

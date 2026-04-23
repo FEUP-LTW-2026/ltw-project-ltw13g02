@@ -1,4 +1,5 @@
 @layer components {
+
   body > header {
     background-color: var(--color-secondary);
     padding: var(--space-s) 0;
@@ -79,6 +80,10 @@
 
     &:hover {
       transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(1px);
     }
 
     &.medium {
@@ -210,7 +215,7 @@
         gap: var(--space-l);
       }
 
-      & nav::before {
+      & nav::before, address::before {
         content: '';
         display: block;
         width: 5rem;
@@ -256,6 +261,9 @@
       border-top: 3px solid var(--color-secondary);
     }
   }
+}
+
+@layer responsive {
 
   @media (max-width: 70em) {
     footer {
@@ -265,7 +273,7 @@
         text-align: center;
       }
 
-      & section nav::before {
+      & section nav::before, address::before {
         width: 100%;
       }
     }
@@ -285,7 +293,7 @@
       }
     }
 
-    .nav-toggle:checked ~ .hamburger::before {
+    .hamburger:has(.nav-toggle:checked)::before {
       content: "\2715";
       transform: rotate(180deg);
     }
@@ -331,8 +339,8 @@
       }
     }
 
-    .nav-toggle:checked ~ .nav-links,
-    .nav-toggle:checked ~ .auth-links {
+    nav.container:has(.nav-toggle:checked) .nav-links,
+    nav.container:has(.nav-toggle:checked) .auth-links {
       max-height: 25rem;
       padding: var(--space-m) 0;
       opacity: 1;
