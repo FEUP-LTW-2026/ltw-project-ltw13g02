@@ -104,8 +104,8 @@
 			}
 	}
 
-	section#reviews {
-		padding-bottom: 4rem;
+	section > div.container > h2 {
+		margin: 0;
 	}
 
 	section#reviews .container {
