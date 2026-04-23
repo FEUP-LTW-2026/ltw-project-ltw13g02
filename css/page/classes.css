@@ -1,0 +1,56 @@
+@layer page {
+
+  .intro p {
+    font-size: var(--font-size-l);
+  }
+
+  #filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+
+    padding: var(--space-l);
+    
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,240,243,0.96));
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+
+    & header > h2 {
+      margin: 0;
+    }
+
+    & header > p {
+      font-size: var(--font-size-m)
+    }
+
+    & form {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-xl);
+
+      & label {
+        display: flex;
+        flex-direction: column;
+        font-size: var(--font-size-s);
+        gap: var(--space-xs);
+      }
+    }
+  }
+}
+
+@layer responsive {
+  @media (max-width: 65em) {
+    #filters form {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 22em) {
+    #filters form {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      row-gap: var(--space-m);
+    }
+  }
+}

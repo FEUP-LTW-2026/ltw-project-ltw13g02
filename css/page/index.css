@@ -148,10 +148,6 @@
       --font-size-h1: 4rem;
     }
 
-    .container {
-      max-width: 90%;
-    }
-
     section#hero {
       height: auto;
       min-height: 90vh;
