@@ -1,7 +1,7 @@
 @layer page {
 
   #hero {
-
+    min-height: 85vh;
     & .container {
       display: flex;
       justify-content: space-between;
@@ -10,6 +10,10 @@
 
       & div {
         max-width: 25em;
+
+        & p {
+          font-size: var(--font-size-l);
+        }
       }
 
       & nav ul {
@@ -25,16 +29,6 @@
         width: 100%;
         max-width: 44em;
         object-fit: cover;
-      }
-
-      & div {
-        & h2 span {
-          display: block;
-        }
-
-        & p {
-          font-size: var(--font-size-l);
-        }
       }
     }
   }
@@ -61,6 +55,11 @@
         & .card {
           & h3 {
             margin: var(--space-m) 0;
+          }
+
+          
+          & p:first-of-type {
+            text-align: center; 
           }
 
           & p:nth-of-type(2) {
@@ -147,14 +146,8 @@
     #hero {
       height: auto;
       min-height: 90vh;
-      padding-bottom: 0;
-    }
-
-    #hero.intro {
       padding: var(--space-l) 0;
-    }
 
-    #hero {
       & .container {
         & div {
           max-width: 100%;
@@ -182,10 +175,6 @@
     }
 
     #membership {
-      & h2,
-      & p {
-        text-align: center;
-      }
       .container .plans article.card ul {
         align-items: flex-start;
       }

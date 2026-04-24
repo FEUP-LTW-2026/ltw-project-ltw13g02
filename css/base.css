@@ -35,6 +35,8 @@
     /* Font related */
     --font: 'Host Grotesk';
 
+    
+    /* Font sizes */
     --font-size-h1: 5rem;
     --font-size-xl: 3rem;
     --font-size-l: 1.5rem;
