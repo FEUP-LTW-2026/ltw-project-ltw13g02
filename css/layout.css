@@ -24,7 +24,8 @@
     margin: 0 auto;
   }
 
-  main > section {
+  main > section,
+  main > div {
     padding: var(--space-xl) 0 var(--space-xxl);
   }
 

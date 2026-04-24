@@ -245,7 +245,7 @@
       }
     }
 
-    & > section {
+    & > div {
       font-size: var(--font-size-s);
       padding: 0 var(--space-l);
 
@@ -269,10 +269,10 @@
       
       padding: var(--space-l);
 
-      & section {
+      & div {
         display: flex;
         gap: var(--space-m);
-
+        
         padding: 0;
 
         & > p {
@@ -405,7 +405,6 @@
     grid-template-columns: 3fr 2fr;
     grid-template-rows: auto auto;
 
-
     & > header {
       grid-row: 1 / span 2;
       grid-column: 2;
@@ -417,12 +416,12 @@
       }
     }
 
-    & > section {
+    & > div {
       & h3 {
         margin: var(--space-s) 0;
         font-size: var(--font-size-l);
       }
-
+      
       & p {
         font-size: var(--font-size-xs);
       }
@@ -441,6 +440,8 @@
       padding-bottom: var(--space-s);
 
       font-size: var(--font-size-xs); 
+
+      
   
       & a {
           width: 100%;
