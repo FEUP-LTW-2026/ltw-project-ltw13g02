@@ -1,7 +1,6 @@
 @layer layout {
   
-  html,
-  body {
+  html {
     min-height: 100%;
     
     /* Offset for the sticky header */

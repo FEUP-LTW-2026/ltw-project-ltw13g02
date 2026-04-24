@@ -10,6 +10,13 @@
 
       & div {
         max-width: 25em;
+        & h2 span {
+          display: block;
+        }
+
+        & p {
+          font-size: var(--font-size-l);
+        }
       }
 
       & nav ul {
@@ -25,16 +32,6 @@
         width: 100%;
         max-width: 44em;
         object-fit: cover;
-      }
-
-      & div {
-        & h2 span {
-          display: block;
-        }
-
-        & p {
-          font-size: var(--font-size-l);
-        }
       }
     }
   }
@@ -150,14 +147,8 @@
     section#hero {
       height: auto;
       min-height: 90vh;
-      padding-bottom: 0;
-    }
-
-    section#hero.intro {
       padding: var(--space-l) 0;
-    }
 
-    section#hero {
       & .container {
         & div {
           max-width: 100%;

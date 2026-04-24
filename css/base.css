@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
 
-@layer reset, base, layout, components, page, responsive;
-
 /* CSS Variables */
 @layer base {
   :root {
@@ -37,12 +35,22 @@
     /* Font related */
     --font: 'Host Grotesk';
     
+    /* Font sizes */
     --font-size-h1: 5rem;
     --font-size-xl: 3rem;
     --font-size-l: 2rem;
     --font-size-m: 1.3rem;
     --font-size-s: 1.1rem;
     --font-size-xs: 0.85rem;
+
+    /* Spacings */
+    --space-xxs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-s: 0.75rem;
+    --space-m: 1rem;
+    --space-l: 1.5rem;
+    --space-xl: 2rem;
+    --space-xxl: 3rem;
 
     --weight-strong: 800;
     --weight-medium: 700;
@@ -54,15 +62,6 @@
     --radius-img: 16px;
 
     --shadow-card: 0 10px 10px rgba(0, 0, 0, 0.2);
-
-    /* Spacings */
-    --space-xxs: 0.25rem;
-    --space-xs: 0.5rem;
-    --space-s: 0.75rem;
-    --space-m: 1rem;
-    --space-l: 1.5rem;
-    --space-xl: 2rem;
-    --space-xxl: 3rem;
   }
 
   /* After clicking on a link the page will scroll smoothly */
@@ -141,5 +140,92 @@
 
   b {
     color: var(--color-primary);
+  }
+}
+
+@layer responsive {
+
+  @media (max-width: 75em) {
+    :root {
+       /* Font sizes */
+      --font-size-h1: 5rem;
+      --font-size-xl: 3rem;
+      --font-size-l: 2rem;
+      --font-size-m: 1.3rem;
+      --font-size-s: 1.1rem;
+      --font-size-xs: 0.85rem;
+
+      /* Spacings */
+      --space-xxs: 0.25rem;
+      --space-xs: 0.5rem;
+      --space-s: 0.75rem;
+      --space-m: 1rem;
+      --space-l: 1.5rem;
+      --space-xl: 2rem;
+      --space-xxl: 3rem;
+    }
+  }
+
+  @media (max-width: 60em) {
+    :root {
+      /* Font sizes */
+      --font-size-h1: 4rem;
+      --font-size-xl: 2.4rem;
+      --font-size-l: 1.6rem;
+      --font-size-m: 1.04rem;
+      --font-size-s: 0.88rem;
+      --font-size-xs: 0.68rem;
+
+      /* Spacings */
+      --space-xxs: 0.2rem;
+      --space-xs: 0.4rem;
+      --space-s: 0.6rem;
+      --space-m: 0.8rem;
+      --space-l: 1.2rem;
+      --space-xl: 1.6rem;
+      --space-xxl: 2.4rem;
+    }
+  }
+
+  @media (max-width: 40em) {
+    :root {
+       /* Font sizes */
+      --font-size-h1: 3.5rem;
+      --font-size-xl: 2.1rem;
+      --font-size-l: 1.4rem;
+      --font-size-m: 0.91rem;
+      --font-size-s: 0.77rem;
+      --font-size-xs: 0.595rem;
+
+      /* Spacings */
+      --space-xxs: 0.175rem;
+      --space-xs: 0.35rem;
+      --space-s: 0.525rem;
+      --space-m: 0.7rem;
+      --space-l: 1.05rem;
+      --space-xl: 1.4rem;
+      --space-xxl: 2.1rem;
+    }
+  }
+
+  @media (max-width: 30em) {
+    :root {
+       /* Font sizes */
+      --font-size-h1: 3.25rem;
+      --font-size-xl: 1.95rem;
+      --font-size-l: 1.3rem;
+      --font-size-m: 0.845rem;
+      --font-size-s: 0.715rem;
+      --font-size-xs: 0.5525rem;
+
+      /* Spacings */
+      --space-xxs: 0.1625rem;
+      --space-xs: 0.325rem;
+      --space-s: 0.4875rem;
+      --space-m: 0.65rem;
+      --space-l: 0.975rem;
+      --space-xl: 1.3rem;
+      --space-xxl: 1.95rem;
+    }
   }
 }
