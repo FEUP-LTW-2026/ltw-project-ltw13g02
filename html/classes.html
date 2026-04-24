@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Classes - gymRAT</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <title>Classes - gymRat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" >
 
-  <link rel="stylesheet" href="../css/normalize.css" />
-  <link rel="stylesheet" href="../css/base.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/page/classes.css" />
+  <link rel="stylesheet" href="../css/normalize.css" >
+  <link rel="stylesheet" href="../css/base.css" >
+  <link rel="stylesheet" href="../css/layout.css" >
+  <link rel="stylesheet" href="../css/components.css" >
+  <link rel="stylesheet" href="../css/page/classes.css" >
 </head>
 <body>
   <header>
     <nav class="container">
       <a href="index.html">
-        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" />
+        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" >
       </a>
       
       <label class="hamburger">
-        <input type="checkbox" class="nav-toggle" />
+        <input type="checkbox" class="nav-toggle" >
       </label>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -35,254 +35,249 @@
     </nav>
   </header>
   <main>
-
-    <section class="intro">
-      <div class="container">
+    <div class="intro">
+      <section class="container">
         <p class="detail">WHAT WE OFFER</p>
         <h1>Our <b>classes</b></h1>
         <p>40+ weekly sessions across strength, cardio, flexibility and recovery. Something for every level.</p>
-      </div>
-    </section>
+      </section>
+    </div>
+    
+    <div class="container">
+      <section id="filters">
 
-    <section>
-      <div class="container">
-        <section id="filters">
+        <header>
+          <h2>Search</h2>
+          <p>Choose the day, time, class type and trainer that fit your routine.</p>
+        </header>
 
+        <form>
+          <label> Day of week
+            <select name="week-day">
+              <option value="all" selected>All</option>
+              <option value="monday">Monday</option>
+              <option value="tuesday">Tuesday</option>
+              <option value="wednesday">Wednesday</option>
+              <option value="thursday">Thursday</option>
+              <option value="friday">Friday</option>
+              <option value="saturday">Saturday</option>
+              <option value="sunday">Sunday</option>
+            </select>
+          </label>
+
+          <label> Time of day
+            <select name="time">
+              <option value="all" selected>All</option>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+            </select>
+          </label>
+
+          <label> Class type
+            <select name="type">
+              <option value="all" selected>All</option>
+              <option value="weightlifting">Weightlifting</option>
+              <option value="yoga">Yoga</option>
+              <option value="pilates">Pilates</option>
+              <option value="cardio">Cardio</option>
+              <option value="boxing">Boxing</option>
+              <option value="crossfit">CrossFit</option>
+            </select>
+          </label>
+
+          <label> Trainer
+            <select name="trainer">
+              <option value="all" selected>All Trainers</option>
+              <option value="john-doe">John Doe</option>
+              <option value="jane-smith">Jane Smith</option>
+              <option value="michael-brown">Michael Brown</option>
+              <option value="emily-jones">Emily Jones</option>
+            </select>
+          </label>
+        </form>
+      </section>
+
+      <div class="class-list">
+        <article class="card class-card">
           <header>
-            <h2>Search</h2>
-            <p>Choose the day, time, class type and trainer that fit your routine.</p>
+            <img src="https://picsum.photos/400/300" alt="Morning Yoga">
           </header>
+          <div>
+            <h3>Morning Yoga</h3> 
+            <p>Monday, Wednesday, Friday</p>
+            <p><time datetime="19:00">7:00 AM</time> - <time datetime="20:00">8:00 AM</time></p>
+            <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
+          </div>
 
-          <form>
-            <label> Day of week
-              <select name="week-day">
-                <option value="all" selected>All</option>
-                <option value="monday">Monday</option>
-                <option value="tuesday">Tuesday</option>
-                <option value="wednesday">Wednesday</option>
-                <option value="thursday">Thursday</option>
-                <option value="friday">Friday</option>
-                <option value="saturday">Saturday</option>
-                <option value="sunday">Sunday</option>
-              </select>
-            </label>
+          <footer>
+              <div> 
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-            <label> Time of day
-              <select name="time">
-                <option value="all" selected>All</option>
-                <option value="morning">Morning</option>
-                <option value="afternoon">Afternoon</option>
-                <option value="evening">Evening</option>
-              </select>
-            </label>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
 
-            <label> Class type
-              <select name="type">
-                <option value="all" selected>All</option>
-                <option value="weightlifting">Weightlifting</option>
-                <option value="yoga">Yoga</option>
-                <option value="pilates">Pilates</option>
-                <option value="cardio">Cardio</option>
-                <option value="boxing">Boxing</option>
-                <option value="crossfit">CrossFit</option>
-              </select>
-            </label>
+        <article class="card class-card">
+          <header>
+            <img src="https://picsum.photos/400/300" alt="Cardio Blast">
+          </header>
+          
+          <div>
+            <h3>Cardio Blast</h3>
+            <p>Tuesday, Thursday</p>
+            <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00</time> PM</p>
+            <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
+          </div>
+          
+          <footer>
+            <div>
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-            <label> Trainer
-              <select name="trainer">
-                <option value="all" selected>All Trainers</option>
-                <option value="john-doe">John Doe</option>
-                <option value="jane-smith">Jane Smith</option>
-                <option value="michael-brown">Michael Brown</option>
-                <option value="emily-jones">Emily Jones</option>
-              </select>
-            </label>
-          </form>
-        
-        </section>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
 
-        <section class="class-list">
-          <article class="card class-card">
-            <header>
-              <img src="https://picsum.photos/400/300" alt="Morning Yoga">
-            </header>
+        <article class="card class-card">
+          <header>
+            <img src="https://picsum.photos/400/300" alt="Weightlifting">
+          </header>
+          
+          <div>
+            <h3>Weightlifting</h3>
+            <p>Monday, Wednesday</p>
+            <p><time datetime="17:00">5:00 PM</time> - <time datetime="18:00">6:00 PM</time></p>
+            <p>Trainer: <a class="trainer" href="trainer.html">John Doe</a></p>
+          </div>
+          
+          <footer>
+            <div>
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-            <section>
-              <h3>Morning Yoga</h3>
-              <p>Monday, Wednesday, Friday</p>
-              <p><time datetime="19:00">7:00 PM</time> - <time datetime="20:00">8:00 PM</time></p>
-              <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
-            </section>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
 
-            <footer>
-               <section>
-                <p>
-                  <span class="material-symbols-outlined">timer</span>
-                  <time datetime="PT60M">60 min</time>
-                </p>
+        <article class="card class-card">
+          <header>
+            <img src="https://picsum.photos/400/300" alt="Pilates">
+          </header>
+          
+          <div>
+            <h3>Pilates</h3>
+            <p>Tuesday, Thursday</p>
+            <p><time datetime="19:00">7:00 PM</time> - <time datetime="20:00">8:00 PM</time></p>
+            <p>Trainer: <a class="trainer" href="trainer.html">Emily Jones</a></p>
+          </div>
+          
+          <footer>
+            <div>
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-                <p>
-                  <span class="material-symbols-outlined">person</span>
-                  <span>10/25</span>
-                </p>
-              </section>
-              <a class="btn medium blue" href="class.html">Details</a>
-            </footer>
-          </article>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
 
-          <article class="card class-card">
-            <header>
-              <img src="https://picsum.photos/400/300" alt="Cardio Blast">
-            </header>
+        <article class="card class-card">
+          <header>
+            <img src="https://picsum.photos/400/300" alt="CrossFit">
+          </header>
+          
+          <div>
+            <h3>CrossFit</h3>
+            <p>Friday, Saturday</p>
+            <p><time datetime="10:00">10:00 AM</time> - <time datetime="11:00">11:00 AM</time></p>
+            <p>Trainer: <a class="trainer" href="trainer.html">John Doe</a></p>
+          </div>
             
-            <section>
-              <h3>Cardio Blast</h3>
-              <p>Tuesday, Thursday</p>
-              <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00 PM</time></p>
-              <p>Trainer: <a class="trainer" href="trainer.html">Alex Rivera</a></p>
-            </section>
-            
-            <footer>
-              <section>
-                <p>
-                  <span class="material-symbols-outlined">timer</span>
-                  <time datetime="PT60M">60 min</time>
-                </p>
+          <footer>
+            <div>
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-                <p>
-                  <span class="material-symbols-outlined">person</span>
-                  <span>10/25</span>
-                </p>
-              </section>
-              <a class="btn medium blue" href="class.html">Details</a>
-            </footer>
-          </article>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
 
-          <article class="card class-card">
-            <header>
-              <img src="https://picsum.photos/400/300" alt="Weightlifting">
-            </header>
-            
-            <section>
-              <h3>Weightlifting</h3>
-              <p>Monday, Wednesday</p>
-              <p><time datetime="17:00">5:00 PM</time> - <time datetime="18:00">6:00 PM</time></p>
-              <p>Trainer: <a class="trainer" href="trainer.html">John Doe</a></p>
-            </section>
-            
-            <footer>
-              <section>
-                <p>
-                  <span class="material-symbols-outlined">timer</span>
-                  <time datetime="PT60M">60 min</time>
-                </p>
+        <article class="card class-card">
+          <header>
+            <img src="https://picsum.photos/400/300" alt="Boxing">
+          </header>
+          
+          <div>
+            <h3>Boxing</h3>
+            <p>Wednesday, Friday</p>
+            <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00 PM</time></p>
+            <p>Trainer: <a class="trainer" href="trainer.html">Michael Brown</a></p>
+          </div>
+          
+          <footer>
+            <div>
+              <p>
+                <span class="material-symbols-outlined">timer</span>
+                <time datetime="PT60M">60 min</time>
+              </p>
 
-                <p>
-                  <span class="material-symbols-outlined">person</span>
-                  <span>10/25</span>
-                </p>
-              </section>
-              <a class="btn medium blue" href="class.html">Details</a>
-            </footer>
-          </article>
-
-          <article class="card class-card">
-            <header>
-              <img src="https://picsum.photos/400/300" alt="Pilates">
-            </header>
-            
-            <section>
-              <h3>Pilates</h3>
-              <p>Tuesday, Thursday</p>
-              <p><time datetime="19:00">7:00 PM</time> - <time datetime="20:00">8:00 PM</time></p>
-              <p>Trainer: <a class="trainer" href="trainer.html">Emily Jones</a></p>
-            </section>
-            
-            <footer>
-              <section>
-                <p>
-                  <span class="material-symbols-outlined">timer</span>
-                  <time datetime="PT60M">60 min</time>
-                </p>
-
-                <p>
-                  <span class="material-symbols-outlined">person</span>
-                  <span>10/25</span>
-                </p>
-              </section>
-              <a class="btn medium blue" href="class.html">Details</a>
-            </footer>
-          </article>
-
-          <article class="card class-card">
-            <header>
-              <img src="https://picsum.photos/400/300" alt="CrossFit">
-            </header>
-            
-            <section>
-              <h3>CrossFit</h3>
-              <p>Friday, Saturday</p>
-              <p><time datetime="10:00">10:00 AM</time> - <time datetime="11:00">11:00 AM</time></p>
-              <p>Trainer: <a class="trainer" href="trainer.html">John Doe</a></p>
-            </section>
-              
-            <footer>
-              <section>
-                <p>
-                  <span class="material-symbols-outlined">timer</span>
-                  <time datetime="PT60M">60 min</time>
-                </p>
-
-                <p>
-                  <span class="material-symbols-outlined">person</span>
-                  <span>10/25</span>
-                </p>
-              </section>
-              <a class="btn medium blue" href="class.html">Details</a>
-            </footer>
-          </article>
-
-            <article class="card class-card">
-              <header>
-                <img src="https://picsum.photos/400/300" alt="Boxing">
-              </header>
-              
-              <section>
-                <h3>Boxing</h3>
-                <p>Wednesday, Friday</p>
-                <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00 PM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.html">Michael Brown</a></p>
-              </section>
-              
-              <footer>
-                <section>
-                  <p>
-                    <span class="material-symbols-outlined">timer</span>
-                    <time datetime="PT60M">60 min</time>
-                  </p>
-
-                  <p>
-                    <span class="material-symbols-outlined">person</span>
-                    <span>10/25</span>
-                  </p>
-                </section>
-                <a class="btn medium blue" href="class.html">Details</a>
-              </footer>
-            </article>
-        </section>
+              <p>
+                <span class="material-symbols-outlined">person</span>
+                <span>10/25</span>
+              </p>
+            </div>
+            <a class="btn medium blue" href="class.html">Details</a>
+          </footer>
+        </article>
       </div>
-    </section>   
+    </div>
   </main>
 
   <footer>
     <div class="container">
       <div class="grid">
-        <section id="summary">
+        <div id="summary">
           <a href="index.html">
-            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
+            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" >
           </a>
           <p>Your fitness journey starts here.</p>
-        </section>
+        </div>
         <section>
           <h3>Browse</h3>
           <nav>
@@ -314,9 +309,9 @@
           </address>
         </section>
       </div>
-      <section id="copyright">
+      <div id="copyright">
         <p>&copy; 2026 gymRAT. All rights reserved.</p>
-      </section>
+      </div>
     </div>
   </footer>
 </body>

@@ -1,6 +1,6 @@
 @layer page {
 
-  section#hero {
+  #hero {
 
     & .container {
       display: flex;
@@ -39,7 +39,7 @@
     }
   }
 
-  section#membership {
+  #membership {
     & .container {
       & h2 {
         margin: 0;
@@ -110,7 +110,7 @@
 @layer responsive {
 
   @media (max-width: 75em) {
-    section#hero {
+    #hero {
       & .container {
         flex-direction: column;
         text-align: center;
@@ -122,7 +122,7 @@
   }
 
   @media (max-width: 60em) {
-    section#membership {
+    #membership {
       & .container {
         & .plans {
           flex-direction: column;
@@ -147,17 +147,17 @@
       --font-size-h1: 4rem;
     }
 
-    section#hero {
+    #hero {
       height: auto;
       min-height: 90vh;
       padding-bottom: 0;
     }
 
-    section#hero.intro {
+    #hero.intro {
       padding: var(--space-l) 0;
     }
 
-    section#hero {
+    #hero {
       & .container {
         & div {
           max-width: 100%;
@@ -184,7 +184,7 @@
       }
     }
 
-    section#membership {
+    #membership {
       & h2,
       & p {
         text-align: center;
@@ -196,7 +196,7 @@
   }
 
   @media (max-width: 20em) {
-    section#hero {
+    #hero {
       & .container {
         & h1 {
           font-size: var(--font-size-xl);
