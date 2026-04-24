@@ -43,22 +43,21 @@
 }
 
 @layer responsive {
-  @media (max-width: 65em) {
+  @media (max-width: 75em) {
     #filters form {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
     }
   }
 
-  @media (max-width: 43em) {
+  @media (max-width: 60em) {
     .intro .container {
         flex-direction: column;
         text-align: center;
     }
   }
 
-  @media (max-width: 22em) {
-
+  @media (max-width: 30em) {
     #filters form {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(4, 1fr);

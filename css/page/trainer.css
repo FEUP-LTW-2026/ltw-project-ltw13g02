@@ -223,7 +223,7 @@
 		}
 	}
 
-	@media (max-width: 35rem) {
+	@media (max-width: 40rem) {
 
 		section#trainer-profile .container {
 			display: flex;

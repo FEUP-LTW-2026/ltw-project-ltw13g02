@@ -143,10 +143,6 @@
   }
 
   @media (max-width: 40em) {
-    :root {
-      --font-size-h1: 4rem;
-    }
-
     section#hero {
       height: auto;
       min-height: 90vh;
@@ -191,20 +187,6 @@
       }
       .container .plans article.card ul {
         align-items: flex-start;
-      }
-    }
-  }
-
-  @media (max-width: 20em) {
-    section#hero {
-      & .container {
-        & h1 {
-          font-size: var(--font-size-xl);
-        }
-
-        & p {
-          font-size: var(--font-size-m);
-        }
       }
     }
   }

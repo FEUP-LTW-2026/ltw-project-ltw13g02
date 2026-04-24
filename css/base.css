@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
 
-@layer reset, base, layout, components, page, responsive;
-
 /* CSS Variables */
 @layer base {
   :root {
@@ -36,13 +34,23 @@
     
     /* Font related */
     --font: 'Host Grotesk';
-    
+
     --font-size-h1: 5rem;
     --font-size-xl: 3rem;
-    --font-size-l: 2rem;
+    --font-size-l: 1.5rem;
     --font-size-m: 1.3rem;
     --font-size-s: 1.1rem;
     --font-size-xs: 0.85rem;
+
+    /* Spacings */
+    --space-xxs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-s: 0.75rem;
+    --space-m: 1rem;
+    --space-l: 1.5rem;
+    --space-xl: 2rem;
+    --space-xxl: 3rem;
+
 
     --weight-strong: 800;
     --weight-medium: 700;
@@ -54,15 +62,6 @@
     --radius-img: 16px;
 
     --shadow-card: 0 10px 10px rgba(0, 0, 0, 0.2);
-
-    /* Spacings */
-    --space-xxs: 0.25rem;
-    --space-xs: 0.5rem;
-    --space-s: 0.75rem;
-    --space-m: 1rem;
-    --space-l: 1.5rem;
-    --space-xl: 2rem;
-    --space-xxl: 3rem;
   }
 
   /* After clicking on a link the page will scroll smoothly */
@@ -141,5 +140,54 @@
 
   b {
     color: var(--color-primary);
+  }
+}
+
+@layer responsive {
+  
+  @media (max-width: 75em){
+    :root {
+      --font-size-h1: 4.5rem;
+      --font-size-xl: 2.4rem;
+      --font-size-l: 1.4rem;
+      --font-size-m: 1.1rem;
+      --font-size-s: 1.0rem;
+      --font-size-xs: 0.80rem;
+
+      --space-xxs: 0.25rem;
+      --space-xs: 0.45rem;
+      --space-s: 0.70rem;
+      --space-m: 0.9rem;
+      --space-l: 1.4rem;
+      --space-xl: 1.75rem;
+      --space-xxl: 3rem;
+    }
+  }
+
+  @media (max-width: 60em) {
+    :root {
+      --font-size-h1: 4.3rem;
+      --font-size-l: 1.5rem;
+    }
+  }
+
+  @media (max-width: 40em) {
+    :root {
+      --font-size-h1: 4.2rem;
+      --font-size-l: 1.4rem;
+      --font-size-s: 1.0rem;
+      --font-size-xs: 0.80rem;
+    }
+  }
+
+  @media (max-width: 30em) {
+    :root {
+      --font-size-h1: 3.2rem;
+      --font-size-xl: 1.8rem;
+      --font-size-l: 1.3rem;
+      --font-size-m: 1.2rem;
+      --font-size-s: 1.0rem;
+      --font-size-xs: 0.8rem;
+    }
   }
 }
