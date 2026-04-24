@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - gymRAT</title>
-  <link rel="stylesheet" href="../css/normalize.css" />
-  <link rel="stylesheet" href="../css/base.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/page/index.css" />
+  <link rel="stylesheet" href="../css/normalize.css" >
+  <link rel="stylesheet" href="../css/base.css" >
+  <link rel="stylesheet" href="../css/layout.css" >
+  <link rel="stylesheet" href="../css/components.css" >
+  <link rel="stylesheet" href="../css/page/index.css" >
 </head>
 <body>
  <header>
     <nav class="container">
       <a href="index.html">
-        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" />
+        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" >
       </a>
       
       <label class="hamburger">
-        <input type="checkbox" class="nav-toggle" />
+        <input type="checkbox" class="nav-toggle" >
       </label>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -33,28 +33,30 @@
     </nav>
   </header>
   <main>
-    <section id="hero" class="intro">
-      <div class="container">
+    <div id="hero" class="intro">
+      <section class="container">
         <div>
-          <h1>TRAIN <span class="highlighted">SMARTER,</span> GET <span class="highlighted">STRONGER.</span></h1>
+          <h1>TRAIN <b>SMARTER,</b> GET <b>STRONGER.</b></h1>
           <p>
           Build consistency with guided workouts, expert coaching, and a motivating community.
           Join gymRAT and start your next fitness milestone today.
           </p>
-          <nav class="hero-actions">
-            <a class="btn large blue" href="#membership">START TODAY</a>
-            <a class="btn large transparent-light" href="classes.html">EXPLORE CLASSES</a>
+          <nav>
+            <ul>
+              <li><a class="btn large blue" href="#membership">START TODAY</a></li>
+              <li><a class="btn large transparent-light" href="classes.html">EXPLORE CLASSES</a></li>
+            </ul>
           </nav>
         </div>
-        <img src="https://picsum.photos/800/600" alt="gymRAT Hero Image" class="hero-image" />
-      </div>
-    </section>
-    <section id="membership">
-      <div class="container">
+        <img src="https://picsum.photos/800/600" alt="gymRAT Hero Image" class="hero-image" >
+      </section>
+    </div>
+    <div id="membership">
+      <section class="container">
         <p class="detail">OUR PLANS</p>
         <h2>MEMBERSHIP PLANS</h2>
 
-        <section class="plans">
+        <div class="plans">
           <article class="card">
             <h3>Standard</h3>
             <p><span>20$</span>/4 weeks</p>
@@ -65,7 +67,7 @@
               <li>1 group class per week</li>
               <li>Basic fitness assessment</li>
             </ul>
-            <a class="btn large wide blue" href="classes.html">Choose Standard</a>
+            <a class="btn large wide blue" href="#">Choose Standard</a>
           </article>
 
           <article class="card">
@@ -79,7 +81,7 @@
               <li>Nutrition guidance</li>
               <li>Progress tracking every 4 weeks</li>
             </ul>
-            <a class="btn large wide blue" href="classes.html">Choose Premium</a>
+            <a class="btn large wide blue" href="#">Choose Premium</a>
           </article>
 
           <article class="card">
@@ -93,25 +95,24 @@
               <li>Access to premium recovery area</li>
               <li>Exclusive VIP support</li>
             </ul>
-            <a class="btn large wide blue" href="classes.html">Choose VIP</a>
+            <a class="btn large wide blue" href="#">Choose VIP</a>
           </article>
-        </section>
-      </div>
+        </div>
       </section>
+    </div>
   </main>
 
   <footer>
     <div class="container">
       <div class="grid">
-        <section id="summary">
+        <div id="summary">
           <a href="index.html">
-            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" />
+            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" >
           </a>
-          <h2>GYM RAT</h2>
           <p>Your fitness journey starts here.</p>
-        </section>
+        </div>
         <section>
-          <h2>Browse</h2>
+          <h3>Browse</h3>
           <nav>
             <ul>
               <li><a href="index.html">Home</a></li>
@@ -121,7 +122,7 @@
           </nav>
         </section>
         <section>
-          <h2>Legal</h2>
+          <h3>Legal</h3>
           <nav>
             <ul>
               <li><a href="#">Terms of Service</a></li>
@@ -131,7 +132,7 @@
           </nav>
         </section>
         <section>
-          <h2>Contact</h2>
+          <h3>Contact</h3>
           <address>
             <ul>
               <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
@@ -141,9 +142,9 @@
           </address>
         </section>
       </div>
-      <section id="copyright">
+      <div id="copyright">
         <p>&copy; 2026 gymRAT. All rights reserved.</p>
-      </section>
+      </div>
     </div>
   </footer>
 </body>

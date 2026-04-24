@@ -1,35 +1,35 @@
 @layer page {
-	section#trainer-profile {
+	#trainer-profile {
 		min-height: 85vh;
 	}
 
-	section#trainer-profile .container {
+	#trainer-profile .container {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--space-xxl);
 	}
 
-	section#trainer-profile .container img {
+	#trainer-profile .container img {
 		width: min(100%, 500px);
 		height: auto;
 		display: block;
 	}
 
-	section#trainer-profile .container > div {
+	#trainer-profile .container > div {
 		max-width: 25rem;
 
-		& h3 {
+		& h2 {
 			color: var(--color-secondary);
 		}
 
 		& p {
-			font-size: var( --font-size-s);
+			font-size: var(--font-size-m);
 		}
 	}
 
 
-	section#trainer-info .container {
+	#trainer-info .container {
 		display: flex;
 		gap: var(--space-l);
 
@@ -38,15 +38,14 @@
 		}
 	}
 
-	section#trainer-info .container > article:first-of-type {
+	#trainer-info .container > article:first-of-type {
 		flex: 7;
 	}
 
-	section#trainer-info .container > article:first-of-type ul {
+	#trainer-info .container > article:first-of-type ul {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--space-l);
-		padding: 0;
 
 		& li.card {
 			padding: var(--space-l);
@@ -57,14 +56,14 @@
 				gap: var(--space-m);
 				margin-bottom: var(--space-m);
 
-					& h4 {
+					& h3 {
 						margin: 0;
 						font-size: var(--font-size-s);
 						font-weight: var(--weight-medium);
 					}
 
 					& .material-symbols-outlined {
-							font-size: 2rem;
+							font-size: var(--font-size-l);
 							color: var(--color-primary);
 							margin-top: 0.2rem;
 					}
@@ -72,21 +71,20 @@
 
 			& p {
 				margin: 0;
-				font-size: var(--font-size-xxs);
+				font-size: var(--font-size-s);
 				line-height: 1.4;
 			}
 		}
 	}
 
-	section#trainer-info .container > article:nth-of-type(2) {
+	#trainer-info .container > article:nth-of-type(2) {
 			flex: 3;
 	}
 
-	section#trainer-info .container > article:nth-of-type(2) ul {
+	#trainer-info .container > article:nth-of-type(2) ul {
 			display: flex;
 			flex-direction: column;
 			gap: var(--space-m);
-			padding: 0;
 			
 			& li.card {
 					display: flex;
@@ -94,6 +92,10 @@
 					align-items: center;
 					gap: var(--space-xs);
 					padding: var(--space-m);
+
+					& > h3 {
+						font-size: var(--font-size-s);
+					}
 			}
 
 			& li.card::before {
@@ -104,11 +106,11 @@
 			}
 	}
 
-	section > div.container > h2 {
+	div > section.container > h2 {
 		margin: 0;
 	}
 
-	section#reviews .container {
+	#reviews .container {
 			display: grid;
 			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
 			gap: var(--space-m) var(--space-l);
@@ -127,26 +129,27 @@
 			& #reviews-list .review {
 					padding: var(--space-m) var(--space-l);
 
-					& h4 {
+					& h3 {
 						margin: 0;
 						font-size: var(--font-size-s);
 						font-weight: var(--weight-medium);
 					}
 
 					& p {
-						margin: 0.75rem 0 0;
+						margin: var(--space-s) 0 0;
 						line-height: 1.6;
 					}
 
 					& p:first-of-type {
 						color: var(--color-reviews);
+						font-size: (--font-size-s);
 						font-weight: var(--weight-medium);
 						letter-spacing: 0.04rem;
 					}
 			}
 		}
 	
-	section#reviews .container .comment-form {
+	#reviews .container .comment-form {
 		grid-row: 2;
 		display: flex;
 		flex-direction: column;
@@ -176,76 +179,15 @@
 
 
 @layer responsive {
-
 	@media (max-width: 60rem) {
-		section#trainer-profile {
-			padding: 3rem 2rem;
-		}
 
-		section#trainer-profile .container {
-			position: relative;
-			overflow: hidden;
-
-			& img {
-				width: 100%;
-				height: 100%;
-			}
-
-			& > div {
-				display: flex;
-				flex-direction: column;
-				
-				max-width: none;
-				position: absolute;
-				bottom: 1rem;
-				left: 1rem;
-				right: 1rem;
-
-				padding: 1rem;
-				overflow: hidden;
-				border-radius: 12px;
-
-				background: linear-gradient(
-						to top,
-						rgba(0,0,0,0.75),
-						rgba(0,0,0,0.25)
-				);
-
-				& h2, & h3, & p {
-					color: white;
-				}
-			}
-		}
-
-		section#trainer-info .container {
-			flex-direction: column;
-		}
-
-		section#trainer-info .container > article:first-of-type ul {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		section#trainer-info .container > article:nth-of-type(2) ul {
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
-
-		section#reviews .container {
+		#trainer-profile .container {
 			display: flex;
 			flex-direction: column;
-			gap: 2rem;
-		}
-	}
-
-	@media (max-width: 35rem) {
-
-		section#trainer-profile .container {
-			display: flex;
-			flex-direction: column;
-			gap: 1.5rem;
+			gap: var(--space-l);
 		}
 
-		section#trainer-profile .container > div {
+		#trainer-profile .container > div {
 			position: static;
 			background: none;
 			padding: 0;
@@ -258,9 +200,34 @@
 			}
 		}
 
-		section#trainer-info .container > article:first-of-type ul {
+		#trainer-info .container > article:first-of-type ul {
 			grid-template-columns: 1fr;
-			gap: 1rem;
+			gap: var(--space-m);
+		}
+
+		#trainer-info .container {
+			flex-direction: column;
+		}
+
+		#trainer-info .container > article:first-of-type ul {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		#trainer-info .container > article:nth-of-type(2) ul {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		#reviews .container {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-xl);
+		}
+	}
+
+	@media (max-width: 40em){
+		#trainer-info .container > article:first-of-type ul {
+			grid-template-columns: repeat(1, minmax(0, 1fr));
 		}
 	}
 }

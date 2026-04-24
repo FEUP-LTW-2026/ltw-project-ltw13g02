@@ -1,7 +1,7 @@
 @layer page {
 
-  section#hero {
-
+  #hero {
+    min-height: 85vh;
     & .container {
       display: flex;
       justify-content: space-between;
@@ -10,9 +10,13 @@
 
       & div {
         max-width: 25em;
+
+        & p {
+          font-size: var(--font-size-l);
+        }
       }
 
-      & .hero-actions {
+      & nav ul {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -26,20 +30,10 @@
         max-width: 44em;
         object-fit: cover;
       }
-
-      & div {
-        & h2 span {
-          display: block;
-        }
-
-        & p {
-          font-size: var( --font-size-l);
-        }
-      }
     }
   }
 
-  section#membership {
+  #membership {
     & .container {
       & h2 {
         margin: 0;
@@ -63,6 +57,11 @@
             margin: var(--space-m) 0;
           }
 
+          
+          & p:first-of-type {
+            text-align: center; 
+          }
+
           & p:nth-of-type(2) {
             border-top: 3px dashed var(--color-primary);
             padding-top: var(--space-xl);
@@ -78,7 +77,7 @@
 
           & span {
             color: var(--color-primary);
-            font-size: var( --font-size-xl);
+            font-size: var(--font-size-xl);
             font-weight: var(--weight-medium);
           }
 
@@ -86,7 +85,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            padding: 0;
             gap: var(--space-xxs);
           }
 
@@ -111,7 +109,7 @@
 @layer responsive {
 
   @media (max-width: 75em) {
-    section#hero {
+    #hero {
       & .container {
         flex-direction: column;
         text-align: center;
@@ -123,7 +121,7 @@
   }
 
   @media (max-width: 60em) {
-    section#membership {
+    #membership {
       & .container {
         & .plans {
           flex-direction: column;
@@ -144,21 +142,12 @@
   }
 
   @media (max-width: 40em) {
-    :root {
-      --font-size-h1: 4rem;
-    }
 
-    section#hero {
+    #hero {
       height: auto;
       min-height: 90vh;
-      padding-bottom: 0;
-    }
-
-    section#hero.intro {
       padding: var(--space-l) 0;
-    }
 
-    section#hero {
       & .container {
         & div {
           max-width: 100%;
@@ -167,41 +156,27 @@
             max-width: 90%;
             margin: 0 auto;
           }
-        }
 
-        & .hero-actions {
-          flex-direction: column;
-          width: 100%;
-          margin-bottom: 0;
+          & nav {
+            width: 100%;
+            margin-bottom: 0;
+            
+            & ul {
+              display: flex;
+              flex-direction: column;
 
-          & .btn {
-            width: 80%;
+              & li a{
+                width: 15rem;
+              }
+            }
           }
         }
       }
     }
 
-    section#membership {
-      & h2,
-      & p {
-        text-align: center;
-      }
+    #membership {
       .container .plans article.card ul {
         align-items: flex-start;
-      }
-    }
-  }
-
-  @media (max-width: 20em) {
-    section#hero {
-      & .container {
-        & h1 {
-          font-size: var(--font-size-xl);
-        }
-
-        & p {
-          font-size: var(--font-size-m);
-        }
       }
     }
   }

@@ -1,8 +1,10 @@
 @layer layout {
   
-  html,
-  body {
+  html {
     min-height: 100%;
+    
+    /* Offset for the sticky header */
+    scroll-padding-top: 6em;
   }
 
   body {
@@ -21,12 +23,13 @@
     margin: 0 auto;
   }
 
-  main > section {
+  main > section,
+  main > div {
     padding: var(--space-xl) 0 var(--space-xxl);
   }
 
   body > footer {
-    margin-top: var(--section-x);
+    margin-top: var(--space-xl);
   }
 }
 
