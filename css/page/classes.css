@@ -33,6 +33,10 @@
         flex-direction: column;
         font-size: var(--font-size-s);
         gap: var(--space-xs);
+
+        & select:focus {
+          outline: 2px solid var(--color-primary-border);
+        }
       }
     }
   }
@@ -46,7 +50,15 @@
     }
   }
 
+  @media (max-width: 43em) {
+    .intro .container {
+        flex-direction: column;
+        text-align: center;
+    }
+  }
+
   @media (max-width: 22em) {
+
     #filters form {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(4, 1fr);

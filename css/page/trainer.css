@@ -24,7 +24,7 @@
 		}
 
 		& p {
-			font-size: var( --font-size-s);
+			font-size: var(--font-size-s);
 		}
 	}
 
@@ -46,7 +46,6 @@
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--space-l);
-		padding: 0;
 
 		& li.card {
 			padding: var(--space-l);
@@ -57,14 +56,8 @@
 				gap: var(--space-m);
 				margin-bottom: var(--space-m);
 
-					& h4 {
-						margin: 0;
-						font-size: var(--font-size-s);
-						font-weight: var(--weight-medium);
-					}
-
 					& .material-symbols-outlined {
-							font-size: 2rem;
+							font-size: var(--font-size-l);
 							color: var(--color-primary);
 							margin-top: 0.2rem;
 					}
@@ -72,7 +65,7 @@
 
 			& p {
 				margin: 0;
-				font-size: var(--font-size-xxs);
+				font-size: var(--font-size-s);
 				line-height: 1.4;
 			}
 		}
@@ -86,7 +79,6 @@
 			display: flex;
 			flex-direction: column;
 			gap: var(--space-m);
-			padding: 0;
 			
 			& li.card {
 					display: flex;
@@ -127,14 +119,8 @@
 			& #reviews-list .review {
 					padding: var(--space-m) var(--space-l);
 
-					& h4 {
-						margin: 0;
-						font-size: var(--font-size-s);
-						font-weight: var(--weight-medium);
-					}
-
 					& p {
-						margin: 0.75rem 0 0;
+						margin: var(--space-s) 0 0;
 						line-height: 1.6;
 					}
 
@@ -179,7 +165,7 @@
 
 	@media (max-width: 60rem) {
 		section#trainer-profile {
-			padding: 3rem 2rem;
+			padding: var(--space-xxl) var(--space-xl);
 		}
 
 		section#trainer-profile .container {
@@ -197,13 +183,13 @@
 				
 				max-width: none;
 				position: absolute;
-				bottom: 1rem;
-				left: 1rem;
-				right: 1rem;
+				bottom: var(--space-m);
+				left: var(--space-m);
+				right: var(--space-m);
 
-				padding: 1rem;
+				padding: var(--space-m);
 				overflow: hidden;
-				border-radius: 12px;
+				border-radius: var(--radius-img);
 
 				background: linear-gradient(
 						to top,
@@ -212,7 +198,7 @@
 				);
 
 				& h2, & h3, & p {
-					color: white;
+					color: var(--color-secondary);
 				}
 			}
 		}
@@ -233,7 +219,7 @@
 		section#reviews .container {
 			display: flex;
 			flex-direction: column;
-			gap: 2rem;
+			gap: var(--space-xl);
 		}
 	}
 
@@ -242,7 +228,7 @@
 		section#trainer-profile .container {
 			display: flex;
 			flex-direction: column;
-			gap: 1.5rem;
+			gap: var(--space-l);
 		}
 
 		section#trainer-profile .container > div {
@@ -260,7 +246,7 @@
 
 		section#trainer-info .container > article:first-of-type ul {
 			grid-template-columns: 1fr;
-			gap: 1rem;
+			gap: var(--space-m);
 		}
 	}
 }
