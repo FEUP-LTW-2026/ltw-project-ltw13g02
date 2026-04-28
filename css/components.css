@@ -15,7 +15,7 @@
     padding: var(--space-xxl) 0;
   }
 
-  main > div:nth-child(2n) {
+  main > div:nth-child(2n), main > section:nth-child(2n) {
     background-color: var(--color-even-section);
   }
 
@@ -153,6 +153,7 @@
     }
 
     &.large {
+      font-size: var(--font-size-m);
       padding: var(--space-m) var(--space-l);
     }
 
