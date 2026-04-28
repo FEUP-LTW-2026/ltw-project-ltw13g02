@@ -6,7 +6,7 @@ section#auth {
   
   & header {
     text-align: center;
-    color: var(--color-secondary)
+    color: var(--color-secondary);
   }
 
   & form {
@@ -15,12 +15,6 @@ section#auth {
     gap: var(--space-l);
 
     & label {
-
-      & input {
-        margin: var(--space-s) 0;
-        padding: var(--space-m);
-      }
-
       color: var(--color-secondary);
     }
 
@@ -29,7 +23,7 @@ section#auth {
     }
 
     & > p {
-      margin-top: 0;
+      margin: 0;
       text-align: right;
 
       & a {

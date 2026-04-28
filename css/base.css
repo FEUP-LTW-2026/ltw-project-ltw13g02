@@ -31,6 +31,7 @@
 
     --color-btn-transparent-light-hover: #e2e2e222;
     --color-reviews: #d4aa01;
+    --color-warning: #fc4040;
     
     /* Font related */
     --font: 'Host Grotesk';
@@ -143,7 +144,18 @@
   b {
     color: var(--color-primary);
   }
+
+  label input, label select, label textarea {
+    margin: var(--space-s) 0;
+    padding: var(--space-m);
+  }
+
+  label:has(input:required)::before {
+    content: '*';
+    color: var(--color-warning);
+  }
 }
+
 
 @layer responsive {
   
