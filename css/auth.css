@@ -1,53 +1,79 @@
-section#auth {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 60vh;
-  
-  & header {
-    text-align: center;
-    color: var(--color-secondary);
-  }
-
-  & form {
-    font-size: var(--font-size-m);
-    width: 50%;
-    gap: var(--space-l);
-
-    & label {
+@layer page {
+  section#auth {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 60vh;
+    
+    & header {
+      text-align: center;
       color: var(--color-secondary);
     }
 
-    & > input {
-      margin-top: var(--space-xs);
+    & form {
+      font-size: var(--font-size-m);
+      width: 50%;
+      gap: var(--space-l);
+
+      & label {
+        color: var(--color-secondary);
+      }
+
+      & > input {
+        margin-top: var(--space-xs);
+      }
+
+      & > p {
+        margin: 0;
+        text-align: right;
+
+        & a {
+          color: var(--color-primary);
+        }
+      }
+    }
+    
+    & .form-login { 
+      display: flex;
+      flex-direction: column;
     }
 
-    & > p {
-      margin: 0;
-      text-align: right;
+    & .form-signup {
+      display: grid;  
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr) auto auto;
 
-      & a {
-        color: var(--color-primary);
+      & label:nth-child(n+3), & > input, & > p {
+          grid-column-end: span 2;
       }
     }
   }
-  
-  & .form-login { 
-    display: flex;
-    flex-direction: column;
-  }
 
-  & .form-signup {
-    display: grid;  
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-
-    & label:nth-child(n+3), & > input, & > p {
-        grid-column-end: span 2;
-    }
+  footer {
+    margin-top: 0;
   }
 }
 
-footer {
-  margin-top: 0;
+@layer responsive {
+  @media (max-width: 60em) {
+    section#auth {
+      flex-direction: column;
+      gap: var(--space-m);
+
+      & form {
+        width: min(25em, 90vw);
+      }
+    }
+  }
+
+  @media (max-width: 30em) {
+    section#auth .form-signup {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, 1fr) auto auto;
+
+      & * {
+        grid-column-end: span 1;
+      }
+    }
+  }
 }
