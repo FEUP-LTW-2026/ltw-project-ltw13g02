@@ -1,0 +1,24 @@
+@layer page {
+    #profile .profile-pic-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    #profile .profile-image-prompt {
+        margin-top: var(--space-s);
+        color: var(--color-primary);
+        font-size: var(--font-size-sm);
+        font-weight: var(--weight-medium);
+        text-align: center;
+    }
+
+    #profile > form input {
+        margin-top: var(--space-m);
+    }
+
+    footer {
+        margin-top: 0;
+    }
+}
