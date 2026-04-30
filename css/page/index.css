@@ -9,7 +9,7 @@
       gap: var(--space-xl);
 
       & div {
-        max-width: 25em;
+        max-width: 28em;
 
         & p {
           font-size: var(--font-size-l);
@@ -110,6 +110,11 @@
 
   @media (max-width: 75em) {
     #hero {
+
+      & div {
+        max-width: 25em;
+      }
+      
       & .container {
         flex-direction: column;
         text-align: center;

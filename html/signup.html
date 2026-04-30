@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - gymRAT</title>
+  <link rel="stylesheet" href="../css/normalize.css" >
+  <link rel="stylesheet" href="../css/base.css" >
+  <link rel="stylesheet" href="../css/layout.css" >
+  <link rel="stylesheet" href="../css/components.css" >
+  <link rel="stylesheet" href="../css/auth.css" >
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a href="index.html">
+        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" >
+      </a>
+      
+      <label class="hamburger">
+        <input type="checkbox" class="nav-toggle" >
+      </label>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="trainers.html">Trainers</a></li>
+      </ul>
+      <ul class="auth-links">
+        <li><a class="btn medium transparent-dark" href="login.html">Login</a></li>
+        <li><a class="btn medium transparent-dark" href="signup.html">Sign up</a></li>
+        <li><a class="btn medium blue" href="#membership">Join Now</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="intro">
+      <section id="auth" class="container">
+        <header>
+          <h1><b>Sign Up</b></h1>
+          <h2>Become a RAT.</h2>
+        </header>
+        
+        <form class="form-signup" method="get">
+          <label>
+            First name
+            <input type="text" name="first-name" placeholder="Enter first name" required>
+          </label>
+
+          <label>
+            Last name
+            <input type="text" name="last-name" placeholder="Enter last name" required>
+          </label>
+
+          <label>
+            Email
+            <input type="text" name="email" placeholder="Enter email" required>
+          </label>
+
+          <label>
+            Password
+            <input type="password" name="password" placeholder="Enter password" required>
+          </label>
+
+          <label>
+            Confirm password
+            <input type="password" name="confirm-password" placeholder="Enter password" required>
+          </label>
+          
+          <input class="btn large blue" type="submit" value="Register">
+          <p>Already have an account? Login <a href="login.html">here</a>.</p>
+
+        </form>
+      </section>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <div class="grid">
+        <div id="summary">
+          <a href="index.html">
+            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" >
+          </a>
+          <p>Your fitness journey starts here.</p>
+        </div>
+        <section>
+          <h3>Browse</h3>
+          <nav>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="classes.html">Classes</a></li>
+              <li><a href="trainers.html">Trainers</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section>
+          <h3>Legal</h3>
+          <nav>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section>
+          <h3>Contact</h3>
+          <address>
+            <ul>
+              <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
+              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+              <li>Address: 21 Power Street, Fit City</li>
+            </ul>
+          </address>
+        </section>
+      </div>
+      <div id="copyright">
+        <p>&copy; 2026 gymRAT. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
