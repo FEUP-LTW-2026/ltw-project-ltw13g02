@@ -36,7 +36,7 @@
 
   <main>
     <div class="intro">
-      <section id="profile">
+      <div id="profile">
         <label for="profile-pic" class="profile-pic-label">
           <img 
             src="https://picsum.photos/250/340" 
@@ -44,7 +44,7 @@
             class="profile-image"
             style="cursor:pointer;"
           >
-          <p class="profile-image-prompt">Click on the image to change it</p>
+          <span class="profile-image-prompt">Click on the image to change it</span>
         </label>
 
         <input 
@@ -54,7 +54,7 @@
           hidden
         >
 
-        <form>
+        <form method="get">
           <label>
             First Name
             <input type="text" name="first-name" placeholder="user first name">
@@ -70,14 +70,14 @@
             <input type="text" name="username" placeholder="user username">
           </label>
 
-          <lable>
+          <label>
             Password
             <input type="password" name="username" placeholder="Enter new password">
-          </lable>
+          </label>
 
           <input class="btn medium blue" type="submit" value="Edit">
         </form>
-      </section>
+      </div>
     </div>
   </main>
 
