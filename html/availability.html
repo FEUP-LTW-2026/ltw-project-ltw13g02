@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Availability - gymRat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" >
+  <link rel="stylesheet" href="../css/normalize.css" >
+  <link rel="stylesheet" href="../css/base.css" >
+  <link rel="stylesheet" href="../css/layout.css" >
+  <link rel="stylesheet" href="../css/components.css" >
+  <link rel="stylesheet" href="../css/page/classes.css" >
+  <link rel="stylesheet" href="../css/page/availability.css" >
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a href="index.html">
+        <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" >
+      </a>
+      <label class="hamburger">
+        <input type="checkbox" class="nav-toggle" >
+      </label>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="trainers.html">Trainers</a></li>
+        <li><a href="availability.html">Availability</a></li>
+      </ul>
+      <ul class="auth-links">
+        <li><a class="btn medium transparent-dark" href="login.html">Login</a></li>
+        <li><a class="btn medium transparent-dark" href="signup.html">Sign up</a></li>
+        <li><a class="btn medium blue" href="index.html#membership">Join Now</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="intro">
+      <section class="container">
+        <p class="detail">LIVE UPDATES</p>
+        <h1>Check <b>availability</b></h1>
+        <p>Find out which equipment is free or already reserved</p>
+      </section>
+    </div>
+    <div class="container">
+      <section>
+        <h2>Gym equipment availability</h2>
+        <ul class="gym-zones">
+          <li>
+            <a class="availability-data" href="#treadmill-zone">
+              <span class="zone-title">Treadmills</span>
+              <span class="availability available">Available</span>
+              <span class="count">4/6 free</span>
+            </a>
+          </li>
+          <li>
+            <a class="availability-data" href="#bikes-zone">
+              <span class="zone-title">Bikes</span>
+              <span class="availability unavailable">Unavailable</span>
+              <span class="count">0/4 free</span>
+            </a>
+          </li>
+          <li>
+            <a class="availability-data" href="#benches-zone">
+              <span class="zone-title">Benches</span>
+              <span class="availability limited">Limited Availability</span>
+              <span class="count">2/6 free</span>
+            </a>
+          </li>
+          <li>  
+            <a class="availability-data" href="#functional-zone">
+              <span class="zone-title">Functional Zone</span>
+              <span class="availability available">Available</span>
+              <span class="count">4/6 free</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section id="treadmill-zone">
+        <h2>Treadmill zone</h2>
+        <ul class="equipment-list">
+          <li>
+            <article class="availability-data">
+              <h3 class="treadmill">
+                <span class="material-symbols-outlined">
+                  sprint
+                </span>
+                TM01
+              </h3>
+              <span class="availability available">Available</span>
+              <a href="#tm01-reservation" class="btn medium transparent-dark">View reservation slots</a>
+            </article>
+          </li>
+          <li>
+            <article class="availability-data">
+              <h3 class="treadmill">
+                <span class="material-symbols-outlined">
+                  sprint
+                </span>
+                TM02
+              </h3>
+              <span class="availability available">Available</span>
+              <a href="#tm01-reservation" class="btn medium transparent-dark">View reservation slots</a>
+            </article>
+          </li>
+          <li>
+            <article class="availability-data">
+              <h3 class="treadmill">
+                <span class="material-symbols-outlined">
+                  sprint
+                </span>
+                TM03
+              </h3>
+              <span class="availability available">Available</span>
+              <a href="#tm01-reservation" class="btn medium transparent-dark">View reservation slots</a>
+            </article>
+          </li>
+        </ul>
+        <section id="tm01-reservation" class="reservation-form">
+          <h3>Reserve Treadmill 01</h3>
+          <label>
+            Select a date:
+            <input type="date" id="date-picker" name="date-picker">
+          </label>          
+          <form>
+            <fieldset>
+              <legend>Morning</legend>
+              <input type="radio" name="time-slot" id="s1" required>
+              <label for="s1">8:00</label>
+
+              <input type="radio" name="time-slot" id="s2" required>
+              <label for="s2">8:30</label>
+
+              <input type="radio" name="time-slot" id="s3" disabled>
+              <label for="s3">9:00</label>
+            </fieldset>
+            <fieldset>
+              <legend>Afternoon</legend>
+              <input type="radio" name="time-slot" id="s4" disabled>
+              <label for="s4">12:00</label>
+
+              <input type="radio" name="time-slot" id="s5" required>
+              <label for="s5">12:30</label>
+
+              <input type="radio" name="time-slot" id="s6" disabled>
+              <label for="s6">13:00</label>
+            </fieldset>
+            <fieldset>
+              <legend>Evening</legend>
+              <input type="radio" name="time-slot" id="s7" required>
+              <label for="s7">18:00</label>
+
+              <input type="radio" name="time-slot" id="s8" disabled>
+              <label for="s8">18:30</label>
+
+              <input type="radio" name="time-slot" id="s9" disabled>
+              <label for="s9">19:00</label>
+            </fieldset>
+            <button type="submit" class="btn blue medium">Reserve</button>
+          </form>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="grid">
+        <div id="summary">
+          <a href="index.html">
+            <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" >
+          </a>
+          <p>Your fitness journey starts here.</p>
+        </div>
+        <section>
+          <h3>Browse</h3>
+          <nav>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="classes.html">Classes</a></li>
+              <li><a href="trainers.html">Trainers</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section>
+          <h3>Legal</h3>
+          <nav>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section>
+          <h3>Contact</h3>
+          <address>
+            <ul>
+              <li>Email: <a href="mailto:hello@gymrat.example">hello@gymrat.example</a></li>
+              <li>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+              <li>Address: 21 Power Street, Fit City</li>
+            </ul>
+          </address>
+        </section>
+      </div>
+      <div id="copyright">
+        <p>&copy; 2026 gymRAT. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

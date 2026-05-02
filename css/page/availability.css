@@ -1,0 +1,210 @@
+@layer page {
+  .gym-zones {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-l);
+    padding: 0;
+    & li {
+      display: flex;
+    }
+  }
+
+  .availability-data {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    border: none;
+    border-radius: var(--radius-card);
+    background-color: var(--color-secondary);
+    box-shadow: var(--shadow-card);
+    transition: transform 300ms;
+
+    text-decoration: none;
+    color: inherit;
+
+    & .zone-title {
+      text-align: center;
+      font-size: var(--font-size-m);
+      font-weight: var(--weight-medium);
+      color: var(--color-primary);
+    }
+
+    & .zone-text {
+      font-size: var(--font-size-s);
+      color: var(--color-secondary-text);
+    }
+
+    & h3 {
+      margin: 0;
+    }
+
+    & a{
+      text-align: center;
+    }
+
+    & .count {
+      font-size: var(--font-size-s);
+      color: var(--color-black);
+      text-align: center;
+    }
+  }
+
+  .availability-data:hover {
+    transform: translateY(-5px); 
+  }
+
+  .availability {
+    padding: var(--space-xs) var(--space-xs);
+    border-radius: var(--radius-card);
+    color: var(--color-secondary);
+    text-align: center;
+    font-weight: var(--weight-strong);
+    font-size: var(--font-size-s);
+    letter-spacing: 0.05em;
+
+  }
+
+  .availability.available {
+    background-color: var(--color-available);
+  }
+
+  .availability.unavailable {
+    background-color: var(--color-unavailable);
+  }
+
+  .availability.limited {
+    background-color: var(--color-reviews);
+  }
+
+  .equipment-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-l);
+    padding: 0;
+  }
+
+  .reservation-form {
+    margin: var(--space-xxl) auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border-radius: var(--radius-card);
+    background-color: var(--color-secondary);
+    box-shadow: var(--shadow-card);
+
+    & h3 {
+      margin: 0;
+      font-size: var(--font-size-l);
+      font-weight: var(--weight-medium);
+      color: var(--color-text);
+    }
+
+    & > label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: var(--font-size-s);
+      font-weight: var(--weight-medium);
+      color: var(--color-gray);
+    }
+
+    & input[type="date"] {
+      padding: var(--space-s) var(--space-m);
+      border: 1px solid var(--color-secondary-border);
+      border-radius: var(--radius-button);
+      font-size: var(--font-size-s);
+      background-color: var(--color-very-light-gray);
+      cursor: pointer;
+    }
+
+    & form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+    }
+
+    & fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: var(--space-m);
+      grid-template-columns: repeat(4, minmax(4em, 1fr));
+
+      & legend {
+        font-size: var(--font-size-m);
+        font-weight: var(--weight-medium);
+        color: var(--color-gray);
+        padding: var(--space-s) 0;
+      }
+    }
+
+
+    & input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    & input[type="radio"] + label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-s) var(--space-xs);
+      border: 1.5px solid var(--color-black);
+      border-radius: var(--radius-button);
+      font-size: var(--font-size-s);
+      cursor: pointer;
+      transition: border-color 150ms, background-color 150ms;
+
+      &:hover {
+        border-color: var(--color-primary);
+        background-color: var(--color-transparent-primary-hover);
+        transform: translateY(-1px);
+      }
+    }
+
+    & input[type="radio"]:checked + label {
+      border-color: var(--color-primary);
+      background-color: var(--color-transparent-primary-hover);
+      box-shadow: inset 0 0 0 2px var(--color-primary);
+    }
+
+    & input[type="radio"]:disabled + label {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+
+/* Add breakpoints for responsive*/
+@layer responsive {
+  @media (max-width: 60em) {
+    .gym-zones {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .equipment-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 40em) {
+    .gym-zones {
+      grid-template-columns: 1fr;
+    }
+
+    .equipment-list {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    .reservation-form fieldset {
+      grid-template-columns: repeat(3, 1fr);
+    } 
+  }
+}

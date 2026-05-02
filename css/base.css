@@ -16,7 +16,7 @@
     --color-secondary-hover: var(--color-secondary-border);
     --color-secondary-hover-outline: #cecece;
 
-    --color-very-light-gray: #d5d5d5;
+    --color-very-light-gray: #e0e0e0;
     --color-light-gray: #9c9c9c;
     --color-gray: #515151;
     --color-black: #000;
@@ -30,7 +30,11 @@
     --color-footer: #0f1117;
 
     --color-btn-transparent-light-hover: #e2e2e222;
+    --color-transparent-primary-hover: #1d6df522;
     --color-reviews: #d4aa01;
+
+    --color-available: #4CAF50;
+    --color-unavailable: #F44336;
     
     /* Font related */
     --font: 'Host Grotesk';
