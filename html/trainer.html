@@ -203,23 +203,29 @@
 
           <form class="comment-form" action="#" method="post">
             <h3>Leave a comment</h3>
+            
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Your name" required>
+            </label>
 
-            <label for="comment-name">Name</label>
-            <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            <label>
+              Rating
+              <select name="rating" required>
+                <option value="" disabled selected>Select a rating</option>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very Good</option>
+                <option value="3">3 - Good</option>
+                <option value="2">2 - Fair</option>
+                <option value="1">1 - Poor</option>
+              </select>
+            </label>
 
-            <label for="comment-rating">Rating</label>
-            <select id="comment-rating" name="rating" required>
-              <option value="" disabled selected>Select a rating</option>
-              <option value="5">5 - Excellent</option>
-              <option value="4">4 - Very Good</option>
-              <option value="3">3 - Good</option>
-              <option value="2">2 - Fair</option>
-              <option value="1">1 - Poor</option>
-            </select>
-
-            <label for="comment-message">Comment</label>
-            <textarea id="comment-message" name="message" rows="4" placeholder="Share your experience" required></textarea>
-
+            <label>
+              Comment
+              <textarea name="message" rows="4" placeholder="Share your experience" required></textarea>
+            </label>
+            
             <button class="btn medium wide white" type="submit">Submit Comment</button>
           </form>
 

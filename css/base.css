@@ -35,6 +35,7 @@
 
     --color-available: #4CAF50;
     --color-unavailable: #F44336;
+    --color-warning: #fc4040;
     
     /* Font related */
     --font: 'Host Grotesk';
@@ -147,7 +148,18 @@
   b {
     color: var(--color-primary);
   }
+
+  label input, label select, label textarea {
+    margin: var(--space-s) 0;
+    padding: var(--space-m);
+  }
+
+  label:has(input:required)::before {
+    content: '*';
+    color: var(--color-warning);
+  }
 }
+
 
 @layer responsive {
   
