@@ -222,11 +222,13 @@
     }
   }
 
-  .class-list {
+  .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-l);
+  }
 
+  .class-list {
     padding-top: var(--space-xxl);
   }
 
@@ -282,6 +284,25 @@
     }
   }
 
+  .trainer-card {
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    & h2 {
+      color: var(--color-secondary);
+      margin-bottom: 0;
+    }
+
+    & p {
+      color: var(--color-secondary)
+    }
+  }
+
   .detail {
     display: flex;
     align-items: center;
@@ -321,7 +342,7 @@
   }
 
   @media (max-width: 60em) {
-    .class-list {
+    .card-grid {
       grid-template-columns: 1fr 1fr;
     }
     .hamburger {
@@ -336,7 +357,6 @@
         transition: 300ms ease-in-out;
       }
     }
-
     .btn:hover {
       transform: none;
     }
@@ -391,7 +411,7 @@
         height: var(--space-xxl);
       }
     }
-    .class-list {
+    .card-grid {
       grid-template-columns: 1fr;
     }
     .class-card {
