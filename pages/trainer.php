@@ -2,154 +2,30 @@
   declare(strict_types = 1);
 
   require_once (__DIR__ . '/../templates/common.php');
+  require_once (__DIR__ . '/../templates/trainer.php');
+
+  // Dummy data for trainer
+  $firstname = 'Alex';
+  $lastname = 'Rivera';
+  $bio = 'Hi, I&#39;m Alex Rivera, a certified personal trainer with over 8 years of experience helping clients reach their fitness goals. I specialize in strength training and functional fitness, focusing on building practical, sustainable habits that lead to long-term success.';
+  $specialties = [
+    ['name' => 'Strength Training', 'icon' => 'exercise', 'description' => 'Focused on building muscle, improving strength, and enhancing overall performance through structured and progressive training programs.'],
+    ['name' => 'Weight Loss', 'icon' => 'monitor_weight', 'description' => 'Combining effective workouts with sustainable habits to help you lose weight, stay consistent, and maintain long-term results.'],
+    ['name' => 'Injury Rehab & Prevention', 'icon' => 'personal_injury', 'description' => 'Designed to support recovery and reduce the risk of injury by improving mobility, stability, and proper movement patterns.']
+  ];
+  $certifications = ['NASM Certified Personal Trainer', 'CrossFit Level 1 Trainer'];
+  $classes = [
+    ['name' => 'Strength Training', 'schedule' => 'Monday, Wednesday, Friday - 7:00 PM', 'trainer' => 'Alex Rivera'],
+    ['name' => 'Weight Loss Bootcamp', 'schedule' => 'Tuesday, Thursday - 6:00 PM', 'trainer' => 'Alex Rivera'],
+    ['name' => 'Injury Rehab & Prevention', 'schedule' => 'Saturday - 10:00 AM', 'trainer' => 'Alex Rivera']
+  ];
+
 
   drawHeader('Trainer Name', ['trainer.css']);
+
+  drawTrainerPage($firstname, $lastname, $bio, $specialties, $certifications, $classes);
 ?>
-      <div id="trainer-profile" class="intro">
-        <section class="container">
-          <img src="https://picsum.photos/500/700" alt="Trainer">
-          <div>
-            <h1>Alex <b>Rivera</b></h1>
-            <p>⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
-            <h2>Biography</h2>
-            <p>Hi, I&#39;m Alex Rivera, a certified personal trainer with over 8 years of experience helping clients reach their fitness goals. I specialize in strength training and functional fitness, focusing on building practical, sustainable habits that lead to long-term success.</p>
-            <a class="btn medium blue" href="book.html">BOOK A SESSION WITH ALEX</a>
-          </div>
-        </section>
-      </div>
-
-      <div id="trainer-info">
-        <div class="container">
-          <article>
-            <h2>Specialties</h2>
-            <ul>
-              <li class="card">
-                <header>
-                  <span class="material-symbols-outlined">exercise</span>
-                  <h3>Strength Training</h3>
-                </header>
-                <p>Focused on building muscle, improving strength, and enhancing overall performance through structured and progressive training programs.</p>
-              </li>
-              <li class="card">
-                <header>
-                  <span class="material-symbols-outlined">monitor_weight</span>
-                  <h3>Weight Loss</h3>
-                </header>
-                <p>Combining effective workouts with sustainable habits to help you lose weight, stay consistent, and maintain long-term results.</p>
-              </li>
-              <li class="card">
-                <header>
-                  <span class="material-symbols-outlined">personal_injury</span>
-                  <h3>Injury Rehab & Prevention</h3>
-                </header>
-                <p>Designed to support recovery and reduce the risk of injury by improving mobility, stability, and proper movement patterns.</p>
-              </li>
-            </ul>
-          </article>
-
-          <article>
-            <h2>Certifications</h2>
-            <ul>
-              <li class="card"><h3>NASM Certified Personal Trainer</h3></li>
-              <li class="card"><h3>CrossFit Level 1 Trainer</h3></li>
-            </ul>
-          </article>
-        </div>
-      </div>
-
-      <div>
-        <section class="container">
-          <p class="detail">WHERE CAN YOU FIND ME?</p>
-          <h2>Classes with Alex</h2>
-
-          <div class="card-grid class-list">
-            <article class="card class-card">
-              <header>
-                <img src="https://picsum.photos/400/300" alt="Morning Yoga">
-              </header>
-
-              <div>
-                <h3>Morning Yoga</h3> 
-                <p>Monday, Wednesday, Friday</p>
-                <p><time datetime="19:00">7:00 PM</time> - <time datetime="20:00">8:00 PM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.php">Alex Rivera</a></p>
-              </div>
-
-              <footer>
-                <div>
-                  <p>
-                    <span class="material-symbols-outlined">timer</span>
-                    <time datetime="PT60M">60 min</time>
-                  </p>
-
-                  <p>
-                    <span class="material-symbols-outlined">person</span>
-                    <span>10/25</span>
-                  </p>
-                </div>
-                <a class="btn medium blue" href="class.html">Details</a>
-              </footer>
-            </article>
-
-            <article class="card class-card">
-              <header>
-                <img src="https://picsum.photos/400/300" alt="Cardio Blast">
-              </header>
-              
-              <div>
-                <h3>Cardio Blast</h3>
-                <p>Tuesday, Thursday</p>
-                <p><time datetime="18:00">6:00 PM</time> - <time datetime="19:00">7:00 PM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.php">Alex Rivera</a></p>
-              </div>
-              
-              <footer>
-                <div>
-                  <p>
-                    <span class="material-symbols-outlined">timer</span>
-                    <time datetime="PT60M">60 min</time>
-                  </p>
-
-                  <p>
-                    <span class="material-symbols-outlined">person</span>
-                    <span>10/25</span>
-                  </p>
-                </div>
-                <a class="btn medium blue" href="class.html">Details</a>
-              </footer>
-            </article>
-
-            <article class="card class-card">
-              <header>
-                <img src="https://picsum.photos/400/300" alt="Weightlifting">
-              </header>
-              
-              <div>
-                <h3>Weightlifting</h3>
-                <p>Monday, Wednesday</p>
-                <p><time datetime="17:00">5:00 PM</time> - <time datetime="18:00">6:00 PM</time></p>
-                <p>Trainer: <a class="trainer" href="trainer.php">Alex Rivera</a></p>
-              </div>
-              
-              <footer>
-                <div>
-                  <p>
-                    <span class="material-symbols-outlined">timer</span>
-                    <time datetime="PT60M">60 min</time>
-                  </p>
-
-                  <p>
-                    <span class="material-symbols-outlined">person</span>
-                    <span>10/25</span>
-                  </p>
-                </div>
-                <a class="btn medium blue" href="class.html">Details</a>
-              </footer>
-            </article>
-          </div>
-        </section>
-      </div>
-
+      <!-- This should be in the class.php page -->
       <div id="reviews">
         <section class="container">
           <h2>Reviews</h2>
@@ -202,4 +78,6 @@
         </section>
       </div>
       
-<?php drawFooter(); ?>
+<?php 
+  drawFooter(); 
+?>

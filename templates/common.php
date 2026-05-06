@@ -1,5 +1,7 @@
 <?php
     declare(strict_types=1);
+
+    require_once(__DIR__ . '/classes.php');
 ?>
 
 <?php function drawHeader(string $title, array $extra_css = []) { ?>
@@ -24,22 +26,22 @@
 <body>
   <header>
     <nav class="container">
-      <a href="../pages/index.php">
+      <a href="index.php">
         <img src="../img/logo_outline.png" alt="gymRAT Logo" class="logo" >
       </a>
       <label class="hamburger">
         <input type="checkbox" class="nav-toggle" >
       </label>
       <ul class="nav-links">
-        <li><a href="index.php">Home</a></li>
-        <li><a href="classes.php">Classes</a></li>
-        <li><a href="trainers.php">Trainers</a></li>
-        <li><a href="availability.php">Availability</a></li>
+        <li><a href="../pages/index.php">Home</a></li>
+        <li><a href="../pages/classes.php">Classes</a></li>
+        <li><a href="../pages/trainers.php">Trainers</a></li>
+        <li><a href="../pages/availability.php">Availability</a></li>
       </ul>
       <ul class="auth-links">
-        <li><a class="btn medium transparent-dark" href="login.php">Login</a></li>
-        <li><a class="btn medium transparent-dark" href="signup.php">Sign up</a></li>
-        <li><a class="btn medium blue" href="index.php#membership">Join Now</a></li>
+        <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
+        <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
+        <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
       </ul>
     </nav>
   </header>
@@ -48,18 +50,18 @@
 
 <!-- This will be used to display either the user is logged in or not -->
 <?php function drawLoginButtons() { ?>
-    <ul class="auth-links">
-      <li><a class="btn medium transparent-dark" href="login.html">Login</a></li>
-      <li><a class="btn medium transparent-dark" href="signup.html">Sign up</a></li>
-      <li><a class="btn medium blue" href="index.php#membership">Join Now</a></li>
-    </ul>
+  <ul class="auth-links">
+    <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
+    <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
+    <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
+  </ul>
 <?php } ?>
 
 <?php function drawLogoutButtons() { ?>
-    <ul class="auth-links">
-      <li><a class="btn medium transparent-dark" href="login.html">Name</a></li>
-      <li><a class="btn medium transparent-dark" href="signup.html">Logout</a></li>
-    </ul>
+  <ul class="auth-links">
+    <li><a class="btn medium transparent-dark" href="../pages/login.php">Name</a></li>
+    <li><a class="btn medium transparent-dark" href="../pages/signup.php">Logout</a></li>
+  </ul>
 <?php } ?>
 
 <?php function drawFooter() { ?>
@@ -68,7 +70,7 @@
       <div class="container">
         <div class="grid">
           <div id="summary">
-            <a href="index.php">
+            <a href="../pages/index.php">
               <img src="../img/logo_outline_white.png" alt="gymRAT Logo" class="logo" >
             </a>
             <p>Your fitness journey starts here.</p>
@@ -77,9 +79,9 @@
             <h3>Browse</h3>
             <nav>
               <ul>
-              <li><a href="index.php">Home</a></li>
-              <li><a href="classes.php">Classes</a></li>
-              <li><a href="trainers.php">Trainers</a></li>
+              <li><a href="../pages/index.php">Home</a></li>
+              <li><a href="../pages/classes.php">Classes</a></li>
+              <li><a href="../pages/trainers.php">Trainers</a></li>
               </ul>
             </nav>
           </section>
@@ -111,4 +113,14 @@
     </footer>
   </body>
 </html>
+<?php } ?>
+
+<?php function drawIntro(string $detail, string $title, string $description) { ?>
+  <div class="intro">
+    <section class="container"> 
+      <p class="detail"><?= $detail ?></p>
+      <h1><?= $title ?></h1>
+      <p><?= $description ?></p>
+    </section>
+  </div>
 <?php } ?>

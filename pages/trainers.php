@@ -1,48 +1,22 @@
 <?php
-  declare(strict_types = 1);
+	declare(strict_types = 1);
 
-  require_once (__DIR__ . '/../templates/common.php');
+	require_once (__DIR__ . '/../templates/common.php');
+	require_once (__DIR__ . '/../templates/trainers.php');
+
+  // Dummy data for trainers
+  $trainers = [
+    ['name' => 'Alex Rivera', 'specialty' => 'Strength Training, Weight Loss, Injury Rehab'],
+    ['name' => 'Jamie Lee', 'specialty' => 'Yoga, Pilates, Mind-Body Wellness'],
+    ['name' => 'Taylor Morgan', 'specialty' => 'Cardio, HIIT, Endurance Training'],
+    ['name' => 'Jordan Kim', 'specialty' => 'CrossFit, Functional Fitness, Group Classes']
+  ];
+
+	drawHeader('Trainers', ['trainers.css','classes.css']);
   
-  drawHeader('Trainers', ['trainers.css']);
+	drawIntro('REAL EXPERTS. REAL RESULTS', 'Meet our <b>Trainers</b>', 'Meet our certified coaches and find the right trainer for your goals.');
+
+  drawTrainersPage($trainers);
+
+  drawFooter();
 ?>
-    <div class="intro">
-        <section class="container">
-            <p class="detail">REAL EXPERTS. REAL RESULTS</p>
-            <h1>Meet our <b>Trainers</b></h1>
-            <p>Meet our certified coaches and find the right trainer for your goals.</p>
-        </section>
-    </div>
-    
-    <div class="container">
-        <div class="card-grid">
-            <a href="trainer.php">
-                <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
-                    <h2>Alex Rivera</h2>
-                    <p>Cardio and Yoga</p>
-                </article>
-            </a>
-
-            <a href="trainer.php">
-                <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
-                    <h2>John Doe</h2>
-                    <p>Strength Training</p>
-                </article>
-            </a>
-
-            <a href="trainer.php">
-                <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
-                    <h2>Emily Jones</h2>
-                    <p>Emily Jones</p>
-                </article>
-            </a>
-            
-            <a href="trainer.php">
-                <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
-                    <h2>Michael Brown</h2>
-                    <p>Boxing Coach</p>
-                </article>
-            </a>
-        </div>
-    </div>
-
-<?php drawFooter(); ?>
