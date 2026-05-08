@@ -1,0 +1,80 @@
+.intro .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xxl);
+}
+
+#class-hero {
+    flex: 1;
+
+    & h1 {
+        margin-top: var(--space-xs);
+    }
+
+    & .detail {
+        font-size: var(--font-size-s);
+        font-weight: var(--weight-medium);
+        color: var(--color-primary);
+        margin: 0;
+    }
+
+    & .rating {
+        font-size: var(--font-size-m);
+        color: var(--color-paragraph);
+    }
+
+    & .stats {
+        display: flex;
+        gap: var(--space-xl);
+        margin-top: var(--space-m);
+        margin-bottom: var(--space-l);
+
+        & p {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: var(--font-size-m);
+            margin: 0;
+
+            & .material-symbols-outlined {
+                color: var(--color-primary);
+            }
+        }
+    }
+
+    & .trainer {
+        color: var(--color-primary);
+    }
+
+    & .trainer:hover {
+        color: var(--color-primary-hover);
+    }
+}
+
+.hero-image {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+#enrollment .container {
+    background-color: var(--color-secondary);
+    padding: var(--space-xl);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 60rem) { 
+
+    #class-hero .stats {
+        justify-content: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+}
