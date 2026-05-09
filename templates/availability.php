@@ -97,12 +97,14 @@
 
 <?php function drawAvailabilityContainer(array $equipement, array $treadmills) { ?>
   <div class="container">
-    <?php drawEquipmentAvailability($equipement); ?>
-    <?php drawTreadmillZone($treadmills); ?>
-    <?php drawReservationForm(); ?>
+    <?php 
+      drawEquipmentAvailability($equipement);
+      drawTreadmillZone($treadmills);
+      drawReservationForm();
+    ?>
   </div>
 <?php } ?>
 
-<?php function drawAvailabilityPage(array $equipement, array $treadmills) { ?>
-  <?php drawAvailabilityContainer($equipement, $treadmills); ?>
-<?php } ?>
+<?php function drawAvailabilityPage(array $equipement, array $treadmills) {
+  drawAvailabilityContainer($equipement, $treadmills);
+} ?>

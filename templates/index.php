@@ -39,9 +39,9 @@
 
 <?php function drawMembershipPlans(array $plans) { ?>
   <div class="plans">
-    <?php foreach ($plans as $plan) { ?>
-      <?php drawMembershipPlan($plan['name'], $plan['price'], $plan['features']); ?>
-    <?php } ?>
+    <?php foreach ($plans as $plan) {
+      drawMembershipPlan($plan['name'], $plan['price'], $plan['features']);
+    } ?>
   </div>
 <?php } ?>
 
@@ -55,8 +55,7 @@
   </div>
 <?php } ?>
 
-<?php function drawIndexPage(array $plans) { ?>
-  <?php drawHero(); ?>
-  <?php drawMembershipContainer($plans); ?>
-<?php } ?>
-
+<?php function drawIndexPage(array $plans) {
+  drawHero();
+  drawMembershipContainer($plans);
+} ?>

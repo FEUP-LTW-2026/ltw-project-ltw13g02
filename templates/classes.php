@@ -35,9 +35,9 @@
 
 <?php function drawClasses(array $classes) { ?>
 	<div class="card-grid class-list">
-		<?php foreach ($classes as $class) { ?>
-			<?php drawClass($class['name'], $class['schedule'], $class['trainer']); ?>
-		<?php } ?>
+		<?php foreach ($classes as $class) {
+			drawClass($class['name'], $class['schedule'], $class['trainer']);
+		} ?>
 	</div>
 <?php } ?>
 
@@ -98,11 +98,13 @@
 
 <?php function drawClassesContainer(array $classes) { ?>
   <div class="container">
-    <?php drawFilters(); ?>
-    <?php drawClasses($classes); ?>
+    <?php
+      drawFilters();
+      drawClasses($classes);
+    ?>
   </div>
 <?php } ?>
 
-<?php function drawClassesPage(array $classes) { ?>
-  <?php drawClassesContainer($classes); ?>
-<?php } ?>
+<?php function drawClassesPage(array $classes) {
+  drawClassesContainer($classes);
+} ?>

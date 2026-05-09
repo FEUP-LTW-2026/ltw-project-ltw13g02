@@ -22,7 +22,7 @@
         hidden
       >
 
-      <form method="get">
+      <form method="post">
         <label>
           First Name
           <input type="text" name="first-name" placeholder="user first name">
@@ -40,7 +40,7 @@
 
         <label>
           Password
-          <input type="password" name="username" placeholder="Enter new password">
+          <input type="password" name="password" placeholder="Enter new password">
         </label>
 
         <input class="btn medium blue" type="submit" value="Edit">
@@ -49,6 +49,6 @@
   </div>
 <?php } ?>
 
-<?php function drawEditProfilePage() { ?>
-  <?php drawProfileEditForm(); ?>
-<?php } ?>
+<?php function drawEditProfilePage() {
+  drawProfileEditForm();
+} ?>

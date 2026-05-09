@@ -10,7 +10,7 @@
         <h1><?= $firstname ?> <b><?= $lastname ?></b></h1>
         <h2>Biography</h2>
         <p><?= $bio ?></p>
-        <a class="btn medium blue" href="book.html">BOOK A SESSION WITH <?= $firstname ?> <?= $lastname ?></a>
+        <a class="btn medium blue" href="#">BOOK A SESSION WITH <?= $firstname ?> <?= $lastname ?></a>
       </div>
     </section>
   </div>
@@ -64,8 +64,8 @@
   </div>
 <?php } ?>
 
-<?php function drawTrainerPage(string $firstname, string $lastname, string $bio, array $specialties, array $certifications, array $classes) { ?>
-  <?php drawTrainerIntro($firstname, $lastname, $bio); ?>
-  <?php drawTrainerInfoContainer($specialties, $certifications); ?>
-  <?php drawTrainerClassesContainer($firstname, $classes); ?>
-<?php } ?>
+<?php function drawTrainerPage(string $firstname, string $lastname, string $bio, array $specialties, array $certifications, array $classes) {
+  drawTrainerIntro($firstname, $lastname, $bio);
+  drawTrainerInfoContainer($specialties, $certifications);
+  drawTrainerClassesContainer($firstname, $classes);
+} ?>

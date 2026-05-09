@@ -1,7 +1,5 @@
 <?php
     declare(strict_types=1);
-
-    require_once(__DIR__ . '/classes.php');
 ?>
 
 <?php function drawHeader(string $title, array $extra_css = []) { ?>
@@ -64,6 +62,16 @@
   </ul>
 <?php } ?>
 
+<?php function drawIntro(string $detail, string $title, string $description) { ?>
+  <div class="intro">
+    <section class="container">
+      <p class="detail"><?= $detail ?></p>
+      <h2><?= $title ?></h2>
+      <p><?= $description ?></p>
+    </section>
+  </div>
+<?php } ?>
+
 <?php function drawFooter() { ?>
     </main>
     <footer>
@@ -113,14 +121,4 @@
     </footer>
   </body>
 </html>
-<?php } ?>
-
-<?php function drawIntro(string $detail, string $title, string $description) { ?>
-  <div class="intro">
-    <section class="container"> 
-      <p class="detail"><?= $detail ?></p>
-      <h1><?= $title ?></h1>
-      <p><?= $description ?></p>
-    </section>
-  </div>
 <?php } ?>

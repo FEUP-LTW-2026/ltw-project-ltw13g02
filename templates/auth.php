@@ -3,7 +3,7 @@
 ?>
 
 <?php function drawLoginForm() { ?>
-  <form class="form-login" method="get">
+  <form class="form-login" method="post">
     <label>
       Email
       <input type="text" name="email" placeholder="Enter email" required>
@@ -19,7 +19,7 @@
 <?php } ?>
 
 <?php function drawSignupForm() { ?>
-  <form class="form-signup" method="get">
+  <form class="form-signup" method="post">
     <label>
       First name
       <input type="text" name="first-name" placeholder="Enter first name" required>

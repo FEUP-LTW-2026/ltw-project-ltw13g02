@@ -3,6 +3,7 @@
 
   require_once(__DIR__ . '/../templates/common.php');
   require_once(__DIR__ . '/../templates/profile.php');
+  require_once(__DIR__ . '/../templates/classes.php');
 
   // Dummy data for user profile
   $name = 'John Doe';

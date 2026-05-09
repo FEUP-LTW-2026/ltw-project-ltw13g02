@@ -13,9 +13,9 @@
 
 <?php function drawTrainers(array $trainers) { ?>
   <div class="card-grid">
-    <?php foreach ($trainers as $trainer) { ?>
-      <?php drawTrainer($trainer['name'], $trainer['specialty']); ?>
-    <?php } ?>
+    <?php foreach ($trainers as $trainer) {
+      drawTrainer($trainer['name'], $trainer['specialty']);
+    } ?>
   </div>
 <?php } ?>
 
@@ -25,6 +25,6 @@
   </div>
 <?php } ?>
 
-<?php function drawTrainersPage(array $trainers) { ?>
-  <?php drawTrainersContainer($trainers); ?>
-<?php } ?>
+<?php function drawTrainersPage(array $trainers) {
+  drawTrainersContainer($trainers);
+} ?>

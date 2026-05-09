@@ -3,6 +3,7 @@
 
   require_once (__DIR__ . '/../templates/common.php');
   require_once (__DIR__ . '/../templates/trainer.php');
+  require_once (__DIR__ . '/../templates/classes.php');
 
   // Dummy data for trainer
   $firstname = 'Alex';
@@ -24,60 +25,6 @@
   drawHeader('Trainer Name', ['trainer.css']);
 
   drawTrainerPage($firstname, $lastname, $bio, $specialties, $certifications, $classes);
-?>
-      <!-- This should be in the class.php page -->
-      <div id="reviews">
-        <section class="container">
-          <h2>Reviews</h2>
-          <p class="detail">LEAVE US YOUR FEEDBACK</p>
-          <div id="reviews-list">
-            <article class="card review">
-              <h3>Maria Silva</h3>
-              <p>Rating</p>
-              <p>
-                  Amazing trainer! Alex helped me lose 10kg and feel more confident than ever.
-              </p>
-            </article>
-            <article class="card review">
-              <h3>Joao Cunha</h3>
-              <p>Rating</p>
-              <p>
-                Amazing trainer! Alex helped me lose 10kg and feel more confident than ever.
-              </p>
-            </article>
-          </div>
-
-          <form class="comment-form" action="#" method="post">
-            <h3>Leave a comment</h3>
-            
-            <label>
-              Name
-              <input type="text" name="name" placeholder="Your name" required>
-            </label>
-
-            <label>
-              Rating
-              <select name="rating" required>
-                <option value="" disabled selected>Select a rating</option>
-                <option value="5">5 - Excellent</option>
-                <option value="4">4 - Very Good</option>
-                <option value="3">3 - Good</option>
-                <option value="2">2 - Fair</option>
-                <option value="1">1 - Poor</option>
-              </select>
-            </label>
-
-            <label>
-              Comment
-              <textarea name="message" rows="4" placeholder="Share your experience" required></textarea>
-            </label>
-            
-            <button class="btn medium wide white" type="submit">Submit Comment</button>
-          </form>
-
-        </section>
-      </div>
-      
-<?php 
+       
   drawFooter(); 
 ?>
