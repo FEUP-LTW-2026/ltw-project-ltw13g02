@@ -1,233 +1,158 @@
 @layer page {
-	#trainer-profile {
-		min-height: 85vh;
-	}
+    #trainer-profile {
+        min-height: 85vh;
+    }
 
-	#trainer-profile .container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: var(--space-xxl);
-	}
+    #trainer-profile .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-xxl);
+    }
 
-	#trainer-profile .container img {
-		width: min(100%, 500px);
-		height: auto;
-		display: block;
-	}
+    #trainer-profile .container img {
+        width: min(100%, 500px);
+        height: auto;
+        display: block;
+    }
 
-	#trainer-profile .container > div {
-		max-width: 25rem;
+    #trainer-profile .container > div {
+        max-width: 25rem;
 
-		& h2 {
-			color: var(--color-secondary);
-		}
+        & h2 {
+            color: var(--color-secondary);
+        }
 
-		& p {
-			font-size: var(--font-size-m);
-		}
-	}
+        & p {
+            font-size: var(--font-size-m);
+        }
+    }
 
+    #trainer-info .container {
+        display: flex;
+        gap: var(--space-l);
 
-	#trainer-info .container {
-		display: flex;
-		gap: var(--space-l);
+        & article h2 {
+            margin-top: 0;
+        }
+    }
 
-		& article h2 {
-			margin-top: 0;
-		}
-	}
+    #trainer-info .container > article:first-of-type {
+        flex: 7;
+    }
 
-	#trainer-info .container > article:first-of-type {
-		flex: 7;
-	}
+    #trainer-info .container > article:first-of-type ul {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-l);
 
-	#trainer-info .container > article:first-of-type ul {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--space-l);
+        & li.card {
+            padding: var(--space-l);
 
-		& li.card {
-			padding: var(--space-l);
+            & header {
+                display: flex;
+                align-items: center;
+                gap: var(--space-m);
+                margin-bottom: var(--space-m);
 
-			& header {
-				display: flex;
-				align-items: center;
-				gap: var(--space-m);
-				margin-bottom: var(--space-m);
+                & h3 {
+                    margin: 0;
+                    font-size: var(--font-size-s);
+                    font-weight: var(--weight-medium);
+                }
 
-					& h3 {
-						margin: 0;
-						font-size: var(--font-size-s);
-						font-weight: var(--weight-medium);
-					}
+                & .material-symbols-outlined {
+                    font-size: var(--font-size-l);
+                    color: var(--color-primary);
+                    margin-top: 0.2rem;
+                }
+            }
 
-					& .material-symbols-outlined {
-							font-size: var(--font-size-l);
-							color: var(--color-primary);
-							margin-top: 0.2rem;
-					}
-			}
+            & p {
+                margin: 0;
+                font-size: var(--font-size-s);
+                line-height: 1.4;
+            }
+        }
+    }
 
-			& p {
-				margin: 0;
-				font-size: var(--font-size-s);
-				line-height: 1.4;
-			}
-		}
-	}
+    #trainer-info .container > article:nth-of-type(2) {
+        flex: 3;
+    }
 
-	#trainer-info .container > article:nth-of-type(2) {
-			flex: 3;
-	}
+    #trainer-info .container > article:nth-of-type(2) ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-m);
 
-	#trainer-info .container > article:nth-of-type(2) ul {
-			display: flex;
-			flex-direction: column;
-			gap: var(--space-m);
-			
-			& li.card {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					gap: var(--space-xs);
-					padding: var(--space-m);
+        & li.card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-m);
 
-					& > h3 {
-						font-size: var(--font-size-s);
-					}
-			}
+            & > h3 {
+                font-size: var(--font-size-s);
+            }
+        }
 
-			& li.card::before {
-					content: "book_2";
-					font-family: "Material Symbols Outlined", sans-serif;
-					font-size: var(--font-size-s);
-					color: var(--color-primary);
-			}
-	}
+        & li.card::before {
+            content: "book_2";
+            font-family: "Material Symbols Outlined", sans-serif;
+            font-size: var(--font-size-s);
+            color: var(--color-primary);
+        }
+    }
 
-	div > section.container > h2 {
-		margin: 0;
-	}
-
-	#reviews .container {
-			display: grid;
-			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-			gap: var(--space-m) var(--space-l);
-
-			& > h2 {
-				margin-bottom: var(--space-xs);
-			}
-
-			& #reviews-list {
-					grid-row: 2;
-					display: flex;
-					flex-direction: column;
-					gap: var(--space-m);
-			}
-
-			& #reviews-list .review {
-					padding: var(--space-m) var(--space-l);
-
-					& h3 {
-						margin: 0;
-						font-size: var(--font-size-s);
-						font-weight: var(--weight-medium);
-					}
-
-					& p {
-						margin: var(--space-s) 0 0;
-						line-height: 1.6;
-					}
-
-					& p:first-of-type {
-						color: var(--color-reviews);
-						font-size: (--font-size-s);
-						font-weight: var(--weight-medium);
-						letter-spacing: 0.04rem;
-					}
-			}
-		}
-	
-	#reviews .container .comment-form {
-		grid-row: 2;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-s);
-		padding: var(--space-l);
-		border-radius: var(--radius-card);
-		background: linear-gradient(135deg, #1d6df5 0%, #2a7bff 55%, #4a96ff 100%);
-
-		& h3 {
-			color: var(--color-secondary);
-		}
-		
-		& label {
-			font-weight: var(--weight-medium);
-			color: var(--color-secondary);
-		}
-
-		& textarea {
-			min-height: 7rem;
-		}
-
-		& .btn {
-			margin-top: var(--space-xs);
-		}
-	}	
+    div > section.container > h2 {
+        margin: 0;
+    }
 }
 
-
 @layer responsive {
-	@media (max-width: 60rem) {
+    @media (max-width: 60rem) {
+        #trainer-profile .container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-l);
+        }
 
-		#trainer-profile .container {
-			display: flex;
-			flex-direction: column;
-			gap: var(--space-l);
-		}
+        #trainer-profile .container > div {
+            position: static;
+            background: none;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
 
-		#trainer-profile .container > div {
-			position: static;
-			background: none;
-			padding: 0;
-			text-align: center;
-			display: flex;
-			flex-direction: column;
+            & p {
+                color: var(--color-paragraph);
+            }
+        }
 
-			& p {
-				color: var(--color-paragraph);
-			}
-		}
+        #trainer-info .container > article:first-of-type ul {
+            grid-template-columns: 1fr;
+            gap: var(--space-m);
+        }
 
-		#trainer-info .container > article:first-of-type ul {
-			grid-template-columns: 1fr;
-			gap: var(--space-m);
-		}
+        #trainer-info .container {
+            flex-direction: column;
+        }
 
-		#trainer-info .container {
-			flex-direction: column;
-		}
+        #trainer-info .container > article:first-of-type ul {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
 
-		#trainer-info .container > article:first-of-type ul {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+        #trainer-info .container > article:nth-of-type(2) ul {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
 
-		#trainer-info .container > article:nth-of-type(2) ul {
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
-
-		#reviews .container {
-			display: flex;
-			flex-direction: column;
-			gap: var(--space-xl);
-		}
-	}
-
-	@media (max-width: 40em){
-		#trainer-info .container > article:first-of-type ul {
-			grid-template-columns: repeat(1, minmax(0, 1fr));
-		}
-	}
+    @media (max-width: 40em) {
+        #trainer-info .container > article:first-of-type ul {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+    }
 }

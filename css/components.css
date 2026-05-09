@@ -323,6 +323,77 @@
       background: var(--color-primary);
     }
   }
+
+  #reviews .container {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        gap: var(--space-m) var(--space-l);
+
+        & > h2 {
+            margin-bottom: var(--space-xs);
+        }
+
+        & #reviews-list {
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+        }
+
+        & #reviews-list .review {
+            padding: var(--space-m) var(--space-l);
+
+            & h3 {
+                margin: 0;
+                font-size: var(--font-size-s);
+                font-weight: var(--weight-medium);
+            }
+
+            & p {
+                margin: var(--space-s) 0 0;
+                line-height: 1.6;
+            }
+
+            & p:first-of-type {
+                color: var(--color-reviews);
+                font-size: (--font-size-s);
+                font-weight: var(--weight-medium);
+                letter-spacing: 0.04rem;
+            }
+        }
+    }
+
+    #reviews .container .comment-form {
+        grid-row: 2;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-s);
+        padding: var(--space-l);
+        border-radius: var(--radius-card);
+        background: linear-gradient(
+            135deg,
+            #1d6df5 0%,
+            #2a7bff 55%,
+            #4a96ff 100%
+        );
+
+        & h3 {
+            color: var(--color-secondary);
+        }
+
+        & label {
+            font-weight: var(--weight-medium);
+            color: var(--color-secondary);
+        }
+
+        & textarea {
+            min-height: 7rem;
+        }
+
+        & .btn {
+            margin-top: var(--space-xs);
+        }
+    }
 }
 
 @layer responsive {
@@ -402,6 +473,12 @@
       max-height: 25rem;
       padding: var(--space-m) 0;
       opacity: 1;
+    }
+
+    #reviews .container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
     }
   }
 
