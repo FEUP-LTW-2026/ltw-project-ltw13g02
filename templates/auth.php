@@ -3,7 +3,7 @@
 ?>
 
 <?php function drawLoginForm() { ?>
-  <form class="form-login" method="post">
+  <form class="form-login" action="../actions/action_login.php" method="post">
     <label>
       Email
       <input type="text" name="email" placeholder="Enter email" required>

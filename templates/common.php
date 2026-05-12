@@ -2,7 +2,7 @@
     declare(strict_types=1);
 ?>
 
-<?php function drawHeader(string $title, array $extra_css = []) { ?>
+<?php function drawHeader(Session $session, string $title, array $extra_css = []) { ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,9 +37,14 @@
         <li><a href="../pages/availability.php">Availability</a></li>
       </ul>
       <ul class="auth-links">
-        <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
-        <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
-        <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
+        <?php if ($session->isLoggedin()) { ?>
+          <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+          <li><a class="btn medium transparent-dark" href="../actions/action_logout.php">Logout</a></li>
+        <?php } else { ?>
+          <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
+          <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
+          <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
+        <?php } ?>
       </ul>
     </nav>
   </header>
