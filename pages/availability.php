@@ -4,27 +4,33 @@
   require_once(__DIR__ . '/../utils/session.php');
   $session = new Session();
 
-  require_once (__DIR__ . '/../templates/common.php');
-  require_once (__DIR__ . '/../templates/availability.php');
+  if (!$session->isLoggedIn()) {
+    header('Location: login.php');
 
-  $equipement = [
-    ['name' => 'Treadmill', 'status' => 'Available', 'count' => '4/6 free'],
-    ['name' => 'Bike', 'status' => 'Unavailable', 'count' => '0/4 free'],
-    ['name' => 'Bench', 'status' => 'Limited', 'count' => '2/6 free'],
-    ['name' => 'Functional Zone', 'status' => 'Available', 'count' => '4/6 free']
-  ];
+  } else {
 
-  $treadmills = [
-    ['id' => '01', 'status' => 'Available'],
-    ['id' => '02', 'status' => 'Available'],
-    ['id' => '03', 'status' => 'Available']
-  ];
+    require_once (__DIR__ . '/../templates/common.php');
+    require_once (__DIR__ . '/../templates/availability.php');
 
-  drawHeader($session, 'Availability', ['availability.css','classes.css']);
-  
-  drawIntro('LIVE UPDATES', 'Check <b>availability</b>', 'Find out which equipment is free or already reserved.');
+    $equipement = [
+      ['name' => 'Treadmill', 'status' => 'Available', 'count' => '4/6 free'],
+      ['name' => 'Bike', 'status' => 'Unavailable', 'count' => '0/4 free'],
+      ['name' => 'Bench', 'status' => 'Limited', 'count' => '2/6 free'],
+      ['name' => 'Functional Zone', 'status' => 'Available', 'count' => '4/6 free']
+    ];
 
-  drawAvailabilityPage($equipement, $treadmills);
-  
-  drawFooter(); 
+    $treadmills = [
+      ['id' => '01', 'status' => 'Available'],
+      ['id' => '02', 'status' => 'Available'],
+      ['id' => '03', 'status' => 'Available']
+    ];
+
+    drawHeader($session, 'Availability', ['availability.css','classes.css']);
+    
+    drawIntro('LIVE UPDATES', 'Check <b>availability</b>', 'Find out which equipment is free or already reserved.');
+
+    drawAvailabilityPage($equipement, $treadmills);
+    
+    drawFooter();
+  }
 ?>
