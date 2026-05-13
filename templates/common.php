@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="../css/base.css" >
     <link rel="stylesheet" href="../css/layout.css" >
     <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/auth.css">
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
@@ -34,12 +33,16 @@
         <li><a href="../pages/index.php">Home</a></li>
         <li><a href="../pages/classes.php">Classes</a></li>
         <li><a href="../pages/trainers.php">Trainers</a></li>
-        <li><a href="../pages/availability.php">Availability</a></li>
+        <?php if ($session->isLoggedin()) { ?>
+          <li><a href="../pages/availability.php">Availability</a></li>
+        <?php } ?>
       </ul>
       <ul class="auth-links">
         <?php if ($session->isLoggedin()) { ?>
           <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
-          <li><a class="btn medium transparent-dark" href="../actions/action_logout.php">Logout</a></li>
+          <form action="../actions/action_logout.php" method="post">
+            <button class="btn medium transparent-dark" type="submit">Logout</button>
+          </form>
         <?php } else { ?>
           <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
           <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>

@@ -141,7 +141,7 @@
     }
   } 
 
-  select {
+  select, button, a {
     cursor: pointer;
   }
 

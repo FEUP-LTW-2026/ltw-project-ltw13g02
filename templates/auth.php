@@ -13,13 +13,13 @@
       <input type="password" name="password" placeholder="Enter password" required>
     </label>
     
-    <input class="btn large blue" type="submit" value="Login">
+    <button class="btn large blue" type="submit">Login</button>
     <p>Don't have an account? Sign up <a href="../pages/signup.php">here</a>.</p>
   </form>
 <?php } ?>
 
 <?php function drawSignupForm() { ?>
-  <form class="form-signup" method="post">
+  <form class="form-signup" action="../actions/action_signup.php" method="post">
     <label>
       First name
       <input type="text" name="first-name" placeholder="Enter first name" required>
@@ -45,7 +45,7 @@
       <input type="password" name="confirm-password" placeholder="Enter password" required>
     </label>
     
-    <input class="btn large blue" type="submit" value="Register">
+    <button class="btn large blue" type="submit">Register</button>
   
     <p>Already have an account? Login <a href="../pages/login.php">here</a>.</p>
   </form>
