@@ -1,0 +1,100 @@
+PRAGMA foreign_keys = ON;
+
+-- Insert Users (Admins, Trainers, Members)
+INSERT INTO User (id, first_name, last_name, username, email, password) VALUES 
+(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$w...'), -- Use appropriate hashed passwords in actual app
+(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$w...'),
+(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$w...'),
+(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$w...'),
+(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$w...'),
+(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$w...'),
+(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$w...');
+
+-- Insert Admin
+INSERT INTO Admin (admin_id) VALUES (1);
+
+-- Insert Members
+INSERT INTO Member (id, is_active) VALUES 
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1);
+
+-- Insert Trainers
+INSERT INTO Trainer (trainer_id, is_active) VALUES 
+(6, 1),
+(7, 1);
+
+-- Insert Certifications
+INSERT INTO Certification (id, name, description) VALUES 
+(1, 'Certified Personal Trainer', 'Certified to train individuals securely.'),
+(2, 'Yoga Instructor Certification', 'Allows the trainer to conduct advanced yoga sessions.'),
+(3, 'CrossFit Level 1', 'Basic functional movement and CrossFit methodology.');
+
+-- Insert Specializations
+INSERT INTO Specialization (id, name, description) VALUES 
+(1, 'Weight Loss', 'Focuses on high-intensity fat burning exercising.'),
+(2, 'Strength Training', 'Focuses on increasing muscular physical strength.'),
+(3, 'Flexibility & Mobility', 'Focuses on increasing range of motion.');
+
+-- Connecting Trainers to Certifications
+INSERT INTO TrainerCertification (trainer_id, certification_id) VALUES 
+(6, 1),
+(6, 3),
+(7, 2);
+
+-- Connecting Trainers to Specializations
+INSERT INTO TrainerSpecialization (trainer_id, specialization_id) VALUES 
+(6, 2),
+(7, 3),
+(7, 1);
+
+-- Insert Class Types
+INSERT INTO ClassType (id, name, description, capacity, start_time, end_time, weekday) VALUES 
+(1, 'Morning HIIT', 'High intensity interval training to start the day.', 20, '08:00', '09:00', 1),
+(2, 'Evening Yoga', 'Relaxing yoga session.', 15, '18:00', '19:00', 3),
+(3, 'CrossFit WOD', 'Intense Workout of the Day.', 10, '14:00', '15:00', 5);
+
+-- Insert Classes
+-- Start and end timestamps should follow 'YYYY-MM-DD HH:MM:SS'
+INSERT INTO Class (id, trainer_id, class_type_id, start_timestamp, end_timestamp, status) VALUES 
+(1, 6, 1, '2026-06-01 08:00:00', '2026-06-01 09:00:00', 'scheduled'),
+(2, 7, 2, '2026-06-03 18:00:00', '2026-06-03 19:00:00', 'scheduled'),
+(3, 6, 3, '2026-06-05 14:00:00', '2026-06-05 15:00:00', 'scheduled'),
+(4, 7, 2, '2026-06-10 18:00:00', '2026-06-10 19:00:00', 'scheduled');
+
+-- Insert Equipment
+INSERT INTO Equipment (id, name, description, status) VALUES 
+(1, 'Treadmill Pro', 'Cardio running machine.', 'available'),
+(2, 'Treadmill Advanced', 'Cardio running machine.', 'available'),
+(3, 'Bench Press Station', 'For chest workouts.', 'in use'),
+(4, 'Dumbbell Set 10kg-30kg', 'Free weights.', 'available'),
+(5, 'Yoga Mats Set', 'Comfortable mats for floor exercises.', 'available');
+
+-- Insert Membership Tiers
+INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days) VALUES 
+(1, 'Basic', 'Access to general gym equipment. No group classes.', 29.99, 1),
+(2, 'Pro', 'Access to equipment and 5 classes per month.', 49.99, 3),
+(3, 'Elite', 'Unlimited access to gym and all classes.', 79.99, 7);
+
+-- Insert Memberships
+INSERT INTO Membership (id, member_id, start_date, end_date, status, membership_tier_id) VALUES 
+(1, 2, '2026-05-01 00:00:00', '2026-06-01 00:00:00', 'active', 2),
+(2, 3, '2026-05-10 00:00:00', '2026-06-10 00:00:00', 'active', 3),
+(3, 4, '2026-05-15 00:00:00', '2026-06-15 00:00:00', 'active', 1);
+
+-- Insert Membership Payments
+INSERT INTO MembershipPayment (id, member_id, membership_id, payment_due_timestamp, amount, status) VALUES 
+(1, 2, 1, '2026-04-30 23:59:59', 49.99, 'paid'),
+(2, 3, 2, '2026-05-09 23:59:59', 79.99, 'paid'),
+(3, 4, 3, '2026-05-14 23:59:59', 29.99, 'paid');
+
+-- Insert Reviews
+INSERT INTO Review (id, review_text, rating, review_timestamp) VALUES 
+(1, 'Great and very relaxing class!', 5, '2026-05-11 10:00:00');
+
+-- Insert Enrollments
+INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp, review_id) VALUES 
+(1, 2, 1, 'enrolled', '2026-05-20 10:00:00', NULL),
+(2, 3, 2, 'enrolled', '2026-05-21 11:00:00', NULL),
+(3, 3, 3, 'enrolled', '2026-05-22 12:00:00', NULL);
