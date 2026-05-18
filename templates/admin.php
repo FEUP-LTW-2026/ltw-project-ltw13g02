@@ -36,7 +36,10 @@
       <li>
         <article class="stat-card">
           <h4>Active Members</h4>
+
+          <!-- In a real implementation, these values would be dynamically updated with AJAX and database data -->
           <p class="stat-number">1,245</p>
+          <!-- calculated by comparing with last month, would require new table-->
           <span class="stat-change positive">+5%</span>
           <p>from last month</p>
         </article>
@@ -62,7 +65,7 @@
 <?php } ?>
 
 
-<?php function drawAccountManagement() { ?>
+<?php function drawAccountManagement(array $users, PDO $db, Session $session) { ?>
   <article class="dashboard-section" id="account-management">
     <header>
       <div class="section-header">
@@ -71,11 +74,13 @@
       </div>
       <button class="btn transparent-dark medium">+ Add New User</button>
     </header>
+    <!-- Search bar for filtering users, by username -->
+    <input type="text" id="search-bar" placeholder="Search users by username...">
     <div class="table-responsive">
       <table class="data-table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Username</th>
             <th>Email</th>
             <th>Role</th>
             <th>Status</th>
@@ -83,26 +88,31 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>John Doe</td>
-            <td>john@example.com</td>
-            <td>Member</td>
-            <td><span class="status active">Active</span></td>
-            <td class="actions">
-              <button class="btn white">Edit</button>
-              <button class="btn warning">Deactivate</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Jane Smith</td>
-            <td>jane@example.com</td>
-            <td>Trainer</td>
-            <td><span class="status inactive">Inactive</span></td>
-            <td class="actions">
-              <button class="btn white">Edit</button>
-              <button class="btn available">Activate</button>
-            </td>
-          </tr>
+          <?php foreach ($users as $user) { ?>
+            <?php if ($user->getId() === $session->getId()) continue;?> <!-- Skip current user - admin -->
+              <tr>
+                <td><?= $user->getUsername() ?></td>
+                <td><?= $user->getEmail() ?></td>
+                <td><?= $user->isAdmin($db) ? 'Admin' : ($user->isTrainer($db) ? 'Trainer' : 'Member') ?></td>
+                <td><span class="status <?= $user->IsActive() ? 'active' : 'inactive' ?>"><?= $user->IsActive() ? 'Active' : 'Inactive' ?></span></td>
+                <td class="actions">
+                  <button class="btn white">Edit</button>
+                  <?php if (!$user->IsActive()) { ?>
+                    <form action="../actions/action_toggle_user_status.php" method="POST">
+                      <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
+                      <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
+                      <button class="btn ava">Activate</button>
+                    </form>
+                  <?php } else { ?>
+                    <form action="../actions/action_toggle_user_status.php" method="POST">
+                      <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
+                      <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
+                      <button class="btn warning">Deactivate</button>
+                    </form>
+                  <?php } ?>
+                </td>
+              </tr>
+          <?php } ?>
         </tbody>
       </table>
     </div>
@@ -129,6 +139,16 @@
               <strong>Yoga Basics</strong>
               <span>08:00 - 09:00</span>
               <span>Capacity: 20</span>
+              <div class="card-actions">
+                <button class="btn blue">Edit</button>
+              </div>
+            </article>
+          </article>
+          <article class="schedule-classes">
+            <article class="schedule-class-card">
+              <strong>Cardio</strong>
+              <span>10:00 - 11:00</span>
+              <span>Capacity: 25</span>
               <div class="card-actions">
                 <button class="btn blue">Edit</button>
               </div>
@@ -238,18 +258,21 @@
 <?php } ?>
 
 
-<?php function drawAdminPanel() { ?>
+<?php function drawAdminPanel(array $users, PDO $db, Session $session) { ?>
 <div class="admin-dashboard container">
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
       <?php drawOverview(); ?>
-      <?php drawAccountManagement(); ?>
+      <?php drawAccountManagement($users, $db, $session); ?>
       <?php drawClassCatalog(); ?>
       <?php drawEquipmentManagement(); ?>
       <?php drawGymSettings(); ?>
     </section>
   </div>
 <?php } ?>
+
+
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.admin-nav a');

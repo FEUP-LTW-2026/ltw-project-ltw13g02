@@ -1,29 +1,29 @@
 PRAGMA foreign_keys = ON;
 
 -- Insert Users (Admins, Trainers, Members)
-INSERT INTO User (id, first_name, last_name, username, email, password) VALUES 
-(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'), -- Use appropriate hashed passwords in actual app
-(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
-(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
-(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
-(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
-(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
-(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S');
+INSERT INTO User (id, first_name, last_name, username, email, password, is_active) VALUES 
+(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
+(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1);
 
 -- Insert Admin
 INSERT INTO Admin (admin_id) VALUES (1);
 
 -- Insert Members
-INSERT INTO Member (id, is_active) VALUES 
-(2, 1),
-(3, 1),
-(4, 1),
-(5, 1);
+INSERT INTO Member (id) VALUES 
+(2),
+(3),
+(4),
+(5);
 
 -- Insert Trainers
-INSERT INTO Trainer (trainer_id, is_active) VALUES 
-(6, 1),
-(7, 1);
+INSERT INTO Trainer (trainer_id) VALUES 
+(6),
+(7);
 
 -- Insert Certifications
 INSERT INTO Certification (id, name, description) VALUES 

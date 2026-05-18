@@ -7,13 +7,15 @@
         private string $lastName;
         private string $username;
         private string $email;
+        private bool $isActive;
 
-        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email) {
+        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, bool $isActive) {
             $this->id = $id;
             $this->firstName = $firstName;
             $this->lastName = $lastName;
             $this->username = $username;
             $this->email = $email;
+            $this->isActive = $isActive;
         }
 
         public function getId() : int {
@@ -32,6 +34,10 @@
             return $this->firstName;
         }
 
+        public function IsActive() : bool {
+            return $this->isActive;
+        }
+
         public function setFirstName(string $firstName) : void {
             $this->firstName = $firstName;
         }
@@ -48,6 +54,10 @@
             return $this->firstName . ' ' . $this->lastName;
         }
 
+        public function setIsActive(bool $isActive) : void {
+            $this->isActive = $isActive;
+        }
+
         public static function getUserWithPassword(PDO $db, string $emailUsername, string $password) : ?AuthenticatedUser {
 
             // try with email
@@ -61,7 +71,8 @@
                     $userData['first_name'],
                     $userData['last_name'],
                     $userData['username'],
-                    $userData['email']
+                    $userData['email'],
+                    (bool) $userData['is_active']
                 );
 
             } else { // try with username
@@ -76,7 +87,8 @@
                         $userData['first_name'],
                         $userData['last_name'],
                         $userData['username'],
-                        $userData['email']
+                        $userData['email'],
+                        (bool) $userData['is_active']
                     );
                 }
 
@@ -91,7 +103,7 @@
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword]);
             $insertedId = (int) $db->lastInsertId();
 
-            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email);
+            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true);
         }
 
         public function isMember(PDO $db) : bool {
@@ -112,9 +124,9 @@
             return $stmt->fetch() !== false;
         }
 
-        public function getUser(PDO $db) : ?AuthenticatedUser {
+        public static function getUser(PDO $db, int $id) : ?AuthenticatedUser {
             $stmt = $db->prepare('SELECT * FROM User WHERE id = ?');
-            $stmt->execute([$this->id]);
+            $stmt->execute([$id]);
             $userData = $stmt->fetch();
 
             if ($userData) {
@@ -123,11 +135,31 @@
                     $userData['first_name'],
                     $userData['last_name'],
                     $userData['username'],
-                    $userData['email']
+                    $userData['email'],
+                    (bool) $userData['is_active']
                 );
             }
 
             return null;
+        }
+
+        public static function getAllUsers(PDO $db) : array {
+            $stmt = $db->query('SELECT * FROM User');
+            $usersData = $stmt->fetchAll();
+            $users = [];
+
+            foreach ($usersData as $userData) {
+                $users[] = new AuthenticatedUser(
+                    $userData['id'],
+                    $userData['first_name'],
+                    $userData['last_name'],
+                    $userData['username'],
+                    $userData['email'],
+                    (bool) $userData['is_active']
+                );
+            }
+
+            return $users;
         }
     }
 ?>

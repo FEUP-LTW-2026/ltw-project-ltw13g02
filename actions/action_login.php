@@ -25,6 +25,10 @@
             $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
             $session->addMessage('success', 'Successfully logged in!');
+            $session->setAdmin($user->isAdmin($db));
+            $session->setMember($user->isMember($db));
+            $session->setTrainer($user->isTrainer($db));
+            $session->setIsActive($user->IsActive());
             header('Location: ../pages/index.php');
             exit;
 

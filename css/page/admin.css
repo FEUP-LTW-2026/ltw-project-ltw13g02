@@ -155,7 +155,6 @@
         padding: var(--space-m);
         border-bottom: 1px solid var(--color-secondary-border);
         text-align: left;
-        white-space: nowrap;
       }
 
       & th {
@@ -176,9 +175,16 @@
         border-bottom: none;
       }
 
-      & .actions {
+      & .actions{
         display: flex;
+        flex-direction: column;
         gap: var(--space-xs);
+        padding: var(--space-xs);
+
+        & button {
+          padding: var(--space-xxs);
+          width: 100%;
+        }
       }
     }
 
