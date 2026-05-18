@@ -1,34 +1,35 @@
 <?php
 	declare(strict_types=1);
+
+  require_once (__DIR__ . '/../database/class.class.php');
 ?>
 
-<!-- Como tratar as images? -->
-<?php function drawClass(string $className, string $schedule, string $trainer) { ?>
+<?php function drawClass(GymClass $class) { ?>
 	<article class="card class-card">
 		<header>
 			<img src="https://picsum.photos/400/300" alt="Pilates">
 		</header>
 				
 		<div>
-			<h3><?= $className; ?></h3>
-			<p><?= $schedule; ?></p>
-			<p><time datetime="19:00">7:00 PM</time> - <time datetime="20:00">8:00 PM</time></p>
-			<p>Trainer: <a class="trainer" href="../pages/trainer.php"><?= $trainer; ?></a></p>
+			<h3><?= $class->name; ?></h3>
+			<p><?= $class->weekday; ?></p>
+			<p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
+			<p>Trainer: <a class="trainer" href="../pages/trainer.php"><?= $class->trainerId; ?></a></p>
 		</div>
 		
 		<footer>
 			<div>
 				<p>
 					<span class="material-symbols-outlined">timer</span>
-					<time datetime="PT60M">60 min</time>
+					<time> 60 min</time>
 				</p>
 
 				<p>
 					<span class="material-symbols-outlined">person</span>
-					<span>10/25</span>
+					<span><?= count($class->enrolled) . '/' . $class->capacity; ?></span>
 				</p>
 			</div>
-			<a class="btn medium blue" href="../pages/class.php">Details</a>
+			<a class="btn medium blue" href="../pages/class.php?id=<?= $class->id; ?>">Details</a>
 		</footer>
 	</article>
 <?php } ?>
@@ -36,7 +37,7 @@
 <?php function drawClasses(array $classes) { ?>
 	<div class="card-grid class-list">
 		<?php foreach ($classes as $class) {
-			drawClass($class['name'], $class['schedule'], $class['trainer']);
+			drawClass($class);
 		} ?>
 	</div>
 <?php } ?>
