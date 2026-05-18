@@ -4,21 +4,49 @@
     require_once(__DIR__ . '/../utils/session.php');
 
     $session = new Session();
-
-    $name = $_POST['first-name'] . ' ' . $_POST['last-name'];
-    $email = $_POST['email'];
     
-    if ($name && $email) {
-        
-        $session->setId(1);
-        $session->setName($name);
-        $session->setEmail($email);
-        $session->addMessage('success', 'Successfully logged in!');
-
-    } else { 
-
+    // Verify if the form fields are empty
+    if (empty($_POST['first-name']) || empty($_POST['last-name']) || empty($_POST['email']) || empty($_POST['password'] || empty($_POST['confirm-password']))) {
         $session->addMessage('error', 'All fields are mandatory.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']); 
+        exit;
     }
 
-    header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page
+    // Verify if the "Password" and "Confirm Password" fields match
+    if ($_POST['password'] !== $_POST['confirm-password']) {
+        $session->addMessage('error', 'Password do not match.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    require_once(__DIR__ . '/../database/connection.db.php');
+
+    $db = getDatabaseConnection();
+
+    // Verify if the inserted email is already in use
+    $stmt = $db->prepare('SELECT 1 FROM User WHERE email = ?');
+    $stmt->execute(([$_POST['email']]));
+
+    if ($stmt->fetch()) {
+        $session->addMessage('error', 'This email is already in use.');
+        printf("hwerewp");
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+
+    try {
+        $user = AuthenticatedUser::createUser($db, $_POST['first-name'], $_POST['last-name'], $_POST['email'], $_POST['password']);
+
+        $session->setId($user->getId());
+        $session->setName($user->getFullName());
+        $session->setEmail($user->getEmail());
+        $session->addMessage('success', 'Successfully signed up!');
+        
+    } catch (PDOException $e) {
+        $session->addMessage('error', 'Database error occured.');
+    }
+
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>
