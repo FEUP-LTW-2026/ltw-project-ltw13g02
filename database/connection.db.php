@@ -8,4 +8,4 @@
 
         return $db;
     }
-?>gi
+?>

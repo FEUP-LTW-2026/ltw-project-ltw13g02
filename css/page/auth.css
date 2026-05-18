@@ -19,7 +19,7 @@
         color: var(--color-secondary);
       }
 
-      & > input {
+      & > button {
         margin-top: var(--space-xs);
       }
 
@@ -43,7 +43,7 @@
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(4, 1fr) auto auto;
 
-      & label:nth-child(n+3), & > input, & > p {
+      & label:nth-child(n+3), & > button, & > p {
           grid-column-end: span 2;
       }
     }
