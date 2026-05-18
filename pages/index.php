@@ -1,6 +1,9 @@
 <?php
   declare(strict_types = 1);
 
+  require_once(__DIR__ . '/../utils/session.php');
+  $session = new Session();
+
   require_once (__DIR__ . '/../templates/common.php');
   require_once (__DIR__ . '/../templates/index.php');
 
@@ -11,7 +14,7 @@
     ['name' => 'VIP', 'price' => '40$', 'features' => ['Everything in Premium', '2 personal training sessions per month', 'Priority class booking', 'Access to premium recovery area', 'Exclusive VIP support']]
   ];
 
-  drawHeader('Home', ['index.css']);
+  drawHeader($session, 'Home', ['index.css']);
   
   drawIndexPage($plans);
 

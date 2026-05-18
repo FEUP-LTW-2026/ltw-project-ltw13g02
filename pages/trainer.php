@@ -1,6 +1,9 @@
 <?php
   declare(strict_types = 1);
 
+  require_once(__DIR__ . '/../utils/session.php');
+  $session = new Session();
+
   require_once (__DIR__ . '/../templates/common.php');
   require_once (__DIR__ . '/../templates/trainer.php');
   require_once (__DIR__ . '/../templates/classes.php');
@@ -22,7 +25,7 @@
   ];
 
 
-  drawHeader('Trainer Name', ['trainer.css']);
+  drawHeader($session, 'Trainer Name', ['trainer.css']);
 
   drawTrainerPage($firstname, $lastname, $bio, $specialties, $certifications, $classes);
        
