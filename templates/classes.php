@@ -14,7 +14,7 @@
 			<h3><?= $class->name; ?></h3>
 			<p><?= $class->weekday; ?></p>
 			<p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
-			<p>Trainer: <a class="trainer" href="../pages/trainer.php"><?= $class->trainerId; ?></a></p>
+			<p>Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId; ?>"><?= $class->trainerName; ?></a></p>
 		</div>
 		
 		<footer>

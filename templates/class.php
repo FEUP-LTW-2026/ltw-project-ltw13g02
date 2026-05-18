@@ -1,7 +1,7 @@
 <?php 
-    declare(strict_types = 1);
+  declare(strict_types = 1);
 
-    require_once(__DIR__ . '/../database/class.class.php');
+  require_once(__DIR__ . '/../database/class.class.php');
 ?>
 
 <?php function drawClassIntro(GymClass $class) { ?>
@@ -17,7 +17,7 @@
         </p>
         <p class="trainer-info">
           Trainer:
-          <a class="trainer" href="../pages/trainer.php"><?= $class->trainerId ?></a>
+          <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId ?>"><?= $class->trainerName ?></a>
         </p>
         <div class="stats">
           <p>
