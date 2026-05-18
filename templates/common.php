@@ -2,7 +2,7 @@
     declare(strict_types=1);
 ?>
 
-<?php function drawHeader(string $title, array $extra_css = []) { ?>
+<?php function drawHeader(Session $session, string $title, array $extra_css = []) { ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,10 +16,10 @@
     <link rel="stylesheet" href="../css/base.css" >
     <link rel="stylesheet" href="../css/layout.css" >
     <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/auth.css">
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
+    <script src="../javascript/searchByUserName.js" defer></script>
   </head>
 <body>
   <header>
@@ -34,18 +34,45 @@
         <li><a href="../pages/index.php">Home</a></li>
         <li><a href="../pages/classes.php">Classes</a></li>
         <li><a href="../pages/trainers.php">Trainers</a></li>
-        <li><a href="../pages/availability.php">Availability</a></li>
-        <li><a href="../pages/admin.php">Admin</a></li>
+        <?php if ($session->isLoggedin()) { ?>
+          <li><a href="../pages/availability.php">Availability</a></li>
+        <?php } ?>
+        <?php if ($session->isAdmin()) { ?>
+          <li><a href="../pages/admin.php">Admin</a></li>
+        <?php } ?>
       </ul>
       <ul class="auth-links">
-        <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
-        <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
-        <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
+        <?php if ($session->isLoggedin()) { ?>
+          <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+          <li>
+            <form action="../actions/action_logout.php" method="post">
+              <button class="btn medium transparent-dark" type="submit">Logout</button>
+            </form>
+          </li>
+        <?php } else { ?>
+          <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
+          <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
+          <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
+        <?php } ?>
       </ul>
     </nav>
   </header>
   <main>
+    <?php displayMessages($session); ?>
 <?php } ?>
+
+<?php function displayMessages(Session $session) { 
+  $messages = $session->getMessages();
+  if (!empty($messages)) { ?>
+    <div class="container messages">
+      <?php foreach ($messages as $message) { ?>
+        <article class="message <?= $message['type'] ?>">
+          <?= $message['text'] ?>
+        </article>
+      <?php } ?>
+    </div>
+  <?php } 
+} ?>
 
 <!-- This will be used to display either the user is logged in or not -->
 <?php function drawLoginButtons() { ?>

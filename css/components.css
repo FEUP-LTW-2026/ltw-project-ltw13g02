@@ -13,7 +13,7 @@
   .intro {
     background: var(--color-intro);
     padding: var(--space-xxl) 0;
-    color: white;
+    color: var(--color-secondary);
   }
 
   main > div:nth-child(2n), main > section:nth-child(2n) {
@@ -383,7 +383,7 @@
                 font-weight: var(--weight-medium);
                 letter-spacing: 0.04rem;
             }
-        }
+       }
     }
 
     #reviews .container .comment-form {
@@ -417,6 +417,36 @@
             margin-top: var(--space-xs);
         }
     }
+
+    
+  .messages {
+    padding: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .message {
+    padding: var(--space-s) var(--space-xl);
+    border-radius: var(--radius-button);
+    font-weight: var(--weight-medium);
+    text-align: center;
+    max-width: 40em;
+    box-shadow: var(--shadow-card);
+  }
+
+  .message.error {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning);
+  }
+
+  .message.success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+  }
 }
 
 @layer responsive {
@@ -476,7 +506,7 @@
         opacity: 0;
         transition: cubic-bezier(1, 0, 0, 1) 100ms;
 
-        & li a {
+        & li a, & li form button {
           display: inline-block;
           border: none;
           border-radius: 0px;

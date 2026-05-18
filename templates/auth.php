@@ -3,23 +3,23 @@
 ?>
 
 <?php function drawLoginForm() { ?>
-  <form class="form-login" method="post">
+  <form class="form-login" action="../actions/action_login.php" method="post">
     <label>
-      Email
-      <input type="text" name="email" placeholder="Enter email" required>
+      Email or username
+      <input type="text" name="email-username" placeholder="Enter email or username" required>
     </label>
     <label>
       Password
       <input type="password" name="password" placeholder="Enter password" required>
     </label>
     
-    <input class="btn large blue" type="submit" value="Login">
+    <button class="btn large blue" type="submit">Login</button>
     <p>Don't have an account? Sign up <a href="../pages/signup.php">here</a>.</p>
   </form>
 <?php } ?>
 
 <?php function drawSignupForm() { ?>
-  <form class="form-signup" method="post">
+  <form class="form-signup" action="../actions/action_signup.php" method="post">
     <label>
       First name
       <input type="text" name="first-name" placeholder="Enter first name" required>
@@ -36,6 +36,11 @@
     </label>
 
     <label>
+      Username
+      <input type="text" name="username" placeholder="Enter username" required>
+    </label>
+
+    <label>
       Password
       <input type="password" name="password" placeholder="Enter password" required>
     </label>
@@ -45,7 +50,7 @@
       <input type="password" name="confirm-password" placeholder="Enter password" required>
     </label>
     
-    <input class="btn large blue" type="submit" value="Register">
+    <button class="btn large blue" type="submit">Register</button>
   
     <p>Already have an account? Login <a href="../pages/login.php">here</a>.</p>
   </form>
