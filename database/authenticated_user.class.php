@@ -129,5 +129,23 @@
 
             return null;
         }
+
+        static function getUserById(PDO $db, int $id) : ?AuthenticatedUser {
+            $stmt = $db->prepare('SELECT * FROM User WHERE id = ?');
+            $stmt->execute([$id]);
+            $userData = $stmt->fetch();
+
+            if ($userData) {
+                return new AuthenticatedUser(
+                    $userData['id'],
+                    $userData['first_name'],
+                    $userData['last_name'],
+                    $userData['username'],
+                    $userData['email']
+                );
+            }
+
+            return null;
+        }
     }
 ?>

@@ -1,16 +1,20 @@
 <?php
   declare(strict_types=1);
 
+  require_once(__DIR__ . '/../database/connection.db.php');
+  require_once(__DIR__ . '/../database/class.class.php');
   require_once(__DIR__ . '/../utils/session.php');
+
   $session = new Session();
 
   require_once(__DIR__ . '/../templates/common.php');
   require_once(__DIR__ . '/../templates/class.php');
 
+  $db = getDatabaseConnection();
+
+  $class = GymClass::getClassById($db, intval($_GET['id']));
+
   // Dummy data for classss
-  $className = 'Morning Yoga';
-  $schedule = 'Monday, Wednesday, Friday';
-  $trainer = 'Alex Rivera';
   $reviews = [
     [
       'name' => 'Maria Silva',
@@ -24,9 +28,9 @@
     ]
   ];
 
-  drawHeader($session, $className, ['class.css', 'classes.css']);
+  drawHeader($session, $class->name, ['class.css', 'classes.css']);
 
-  drawClassPage($className, $schedule, $trainer, $reviews);
+  drawClassPage($class, $reviews);
 
   drawFooter();
 ?>
