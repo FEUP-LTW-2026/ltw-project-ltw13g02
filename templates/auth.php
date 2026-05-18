@@ -5,8 +5,8 @@
 <?php function drawLoginForm() { ?>
   <form class="form-login" action="../actions/action_login.php" method="post">
     <label>
-      Email
-      <input type="text" name="email" placeholder="Enter email" required>
+      Email or username
+      <input type="text" name="email-username" placeholder="Enter email or username" required>
     </label>
     <label>
       Password
@@ -33,6 +33,11 @@
     <label>
       Email
       <input type="text" name="email" placeholder="Enter email" required>
+    </label>
+
+    <label>
+      Username
+      <input type="text" name="username" placeholder="Enter username" required>
     </label>
 
     <label>

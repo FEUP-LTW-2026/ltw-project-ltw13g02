@@ -6,7 +6,7 @@
     $session = new Session();
     
     // Verify if the form fields are empty
-    if (empty($_POST['email']) || empty($_POST['password'])) {
+    if (empty($_POST['email-username']) || empty($_POST['password'])) {
         $session->addMessage('error', 'All fields are mandatory.');
         header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page
         exit;
@@ -18,13 +18,15 @@
     $db = getDatabaseConnection();
 
     try {
-        $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email'], $_POST['password']);
+        $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
     
         if ($user) {
             $session->setId($user->getId());
-            $session->setName($user->getFullName());
+            $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
-            $session->addMessage('success', 'Successfully logged in.');
+            $session->addMessage('success', 'Successfully logged in!');
+            header('Location: ../pages/index.php');
+            exit;
 
         } else { 
             $session->addMessage('error', 'Wrong email or password.');

@@ -52,7 +52,21 @@
     </nav>
   </header>
   <main>
+    <?php displayMessages($session); ?>
 <?php } ?>
+
+<?php function displayMessages(Session $session) { 
+  $messages = $session->getMessages();
+  if (!empty($messages)) { ?>
+    <div class="container messages">
+      <?php foreach ($messages as $message) { ?>
+        <article class="message <?= $message['type'] ?>">
+          <?= $message['text'] ?>
+        </article>
+      <?php } ?>
+    </div>
+  <?php } 
+} ?>
 
 <!-- This will be used to display either the user is logged in or not -->
 <?php function drawLoginButtons() { ?>

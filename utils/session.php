@@ -5,7 +5,7 @@
     public function __construct() {
       session_start(); // does not necessarily create a new session, if one already exists for the user (identified by a cookie)
 
-      $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
+    $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
       unset($_SESSION['messages']);
     }
 
@@ -21,8 +21,8 @@
       return isset($_SESSION['id']) ? $_SESSION['id'] : null;    
     }
 
-    public function getName() : ?string {
-      return isset($_SESSION['name']) ? $_SESSION['name'] : null;
+    public function getUsername() : ?string {
+      return isset($_SESSION['username']) ? $_SESSION['username'] : null;
     }
 
     public function setId(int $id) {
@@ -33,8 +33,8 @@
         $_SESSION['email'] = $email;
     }
 
-    public function setName(string $name) {
-      $_SESSION['name'] = $name;
+    public function setUsername(string $username) {
+      $_SESSION['username'] = $username;
     }
 
     public function addMessage(string $type, string $text) {
