@@ -2,13 +2,13 @@ PRAGMA foreign_keys = ON;
 
 -- Insert Users (Admins, Trainers, Members)
 INSERT INTO User (id, first_name, last_name, username, email, password) VALUES 
-(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$w...'), -- Use appropriate hashed passwords in actual app
-(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$w...'),
-(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$w...'),
-(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$w...'),
-(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$w...'),
-(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$w...'),
-(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$w...');
+(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'), -- Use appropriate hashed passwords in actual app
+(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
+(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
+(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
+(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
+(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S'),
+(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S');
 
 -- Insert Admin
 INSERT INTO Admin (admin_id) VALUES (1);

@@ -5,12 +5,14 @@
         private int $id;
         private string $firstName;
         private string $lastName;
+        private string $username;
         private string $email;
 
-        public function __construct(int $id, string $firstName, string $lastName, string $email) {
+        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email) {
             $this->id = $id;
             $this->firstName = $firstName;
             $this->lastName = $lastName;
+            $this->username = $username;
             $this->email = $email;
         }
 
@@ -20,6 +22,10 @@
 
         public function getEmail() : string {
             return $this->email;
+        }
+
+        public function getUsername() : string {
+            return $this->username;
         }
 
         public function getFirstName() : string {
@@ -42,9 +48,11 @@
             return $this->firstName . ' ' . $this->lastName;
         }
 
-        public static function getUserWithPassword(PDO $db, string $email, string $password) : ?AuthenticatedUser {
+        public static function getUserWithPassword(PDO $db, string $emailUsername, string $password) : ?AuthenticatedUser {
+
+            // try with email
             $stmt = $db->prepare('SELECT * FROM User WHERE email = ?');
-            $stmt->execute([$email]);
+            $stmt->execute([$emailUsername]);
             $userData = $stmt->fetch();
 
             if ($userData && password_verify($password, $userData['password'])) {
@@ -52,23 +60,38 @@
                     $userData['id'],
                     $userData['first_name'],
                     $userData['last_name'],
+                    $userData['username'],
                     $userData['email']
                 );
 
-            } else {
-                return null;
+            } else { // try with username
+
+                $stmt = $db->prepare('SELECT * FROM User WHERE username = ?');
+                $stmt->execute([$emailUsername]);
+                $userData = $stmt->fetch();
+
+                if ($userData && password_verify($password, $userData['password'])) {
+                    return new AuthenticatedUser(
+                        $userData['id'],
+                        $userData['first_name'],
+                        $userData['last_name'],
+                        $userData['username'],
+                        $userData['email']
+                    );
+                }
+
+                return null; // user not found
             }
         }
 
-        public static function createUser(PDO $db, string $firstName, string $lastName, string $email, string $password) : AuthenticatedUser {
+        public static function createUser(PDO $db, string $firstName, string $lastName, string $email, string $username, string $password) : AuthenticatedUser {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $username = strtolower($firstName . $lastName); // for now
             
             $stmt = $db->prepare('INSERT INTO User (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)');
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword]);
             $insertedId = (int) $db->lastInsertId();
 
-            return new AuthenticatedUser($insertedId, $firstName, $lastName, $email);
+            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email);
         }
 
         public function isMember(PDO $db) : bool {
@@ -99,6 +122,7 @@
                     $userData['id'],
                     $userData['first_name'],
                     $userData['last_name'],
+                    $userData['username'],
                     $userData['email']
                 );
             }

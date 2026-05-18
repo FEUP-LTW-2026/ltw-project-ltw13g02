@@ -31,12 +31,16 @@
 
     --color-btn-transparent-light-hover: #e2e2e222;
     --color-transparent-primary-hover: #1d6df522;
-    --color-reviews: #d4aa01;
-
-    --color-available: #4CAF50;
-    --color-unavailable: #F44336;
-    --color-warning: #fc4040;
     
+    --color-success: #4CAF50;
+    --color-success-bg: #ccffcc;
+    --color-warning: #e40000;
+    --color-warning-bg: #ffcccc;
+
+    --color-reviews: #d4aa01;
+    --color-available: var(--color-success);
+    --color-unavailable: var(--color-warning);
+
     /* Font related */
     --font: 'Host Grotesk';
 
@@ -57,7 +61,6 @@
     --space-l: 1.5rem;
     --space-xl: 2rem;
     --space-xxl: 3rem;
-
 
     --weight-strong: 800;
     --weight-medium: 700;

@@ -40,9 +40,11 @@
       <ul class="auth-links">
         <?php if ($session->isLoggedin()) { ?>
           <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
-          <form action="../actions/action_logout.php" method="post">
-            <button class="btn medium transparent-dark" type="submit">Logout</button>
-          </form>
+          <li>
+            <form action="../actions/action_logout.php" method="post">
+              <button class="btn medium transparent-dark" type="submit">Logout</button>
+            </form>
+          </li>
         <?php } else { ?>
           <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
           <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
@@ -52,7 +54,21 @@
     </nav>
   </header>
   <main>
+    <?php displayMessages($session); ?>
 <?php } ?>
+
+<?php function displayMessages(Session $session) { 
+  $messages = $session->getMessages();
+  if (!empty($messages)) { ?>
+    <div class="container messages">
+      <?php foreach ($messages as $message) { ?>
+        <article class="message <?= $message['type'] ?>">
+          <?= $message['text'] ?>
+        </article>
+      <?php } ?>
+    </div>
+  <?php } 
+} ?>
 
 <!-- This will be used to display either the user is logged in or not -->
 <?php function drawLoginButtons() { ?>
