@@ -13,7 +13,7 @@
   .intro {
     background: var(--color-intro);
     padding: var(--space-xxl) 0;
-    color: white;
+    color: var(--color-secondary);
   }
 
   main > div:nth-child(2n), main > section:nth-child(2n) {
@@ -484,7 +484,7 @@
         opacity: 0;
         transition: cubic-bezier(1, 0, 0, 1) 100ms;
 
-        & li a {
+        & li a, & li form button {
           display: inline-block;
           border: none;
           border-radius: 0px;

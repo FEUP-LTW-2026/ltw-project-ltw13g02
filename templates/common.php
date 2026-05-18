@@ -40,9 +40,11 @@
       <ul class="auth-links">
         <?php if ($session->isLoggedin()) { ?>
           <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
-          <form action="../actions/action_logout.php" method="post">
-            <button class="btn medium transparent-dark" type="submit">Logout</button>
-          </form>
+          <li>
+            <form action="../actions/action_logout.php" method="post">
+              <button class="btn medium transparent-dark" type="submit">Logout</button>
+            </form>
+          </li>
         <?php } else { ?>
           <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
           <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
