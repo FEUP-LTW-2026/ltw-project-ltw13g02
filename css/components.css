@@ -206,6 +206,28 @@
         border: 2px solid var(--color-gray);
       }
     }
+
+    &.warning {
+      background-color: var(--color-secondary);
+      color: var(--color-unavailable);
+      border: 2px solid var(--color-secondary-border);
+
+      &:hover {
+        background-color: var(--color-secondary-hover);
+        border: 2px solid var(--color-unavailable);
+      }
+    }
+
+    &.available {
+      background-color: var(--color-secondary);
+      color: var(--color-available);
+      border: 2px solid var(--color-secondary-border);
+
+      &:hover {
+        background-color: var(--color-secondary-hover);
+        border: 2px solid var(--color-available);
+      }
+    }
   }
 
   .card {

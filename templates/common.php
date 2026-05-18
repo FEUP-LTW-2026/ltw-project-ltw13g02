@@ -35,6 +35,7 @@
         <li><a href="../pages/classes.php">Classes</a></li>
         <li><a href="../pages/trainers.php">Trainers</a></li>
         <li><a href="../pages/availability.php">Availability</a></li>
+        <li><a href="../pages/admin.php">Admin</a></li>
       </ul>
       <ul class="auth-links">
         <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
