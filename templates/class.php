@@ -4,7 +4,7 @@
   require_once(__DIR__ . '/../database/class.class.php');
 ?>
 
-<?php function drawClassIntro(GymClass $class) { ?>
+<?php function drawClassIntro(GymClass $class, Session $session) { ?>
   <div class="intro">
     <section class="container">
       <div id="class-hero">
@@ -30,22 +30,30 @@
             <span><?= count($class->enrolled) . '/' . $class->capacity ?></span>
           </p>
         </div>
-        <a class="btn large blue" href="#enrollment">Join Class</a>
+        <?php
+        if($session->isLoggedIn()) {
+            ?>
+            <a class="btn large blue" href="#enrollment">Join Class</a>
+            <?php
+        }
+        ?>
       </div>
       <img src="https://picsum.photos/800/600" alt="class image" class="hero-image" >
     </section>
   </div>
 <?php } ?>
 
-<?php function drawClassEnrollmentForm() { ?>
+<?php function drawClassEnrollmentForm(GymClass $class) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Enrollment</h2>
-      <form>
+      <form action="../actions/action_enrollment.php" method="post">
         <label>
           Select a Date:
           <input type="date" name="date" required />
         </label>
+        <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+        <button class="btn medium blue" type="submit">Enroll Now</button>
       </form>
     </section>
   </div>
@@ -90,23 +98,31 @@
   </form>
 <?php } ?>
 
-<?php function drawReviewSection(array $reviews) { ?>
+<?php function drawReviewSection(Session $session, array $reviews) { ?>
   <div id="reviews">
     <section class="container">
       <h2>Reviews</h2>
-      <p class="detail">LEAVE US YOUR FEEDBACK</p>
+      <?php if($session->isLoggedIn()) { ?>
+        <p class="detail">LEAVE US YOUR FEEDBACK</p>
+      <?php } ?>
       <div id="reviews-list">
         <?php foreach ($reviews as $review) {
           drawReview($review['name'], $review['rating'], $review['comment']);
         } ?>
       </div>
-      <?php drawReviewForm(); ?>
+      <?php 
+        if($session->isLoggedIn()) {
+            drawReviewForm();
+        } 
+      ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawClassPage(GymClass $class, array $reviews) {
-    drawClassIntro($class);
-    drawClassEnrollmentForm();
-    drawReviewSection($reviews);
+<?php function drawClassPage(Session $session, GymClass $class, array $reviews) {
+    drawClassIntro($class, $session);
+    if($session->isLoggedIn()) {
+        drawClassEnrollmentForm($class);
+    }
+    drawReviewSection($session, $reviews);
 } ?>

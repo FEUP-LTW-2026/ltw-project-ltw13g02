@@ -30,7 +30,7 @@
 
   drawHeader($session, $class->name, ['class.css', 'classes.css']);
 
-  drawClassPage($class, $reviews);
+  drawClassPage($session, $class, $reviews);
 
   drawFooter();
 ?>

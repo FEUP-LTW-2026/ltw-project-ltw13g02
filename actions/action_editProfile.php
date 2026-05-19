@@ -14,7 +14,7 @@
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
 
     $db = getDatabaseConnection();
-    $user = AuthenticatedUser::getUserById(getDatabaseConnection(), $session->getId());
+    $user = AuthenticatedUser::getUser(getDatabaseConnection(), $session->getId());
 
     if ($_POST['first-name']) {
         $user->setFirstName($_POST['first-name']);
@@ -25,7 +25,7 @@
     }
     
     if ($_POST['username']) {
-        
+
         // Verify if the inserted username is already in use
         $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
         $stmt->execute(([$_POST['username']]));

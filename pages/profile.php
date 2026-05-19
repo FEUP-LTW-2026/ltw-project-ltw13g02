@@ -17,7 +17,7 @@
 
 
     $db = getDatabaseConnection();
-    $user = AuthenticatedUser::getUserById($db, $session->getId());
+    $user = AuthenticatedUser::getUser($db, $session->getId());
 
     if (!$user) {
       $session->logout();

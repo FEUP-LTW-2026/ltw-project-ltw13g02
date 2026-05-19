@@ -25,36 +25,34 @@ CREATE TABLE User (
     username TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL,
+    is_active INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT PK_User PRIMARY KEY (id),
     CONSTRAINT UQ_User_username UNIQUE (username),
-    CONSTRAINT UQ_User_email UNIQUE (email)
+    CONSTRAINT UQ_User_email UNIQUE (email),
+    CONSTRAINT ValidActive CHECK (is_active IN (0, 1))
 );
 
 -- member table (members will have to have membership)
 CREATE TABLE Member (
     id INTEGER NOT NULL,
-    is_active INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT PK_Member PRIMARY KEY (id),
     CONSTRAINT FK_Member_User 
         FOREIGN KEY (id) 
         REFERENCES User(id)
-        ON UPDATE CASCADE,
-    CONSTRAINT InvalidActive CHECK (is_active IN (0, 1))
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE Trainer (
     trainer_id INTEGER NOT NULL,
-    is_active INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT PK_Trainer PRIMARY KEY (trainer_id),
     CONSTRAINT FK_Trainer_User 
         FOREIGN KEY (trainer_id) 
         REFERENCES User(id) 
         ON DELETE CASCADE 
-        ON UPDATE CASCADE,
-    CONSTRAINT InvalidActive CHECK (is_active IN (0, 1))
+        ON UPDATE CASCADE
 );
 
 -- table created due to many-to-many relationship
@@ -163,7 +161,7 @@ CREATE TABLE Class (
 -- After the class has ended, the status of all enrollments are changed to attended or missed(decided to do manual update, also update status timestamp)
 -- its not possible in sqlite to do time based updates
 CREATE TABLE Enrollment (
-    id INTEGER NOT NULL,
+    id INTEGER AUTO_INCREMENT NOT NULL,
     member_id INTEGER NOT NULL, -- reference to the member that is enrolling
     class_id INTEGER NOT NULL, -- reference to the class session that the member is enrolling
     status TEXT NOT NULL, -- current status of the enrollment (enrolled, cancelled, attended, waitlisted, missed)
@@ -352,14 +350,13 @@ AFTER UPDATE ON Membership
 FOR EACH ROW
 WHEN NEW.status IN ('expired', 'cancelled', 'cancelled_by_user')
 BEGIN
-    UPDATE Member
+    UPDATE User
     SET is_active = 0
     WHERE id = NEW.member_id
     AND NOT EXISTS (
         SELECT 1 FROM Membership
         WHERE member_id = NEW.member_id 
         AND status IN ('active', 'planned')
-        AND datetime(start_date) == datetime(NEW.end_date)
     );
 END;
 
@@ -370,7 +367,7 @@ AFTER UPDATE ON Membership
 FOR EACH ROW
 WHEN NEW.status = 'active'
 BEGIN
-    UPDATE Member
+    UPDATE User
     SET is_active = 1
     WHERE id = NEW.member_id;
 END;
@@ -439,41 +436,41 @@ BEGIN
     WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
 END;
 
--- ON UPDATE TRIGGER: When a member is deactivated, 
+-- ON UPDATE TRIGGER: When a user is deactivated, 
 -- all enrollments in future classes (start_time > current_time) 
 -- are cancelled (enrollment, waitlisted)
 CREATE TRIGGER EraseEnrollementRowsAfterMemberDeactivation
-AFTER UPDATE ON Member
+AFTER UPDATE ON User
 FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     UPDATE Enrollment
     SET status = 'cancelled'
-    WHERE member_id = NEW.member_id AND status IN ('enrolled', 'waitlisted')
+    WHERE member_id = NEW.id AND status IN ('enrolled', 'waitlisted')
     AND class_id IN (
         SELECT id FROM Class
         WHERE start_timestamp > datetime('now')
     );
 END;
 
--- if a member is deactivated his active membership is cancelled
+-- if a user who is a member is deactivated his active membership is cancelled
 CREATE TRIGGER CancelMembershipAfterMemberDeactivation
-AFTER UPDATE ON Member
+AFTER UPDATE ON User
 FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     UPDATE Membership
     SET status = 'cancelled'
-    WHERE member_id = NEW.member_id AND status = 'active';
+    WHERE member_id = NEW.id AND status = 'active';
 END;
 
--- ON UPDATE TRIGGER :When a trainer is deactivated, all classes that did not happen yet are deleted 
+-- ON UPDATE TRIGGER: When a user who is a trainer is deactivated, all classes that did not happen yet are deleted 
 -- (by checking the current time and the start_time of all of his classes)
 CREATE TRIGGER UpdateClassesAfterTrainerDeactivation
-AFTER UPDATE ON Trainer
+AFTER UPDATE ON User
 FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
-    WHERE trainer_id = NEW.trainer_id AND start_timestamp > datetime('now');
+    WHERE trainer_id = NEW.id AND start_timestamp > datetime('now');
 END;
