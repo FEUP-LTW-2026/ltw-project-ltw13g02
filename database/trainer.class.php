@@ -22,7 +22,7 @@
         static function getTrainerById(PDO $db, int $id) : Trainer {
             
             $stmt = $db->prepare('
-                SELECT User.id, User.first_name, User.last_name, User.username, User.email
+                SELECT User.id, User.first_name, User.last_name, User.username, User.email,
                     Certification.name AS cert_name, Certification.description AS cert_description,
                     Specialization.name AS spec_name, Specialization.description AS spec_description,
                     Class.id AS class_id

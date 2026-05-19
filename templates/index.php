@@ -23,10 +23,10 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipPlan(string $planName, string $price, array $features) { ?>
+<?php function drawMembershipPlan(string $planName, float $price, array $features) { ?>
   <article class="card">
     <h3><?= $planName; ?></h3>
-    <p><span><?= $price; ?></span>/4 weeks</p>
+    <p><span><?= $price; ?>€</span>/4 weeks</p>
     <p>What's included:</p>
     <ul>
       <?php foreach ($features as $feature) { ?>
@@ -40,7 +40,9 @@
 <?php function drawMembershipPlans(array $plans) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      drawMembershipPlan($plan['name'], $plan['price'], $plan['features']);
+      // Parse the description into individual features (considering semicolon as a separator)
+      $features = explode(';', $plan->getDescription());
+      drawMembershipPlan($plan->getName(), $plan->getMonthlyFee(), $features);
     } ?>
   </div>
 <?php } ?>

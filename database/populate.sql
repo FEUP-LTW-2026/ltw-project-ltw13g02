@@ -73,9 +73,9 @@ INSERT INTO Equipment (id, name, description, status) VALUES
 
 -- Insert Membership Tiers
 INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days) VALUES 
-(1, 'Basic', 'Access to general gym equipment. No group classes.', 29.99, 1),
-(2, 'Pro', 'Access to equipment and 5 classes per month.', 49.99, 3),
-(3, 'Elite', 'Unlimited access to gym and all classes.', 79.99, 7);
+(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment; Up to 1 day of booking window for classes', 19.99, 1),
+(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance; Progress tracking every 4 weeks; Up to 2 days of booking window for classes', 29.99, 2),
+(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support; Up to 3 days of booking window for classes', 39.99, 3);
 
 -- Insert Memberships
 INSERT INTO Membership (id, member_id, start_date, end_date, status, membership_tier_id) VALUES 
@@ -85,9 +85,9 @@ INSERT INTO Membership (id, member_id, start_date, end_date, status, membership_
 
 -- Insert Membership Payments
 INSERT INTO MembershipPayment (id, member_id, membership_id, payment_due_timestamp, amount, status) VALUES 
-(1, 2, 1, '2026-04-30 23:59:59', 49.99, 'paid'),
-(2, 3, 2, '2026-05-09 23:59:59', 79.99, 'paid'),
-(3, 4, 3, '2026-05-14 23:59:59', 29.99, 'paid');
+(1, 2, 1, '2026-04-30 23:59:59', 29.99, 'paid'),
+(2, 3, 2, '2026-05-09 23:59:59', 39.99, 'paid'),
+(3, 4, 3, '2026-05-14 23:59:59', 19.99, 'paid');
 
 -- Insert Reviews
 INSERT INTO Review (id, review_text, rating, review_timestamp) VALUES 
