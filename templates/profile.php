@@ -2,7 +2,6 @@
   declare(strict_types=1);
 ?>
 
-
 <?php function drawProfile(string $name, string $username) { ?>
   <div class="intro">
     <section id="profile">

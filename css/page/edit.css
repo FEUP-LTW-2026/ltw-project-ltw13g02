@@ -1,4 +1,33 @@
 @layer page {
+    #profile {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: auto auto;
+
+        & .detail {
+                font-size: var(--font-size-s);
+                letter-spacing: 0.2rem;
+                margin-bottom: var(--space-m);
+            }
+
+        & form {
+            display: flex;
+            flex-direction: column;
+
+            & input {
+                margin-top: var(--space-m);
+            }
+
+            & label {
+                color: var(--color-text);
+            }
+
+            & button {
+                align-self: flex-end;
+            }
+        }
+    }
+
     #profile .profile-pic-label {
         display: flex;
         flex-direction: column;
@@ -14,9 +43,9 @@
         text-align: center;
     }
 
-    #profile > form input {
-        margin-top: var(--space-m);
-    }
+    #profile .change-password {
+        grid-column-end: span 2;
+    } 
 
     footer {
         margin-top: 0;

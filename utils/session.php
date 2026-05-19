@@ -5,8 +5,12 @@
     public function __construct() {
       session_start(); // does not necessarily create a new session, if one already exists for the user (identified by a cookie)
 
-    $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
+      $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
       unset($_SESSION['messages']);
+
+      if (!$_SESSION['is_active'] && isset($_SESSION['is_active'])) {
+        $this->addInactiveAccountMessage();
+      }
     }
 
     public function isLoggedIn() : bool {
@@ -69,8 +73,20 @@
       $_SESSION['username'] = $username;
     }
 
-    public function addMessage(string $type, string $text) {
+    private function addMessage(string $type, string $text) {
       $_SESSION['messages'][] = array('type' => $type, 'text' => $text);
+    }
+
+    public function addErrorMessage(string $text) {
+      $this->addMessage('error', $text);
+    }
+
+    public function addSuccessMessage(string $text) {
+      $this->addMessage('success', $text);
+    }
+
+    public function addInactiveAccountMessage() : void {
+      $this->addMessage('error', 'This account is currently not active. Please contact the administrator if you want to reactivate it.');
     }
 
     public function getMessages() {

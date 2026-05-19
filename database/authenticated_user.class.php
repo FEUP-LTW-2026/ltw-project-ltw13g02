@@ -30,6 +30,10 @@
             return $this->username;
         }
 
+        public function setUsername(string $username) : void {
+            $this->username = $username;
+        }
+
         public function getFirstName() : string {
             return $this->firstName;
         }
@@ -52,6 +56,12 @@
 
         public function getFullName() : string {
             return $this->firstName . ' ' . $this->lastName;
+        }
+        
+        // saves the current state of the user to the database
+        public function save(PDO $db) : void {
+            $stmt = $db->prepare('UPDATE User SET first_name = ?, last_name = ?, username = ? WHERE id = ?');
+            $stmt->execute([$this->firstName, $this->lastName, $this->username, $this->id]);
         }
 
         public function setIsActive(bool $isActive) : void {
@@ -142,6 +152,37 @@
 
             return null;
         }
+
+        public static function isUsernameAvailable(PDO $db, string $username) : bool {
+            $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
+            $stmt->execute([$username]);
+            return !$stmt->fetch(); // returns true if available
+        }
+
+        public static function isEmailAvailable(PDO $db, string $email) : bool {
+            $stmt = $db->prepare('SELECT 1 FROM User WHERE email = ?');
+            $stmt->execute([$email]);
+            return !$stmt->fetch(); // returns true if available
+        }
+
+        public static function verifyPassword(PDO $db, int $userId, string $password) : bool {
+            $stmt = $db->prepare('SELECT password FROM User WHERE id = ?');
+            $stmt->execute([$userId]);
+            $userData = $stmt->fetch();
+
+            if ($userData) {
+                return password_verify($password, $userData['password']);
+            }
+
+            return false; // user not found
+        }
+
+        public static function updatePassword(PDO $db, int $userId, string $newPassword) : void {
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $stmt = $db->prepare('UPDATE User SET password = ? WHERE id = ?');
+            $stmt->execute([$hashedPassword, $userId]);
+        }
+
         public static function getAllUsers(PDO $db) : array {
             $stmt = $db->query('SELECT * FROM User ORDER BY is_active DESC');
             $usersData = $stmt->fetchAll();
