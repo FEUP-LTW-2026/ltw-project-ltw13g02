@@ -55,8 +55,13 @@
         redirectToPreviousPage();
     }
 
-    Enrollment::create($db, (int)$memberId, (int)$classId, 'enrolled');
+    try {
+        Enrollment::create($db, (int)$memberId, (int)$classId, 'enrolled');
+        $session->addMessage('success', 'You have been enrolled in the class.');
+        redirectToPreviousPage();
+    } catch (PDOException $e) {
+        $session->addMessage('error', 'Database error occurred.');
+        redirectToPreviousPage();
+    }
 
-    $session->addMessage('success', 'You have been enrolled in the class.');
-    redirectToPreviousPage();
 ?>

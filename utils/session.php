@@ -25,6 +25,38 @@
       return isset($_SESSION['username']) ? $_SESSION['username'] : null;
     }
 
+    public function isActive() : bool {
+      return isset($_SESSION['is_active']) ? $_SESSION['is_active'] : false;
+    }
+
+    public function isAdmin() : bool {
+      return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+    }
+
+    public function isMember() : bool {
+      return isset($_SESSION['is_member']) && $_SESSION['is_member'] === true;
+    }
+
+    public function isTrainer() : bool {
+      return isset($_SESSION['is_trainer']) && $_SESSION['is_trainer'] === true;
+    }
+
+    public function setAdmin(bool $is_admin) {
+      $_SESSION['is_admin'] = $is_admin;
+    }
+
+    public function setMember(bool $is_member) {
+      $_SESSION['is_member'] = $is_member;
+    }
+
+    public function setTrainer(bool $is_trainer) {
+      $_SESSION['is_trainer'] = $is_trainer;
+    }
+
+    public function setIsActive(bool $is_active) {
+      $_SESSION['is_active'] = $is_active;
+    }
+
     public function setId(int $id) {
       $_SESSION['id'] = $id;
     }
