@@ -75,5 +75,5 @@
     imagejpeg($finalPic, '../img/profiles/' . $session->getId() . '.jpg');
 
     $session->addSuccessMessage('Profile picture updated successfully!');
-    header('Location: ../pages/editProfile.php');
+    header('Location: ../pages/profile.php');
 ?>

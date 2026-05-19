@@ -47,3 +47,20 @@
         margin-top: 0;
     }
 }
+
+@layer responsive {
+    @media (max-width: 40rem) {
+        #profile {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+
+            & button {
+                width: 100%;
+            }
+        }
+
+        #profile .change-password {
+            grid-column-end: auto;
+        }
+    }
+}
