@@ -31,7 +31,7 @@
         $stmt->execute(([$_POST['username']]));
 
         if ($stmt->fetch()) {
-            $session->addMessage('error', 'That username is already in use.');
+            $session->addErrorMessage('That username is already in use.');
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -42,10 +42,10 @@
     try {
         $user->save($db);
         $session->setUsername($user->getUsername());
-        $session->addMessage('success', 'Profile updated successfully!');
+        $session->addSuccessMessage('Profile updated successfully!');
         header('Location: ../pages/profile.php');
         
     } catch (PDOException $e) {
-        $session->addMessage('error', 'Database error occured.');
+        $session->addErrorMessage('Database error occured.');
     }
 ?>

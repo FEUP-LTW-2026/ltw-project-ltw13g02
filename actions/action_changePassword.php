@@ -17,24 +17,24 @@
     $user = AuthenticatedUser::getUser($db, $session->getId());
 
     if (!AuthenticatedUser::verifyPassword($db, $user->getId(), $_POST['current-password'])) {
-        $session->addMessage('error', 'Current password is incorrect.');
+        $session->addErrorMessage('Current password is incorrect.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
     if ($_POST['new-password'] !== $_POST['confirm-password']) {
-        $session->addMessage('error', 'Passwords do not match.');
+        $session->addErrorMessage('Passwords do not match.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
     try {
         AuthenticatedUser::updatePassword($db, $user->getId(), $_POST['new-password']);
-        $session->addMessage('success', 'Password updated successfully!');
+        $session->addSuccessMessage('Password updated successfully!');
         header('Location: ../pages/profile.php');
         
     } catch (PDOException $e) {
-        $session->addMessage('error', 'Database error occured.');
+        $session->addErrorMessage('Database error occured.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 ?>

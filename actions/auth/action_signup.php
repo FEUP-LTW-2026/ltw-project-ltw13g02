@@ -7,14 +7,14 @@
     
     // Verify if the form fields are empty
     if (empty($_POST['first-name']) || empty($_POST['last-name']) || empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password']) || empty($_POST['confirm-password'])) {
-        $session->addMessage('error', 'All fields are mandatory.');
+        $session->addErrorMessage('All fields are mandatory.');
         header('Location: ' . $_SERVER['HTTP_REFERER']); 
         exit;
     }
 
     // Verify if the "Password" and "Confirm Password" fields match
     if ($_POST['password'] !== $_POST['confirm-password']) {
-        $session->addMessage('error', 'Passwords do not match.');
+        $session->addErrorMessage('Passwords do not match.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -25,13 +25,13 @@
     $db = getDatabaseConnection();
 
     if (!AuthenticatedUser::isEmailAvailable($db, $_POST['email'])) {
-        $session->addMessage('error', 'That email is already in use.');
+        $session->addErrorMessage('That email is already in use.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
     if (!AuthenticatedUser::isUsernameAvailable($db, $_POST['username'])) {
-        $session->addMessage('error', 'That username is already in use.');
+        $session->addErrorMessage('That username is already in use.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -44,12 +44,12 @@
         $session->setId($user->getId());
         $session->setUsername($user->getUsername());
         $session->setEmail($user->getEmail());
-        $session->addMessage('success', 'Successfully signed up!');
+        $session->addSuccessMessage('Successfully signed up!');
         header('Location: /../../pages/index.php');
         exit;
         
     } catch (PDOException $e) {
-        $session->addMessage('error', 'Database error occured.');
+        $session->addErrorMessage('Database error occured.');
     }
 
     header('Location: ' . $_SERVER['HTTP_REFERER']);

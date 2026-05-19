@@ -7,7 +7,7 @@
     
     // Verify if the form fields are empty
     if (empty($_POST['email-username']) || empty($_POST['password'])) {
-        $session->addMessage('error', 'All fields are mandatory.');
+        $session->addErrorMessage('All fields are mandatory.');
         header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page
         exit;
     }
@@ -24,20 +24,25 @@
             $session->setId($user->getId());
             $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
-            $session->addMessage('success', 'Successfully logged in!');
             $session->setAdmin($user->isAdmin($db));
             $session->setMember($user->isMember($db));
             $session->setTrainer($user->isTrainer($db));
             $session->setIsActive($user->IsActive());
+
+            $session->addSuccessMessage('Successfully logged in!');
+            if (!$session->isActive()) {
+                $session->addInactiveAccountMessage();
+            }
+
             header('Location: /../../pages/index.php');
             exit;
 
         } else { 
-            $session->addMessage('error', 'Wrong email or password.');
+            $session->addErrorMessage('Wrong email or password.');
         }
 
     } catch (PDOException $e) {
-        $session->addMessage('error', 'Database error occured.');
+        $session->addErrorMessage('Database error occured.');
     }
 
     header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page

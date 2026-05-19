@@ -21,7 +21,7 @@
 
     if (!$user) {
       $session->logout();
-      $session->addMessage('error', 'User not found. Please log in again.');
+      $session->addErrorMessage('User not found. Please log in again.');
       header('Location: login.php');
       exit;
     }
