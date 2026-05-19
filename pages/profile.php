@@ -32,7 +32,7 @@
 
     drawHeader($session, 'Profile', ['profile.css']);
 
-    drawProfilePage($name, $username, $classes);
+    drawProfilePage($session->getId(), $name, $username, $classes);
 
     drawFooter();
   }

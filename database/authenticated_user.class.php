@@ -8,7 +8,7 @@
         private string $username;
         private string $email;
         private bool $isActive;
-
+        
         public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, bool $isActive) {
             $this->id = $id;
             $this->firstName = $firstName;
@@ -25,6 +25,7 @@
         public function getEmail() : string {
             return $this->email;
         }
+
 
         public function getUsername() : string {
             return $this->username;

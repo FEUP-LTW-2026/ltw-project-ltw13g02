@@ -13,9 +13,9 @@
         & form {
             display: flex;
             flex-direction: column;
-
+            
             & input {
-                margin-top: var(--space-m);
+                margin-bottom: var(--space-m);
             }
 
             & label {
@@ -28,24 +28,20 @@
         }
     }
 
-    #profile .profile-pic-label {
+    #profile .profile-picture {
         display: flex;
         flex-direction: column;
         align-items: center;
-        cursor: pointer;
-    }
-
-    #profile .profile-image-prompt {
-        margin-top: var(--space-s);
-        color: var(--color-primary);
-        font-size: var(--font-size-sm);
-        font-weight: var(--weight-medium);
-        text-align: center;
+        gap: var(--space-s);
     }
 
     #profile .change-password {
         grid-column-end: span 2;
-    } 
+    }
+
+    #image-input {
+        display: none;
+    }
 
     footer {
         margin-top: 0;
