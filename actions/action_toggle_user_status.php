@@ -6,6 +6,11 @@
 
   $session = new Session();
 
+  if (!$session->isLoggedIn() || !$session->isAdmin()) {
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+  }
+
   if (empty($_POST['user_id']) || !isset($_POST['is_active'])) {
     $session->addErrorMessage('Invalid request.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);

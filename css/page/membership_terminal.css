@@ -70,12 +70,12 @@
 
     & ul {
       margin: var(--space-s) 0;
-      padding-left: var(--space-m);
+      padding: var(--space-m);
       font-size: var(--font-size-s);
       color: var(--color-text);
 
       & li {
-        margin: var(--space-xs) 0;
+        margin: 0;
       }
     }
 
@@ -230,7 +230,6 @@
     }
   }
 
-  /* Summary Box */
   .summary-box {
     border-radius: var(--radius-card);
     padding: var(--space-l);
@@ -294,6 +293,8 @@
     .duration-pills {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    
     
     fieldset {
       padding: var(--space-m);

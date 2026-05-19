@@ -6,6 +6,11 @@
 
   $session = new Session();
 
+  if(!$session->isLoggedIn() || !$session->isAdmin()) {
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+  }
+
   if (empty($_POST['tier_id']) || empty($_POST['name']) || empty($_POST['price']) || !isset($_POST['description']) || empty($_POST['booking_window_days'])) {
     $session->addErrorMessage('Invalid request. Please fill in all required fields.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -18,6 +23,7 @@
   $price = (float) $_POST['price'];
   $description = trim($_POST['description']);
   $bookingWindowDays = (int) $_POST['booking_window_days'];
+  
   try {
     $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
     $stmt->execute([$name, $description, $price, $bookingWindowDays, $tierId]);

@@ -291,7 +291,7 @@
             
             <div class="tier-actions">
               <button type="submit" class="btn blue">Save Changes</button>
-              <button type="button" class="btn warning">Delete</button>
+              <button  type="button" class="btn warning">Delete</button>
             </div>
           </form>
         </article>
