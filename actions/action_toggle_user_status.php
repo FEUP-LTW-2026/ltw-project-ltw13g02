@@ -7,7 +7,7 @@
   $session = new Session();
 
   if (empty($_POST['user_id']) || !isset($_POST['is_active'])) {
-    $session->addMessage('error', 'Invalid request.');
+    $session->addErrorMessage('Invalid request.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
   }
@@ -20,11 +20,11 @@
     $stmt = $db->prepare('UPDATE User SET is_active = ? WHERE id = ?');
     $stmt->execute([$isActive, $userId]);
 
-    $session->addMessage('success', 'User status updated successfully.');
+    $session->addSuccessMessage('User status updated successfully.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
   } catch (PDOException $e) {
-    $session->addMessage('error', 'Database error occurred.');
+    $session->addErrorMessage('Database error occurred.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
   }

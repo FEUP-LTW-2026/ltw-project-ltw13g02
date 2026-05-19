@@ -2,7 +2,7 @@
     declare(strict_types = 1);
 
     require_once (__DIR__ . '/../database/connection.db.php');
-    require_once (__DIR__ . '/../database/class.class.php');
+    require_once (__DIR__ . '/../database/classType.class.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
     
     require_once(__DIR__ . '/../utils/session.php');
@@ -14,7 +14,7 @@
 
     $db = getDatabaseConnection();
 
-    $classes = GymClass::getAllClasses($db);
+    $classes = ClassType::getAllClassesTypes($db);
 
     drawHeader($session, 'Classes', ['classes.css']);
 

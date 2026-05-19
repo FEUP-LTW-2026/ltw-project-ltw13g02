@@ -21,21 +21,21 @@ INSERT INTO Member (id) VALUES
 (5);
 
 -- Insert Trainers
-INSERT INTO Trainer (trainer_id) VALUES 
-(6),
-(7);
+INSERT INTO Trainer (trainer_id, bio) VALUES 
+(6, 'Hi, I''m Chris Trainer, a certified personal trainer with over 8 years of experience helping clients reach their fitness goals. I specialize in strength training and functional fitness, focusing on building practical, sustainable habits that lead to long-term success.'),
+(7, 'Hello, I''m Sarah Trainer, a passionate yoga instructor with a decade of experience in teaching various styles of yoga. My classes are designed to promote mindfulness, flexibility, and overall well-being, catering to practitioners of all levels. I believe in creating a supportive and inclusive environment where everyone can thrive on their fitness journey.');
 
 -- Insert Certifications
-INSERT INTO Certification (id, name, description) VALUES 
-(1, 'Certified Personal Trainer', 'Certified to train individuals securely.'),
-(2, 'Yoga Instructor Certification', 'Allows the trainer to conduct advanced yoga sessions.'),
-(3, 'CrossFit Level 1', 'Basic functional movement and CrossFit methodology.');
+INSERT INTO Certification (id, name) VALUES 
+(1, 'Certified Personal Trainer'),
+(2, 'Yoga Instructor Certification'),
+(3, 'CrossFit Level 1');
 
 -- Insert Specializations
-INSERT INTO Specialization (id, name, description) VALUES 
-(1, 'Weight Loss', 'Focuses on high-intensity fat burning exercising.'),
-(2, 'Strength Training', 'Focuses on increasing muscular physical strength.'),
-(3, 'Flexibility & Mobility', 'Focuses on increasing range of motion.');
+INSERT INTO Specialization (id, name, description, logo) VALUES 
+(1, 'Weight Loss', 'Focuses on high-intensity fat burning exercising.', 'monitor_weight'),
+(2, 'Strength Training', 'Focuses on increasing muscular physical strength.', 'exercise'),
+(3, 'Flexibility & Mobility', 'Focuses on increasing range of motion.', 'sports_gymnastics');
 
 -- Connecting Trainers to Certifications
 INSERT INTO TrainerCertification (trainer_id, certification_id) VALUES 
@@ -50,10 +50,10 @@ INSERT INTO TrainerSpecialization (trainer_id, specialization_id) VALUES
 (7, 1);
 
 -- Insert Class Types
-INSERT INTO ClassType (id, name, description, capacity, start_time, end_time, weekday) VALUES 
-(1, 'Morning HIIT', 'High intensity interval training to start the day.', 20, '08:00', '09:00', 1),
-(2, 'Evening Yoga', 'Relaxing yoga session.', 15, '18:00', '19:00', 3),
-(3, 'CrossFit WOD', 'Intense Workout of the Day.', 10, '14:00', '15:00', 5);
+INSERT INTO ClassType (id, trainer_id, name, description, capacity, start_time, end_time, weekday) VALUES 
+(1, 6, 'Morning HIIT', 'High intensity interval training to start the day.', 20, '08:00', '09:00', 1),
+(2, 7, 'Evening Yoga', 'Relaxing yoga session.', 15, '18:00', '19:00', 3),
+(3, 6, 'CrossFit WOD', 'Intense Workout of the Day.', 10, '14:00', '15:00', 5);
 
 -- Insert Classes
 -- Start and end timestamps should follow 'YYYY-MM-DD HH:MM:SS'

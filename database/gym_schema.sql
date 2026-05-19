@@ -46,7 +46,8 @@ CREATE TABLE Member (
 
 CREATE TABLE Trainer (
     trainer_id INTEGER NOT NULL,
-
+    bio STRING NOT NULL DEFAULT '',
+    
     CONSTRAINT PK_Trainer PRIMARY KEY (trainer_id),
     CONSTRAINT FK_Trainer_User 
         FOREIGN KEY (trainer_id) 
@@ -95,7 +96,6 @@ CREATE TABLE TrainerCertification (
 CREATE TABLE Certification (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
 
     CONSTRAINT PK_Certification PRIMARY KEY (id)
 );
@@ -104,6 +104,7 @@ CREATE TABLE Specialization (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
+    logo TEXT NOT NULL,
 
     CONSTRAINT PK_Specialization PRIMARY KEY (id)
 );
@@ -122,6 +123,7 @@ CREATE TABLE Admin (
 
 CREATE TABLE ClassType (
     id INTEGER NOT NULL,
+    trainer_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     capacity INTEGER NOT NULL,
@@ -130,6 +132,11 @@ CREATE TABLE ClassType (
     weekday INTEGER NOT NULL,
     -- add constraints and checks
     CONSTRAINT PK_ClassType PRIMARY KEY (id),
+    CONSTRAINT FK_ClassType_Trainer 
+        FOREIGN KEY (trainer_id) 
+        REFERENCES Trainer(trainer_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
     CONSTRAINT ValidTimes CHECK (start_time < end_time),
     CONSTRAINT ValidWeekday CHECK (weekday >= 0 AND weekday <= 6),
     CONSTRAINT ValidCapacity CHECK (capacity > 0)

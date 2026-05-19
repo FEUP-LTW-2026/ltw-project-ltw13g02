@@ -1,19 +1,35 @@
 <?php
 	declare(strict_types=1);
 
-  require_once (__DIR__ . '/../database/class.class.php');
+  require_once (__DIR__ . '/../database/classType.class.php');
+  require_once (__DIR__ . '/../database/gymClass.class.php');
+
+  // Helper function to calculate class duration in minutes
+  function calculateDurationMinutes(string $startTime, string $endTime) : int {
+    $start = new DateTime($startTime);
+    $end = new DateTime($endTime);
+    $interval = $start->diff($end);
+    return (int)$interval->format('%i') + ((int)$interval->format('%h') * 60);
+  }
+
 ?>
 
-<?php function drawClass(GymClass $class) { ?>
+<?php function drawClass($class) { ?>
 	<article class="card class-card">
 		<header>
-			<img src="https://picsum.photos/400/300" alt="Pilates">
+			<img src="https://picsum.photos/400/300" alt="<?= $class->name ?>">
 		</header>
 				
 		<div>
 			<h3><?= $class->name; ?></h3>
-			<p><?= $class->weekday; ?></p>
-			<p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
+      <?php if ($class instanceof ClassType) { ?>
+        <p><?= $class->weekday; ?></p>
+        <p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
+        <?php $capacity = $class->capacity; $enrollment = $class->capacity; $classId = $class->id; ?>
+      <?php } else { // GymClass ?>
+        <p><?= $class->startTimestamp; ?></p>
+        <?php $capacity = 0; $enrollment = $class->currentEnrollment; $classId = $class->classTypeId; ?>
+      <?php } ?>
 			<p>Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId; ?>"><?= $class->trainerName; ?></a></p>
 		</div>
 		
@@ -21,15 +37,15 @@
 			<div>
 				<p>
 					<span class="material-symbols-outlined">timer</span>
-					<time> 60 min</time>
+					<time><?= calculateDurationMinutes($class->startTime ?? $class->startTimestamp, $class->endTime ?? $class->endTimestamp) ?> min</time>
 				</p>
 
 				<p>
 					<span class="material-symbols-outlined">person</span>
-					<span><?= count($class->enrolled) . '/' . $class->capacity; ?></span>
+					<span><?= $enrollment; ?></span>
 				</p>
 			</div>
-			<a class="btn medium blue" href="../pages/class.php?id=<?= $class->id; ?>">Details</a>
+			<a class="btn medium blue" href="../pages/class.php?id=<?= $classId; ?>">Details</a>
 		</footer>
 	</article>
 <?php } ?>
