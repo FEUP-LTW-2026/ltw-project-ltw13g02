@@ -13,13 +13,14 @@
         public string $endTime;
 
         static array $weekdays = [
+            0 => 'Sunday',
             1 => 'Monday',
             2 => 'Tuesday',
             3 => 'Wednesday',
             4 => 'Thursday',
             5 => 'Friday',
             6 => 'Saturday',
-            7 => 'Sunday'
+            6 => 'Sunday'
         ];
 
         public function __construct(int $id, string $name, int $trainerId, string $trainerName, int $capacity, array $enrolled, string $weekday, string $startTime, string $endTime) {

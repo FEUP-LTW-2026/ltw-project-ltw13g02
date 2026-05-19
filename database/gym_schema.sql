@@ -161,7 +161,7 @@ CREATE TABLE Class (
 -- After the class has ended, the status of all enrollments are changed to attended or missed(decided to do manual update, also update status timestamp)
 -- its not possible in sqlite to do time based updates
 CREATE TABLE Enrollment (
-    id INTEGER NOT NULL,
+    id INTEGER AUTO_INCREMENT NOT NULL,
     member_id INTEGER NOT NULL, -- reference to the member that is enrolling
     class_id INTEGER NOT NULL, -- reference to the class session that the member is enrolling
     status TEXT NOT NULL, -- current status of the enrollment (enrolled, cancelled, attended, waitlisted, missed)
