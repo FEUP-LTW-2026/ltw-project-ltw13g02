@@ -13,7 +13,7 @@
         public array $classIds;
 
         public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, array $certifications, array $specialtizations, array $classIds) {
-            parent::__construct($id, $firstName, $lastName, $username, $email);
+            parent::__construct($id, $firstName, $lastName, $username, $email, true);
             $this->certifications = $certifications;
             $this->specialtizations = $specialtizations;
             $this->classIds = $classIds;
@@ -22,8 +22,7 @@
         static function getTrainerById(PDO $db, int $id) : Trainer {
             
             $stmt = $db->prepare('
-                SELECT User.id, User.first_name, User.last_name, User.username, User.email,
-                    Trainer.is_active,
+                SELECT User.id, User.first_name, User.last_name, User.username, User.email
                     Certification.name AS cert_name, Certification.description AS cert_description,
                     Specialization.name AS spec_name, Specialization.description AS spec_description,
                     Class.id AS class_id
@@ -34,7 +33,7 @@
                 LEFT JOIN TrainerSpecialization ON Trainer.trainer_id = TrainerSpecialization.trainer_id
                 LEFT JOIN Specialization ON TrainerSpecialization.specialization_id = Specialization.id
                 LEFT JOIN Class ON Trainer.trainer_id = Class.trainer_id
-                WHERE User.id = ?
+                WHERE User.id = ? AND User.is_active = 1
             ');
             
             $stmt->execute(array($id));
@@ -99,7 +98,6 @@
         static function getAllTrainers(PDO $db) : array {
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email,
-                    Trainer.is_active,
                     Certification.name AS cert_name, Certification.description AS cert_description,
                     Specialization.name AS spec_name, Specialization.description AS spec_description
                 FROM User
@@ -108,6 +106,7 @@
                 LEFT JOIN Certification ON TrainerCertification.certification_id = Certification.id
                 LEFT JOIN TrainerSpecialization ON Trainer.trainer_id = TrainerSpecialization.trainer_id
                 LEFT JOIN Specialization ON TrainerSpecialization.specialization_id = Specialization.id
+                WHERE User.is_active = 1
             ');
 
             $stmt->execute();

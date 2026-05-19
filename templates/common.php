@@ -19,6 +19,7 @@
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
+    <script src="../javascript/searchByUserName.js" defer></script>
   </head>
 <body>
   <header>
@@ -35,6 +36,9 @@
         <li><a href="../pages/trainers.php">Trainers</a></li>
         <?php if ($session->isLoggedin()) { ?>
           <li><a href="../pages/availability.php">Availability</a></li>
+        <?php } ?>
+        <?php if ($session->isAdmin()) { ?>
+          <li><a href="../pages/admin.php">Admin</a></li>
         <?php } ?>
       </ul>
       <ul class="auth-links">
