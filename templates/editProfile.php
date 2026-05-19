@@ -53,7 +53,7 @@
 
           <label>
             New password
-            <input type="password" name="password" placeholder="Enter new password" required>
+            <input type="password" name="new-password" placeholder="Enter new password" required>
           </label>
 
           <label>

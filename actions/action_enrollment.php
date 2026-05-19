@@ -5,6 +5,11 @@
 
     $session = new Session();
 
+    if (!$session->isLoggedIn()) {
+        header('Location: ../pages/login.php');
+        exit;
+    }
+    
     function redirectToPreviousPage() {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;

@@ -1,7 +1,7 @@
 <?php
     declare(strict_types=1);
 
-    require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../../utils/session.php');
 
     $session = new Session();
     
@@ -19,7 +19,8 @@
         exit;
     }
 
-    require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../../database/connection.db.php');
+    require_once(__DIR__ . '/../../database/authenticated_user.class.php');
 
     $db = getDatabaseConnection();
 
@@ -35,7 +36,7 @@
         exit;
     }
 
-    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../../database/authenticated_user.class.php');
 
     try {
         $user = AuthenticatedUser::createUser($db, $_POST['first-name'], $_POST['last-name'], $_POST['email'], $_POST['username'], $_POST['password']);
@@ -44,7 +45,7 @@
         $session->setUsername($user->getUsername());
         $session->setEmail($user->getEmail());
         $session->addMessage('success', 'Successfully signed up!');
-        header('Location: ../pages/index.php');
+        header('Location: /../../pages/index.php');
         exit;
         
     } catch (PDOException $e) {

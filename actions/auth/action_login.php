@@ -1,7 +1,7 @@
 <?php
     declare(strict_types=1);
 
-    require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../../utils/session.php');
 
     $session = new Session();
     
@@ -12,8 +12,8 @@
         exit;
     }
 
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../../database/connection.db.php');
+    require_once(__DIR__ . '/../../database/authenticated_user.class.php');
 
     $db = getDatabaseConnection();
 
@@ -29,7 +29,7 @@
             $session->setMember($user->isMember($db));
             $session->setTrainer($user->isTrainer($db));
             $session->setIsActive($user->IsActive());
-            header('Location: ../pages/index.php');
+            header('Location: /../../pages/index.php');
             exit;
 
         } else { 
