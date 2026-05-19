@@ -2,18 +2,17 @@
 	declare(strict_types = 1);
 
   require_once(__DIR__ . '/../utils/session.php');
+
   $session = new Session();
 
 	require_once (__DIR__ . '/../templates/common.php');
 	require_once (__DIR__ . '/../templates/trainers.php');
+  require_once (__DIR__ . '/../database/trainer.class.php');
+  require_once (__DIR__ . '/../database/connection.db.php');
 
-  // Dummy data for trainers
-  $trainers = [
-    ['name' => 'Alex Rivera', 'specialty' => 'Strength Training, Weight Loss, Injury Rehab'],
-    ['name' => 'Jamie Lee', 'specialty' => 'Yoga, Pilates, Mind-Body Wellness'],
-    ['name' => 'Taylor Morgan', 'specialty' => 'Cardio, HIIT, Endurance Training'],
-    ['name' => 'Jordan Kim', 'specialty' => 'CrossFit, Functional Fitness, Group Classes']
-  ];
+  $db = getDatabaseConnection();
+
+  $trainers = Trainer::getAllTrainers($db);
 
 	drawHeader($session, 'Trainers', ['trainers.css','classes.css']);
   

@@ -142,9 +142,8 @@
 
             return null;
         }
-
         public static function getAllUsers(PDO $db) : array {
-            $stmt = $db->query('SELECT * FROM User');
+            $stmt = $db->query('SELECT * FROM User ORDER BY is_active DESC');
             $usersData = $stmt->fetchAll();
             $users = [];
 

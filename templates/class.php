@@ -1,13 +1,15 @@
 <?php 
-    declare(strict_types = 1);
+  declare(strict_types = 1);
+
+  require_once(__DIR__ . '/../database/class.class.php');
 ?>
 
-<?php function drawClassIntro(string $name, string $schedule, string $trainer) { ?>
+<?php function drawClassIntro(GymClass $class) { ?>
   <div class="intro">
     <section class="container">
       <div id="class-hero">
-        <p class="detail"><?= $schedule ?></p>
-        <h1><?= $name ?></h1>
+        <p class="detail"><?= $class->weekday ?></p>
+        <h1><?= $class->name ?></h1>
         <p class="rating">⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
         <p class="time">
             <time datetime="19:00">7:00 PM</time> -
@@ -15,7 +17,7 @@
         </p>
         <p class="trainer-info">
           Trainer:
-          <a class="trainer" href="../pages/trainer.php"><?= $trainer ?></a>
+          <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId ?>"><?= $class->trainerName ?></a>
         </p>
         <div class="stats">
           <p>
@@ -25,7 +27,7 @@
 
           <p>
             <span class="material-symbols-outlined">person</span>
-            <span>10/25</span>
+            <span><?= count($class->enrolled) . '/' . $class->capacity ?></span>
           </p>
         </div>
         <a class="btn large blue" href="#enrollment">Join Class</a>
@@ -103,8 +105,8 @@
   </div>
 <?php } ?>
 
-<?php function drawClassPage(string $name, string $schedule, string $trainer, array $reviews) {
-    drawClassIntro($name, $schedule, $trainer);
+<?php function drawClassPage(GymClass $class, array $reviews) {
+    drawClassIntro($class);
     drawClassEnrollmentForm();
     drawReviewSection($reviews);
 } ?>

@@ -101,7 +101,7 @@
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
-                      <button class="btn ava">Activate</button>
+                      <button class="btn available">Activate</button>
                     </form>
                   <?php } else { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
