@@ -73,9 +73,9 @@ INSERT INTO Equipment (id, name, description, status) VALUES
 
 -- Insert Membership Tiers
 INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days) VALUES 
-(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment; Up to 1 day of booking window for classes', 19.99, 1),
-(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance; Progress tracking every 4 weeks; Up to 2 days of booking window for classes', 29.99, 2),
-(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support; Up to 3 days of booking window for classes', 39.99, 3);
+(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment; 1 day of booking window for classes', 19.99, 1),
+(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance; Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2),
+(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support; 3 days of booking window for classes', 39.99, 3);
 
 -- Insert Memberships
 INSERT INTO Membership (id, member_id, start_date, end_date, status, membership_tier_id) VALUES 

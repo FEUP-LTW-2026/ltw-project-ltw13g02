@@ -243,6 +243,10 @@
     &:hover {
       transform: translateY(-5px);
     }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .card-grid {
@@ -286,10 +290,8 @@
 
     & > footer {
       display: flex;
-
       justify-content: space-between;
       align-items: center;
-      
       padding: var(--space-l);
 
       & div {
@@ -449,6 +451,81 @@
   }
 }
 
+#membership {
+  & .container {
+    & h2 {
+      margin: 0;
+    }
+
+    & .plans {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-l);
+      margin: var(--space-l) 0;
+
+      & article.card {
+        flex: 1;
+        height: 37em;
+        padding: var(--space-xl);
+      }
+
+      & .card {
+        & h3 {
+          margin: var(--space-m) 0;
+        }
+
+        
+        & p:first-of-type {
+          text-align: center; 
+        }
+
+        & p:nth-of-type(2) {
+          border-top: 3px dashed var(--color-primary);
+          padding-top: var(--space-xl);
+          font-size: var(--font-size-m);
+          margin: 0;
+          color: var(--color-black);
+        }
+
+        & a {
+          align-self: center;
+          margin-top: auto;
+        }
+
+        & span {
+          color: var(--color-primary);
+          font-size: var(--font-size-xl);
+          font-weight: var(--weight-medium);
+        }
+
+        & ul {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          gap: var(--space-xxs);
+        }
+
+        & li {
+          color: var(--color-text);
+          font-size: var(--font-size-s);
+          margin-bottom: var(--space-s);
+        }
+
+        & li::before {
+          content: '✓';
+          color: var(--color-primary);
+          margin-right: var(--space-xxs);
+        }
+
+        & form {
+          margin-top: auto;
+        }
+      }
+    }
+  }
+}
+
 @layer responsive {
 
   @media (max-width: 75em) {
@@ -532,6 +609,25 @@
       display: flex;
       flex-direction: column;
       gap: var(--space-xl);
+    }
+
+    #membership {
+      & .container {
+        & .plans {
+          flex-direction: column;
+          align-items: stretch;
+
+          & article.card {
+            & p:nth-of-type(2) {
+              text-align: center;
+            }
+
+            & ul {
+              align-items: center;
+            }
+          }
+        }
+      }
     }
   }
 

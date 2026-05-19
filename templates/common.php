@@ -1,5 +1,6 @@
 <?php
-    declare(strict_types=1);
+  declare(strict_types=1);
+  date_default_timezone_set('Europe/Lisbon');
 ?>
 
 <?php function drawHeader(Session $session, string $title, array $extra_css = []) { ?>

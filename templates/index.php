@@ -23,8 +23,8 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipPlan(string $planName, float $price, array $features) { ?>
-  <article class="card">
+<?php function drawMembershipPlan(int $id, string $planName, float $price, array $features) { ?>
+  <article class="card membership-plan">
     <h3><?= $planName; ?></h3>
     <p><span><?= $price; ?>€</span>/4 weeks</p>
     <p>What's included:</p>
@@ -33,16 +33,19 @@
         <li><?= $feature; ?></li>
       <?php } ?>
     </ul>
-    <a class="btn large wide blue" href="#">Choose <?= $planName; ?></a>
+    <form method="POST" action="membership_terminal.php">
+      <input type="hidden" name="plan_id" value="<?= $id; ?>">
+      <button type="submit" class="btn large wide blue">Choose <?= $planName; ?></button>
+    </form>
   </article>
 <?php } ?>
 
-<?php function drawMembershipPlans(array $plans) { ?>
+<?php function drawMembershipPlans(array $plans, bool $isTerminal = false) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
       // Parse the description into individual features (considering semicolon as a separator)
       $features = explode(';', $plan->getDescription());
-      drawMembershipPlan($plan->getName(), $plan->getMonthlyFee(), $features);
+        drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $features);
     } ?>
   </div>
 <?php } ?>
