@@ -6,7 +6,6 @@
   <a href="trainer.php?id=<?= $trainer->getId() ?>">
     <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
       <h2><?= $trainer->getFirstName() . ' ' . $trainer->getLastName(); ?></h2>
-      <!-- Have here a specialization -->
     </article>
   </a>
 <?php } ?>

@@ -1,15 +1,16 @@
 <?php 
   declare(strict_types = 1);
 
-  require_once(__DIR__ . '/../database/class.class.php');
+  require_once(__DIR__ . '/../database/classType.class.php');
+  require_once(__DIR__ . '/../database/gymClass.class.php');
 ?>
 
-<?php function drawClassIntro(GymClass $class, Session $session) { ?>
+<?php function drawClassIntro(ClassType $classType, Session $session) { ?>
   <div class="intro">
     <section class="container">
       <div id="class-hero">
-        <p class="detail"><?= $class->weekday ?></p>
-        <h1><?= $class->name ?></h1>
+        <p class="detail"><?= $classType->weekday ?></p>
+        <h1><?= $classType->name ?></h1>
         <p class="rating">⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
         <p class="time">
             <time datetime="19:00">7:00 PM</time> -
@@ -17,7 +18,7 @@
         </p>
         <p class="trainer-info">
           Trainer:
-          <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId ?>"><?= $class->trainerName ?></a>
+          <a class="trainer" href="../pages/trainer.php?id=<?= $classType->trainerId ?>"><?= $classType->trainerName ?></a>
         </p>
         <div class="stats">
           <p>
@@ -27,7 +28,7 @@
 
           <p>
             <span class="material-symbols-outlined">person</span>
-            <span><?= count($class->enrolled) . '/' . $class->capacity ?></span>
+            <span><?= $classType->capacity ?></span>
           </p>
         </div>
         <?php
@@ -43,18 +44,31 @@
   </div>
 <?php } ?>
 
-<?php function drawClassEnrollmentForm(GymClass $class) { ?>
+<?php function drawClassEnrollmentList(int $classTypeCapacity, array $classes) { ?>
   <div id="enrollment">
     <section class="container">
-      <h2>Enrollment</h2>
-      <form action="../actions/action_enrollment.php" method="post">
-        <label>
-          Select a Date:
-          <input type="date" name="date" required />
-        </label>
-        <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-        <button class="btn medium blue" type="submit">Enroll Now</button>
-      </form>
+      <h2>Available Classes</h2>
+      <ul class="classes-enrollment">
+        <?php foreach ($classes as $class) { ?>
+          <li class="card">
+            <div class="class-info">
+              <h3><?= $class->name ?></h3>
+              <p class="date-time">
+                <span class="material-symbols-outlined">event</span>
+                <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
+              </p>
+              <p class="enrollment-status">
+                <span class="material-symbols-outlined">person</span>
+                <?= $class->currentEnrollment . '/' . $classTypeCapacity ?> enrolled
+              </p>
+            </div>
+            <form action="../actions/action_enrollment.php" method="post">
+              <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+              <button class="btn medium blue" type="submit">Enroll Now</button>
+            </form>
+          </li>
+        <?php } ?>
+      </ul>
     </section>
   </div>
 <?php } ?>
@@ -119,10 +133,10 @@
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, GymClass $class, array $reviews) {
-    drawClassIntro($class, $session);
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $reviews) {
+    drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentForm($class);
+        drawClassEnrollmentList($classType->capacity, $classes);
     }
     drawReviewSection($session, $reviews);
 } ?>
