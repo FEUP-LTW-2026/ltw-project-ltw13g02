@@ -29,8 +29,11 @@
   drawHeader($session, 'Admin', ['admin.css']);
   drawIntro('ADMIN DASHBOARD', 'Manage your gym with ease', 'From equipment to classes, control everything in one place.');
 
+  require_once (__DIR__ . '/../database/membership_tier.class.php');
+  $tiers = MembershipTier::getMembershipTiers($db);
+
   require_once (__DIR__ . '/../templates/admin.php');
-  drawAdminPanel($users, $db, $session);
+  drawAdminPanel($users, $db, $session, $tiers);
 ?>
 
 <?php drawFooter() ?>

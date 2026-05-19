@@ -15,7 +15,7 @@
 
   drawHeader($session, 'Home', ['index.css']);
   
-  drawIndexPage($plans);
+  drawIndexPage($plans, $session);
 
   drawFooter();
 ?>

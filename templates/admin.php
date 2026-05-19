@@ -15,6 +15,7 @@
         <li><a href="#account-management" data-section="accounts">Manage Accounts</a></li>
         <li><a href="#class-catalog" data-section="catalog">Class Catalog</a></li>
         <li><a href="#equipment-management" data-section="equipment">Manage Equipment</a></li>
+        <li><a href="#membership-tiers" data-section="tiers">Membership Tiers</a></li>
         <li><a href="#gym-settings" data-section="settings">Gym Settings</a></li>
       </ul>
     </nav>
@@ -257,8 +258,50 @@
   </article>
 <?php } ?>
 
+<?php function drawMembershipTiers(array $tiers) { ?>
+  <article class="dashboard-section" id="membership-tiers">
+    <header>
+      <div class="section-header">
+        <h2>Membership Tiers</h2>
+        <p>Manage membership pricing and features (separated by semicolons).</p>
+      </div>
+      <button class="btn transparent-dark medium">+ Add Tier</button>
+    </header>
+    
+    <div class="tiers">
+      <?php foreach ($tiers as $tier) { ?>
+        <article class="card tier-edit-card">
+          <form action="../actions/action_update_tier.php" method="POST" class="tier-form">
+            <input type="hidden" name="tier_id" value="<?= $tier->getId() ?>">
+            
+            <header class="tier-header">
+              <input type="text" name="name" value="<?= $tier->getName() ?>" required>
+              <div class="price-input-group">
+                <span class="currency">€</span>
+                <input type="number" step="0.01" name="price" value="<?= $tier->getMonthlyFee() ?>" class="editable-price" required>
+                <span class="period">/4 weeks</span>
+              </div>
+              <input type="number" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
+            </header>
+            
+            <div class="tier-features-edit">
+              <label for="description_<?= $tier->getId() ?>">Description (use ';' to separate):</label>
+              <textarea id="description_<?= $tier->getId() ?>" name="description" rows="4" class="editable-features" required><?= $tier->getDescription() ?></textarea>
+            </div>
+            
+            <div class="tier-actions">
+              <button type="submit" class="btn blue">Save Changes</button>
+              <button type="button" class="btn warning">Delete</button>
+            </div>
+          </form>
+        </article>
+      <?php } ?>
+    </div>
+  </article>
+<?php } ?>
 
-<?php function drawAdminPanel(array $users, PDO $db, Session $session) { ?>
+
+<?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers) { ?>
 <div class="admin-dashboard container">
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
@@ -267,6 +310,7 @@
       <?php drawClassCatalog(); ?>
       <?php drawEquipmentManagement(); ?>
       <?php drawGymSettings(); ?>
+      <?php drawMembershipTiers($tiers); ?>
     </section>
   </div>
 <?php } ?>
