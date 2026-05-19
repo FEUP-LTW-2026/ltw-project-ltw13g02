@@ -12,7 +12,7 @@
 
   $db = getDatabaseConnection();
 
-  $trainers = Trainer::getAllTrainers($db);
+  $trainers = Trainer::getAllTrainersBrief($db);
 
 	drawHeader($session, 'Trainers', ['trainers.css','classes.css']);
   

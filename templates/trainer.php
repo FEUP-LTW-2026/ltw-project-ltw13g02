@@ -5,14 +5,14 @@
   require_once(__DIR__ . '/../database/authenticated_user.class.php');
 ?>
 
-<?php function drawTrainerIntro(Trainer $trainer, string $bio) { ?>
+<?php function drawTrainerIntro(Trainer $trainer) { ?>
   <div id="trainer-profile" class="intro">
     <section class="container">
       <img src="https://picsum.photos/500/700" alt="Trainer">
       <div>
         <h1><?= $trainer->getFirstName() ?> <b><?= $trainer->getLastName() ?></b></h1>
         <h2>Biography</h2>
-        <p><?= $bio ?></p>
+        <p><?= $trainer->bio ?></p>
         <a class="btn medium blue" href="#">BOOK A SESSION WITH <?= $trainer->getFirstName() ?> <?= $trainer->getLastName() ?></a>
       </div>
     </section>
@@ -24,7 +24,7 @@
     <?php foreach ($specialties as $specialty) { ?>
       <li class="card">
         <header>
-          <span class="material-symbols-outlined"><?= 'exercise' ?></span>
+          <span class="material-symbols-outlined"><?= $specialty['logo'] ?? 'exercise' ?></span>
           <h3><?= $specialty['name'] ?></h3>
         </header>
         <p><?= $specialty['description'] ?></p>
@@ -69,8 +69,8 @@
   </div>
 <?php } ?>
 
-<?php function drawTrainerPage(Trainer $trainer, string $bio) {
-  drawTrainerIntro($trainer, $bio);
-  drawTrainerInfoContainer($trainer->specialtizations, $trainer->certifications);
-  drawTrainerClassesContainer($trainer->getFirstName(), $trainer->getClasses());
+<?php function drawTrainerPage(Trainer $trainer) {
+  drawTrainerIntro($trainer);
+  drawTrainerInfoContainer($trainer->specialitizations, $trainer->certifications);
+  drawTrainerClassesContainer($trainer->getFirstName(), $trainer->classes);
 } ?>

@@ -8,7 +8,7 @@
       $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
       unset($_SESSION['messages']);
 
-      if (!$_SESSION['is_active'] && isset($_SESSION['is_active'])) {
+      if (isset($_SESSION['is_active']) && !$_SESSION['is_active']) {
         $this->addInactiveAccountMessage();
       }
     }

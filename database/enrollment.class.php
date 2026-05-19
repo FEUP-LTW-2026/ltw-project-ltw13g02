@@ -9,5 +9,14 @@
             ");
             $stmt->execute([$memberId, $classId, $status]);
         }
+
+        static function isAlreadyEnrolled(PDO $db, int $memberId, int $classId) : bool {
+            $stmt = $db->prepare("
+                SELECT 1 FROM Enrollment 
+                WHERE member_id = ? AND class_id = ? AND status IN ('enrolled', 'waitlisted')
+            ");
+            $stmt->execute([$memberId, $classId]);
+            return $stmt->fetch() !== false;
+        }
     }
 ?>
