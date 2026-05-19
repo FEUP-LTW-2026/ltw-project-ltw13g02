@@ -3,7 +3,7 @@
 ?>
 
 <?php function drawLoginForm() { ?>
-  <form class="form-login" action="../actions/action_login.php" method="post">
+  <form class="form-login" action="../actions/auth/action_login.php" method="post">
     <label>
       Email or username
       <input type="text" name="email-username" placeholder="Enter email or username" required>
@@ -19,7 +19,7 @@
 <?php } ?>
 
 <?php function drawSignupForm() { ?>
-  <form class="form-signup" action="../actions/action_signup.php" method="post">
+  <form class="form-signup" action="../actions/auth/action_signup.php" method="post">
     <label>
       First name
       <input type="text" name="first-name" placeholder="Enter first name" required>

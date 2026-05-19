@@ -49,7 +49,7 @@
         }
 
         // Get the trainer name here so that it is easier to display
-        static function getAllClasses(PDO $db) : array {
+        public static function getAllClasses(PDO $db) : array {
             $stmt = $db->prepare('
                     SELECT Class.id, ClassType.name, Class.trainer_id, 
                         CONCAT(User.first_name, " ", User.last_name) as trainer_name,
@@ -80,7 +80,7 @@
             return array_values($classes);
         }
 
-        static function getClassById(PDO $db, int $id) : ?GymClass {
+        public static function getClassById(PDO $db, int $id) : ?GymClass {
             $stmt = $db->prepare('
                 SELECT Class.id, ClassType.name, Class.trainer_id, 
                     CONCAT(User.first_name, " ", User.last_name) as trainer_name,
@@ -108,6 +108,39 @@
             }
 
             return $class;
+        }
+
+        public static function getEnrolledClasses(PDO $db, int $memberId) : array {
+            $stmt = $db->prepare('
+                SELECT Class.id, ClassType.name, Class.trainer_id, 
+                    CONCAT(User.first_name, " ", User.last_name) as trainer_name,
+                    ClassType.capacity, ClassType.weekday, ClassType.start_time, 
+                    ClassType.end_time, E2.member_id
+                FROM Enrollment E1
+                JOIN Class ON E1.class_id = Class.id
+                JOIN ClassType ON Class.class_type_id = ClassType.id
+                JOIN User ON Class.trainer_id = User.id
+                LEFT JOIN Enrollment E2 ON Class.id = E2.class_id
+                WHERE E1.member_id = ?
+            ');
+
+            $stmt->execute([$memberId]);
+
+            $classes = array();
+
+            while($row = $stmt->fetch()) {
+                $id = $row['id']; // Class ID
+
+                if(!isset($classes[$id])) {
+                    $classes[$id] = GymClass::build($row, []);
+                }
+
+                if($row['member_id'] !== null) {
+                    $classes[$id]->enrolled[] = $row['member_id'];
+                }
+            }
+
+            return array_values($classes);
         }
     };
 ?>

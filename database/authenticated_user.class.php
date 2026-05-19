@@ -28,6 +28,10 @@
             return $this->username;
         }
 
+        public function setUsername(string $username) : void {
+            $this->username = $username;
+        }
+
         public function getFirstName() : string {
             return $this->firstName;
         }
@@ -46,6 +50,12 @@
 
         public function getFullName() : string {
             return $this->firstName . ' ' . $this->lastName;
+        }
+        
+        // saves the current state of the user to the database
+        public function save(PDO $db) : void {
+            $stmt = $db->prepare('UPDATE User SET first_name = ?, last_name = ?, username = ? WHERE id = ?');
+            $stmt->execute([$this->firstName, $this->lastName, $this->username, $this->id]);
         }
 
         public static function getUserWithPassword(PDO $db, string $emailUsername, string $password) : ?AuthenticatedUser {
@@ -130,7 +140,7 @@
             return null;
         }
 
-        static function getUserById(PDO $db, int $id) : ?AuthenticatedUser {
+        public static function getUserById(PDO $db, int $id) : ?AuthenticatedUser {
             $stmt = $db->prepare('SELECT * FROM User WHERE id = ?');
             $stmt->execute([$id]);
             $userData = $stmt->fetch();
@@ -146,6 +156,18 @@
             }
 
             return null;
+        }
+
+        public static function isUsernameAvailable(PDO $db, string $username) : bool {
+            $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
+            $stmt->execute([$username]);
+            return !$stmt->fetch(); // returns true if available
+        }
+
+        public static function isEmailAvailable(PDO $db, string $email) : bool {
+            $stmt = $db->prepare('SELECT 1 FROM User WHERE email = ?');
+            $stmt->execute([$email]);
+            return !$stmt->fetch(); // returns true if available
         }
     }
 ?>

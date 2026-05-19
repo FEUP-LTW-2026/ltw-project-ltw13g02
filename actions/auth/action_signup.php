@@ -23,22 +23,13 @@
 
     $db = getDatabaseConnection();
 
-    // Verify if the inserted email is already in use
-    $stmt = $db->prepare('SELECT 1 FROM User WHERE email = ?');
-    $stmt->execute(([$_POST['email']]));
-
-    if ($stmt->fetch()) {
+    if (!AuthenticatedUser::isEmailAvailable($db, $_POST['email'])) {
         $session->addMessage('error', 'That email is already in use.');
-        printf("hwerewp");
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
-    // Verify if the inserted username is already in use
-    $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
-    $stmt->execute(([$_POST['username']]));
-
-    if ($stmt->fetch()) {
+    if (!AuthenticatedUser::isUsernameAvailable($db, $_POST['username'])) {
         $session->addMessage('error', 'That username is already in use.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;

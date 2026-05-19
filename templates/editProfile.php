@@ -22,29 +22,47 @@
         hidden
       >
 
-      <form method="post">
+      <form method="post" action="../actions/action_editProfile.php">
         <label>
           First Name
-          <input type="text" name="first-name" placeholder="user first name">
+          <input type="text" name="first-name" placeholder="New first name">
         </label>
 
         <label>
           Last Name
-          <input type="text" name="last-name" placeholder="user last name">
+          <input type="text" name="last-name" placeholder="New last name">
         </label>
 
         <label>
           Username
-          <input type="text" name="username" placeholder="user username">
+          <input type="text" name="username" placeholder="New username">
         </label>
 
-        <label>
-          Password
-          <input type="password" name="password" placeholder="Enter new password">
-        </label>
-
-        <input class="btn medium blue" type="submit" value="Edit">
+        <button class="btn medium blue" type="submit">Save changes</button>
       </form>
+
+
+      <div class="change-password">
+        <p class="detail">Change password</p>
+
+        <form method="post" action="../actions/action_changePassword.php">
+          <label>
+            Current password
+            <input type="password" name="current-password" placeholder="Enter current password" required>
+          </label>
+
+          <label>
+            New password
+            <input type="password" name="password" placeholder="Enter new password" required>
+          </label>
+
+          <label>
+            Confirm new password
+            <input type="password" name="confirm-password" placeholder="Confirm new password" required>
+          </label>
+          <button class="btn medium blue" type="submit">Change Password</button>
+        </form>
+      </div>
     </div>
   </div>
 <?php } ?>

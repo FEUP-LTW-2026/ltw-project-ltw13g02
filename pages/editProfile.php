@@ -4,12 +4,17 @@
   require_once(__DIR__ . '/../utils/session.php');
   $session = new Session();
 
-  require_once(__DIR__ . '/../templates/common.php');
-  require_once(__DIR__ . '/../templates/editProfile.php');
+  if (!$session->isLoggedIn()) {
+    header('Location: login.php');
+  
+  } else {
+    require_once(__DIR__ . '/../templates/common.php');
+    require_once(__DIR__ . '/../templates/editProfile.php');
 
-  drawHeader($session, 'Edit Profile', ['edit.css', 'profile.css']);
+    drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
 
-  drawEditProfilePage();
+    drawEditProfilePage();
 
-  drawFooter();
+    drawFooter();
+  }
 ?>

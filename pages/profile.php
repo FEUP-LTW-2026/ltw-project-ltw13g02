@@ -11,15 +11,24 @@
     require_once(__DIR__ . '/../templates/common.php');
     require_once(__DIR__ . '/../templates/profile.php');
     require_once(__DIR__ . '/../templates/classes.php');
+    require_once (__DIR__ . '/../database/connection.db.php');
+    require_once (__DIR__ . '/../database/class.class.php');
+    require_once (__DIR__ . '/../database/authenticated_user.class.php');
 
-    // Dummy data for user profile
-    $name = 'John Doe';
-    $username = 'JohnnyD_123';
-    $classes = [
-      ['name' => 'Morning Yoga', 'schedule' => 'Monday, Wednesday, Friday', 'trainer' => 'Alex Rivera'],
-      ['name' => 'Cardio Blast', 'schedule' => 'Tuesday, Thursday', 'trainer' => 'Alex Rivera'],
-      ['name' => 'Weightlifting', 'schedule' => 'Monday, Wednesday', 'trainer' => 'John Doe']
-    ];
+
+    $db = getDatabaseConnection();
+    $user = AuthenticatedUser::getUserById($db, $session->getId());
+
+    if (!$user) {
+      $session->logout();
+      $session->addMessage('error', 'User not found. Please log in again.');
+      header('Location: login.php');
+      exit;
+    }
+
+    $name = $user->getFullName();
+    $username = $user->getUsername();
+    $classes = GymClass::getEnrolledClasses($db, $session->getId());
 
     drawHeader($session, 'Profile', ['profile.css']);
 

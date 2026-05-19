@@ -41,7 +41,7 @@
         <?php if ($session->isLoggedin()) { ?>
           <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
           <li>
-            <form action="../actions/action_logout.php" method="post">
+            <form action="../actions/auth/action_logout.php" method="post">
               <button class="btn medium transparent-dark" type="submit">Logout</button>
             </form>
           </li>
