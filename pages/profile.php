@@ -29,6 +29,6 @@
   $classes = GymClass::getEnrolledClasses($db, $session->getId());
 
   drawHeader($session, 'Profile', ['profile.css']);
-  drawProfilePage($user->getFullName(), $user->getUsername(), $classes);
+  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes);
   drawFooter();
 ?>
