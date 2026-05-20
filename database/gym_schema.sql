@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Membership;
 DROP TABLE IF EXISTS MembershipTier;
-DROP TABLE IF EXISTS MembershipPayment;
 
 PRAGMA foreign_keys = ON;
 
@@ -234,16 +233,21 @@ CREATE TABLE MembershipTier(
     CONSTRAINT ValidBookingWindow CHECK (booking_window_days > 0)
 );
 
--- membership start_date is one day after the payment due date
--- membership end_date is one month after the start date
--- when end_date has passed from an active membership, the status is updated to expired  and update the next one to active (to be done in php)
+-- membership start_timestamp is one day after the payment due date
+-- membership end_timestamp is one month after the start date
+-- when end_timestamp has passed from an active membership, the status is updated to expired  and update the next one to active (to be done in php)
+
 CREATE TABLE Membership(
     id INTEGER NOT NULL,
-    member_id INTEGER NOT NULL,
-    start_date TEXT NOT NULL,
-    end_date TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending', -- status of membership (active, planned, pending, expired, suspended, cancelled_by_user, cancelled);
-    membership_tier_id INTEGER NOT NULL, -- FK
+    member_id INTEGER,
+    start_timestamp TEXT NOT NULL,
+    end_timestamp TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    membership_tier_id INTEGER NOT NULL,
+
+    payment_due_timestamp TEXT NOT NULL,
+    payment_amount REAL NOT NULL,
+    payment_status TEXT NOT NULL DEFAULT 'pending',
     CONSTRAINT PK_Membership PRIMARY KEY (id),
     CONSTRAINT FK_Membership_Member
         FOREIGN KEY (member_id)
@@ -253,30 +257,19 @@ CREATE TABLE Membership(
         FOREIGN KEY (membership_tier_id)
         REFERENCES MembershipTier(id)
         ON UPDATE CASCADE,
-    CONSTRAINT ValidStatus CHECK (status IN ('active', 'planned', 'pending', 'expired', 'suspended', 'cancelled_by_user', 'cancelled')),
-    CONSTRAINT ValidDates CHECK (datetime(start_date) < datetime(end_date))
-);
-
--- when payment becomes paid before due date, create a new tuple in membership 
--- if a membership already exists, only update the membership tier id and that membership 
-CREATE TABLE MembershipPayment(
-    id INTEGER NOT NULL,
-    member_id INTEGER NOT NULL,
-    membership_id INTEGER NOT NULL, -- FK
-    payment_due_timestamp TEXT NOT NULL, -- this timestamp
-    amount REAL NOT NULL,
-    status TEXT NOT NULL, -- status of the payment (paid, failed, pending)
-    CONSTRAINT PK_MembershipPayment PRIMARY KEY (id),
-    CONSTRAINT FK_MembershipPayment_Membership
-        FOREIGN KEY (membership_id)
-        REFERENCES Membership(id)
-        ON UPDATE CASCADE,
-    CONSTRAINT FK_MembershipPayment_Member
-        FOREIGN KEY (member_id)
-        REFERENCES Member(id)
-        ON UPDATE CASCADE,
-    CONSTRAINT ValidStatus CHECK (status IN ('paid', 'failed', 'pending')),
-    CONSTRAINT ValidAmount CHECK (amount >= 0)
+    CONSTRAINT ValidMembershipStatus CHECK (
+        status IN ('active', 'planned', 'pending', 'expired',
+                   'suspended', 'cancelled_by_user', 'cancelled')
+    ),
+    CONSTRAINT ValidPaymentStatus CHECK (
+        payment_status IN ('paid', 'failed', 'pending')
+    ),
+    CONSTRAINT ValidDates CHECK (
+        datetime(start_timestamp) < datetime(end_timestamp)
+    ),
+    CONSTRAINT ValidAmount CHECK (
+        payment_amount >= 0
+    )
 );
 
 -- Create triggers for when some member cancels their enrollment (upon tuple deletion)
@@ -305,47 +298,12 @@ END;
 -- should exist a limit where the user is not allowed to pay anymore and the membership is cancelled and the user is deactivated until the amount is paid
 -- if the user eventually pays before the limit due date, the membership is active again
 
-CREATE TRIGGER SuspendMembershipAfterFailedPayment
-AFTER UPDATE ON MembershipPayment
-FOR EACH ROW
-WHEN NEW.status = 'failed' AND (OLD.status = 'pending')
-BEGIN
-    -- Change the membership status to suspended
-    UPDATE Membership
-    SET status = 'suspended'
-    WHERE id = NEW.membership_id;
-END;
-
 -- When the user clicks to subscribe, two tuples are created: 
 -- one inside membership and other inside membership payment (to be done as a transaction inside the php file)
 -- when a payment is updated to paid before the due date:
 -- if the membership is pending and the start date is before or equal to the current date, the membership becomes active
 -- if the membership is pending and the start date is after the current date, the membership becomes planned (the user has paid but the membership did not start yet)
-CREATE TRIGGER ActivateMembershipAfterPayment
-AFTER UPDATE ON MembershipPayment
-FOR EACH ROW
-WHEN NEW.status = 'paid' AND OLD.status = 'pending' AND datetime('now') <= datetime(NEW.payment_due_timestamp)
-BEGIN
-    UPDATE Membership
-    SET status = CASE 
-        WHEN datetime(start_date) <= datetime('now') THEN 'active'
-            ELSE 'planned'
-        END
-    WHERE id = NEW.membership_id AND status = 'pending';
-END;
 
-CREATE TRIGGER ActivateMembershipAfterLatePayment
-AFTER UPDATE ON MembershipPayment
-FOR EACH ROW
-WHEN NEW.status = 'paid' AND OLD.status = 'failed'
-BEGIN
-    UPDATE Membership
-    SET status = CASE 
-        WHEN datetime(start_date) <= datetime('now') THEN 'active'
-        ELSE 'planned'
-    END
-    WHERE id = NEW.membership_id AND status = 'suspended';
-END;
 
 -- user can pay as much months as he wants in advance
 -- upgrade tier in current month: user is asked whether he wants to upgrade immediately. If so he pays the difference between the two tiers
@@ -389,20 +347,6 @@ END;
 -- but since that requires multiple logic, updates and so on, charging full price is not that bad
 
 -- If a user tries to pay for future months while having unpaid past months the payment is blocked
-CREATE TRIGGER PreventNonConsecutivePayments
-BEFORE UPDATE ON MembershipPayment
-FOR EACH ROW
-WHEN NEW.status = 'paid' AND OLD.status IN ('pending', 'failed')
-BEGIN
-    SELECT RAISE(ABORT, 'Cannot pay for future months while older payments are unpaid.')
-    WHERE EXISTS (
-        SELECT 1 
-        FROM MembershipPayment
-        WHERE member_id = NEW.member_id
-        AND status IN ('pending', 'failed')
-        AND datetime(payment_due_timestamp) < datetime(NEW.payment_due_timestamp)
-    );
-END;
 
 -- o botão é desativado quando é clicado no frontend pelo que um double click não é possível
 

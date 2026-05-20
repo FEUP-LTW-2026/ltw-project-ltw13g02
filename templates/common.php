@@ -1,5 +1,6 @@
 <?php
-    declare(strict_types=1);
+  declare(strict_types=1);
+  date_default_timezone_set('Europe/Lisbon');
 ?>
 
 <?php function drawHeader(Session $session, string $title, array $extra_css = []) { ?>
@@ -20,6 +21,7 @@
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
     <script src="../javascript/searchByUserName.js" defer></script>
+    <script src="../javascript/updateCheckoutSelection.js" defer></script>
   </head>
 <body>
   <header>

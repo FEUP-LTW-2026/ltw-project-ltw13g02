@@ -282,12 +282,11 @@
     & .schedule-class-card {
       background-color: var(--color-secondary);
       border: 1px solid var(--color-secondary-border);
-      border-radius: var(--radius-button);
+      border-radius: var(--radius-card);
       padding: var(--space-s);
       display: flex;
       flex-direction: column;
       gap: var(--space-xxs);
-      box-shadow: var(--shadow-card);
 
       & strong {
         font-size: var(--font-size-s);
@@ -311,6 +310,135 @@
           font-size: var(--font-size-xs);
           flex: 1;
         }
+      }
+    }
+
+    & .tiers {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+    }
+
+    & .tier-edit-card {
+      background-color: var(--color-secondary);
+      border: 1px solid var(--color-secondary-border);
+      border-radius: var(--radius-card);
+      padding: var(--space-l);
+    }
+
+    & .tier-form {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: var(--space-m);
+    }
+
+    & .tier-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      border-bottom: 1px solid var(--color-very-light-gray);
+      padding-bottom: var(--space-m);
+
+      & h3 {
+        margin: 0;
+        font-size: var(--font-size-l);
+        color: var(--color-text);
+      }
+
+      & > input[type="text"], & > input[type="number"] {
+        width: 100%;
+        padding: var(--space-xs) var(--space-s);
+        font-size: var(--font-size-l);
+        font-weight: 600;
+        color: var(--color-text);
+        border: 1px solid var(--color-secondary-border);
+        border-radius: var(--radius-button);
+        background-color: var(--color-bg);
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          border-color: var(--color-primary);
+          outline: none;
+          background-color: var(--color-secondary);
+        }
+      }
+    }
+
+    & .price-input-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+
+      & .currency, 
+      & .period {
+        color: var(--color-text);
+        font-weight: 600;
+        font-size: var(--font-size-m);
+      }
+    }
+
+    & .editable-price {
+      width: 5em;
+      padding: var(--space-xs) var(--space-s);
+      font-size: var(--font-size-m);
+      font-weight: 600;
+      color: var(--color-text);
+      border: 1px solid var(--color-secondary-border);
+      border-radius: var(--radius-button);
+      background-color: var(--color-bg);
+      text-align: right;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        border-color: var(--color-primary);
+        outline: none;
+        background-color: var(--color-secondary);
+      }
+    }
+
+    & .tier-features-edit {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      flex-grow: 1;
+
+      & label {
+        font-size: var(--font-size-s);
+        color: var(--color-gray);
+        font-weight: 500;
+      }
+    }
+
+    & .editable-features {
+      width: 100%;
+      padding: var(--space-s);
+      border: 1px solid var(--color-secondary-border);
+      border-radius: var(--radius-button);
+      background-color: var(--color-bg);
+      min-height: 100px;
+      font-size: var(--font-size-s);
+      color: var(--color-text);
+      line-height: 1.5;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        border-color: var(--color-primary);
+        outline: none;
+        background-color: var(--color-secondary);
+      }
+    }
+
+    & .tier-actions {
+      display: flex;
+      gap: var(--space-s);
+      margin-top: auto;
+      border-top: 1px solid var(--color-very-light-gray);
+      padding-top: var(--space-m);
+
+      & button {
+        flex: 1;
+        justify-content: center;
       }
     }
   }

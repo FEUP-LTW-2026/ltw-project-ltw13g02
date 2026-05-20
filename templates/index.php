@@ -23,39 +23,46 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipPlan(string $planName, string $price, array $features) { ?>
-  <article class="card">
+<?php function drawMembershipPlan(int $id, string $planName, float $price, array $features, Session $session) { ?>
+  <article class="card membership-plan">
     <h3><?= $planName; ?></h3>
-    <p><span><?= $price; ?></span>/4 weeks</p>
+    <p><span><?= $price; ?>€</span>/4 weeks</p>
     <p>What's included:</p>
     <ul>
       <?php foreach ($features as $feature) { ?>
         <li><?= $feature; ?></li>
       <?php } ?>
     </ul>
-    <a class="btn large wide blue" href="#">Choose <?= $planName; ?></a>
+    <?php if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
+      <form method="POST" action="../pages/membership_terminal.php">
+        <input type="hidden" name="plan_id" value="<?= $id; ?>">
+        <button type="submit" class="btn large wide blue">Choose <?= $planName; ?></button>
+      </form>
+    <?php } ?>
   </article>
 <?php } ?>
 
-<?php function drawMembershipPlans(array $plans) { ?>
+<?php function drawMembershipPlans(array $plans, Session $session) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      drawMembershipPlan($plan['name'], $plan['price'], $plan['features']);
+      // Parse the description into individual features (considering semicolon as a separator)
+      $features = explode(';', $plan->getDescription());
+      drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $features, $session);
     } ?>
   </div>
 <?php } ?>
 
-<?php function drawMembershipContainer(array $plans) { ?>
+<?php function drawMembershipContainer(array $plans, Session $session) { ?>
   <div id="membership">
     <section class="container">
       <p class="detail">OUR PLANS</p>
       <h2>MEMBERSHIP PLANS</h2>
-      <?php drawMembershipPlans($plans); ?>
+      <?php drawMembershipPlans($plans, $session); ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawIndexPage(array $plans) {
+<?php function drawIndexPage(array $plans, Session $session) {
   drawHero();
-  drawMembershipContainer($plans);
+  drawMembershipContainer($plans, $session);
 } ?>
