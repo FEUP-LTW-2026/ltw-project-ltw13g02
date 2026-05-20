@@ -1,14 +1,21 @@
 <?php 
   declare(strict_types=1);
 
+  function drawProfilePicture(int $userId) : string {
+    $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
+      ? '../img/profiles/' . $userId . '.jpg'
+      : '../img/profiles/default.jpg';
+
+    return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
+  }
   require_once(__DIR__ . '/../database/gymClass.class.php');
   require_once(__DIR__ . '/classes.php');
 ?>
 
-<?php function drawProfile(string $name, string $username) { ?>
+<?php function drawProfile(int $userId, string $name, string $username) { ?>
   <div class="intro">
     <section id="profile">
-      <img src="https://picsum.photos/250/340" alt="profile photo" class="profile image">
+      <?= drawProfilePicture($userId); ?>
       <header>
         <h1><?= $name; ?></h1>
         <h2><?= $username; ?></h2>
@@ -40,7 +47,7 @@
   </div>
 <?php } ?>
 
-<?php function drawProfilePage(string $name, string $username, array $classes) {
-  drawProfile($name, $username);
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes) {
+  drawProfile($userId, $name, $username);
   drawEnrolledClassesContainer($classes);
 } ?>

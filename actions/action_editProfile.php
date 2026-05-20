@@ -30,7 +30,7 @@
         $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
         $stmt->execute(([$_POST['username']]));
 
-        if ($stmt->fetch()) {
+        if (!AuthenticatedUser::isUsernameAvailable($db, $_POST['username']) && $_POST['username'] !== $user->getUsername()) {
             $session->addErrorMessage('That username is already in use.');
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
