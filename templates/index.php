@@ -34,7 +34,7 @@
       <?php } ?>
     </ul>
     <?php if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
-      <form method="POST" action="membership_terminal.php">
+      <form method="POST" action="../pages/membership_terminal.php">
         <input type="hidden" name="plan_id" value="<?= $id; ?>">
         <button type="submit" class="btn large wide blue">Choose <?= $planName; ?></button>
       </form>

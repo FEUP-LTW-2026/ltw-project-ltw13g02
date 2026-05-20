@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
     <script src="../javascript/searchByUserName.js" defer></script>
+    <script src="../javascript/updateCheckoutSelection.js" defer></script>
   </head>
 <body>
   <header>

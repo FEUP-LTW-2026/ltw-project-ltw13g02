@@ -281,6 +281,7 @@
                 <input type="number" step="0.01" name="price" value="<?= $tier->getMonthlyFee() ?>" class="editable-price" required>
                 <span class="period">/4 weeks</span>
               </div>
+              <label for="booking_window_<?= $tier->getId() ?>" class="booking-window-label">Booking Window (days):</label>
               <input type="number" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
             </header>
             

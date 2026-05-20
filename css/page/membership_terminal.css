@@ -73,6 +73,7 @@
       padding: var(--space-m);
       font-size: var(--font-size-s);
       color: var(--color-text);
+      justify-content: space-around;
 
       & li {
         margin: 0;
@@ -149,7 +150,6 @@
     }
   }
 
-  /* Payment Grid & Cards */
   .payment-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

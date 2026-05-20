@@ -15,7 +15,6 @@ INSERT INTO Admin (admin_id) VALUES (1);
 
 -- Insert Members
 INSERT INTO Member (id) VALUES 
-(2),
 (3),
 (4),
 (5);
@@ -73,21 +72,9 @@ INSERT INTO Equipment (id, name, description, status) VALUES
 
 -- Insert Membership Tiers
 INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days) VALUES 
-(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment; 1 day of booking window for classes', 19.99, 1),
-(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance; Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2),
-(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support; 3 days of booking window for classes', 39.99, 3);
-
--- Insert Memberships
-INSERT INTO Membership (id, member_id, start_date, end_date, status, membership_tier_id) VALUES 
-(1, 2, '2026-05-01 00:00:00', '2026-06-01 00:00:00', 'active', 2),
-(2, 3, '2026-05-10 00:00:00', '2026-06-10 00:00:00', 'active', 3),
-(3, 4, '2026-05-15 00:00:00', '2026-06-15 00:00:00', 'active', 1);
-
--- Insert Membership Payments
-INSERT INTO MembershipPayment (id, member_id, membership_id, payment_due_timestamp, amount, status) VALUES 
-(1, 2, 1, '2026-04-30 23:59:59', 29.99, 'paid'),
-(2, 3, 2, '2026-05-09 23:59:59', 39.99, 'paid'),
-(3, 4, 3, '2026-05-14 23:59:59', 19.99, 'paid');
+(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment;1 day of booking window for classes', 19.99, 1),
+(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2),
+(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3);
 
 -- Insert Reviews
 INSERT INTO Review (id, review_text, rating, review_timestamp) VALUES 
@@ -95,6 +82,5 @@ INSERT INTO Review (id, review_text, rating, review_timestamp) VALUES
 
 -- Insert Enrollments
 INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp, review_id) VALUES 
-(1, 2, 1, 'enrolled', '2026-05-20 10:00:00', NULL),
 (2, 3, 2, 'enrolled', '2026-05-21 11:00:00', NULL),
 (3, 3, 3, 'enrolled', '2026-05-22 12:00:00', NULL);

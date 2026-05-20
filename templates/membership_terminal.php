@@ -9,7 +9,15 @@
           <li><?= $feature; ?></li>
         <?php } ?>
       </ul>
-      <input type="radio" name="tier_id" id="tier-<?= $id; ?>" value="<?= $id; ?>" required <?php if ($plan_id === $id) echo 'checked'; ?>>
+      <input type="radio" 
+             name="tier_id" 
+             id="tier-<?= $id; ?>" 
+             value="<?= $id; ?>" 
+             data-tier-price="<?= $price; ?>" 
+             data-tier-name="<?= $planName; ?>" 
+             required 
+             <?php if ($plan_id === $id) 
+             echo 'checked'; ?>>
     </article>
   </label>
 <?php } ?>
@@ -53,11 +61,11 @@
             <span class="pill-text">3 Months</span>
           </label>
           <label class="duration-pill" for="dur-6">
-            <input type="radio" name="duration" id="dur-6" value="6" required>
+            <input type="radio" name="duration" id="dur-6" value="6" required checked>
             <span class="pill-text">6 Months</span>
           </label>
           <label class="duration-pill" for="dur-12">
-            <input type="radio" name="duration" id="dur-12" value="12" required checked>
+            <input type="radio" name="duration" id="dur-12" value="12" required>
             <span class="pill-text">12 Months</span>
           </label>
         </div>
@@ -96,16 +104,16 @@
               </header>
               <div class="summary-row">
                 <span>Selected Tier:</span>
-                <strong id="summary-tier">Premium</strong>
+                <strong id="summary-tier"></strong>
               </div>
               <div class="summary-row">
                 <span>Duration:</span>
-                <strong id="summary-duration">12 Months</strong>
+                <strong id="summary-duration"></strong>
               </div>
               <hr>
               <div class="summary-row total">
                 <span>Due Today:</span>
-                <strong id="summary-total">€49.00</strong>
+                <strong id="summary-total"></strong>
               </div>
               <footer>
                 <button type="submit" class="btn blue large wide btn-cta">Continue to Payment</button>

@@ -67,6 +67,33 @@
       }
       return $tiers;
     }
+
+    public static function getMembershipTierById(PDO $db, int $id) : MembershipTier {
+      $stmt = $db->prepare('SELECT * FROM MembershipTier WHERE id = ?');
+      $stmt->execute([$id]);
+      $row = $stmt->fetch();
+      if (!$row) {
+        throw new Exception('Membership tier not found.');
+      }
+      return new MembershipTier(
+        (int)$row['id'], 
+        $row['name'], 
+        $row['description'], 
+        (float)$row['monthly_fee'], 
+        (int)$row['booking_window_days']
+      );
+    }
+
+    public function save(PDO $db) : void {
+      $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
+      $stmt->execute([
+        $this->name, 
+        $this->description, 
+        $this->monthly_fee, 
+        $this->booking_window_days, 
+        $this->id
+      ]);
+    }
   }
 
 ?>
