@@ -48,7 +48,7 @@
             
             // Query 2: Certifications
             $stmt = $db->prepare('
-                SELECT TrainerCertification.trainer_id, Certification.name, Certification.description
+                SELECT TrainerCertification.trainer_id, Certification.name
                 FROM TrainerCertification
                 JOIN Certification ON TrainerCertification.certification_id = Certification.id
             ');
@@ -59,8 +59,7 @@
                 $id = $row['trainer_id'];
                 if (isset($trainers[$id])) {
                     $trainers[$id]->certifications[] = [
-                        'name' => $row['name'],
-                        'description' => $row['description']
+                        'name' => $row['name']
                     ];
                 }
             }
@@ -123,8 +122,7 @@
         
             foreach ($stmt->fetchAll() as $row) {
                 $trainer->certifications[] = [
-                    'name' => $row['name'],
-                    'description' => $row['description'] ?? ''
+                    'name' => $row['name']
                 ];
             }
 
