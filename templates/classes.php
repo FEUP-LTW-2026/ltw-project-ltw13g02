@@ -3,6 +3,8 @@
 
   require_once (__DIR__ . '/../database/classType.class.php');
   require_once (__DIR__ . '/../database/gymClass.class.php');
+  require_once (__DIR__ . '/../database/trainer.class.php');
+  require_once (__DIR__ . '/../database/connection.db.php');
 
   // Helper function to calculate class duration in minutes
   function calculateDurationMinutes(string $startTime, string $endTime) : int {
@@ -67,7 +69,7 @@
 
     <form>
       <label> Day of week
-        <select name="week-day">
+        <select name="week-day" id="week-day">
           <option value="all" selected>All</option>
           <option value="monday">Monday</option>
           <option value="tuesday">Tuesday</option>
@@ -80,7 +82,7 @@
       </label>
 
       <label> Time of day
-        <select name="time">
+        <select name="time" id="time">
           <option value="all" selected>All</option>
           <option value="morning">Morning</option>
           <option value="afternoon">Afternoon</option>
@@ -89,7 +91,7 @@
       </label>
 
       <label> Class type
-        <select name="type">
+        <select name="type" id="type">
           <option value="all" selected>All</option>
           <option value="weightlifting">Weightlifting</option>
           <option value="yoga">Yoga</option>
@@ -101,12 +103,14 @@
       </label>
 
       <label> Trainer
-        <select name="trainer">
+        <select name="trainer" id="trainer">
           <option value="all" selected>All Trainers</option>
-          <option value="john-doe">John Doe</option>
-          <option value="jane-smith">Jane Smith</option>
-          <option value="michael-brown">Michael Brown</option>
-          <option value="emily-jones">Emily Jones</option>
+          <?php  
+            $trainers = Trainer::getAllTrainers(getDatabaseConnection());
+            foreach ($trainers as $trainer) { ?>
+              <option value="<?= strtolower(str_replace(" ", "-", $trainer->getFirstName() . " " . $trainer->getLastName())) ?>"><?= $trainer->getFirstName() . ' ' . $trainer->getLastName() ?></option>
+            <?php }
+          ?>
         </select>
       </label>
     </form>

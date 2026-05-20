@@ -37,7 +37,7 @@
                 $class['id'],
                 $class['name'],
                 $class['trainer_id'],
-                $class['trainer_name'],
+                $class['first_name'] . ' ' . $class['last_name'],
                 $class['capacity'],
                 ClassType::$weekdays[$class['weekday']],
                 $class['start_time'],
@@ -48,7 +48,7 @@
         public static function getAllClassesTypes(PDO $db) : array {
             $stmt = $db->prepare('
                 SELECT DISTINCT ClassType.id, ClassType.name, ClassType.trainer_id, 
-                    CONCAT(User.first_name, " ", User.last_name) as trainer_name,
+                    User.first_name, User.last_name,
                     ClassType.capacity, ClassType.weekday, ClassType.start_time, 
                     ClassType.end_time
                 FROM ClassType
@@ -68,7 +68,7 @@
         public static function getClassTypeById(PDO $db, int $classTypeId) : ?ClassType {
             $stmt = $db->prepare('
                 SELECT ClassType.id, ClassType.name, ClassType.trainer_id, 
-                    CONCAT(User.first_name, " ", User.last_name) as trainer_name,
+                    User.first_name, User.last_name,
                     ClassType.capacity, ClassType.weekday, ClassType.start_time, 
                     ClassType.end_time
                 FROM ClassType
