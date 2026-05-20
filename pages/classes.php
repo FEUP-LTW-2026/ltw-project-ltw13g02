@@ -17,6 +17,8 @@
     $classes = ClassType::getAllClassesTypes($db);
 
     drawHeader($session, 'Classes', ['classes.css']);
+    
+    echo '<script src="../javascript/filterClasses.js" defer></script>';
 
     drawIntro('WHAT WE OFFER', 'Our <b>classes</b>', '40+ weekly sessions across strength, cardio, flexibility and recovery. Something for every level.');
 

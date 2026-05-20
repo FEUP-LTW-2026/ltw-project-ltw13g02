@@ -1,41 +1,42 @@
 <?php 
   declare(strict_types=1);
+
+  function getProfileImageUrl(?int $userId): string {
+    return file_exists('../img/profiles/' . $userId . '.jpg')
+      ? '../img/profiles/' . $userId . '.jpg'
+      : '../img/profiles/default.jpg';
+  }
 ?>
 
-<?php function drawProfileEditForm() { ?>
+<?php function drawProfileEditForm(int $userId, string $firstName, string $lastName, string $username) { 
+  $photoUrl = getProfileImageUrl($userId);
+  ?>
   <div class="intro">
     <div id="profile">
-      <label for="profile-pic" class="profile-pic-label">
-        <img 
-          src="https://picsum.photos/250/340" 
-          alt="profile photo" 
-          class="profile-image"
-          style="cursor:pointer;"
-        >
-        <span class="profile-image-prompt">Click on the image to change it</span>
-      </label>
+      
+      <div class="profile-picture">
+        <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo" class="profile-image" >
 
-      <input 
-        type="file" 
-        id="profile-pic" 
-        accept="image/*" 
-        hidden
-      >
+        <form method="post" action="../actions/action_uploadProfilePicture.php" enctype="multipart/form-data" id="upload-form">
+          <input type="file" name="profile-picture" id="image-input">
+          <button type="button" class="btn medium blue" id="upload-btn">Change Profile Picture</button>
+        </form>
+      </div>
 
       <form method="post" action="../actions/action_editProfile.php">
         <label>
           First Name
-          <input type="text" name="first-name" placeholder="New first name">
+          <input type="text" name="first-name" value="<?= htmlspecialchars($firstName) ?>" placeholder="New first name">
         </label>
 
         <label>
           Last Name
-          <input type="text" name="last-name" placeholder="New last name">
+          <input type="text" name="last-name" value="<?= htmlspecialchars($lastName) ?>" placeholder="New last name">
         </label>
 
         <label>
           Username
-          <input type="text" name="username" placeholder="New username">
+          <input type="text" name="username" value="<?= htmlspecialchars($username) ?>" placeholder="New username">
         </label>
 
         <button class="btn medium blue" type="submit">Save changes</button>
@@ -65,8 +66,10 @@
       </div>
     </div>
   </div>
+
+  <script src="../javascript/editProfile.js"></script>
 <?php } ?>
 
-<?php function drawEditProfilePage() {
-  drawProfileEditForm();
+<?php function drawEditProfilePage(int $userId, string $firstName, string $lastName, string $username) {
+  drawProfileEditForm($userId, $firstName, $lastName, $username);
 } ?>

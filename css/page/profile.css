@@ -9,6 +9,10 @@
     border-radius: var(--radius-card);
     box-shadow: 5px 5px var(--color-primary);
 
+    & img {
+      width: 14em;
+    }
+
     & section {
       display: flex;
       flex-direction: column;
