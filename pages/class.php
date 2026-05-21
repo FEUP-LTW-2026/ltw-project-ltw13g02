@@ -10,30 +10,19 @@
   require_once(__DIR__ . '/../templates/class.php');
   require_once(__DIR__ . '/../database/classType.class.php');
   require_once(__DIR__ . '/../database/gymClass.class.php');
+  require_once(__DIR__ . '/../database/review.class.php');
 
   $db = getDatabaseConnection();
 
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
+  $reviews = Review::getReviewsByClassType($db, intval($_GET['id']));
   $enrolledClasses = GymClass::getEnrolledClasses($db, $session->getId());
-
-  // Dummy data for class reviews.
-  $reviews = [
-    [
-      'name' => 'Maria Silva',
-      'rating' => '5',
-      'comment' => 'Amazing class with an amazing trainer! Alex\'s guidance and energy made the session truly special.'
-    ],
-    [  
-      'name' => 'Joao Cunha',
-      'rating' => '4',
-      'comment' => 'I loved the variety of poses and the calming atmosphere. Highly recommend!'
-    ]
-  ];
+  $classTypeRating = Review::getRatingAndCountByClassType($db, intval($_GET['id']));
 
   drawHeader($session, $generalClass->name, ['class.css', 'classes.css']);
 
-  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $reviews);
+  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $reviews, $classTypeRating);
 
   drawFooter();
 ?>

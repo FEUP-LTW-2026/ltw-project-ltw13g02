@@ -141,6 +141,27 @@ CREATE TABLE ClassType (
     CONSTRAINT ValidCapacity CHECK (capacity > 0)
 );
 
+-- Using a trigger checks before if the user has attended that class_type 
+CREATE TABLE Review (
+    id INTEGER NOT NULL,
+    review_text TEXT NOT NULL,   
+    rating INTEGER NOT NULL,
+    review_timestamp TEXT NOT NULL,
+    class_type_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    -- add constraints and checks
+    CONSTRAINT PK_Review PRIMARY KEY (id),
+    CONSTRAINT ValidRating CHECK (rating >= 1 AND rating <= 5),
+    CONSTRAINT FK_Review_ClassType 
+        FOREIGN KEY (class_type_id) 
+        REFERENCES ClassType(id)
+        ON UPDATE CASCADE,
+    CONSTRAINT FK_Review_Member 
+        FOREIGN KEY (member_id) 
+        REFERENCES Member(id)
+        ON UPDATE CASCADE
+);
+
 CREATE TABLE Class (
     id INTEGER NOT NULL, 
     trainer_id INTEGER NOT NULL, -- reference to the trainer that will be teaching this class
@@ -173,8 +194,6 @@ CREATE TABLE Enrollment (
     status TEXT NOT NULL, -- current status of the enrollment (enrolled, cancelled, attended, waitlisted, missed)
     -- attended and missed are updated manually
     status_update_timestamp TEXT NOT NULL, -- timestamp of the last status update
-
-    review_id INTEGER, -- can have an associated review_id
     -- add constraints and checks
     CONSTRAINT PK_Enrollment PRIMARY KEY (id),
     CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted', 'missed')),
@@ -185,24 +204,7 @@ CREATE TABLE Enrollment (
     CONSTRAINT FK_Enrollment_class
         FOREIGN KEY (class_id) 
         REFERENCES Class(id) 
-        ON UPDATE CASCADE,
-    CONSTRAINT FK_Enrollment_review 
-        FOREIGN KEY (review_id) 
-        REFERENCES Review(id)
-        ON DELETE SET NULL 
-        ON UPDATE CASCADE -- if a review id is updated, the enrollment is updated as well
-);
-
--- Only allows a single review, considering that the status of the enrollment is attended (trigger)
--- Logic can be checked inside the php file by querying the Enrollment class or using a trigger upon insertion
-CREATE TABLE Review (
-    id INTEGER NOT NULL,
-    review_text TEXT, -- allows only rating review (without text)?
-    rating INTEGER NOT NULL,
-    review_timestamp TEXT NOT NULL,
-    -- add constraints and checks
-    CONSTRAINT PK_Review PRIMARY KEY (id),
-    CONSTRAINT ValidRating CHECK (rating >= 1 AND rating <= 5)
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE Equipment (

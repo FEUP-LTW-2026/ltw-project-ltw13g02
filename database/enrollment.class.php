@@ -19,6 +19,16 @@
             return $stmt->fetch() !== false;
         }
 
+        static function hasAttendedClassType(PDO $db, int $memberId, int $classTypeId) : bool {
+            $stmt = $db->prepare("
+                SELECT 1
+                FROM Enrollment e
+                JOIN Class c ON e.class_id = c.id
+                WHERE e.member_id = ? AND c.class_type_id = ? AND e.status = 'attended'
+            ");
+            $stmt->execute([$memberId, $classTypeId]);
+            return $stmt->fetch() !== false;
+        }
         static function cancelEnrollment(PDO $db, int $memberId, int $classId) : void {
             $stmt = $db->prepare("
                 UPDATE Enrollment 
