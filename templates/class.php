@@ -120,13 +120,13 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
             <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
               <form action="../actions/action_cancel_enrollment.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit"><?= 'Cancel Enrollment' ?></button>
+                <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
               </form>
 
             <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
               <form action="../actions/action_leave_waitlist.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit"><?= 'Leave Waitlist' ?></button>
+                <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
               </form>
             <?php } ?>
           </li>

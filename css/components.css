@@ -397,7 +397,7 @@
     font-weight: var(--weight-strong);
     font-size: var(--font-size-m);
     letter-spacing: 0.25rem;
-    margin-bottom: var(--space-xs);
+    margin: var(--space-m) 0;
 
     &::before {
       content: '';

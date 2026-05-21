@@ -27,8 +27,9 @@
   }
 
   $classes = Enrollment::getEnrolledClasses($db, $session->getId());
+  $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
 
   drawHeader($session, 'Profile', ['profile.css']);
-  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes);
+  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses);
   drawFooter();
 ?>
