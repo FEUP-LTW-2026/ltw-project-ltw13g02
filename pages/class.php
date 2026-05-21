@@ -10,12 +10,14 @@
   require_once(__DIR__ . '/../templates/class.php');
   require_once(__DIR__ . '/../database/classType.class.php');
   require_once(__DIR__ . '/../database/gymClass.class.php');
+  require_once(__DIR__ . '/../database/enrollment.class.php');
 
   $db = getDatabaseConnection();
 
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
-  $enrolledClasses = GymClass::getEnrolledClasses($db, $session->getId());
+  $enrolledClasses = Enrollment::getEnrolledClasses($db, $session->getId());
+  $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
 
   // Dummy data for class reviews.
   $reviews = [
@@ -33,7 +35,7 @@
 
   drawHeader($session, $generalClass->name, ['class.css', 'classes.css']);
 
-  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $reviews);
+  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $waitlistedClasses, $reviews);
 
   drawFooter();
 ?>

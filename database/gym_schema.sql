@@ -141,6 +141,8 @@ CREATE TABLE ClassType (
     CONSTRAINT ValidCapacity CHECK (capacity > 0)
 );
 
+
+-- TODO: trainer_id in both class and classtype tables
 CREATE TABLE Class (
     id INTEGER NOT NULL, 
     trainer_id INTEGER NOT NULL, -- reference to the trainer that will be teaching this class
@@ -281,9 +283,9 @@ FOR EACH ROW
 WHEN NEW.status = 'cancelled' AND OLD.status = 'enrolled'
 BEGIN
     UPDATE Enrollment
-    SET status = 'enrolled', status_update_timestamp = datetime('now')
+    SET status = 'enrolled', status_update_timestamp = datetime('now', 'localtime')
     WHERE class_id = NEW.class_id AND status = 'waitlisted' AND status_update_timestamp = (
-        SELECT MIN(status_update_timestamp)
+        SELECT MIN(status_update_timestamp) -- select the oldest waitlisted member for that class session
         FROM Enrollment
         WHERE class_id = NEW.class_id AND status = 'waitlisted'
     );
@@ -354,7 +356,7 @@ END;
 CREATE TRIGGER BlockDeleteOfPastClasses
 BEFORE DELETE ON Class
 FOR EACH ROW
-WHEN OLD.start_timestamp <= datetime('now')
+WHEN OLD.start_timestamp <= datetime('now', 'localtime')
 BEGIN
     SELECT RAISE(ABORT, 'Cannot delete classes that have already started or ended.'); 
     -- ABORT -> stops the statement and rolls back changes (all or nothing)
@@ -381,7 +383,7 @@ END;
 CREATE TRIGGER DeleteEnrollmentsAfterClassDeletion
 AFTER DELETE ON Class
 FOR EACH ROW
-WHEN datetime(OLD.start_timestamp) > datetime('now')
+WHEN datetime(OLD.start_timestamp) > datetime('now', 'localtime')
 BEGIN
     DELETE FROM Enrollment
     WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
@@ -400,7 +402,7 @@ BEGIN
     WHERE member_id = NEW.id AND status IN ('enrolled', 'waitlisted')
     AND class_id IN (
         SELECT id FROM Class
-        WHERE start_timestamp > datetime('now')
+        WHERE start_timestamp > datetime('now', 'localtime')
     );
 END;
 
@@ -423,5 +425,5 @@ FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
-    WHERE trainer_id = NEW.id AND start_timestamp > datetime('now');
+    WHERE trainer_id = NEW.id AND start_timestamp > datetime('now', 'localtime');
 END;

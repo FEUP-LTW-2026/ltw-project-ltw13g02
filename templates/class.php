@@ -44,9 +44,19 @@
   </div>
 <?php } ?>
 
-<?php function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
+<?php 
+function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
     foreach ($enrolledClasses as $enrolledClass) {
         if ($enrolledClass->id === $classId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool {
+    foreach ($waitlistedClasses as $waitlistedClass) {
+        if ($waitlistedClass->id === $classId) {
             return true;
         }
     }
@@ -68,7 +78,7 @@
   </div>
 <?php } ?>
 
-<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, bool $isMember, bool $isTrainer) { ?>
+<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, bool $isMember, bool $isTrainer) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
@@ -77,16 +87,32 @@
           <li class="card">
             <?php drawClassCardInfo($class); ?>
 
-            <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-              <form action="../actions/action_enrollment.php" method="post">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium blue" type="submit">Enroll Now</button>
-              </form>
-            <?php } else if ($isMember && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+            <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) {
+
+              if ($class->hasRemainingCapacity()) { ?>
+                 <form action="../actions/action_enrollment.php" method="post">
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <button class="btn medium blue" type="submit">Enroll Now</button>
+                </form>
+              <?php } else { ?>
+                <form action="../actions/action_join_waitlist.php" method="post">
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <button class="btn medium blue" type="submit">Join Waitlist</button>
+                </form>
+              <?php } ?>
+
+            <?php } else if ($isMember && (classInEnrolledClasses($class->id, $enrolledClasses))) { ?>
               <form action="../actions/action_cancel_enrollment.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
+                <button class="btn medium warning outline" type="submit"><?= 'Cancel Enrollment' ?></button>
               </form>
+
+            <?php } else if ($isMember && (classInWaitlistedClasses($class->id, $waitlistedClasses))) { ?>
+              <form action="../actions/action_leave_waitlist.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                <button class="btn medium warning outline" type="submit"><?= 'Leave Waitlist' ?></button>
+              </form>
+              
             <?php } else if (!$isTrainer) { ?>
               <a class="btn medium blue" href="../pages/index.php#membership">Enroll Now</a>
             <?php } ?>
@@ -157,10 +183,10 @@
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $reviews) {
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $waitlistedClasses, array $reviews) {
     drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classes, $enrolledClasses, $session->isMember(), $session->isTrainer());
+        drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session->isMember(), $session->isTrainer());
     }
     drawReviewSection($session, $reviews);
 } ?>

@@ -46,7 +46,7 @@
     }
 
     // Check if already enrolled; TODO: already checked in the template file.
-    if (Enrollment::isAlreadyEnrolled($db, $memberId, $classId)) {
+    if (Enrollment::isEnrolled($db, $memberId, $classId)) {
         $session->addErrorMessage('You are already enrolled in this class.');
         redirectToPreviousPage();
     }

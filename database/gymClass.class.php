@@ -98,39 +98,8 @@
             return $this->currentEnrollment < $capacity && $this->status === 'scheduled';
         }
 
-        public static function getEnrolledClasses(PDO $db, int $memberId) : array {
-            $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
-                    CONCAT(User.first_name, " ", User.last_name) as trainer_name,
-                    Class.start_timestamp, Class.end_timestamp, Class.status,
-                    (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.class_id = Class.id AND Enrollment.status = "enrolled") as current_enrollment
-                FROM Class
-                JOIN ClassType ON Class.class_type_id = ClassType.id
-                LEFT JOIN User ON Class.trainer_id = User.id
-                JOIN Enrollment ON Class.id = Enrollment.class_id
-                WHERE Enrollment.member_id = ? AND Enrollment.status = "enrolled"
-                ORDER BY Class.start_timestamp ASC
-            ');
-
-            $stmt->execute([$memberId]);
-            
-            $classes = [];
-            while ($row = $stmt->fetch()) {
-                $classes[] = new GymClass(
-                    $row['id'],
-                    $row['class_type_id'],
-                    $row['trainer_id'],
-                    $row['name'],
-                    $row['trainer_name'],
-                    $row['start_timestamp'],
-                    $row['end_timestamp'],
-                    $row['status'],
-                    $row['current_enrollment'],
-                    $row['capacity']
-                );
-            }
-
-            return $classes;
+        public function hasRemainingCapacity() : bool {
+            return $this->currentEnrollment < $this->capacity;
         }
     }
 ?>
