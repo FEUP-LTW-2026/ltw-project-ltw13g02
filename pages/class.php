@@ -16,8 +16,15 @@
 
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
-  $enrolledClasses = Enrollment::getEnrolledClasses($db, $session->getId());
-  $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
+
+  if ($session->isLoggedIn()) {
+    $memberId = $session->getId();
+    $enrolledClasses = Enrollment::getEnrolledClasses($db, $session->getId());
+    $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
+  } else {
+    $enrolledClasses = [];
+    $waitlistedClasses = [];
+  }
 
   // Dummy data for class reviews.
   $reviews = [

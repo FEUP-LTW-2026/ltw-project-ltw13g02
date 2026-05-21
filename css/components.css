@@ -336,7 +336,6 @@
 
           & .class-info {
               flex: 1;
-              margin-bottom: var(--space-m);
 
               & h3 {
                   margin: 0 0 var(--space-s) 0;

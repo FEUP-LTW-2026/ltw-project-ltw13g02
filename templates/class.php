@@ -34,7 +34,7 @@
         <?php
         if($session->isLoggedIn()) {
             ?>
-            <a class="btn large blue" href="#enrollment">Join Class</a>
+            <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
             <?php
         }
         ?>
@@ -64,33 +64,49 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 }
 ?>
 
-<?php function drawClassCardInfo(GymClass $class) { ?>
-  <div class="class-info">
-    <h3><?= $class->name ?></h3>
-    <p class="date-time">
-      <span class="material-symbols-outlined">event</span>
-      <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
-    </p>
-    <p class="enrollment-status">
-      <span class="material-symbols-outlined">person</span>
-      <?= $class->currentEnrollment . '/' . $class->capacity ?> enrolled
-    </p>
-  </div>
+<?php function drawClassDate(string $startTimestamp) { ?>
+  <p>
+    <span class="material-symbols-outlined">calendar_today</span>
+    <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
+    <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
+  </p>
 <?php } ?>
 
-<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, bool $isMember, bool $isTrainer) { ?>
+<?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
+  <p>
+    <span class="material-symbols-outlined">schedule</span>
+    <?= date('g:i', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
+  </p>
+<?php } ?>
+
+<?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
+  <p>
+    <span class="material-symbols-outlined">person</span>
+    <?= $currentEnrollment . '/' . $capacity ?> enrolled
+  </p>
+<?php } ?>
+
+<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, Session $session) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
       <ul class="classes-enrollment">
         <?php foreach ($classes as $class) { ?>
           <li class="card">
-            <?php drawClassCardInfo($class); ?>
+            <div class="class-info">
+              <h3><?= $class->name ?></h3>
+              <?php drawClassDate($class->startTimestamp); ?>
+              <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
 
-            <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) {
+              <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
+                <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+              <?php } ?>
 
-              if ($class->hasRemainingCapacity()) { ?>
-                 <form action="../actions/action_enrollment.php" method="post">
+            </div>
+
+            <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                if ($class->hasRemainingCapacity()) { ?>
+                <form action="../actions/action_enrollment.php" method="post">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                   <button class="btn medium blue" type="submit">Enroll Now</button>
                 </form>
@@ -101,20 +117,17 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
                 </form>
               <?php } ?>
 
-            <?php } else if ($isMember && (classInEnrolledClasses($class->id, $enrolledClasses))) { ?>
+            <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
               <form action="../actions/action_cancel_enrollment.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                 <button class="btn medium warning outline" type="submit"><?= 'Cancel Enrollment' ?></button>
               </form>
 
-            <?php } else if ($isMember && (classInWaitlistedClasses($class->id, $waitlistedClasses))) { ?>
+            <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
               <form action="../actions/action_leave_waitlist.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                 <button class="btn medium warning outline" type="submit"><?= 'Leave Waitlist' ?></button>
               </form>
-              
-            <?php } else if (!$isTrainer) { ?>
-              <a class="btn medium blue" href="../pages/index.php#membership">Enroll Now</a>
             <?php } ?>
           </li>
         <?php } ?>
@@ -186,7 +199,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $waitlistedClasses, array $reviews) {
     drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session->isMember(), $session->isTrainer());
+        drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session);
     }
     drawReviewSection($session, $reviews);
 } ?>

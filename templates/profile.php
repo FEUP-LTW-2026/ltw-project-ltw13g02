@@ -9,7 +9,7 @@
     return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
   }
   require_once(__DIR__ . '/../database/gymClass.class.php'); 
-  // TODO: this is used because of the drawEnrolledClass function (move it to common.php?)
+  // TODO: this is used because of the drawClassDate, drawClassTime, and drawClassCapacity functions (move them to common.php?)
   require_once(__DIR__ . '/class.php');
 ?>
 
@@ -23,6 +23,15 @@
         <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
       </header>
     </section>
+  </div>
+<?php } ?>
+
+<?php function drawClassCardInfo(GymClass $class) { ?>
+  <div class="class-info">
+    <h3><?= $class->name ?></h3>
+    <?php drawClassDate($class->startTimestamp); ?>
+    <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+    <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
   </div>
 <?php } ?>
 
