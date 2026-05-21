@@ -5,13 +5,22 @@
   require_once(__DIR__ . '/../database/gymClass.class.php');
 ?>
 
-<?php function drawClassIntro(ClassType $classType, Session $session) { ?>
+<?php function drawClassIntro(ClassType $classType, Session $session, array $classTypeRating) { ?>
   <div class="intro">
     <section class="container">
       <div id="class-hero">
         <p class="detail"><?= $classType->weekday ?></p>
         <h1><?= $classType->name ?></h1>
-        <p class="rating">⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
+        <?php if($classTypeRating === null) { ?>
+          <p class="rating">No reviews yet</p>
+        <?php } else { ?>
+          <p class="rating">
+            <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
+              <span class="material-symbols-outlined">⭐</span>
+            <?php } ?>
+            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
+          </p>
+        <?php } ?>
         <p class="time">
             <time datetime="19:00">7:00 PM</time> -
             <time datetime="20:00">8:00 PM</time>
@@ -73,21 +82,18 @@
   </div>
 <?php } ?>
 
-<?php function drawReview($name, $rating, $comment) { ?>
+<?php function drawReview(string $username, string $firstName, string $lastName, int $rating, string $comment, string $timestamp) { ?>
   <article class="card review">
-    <h3><?= $name ?></h3>
+    <h3><?= $username ?> <span><?= $firstName . ' ' . $lastName ?></span></h3>
     <p><?= $rating .  "/5" ?></p>
-    <p><?= $comment ?></p>
+    <p id="review-text"><?= $comment ?></p>
+    <p id="timestamp"><?= $timestamp ?></p>
   </article>
 <?php } ?>
 
-<?php function drawReviewForm() { ?>
-  <form class="comment-form" action="#" method="post">
+<?php function drawReviewForm(int $classTypeId) { ?>
+  <form class="comment-form" action="../actions/action_sumbitReview.php" method="POST">
     <h3>Leave a comment</h3>
-    <label>
-      Name
-      <input type="text" name="name" placeholder="Your name" required />
-    </label>
 
     <label>
       Rating
@@ -108,11 +114,12 @@
       <textarea name="comment" placeholder="Your feedback" required></textarea>
     </label>
 
+    <input type="hidden" name="class_type_id" value="<?= $classTypeId ?>" />
     <button class="btn medium blue" type="submit">Submit</button>
   </form>
 <?php } ?>
 
-<?php function drawReviewSection(Session $session, array $reviews) { ?>
+<?php function drawReviewSection(ClassType $classType, Session $session, array $reviews) { ?>
   <div id="reviews">
     <section class="container">
       <h2>Reviews</h2>
@@ -121,22 +128,22 @@
       <?php } ?>
       <div id="reviews-list">
         <?php foreach ($reviews as $review) {
-          drawReview($review['name'], $review['rating'], $review['comment']);
+          drawReview($review['username'], $review['first_name'], $review['last_name'], $review['rating'], $review['review_text'], $review['review_timestamp']);
         } ?>
       </div>
       <?php 
         if($session->isLoggedIn()) {
-            drawReviewForm();
+            drawReviewForm($classType->id);
         } 
       ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $reviews) {
-    drawClassIntro($classType, $session);
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $reviews, array $classTypeRating) {
+    drawClassIntro($classType, $session, $classTypeRating);
     if($session->isLoggedIn()) {
         drawClassEnrollmentList($classType->capacity, $classes);
     }
-    drawReviewSection($session, $reviews);
+    drawReviewSection($classType, $session, $reviews);
 } ?>
