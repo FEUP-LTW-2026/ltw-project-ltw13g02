@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
 
+    // TODO: require_once in the beggining of the file or in the middle?
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/gymClass.class.php');
@@ -14,6 +15,7 @@
         exit;
     }
 
+    // TODO: this function is needed in almost every action file (create a helper function?)
     function redirectToPreviousPage() {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
@@ -43,7 +45,7 @@
         redirectToPreviousPage();
     }
 
-    // Check if already enrolled
+    // Check if already enrolled; TODO: already checked in the template file.
     if (Enrollment::isAlreadyEnrolled($db, $memberId, $classId)) {
         $session->addErrorMessage('You are already enrolled in this class.');
         redirectToPreviousPage();

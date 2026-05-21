@@ -17,11 +17,12 @@
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
   $reviews = Review::getReviewsByClassType($db, intval($_GET['id']));
+  $enrolledClasses = GymClass::getEnrolledClasses($db, $session->getId());
   $classTypeRating = Review::getRatingAndCountByClassType($db, intval($_GET['id']));
 
   drawHeader($session, $generalClass->name, ['class.css', 'classes.css']);
 
-  drawClassPage($session, $generalClass, $classes, $reviews, $classTypeRating);
+  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $reviews, $classTypeRating);
 
   drawFooter();
 ?>

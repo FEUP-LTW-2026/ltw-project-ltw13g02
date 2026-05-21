@@ -138,6 +138,7 @@
     text-decoration: none;
     border-radius: var(--radius-button);
     font-weight: var(--weight-strong);
+    text-align: center;
 
     transition: transform 200ms ease, background-color 200ms ease, border-color 200ms ease, color 200ms ease;
 
@@ -307,6 +308,66 @@
         }
       }
     }
+  }
+
+  .classes-enrollment {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--space-m);
+
+      & li.card {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-xs);
+
+          padding: var(--space-m);
+          background-color: var(--color-background);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-card);
+          transition: all 0.3s ease;
+
+          &:hover {
+              box-shadow: var(--shadow-card);
+              border-color: var(--color-primary);
+          }
+
+          & .class-info {
+              flex: 1;
+              margin-bottom: var(--space-m);
+
+              & h3 {
+                  margin: 0 0 var(--space-s) 0;
+                  font-size: var(--font-size-m);
+                  color: var(--color-text);
+              }
+
+              & p {
+                  margin: var(--space-xs) 0;
+                  font-size: var(--font-size-s);
+                  color: var(--color-paragraph);
+                  display: flex;
+                  align-items: center;
+                  gap: var(--space-xs);
+
+                  & .material-symbols-outlined {
+                      color: var(--color-primary);
+                      font-size: var(--font-size-m);
+                  }
+              }
+          }
+
+          & form {
+              display: flex;
+              gap: var(--space-s);
+
+              & button {
+                  flex: 1;
+              }
+          }
+      }
   }
 
   .trainer-card {
@@ -641,6 +702,10 @@
           }
         }
       }
+    }
+
+    .classes-enrollment {
+      grid-template-columns: 1fr;
     }
   }
 

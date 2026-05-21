@@ -81,7 +81,8 @@
       ');
       $stmt->execute([$classTypeId]);
       $result = $stmt->fetch();
-      if($result === false) {
+      // If there are no reviews avg will return null and count will return 0, so we must check both
+      if($result === false || $result['review_counts'] == 0) {
         return null;
       }
       return [$result['average_rating'], $result['review_counts']];

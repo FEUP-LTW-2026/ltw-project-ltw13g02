@@ -16,7 +16,7 @@
 
 ?>
 
-<?php function drawClass($class) { ?>
+<?php function drawClassType(ClassType $class) { ?>
 	<article class="card class-card">
 		<header>
 			<img src="https://picsum.photos/400/300" alt="<?= $class->name ?>">
@@ -24,14 +24,14 @@
 				
 		<div>
 			<h3><?= $class->name; ?></h3>
-      <?php if ($class instanceof ClassType) { ?>
-        <p><?= $class->weekday; ?></p>
-        <p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
-        <?php $capacity = $class->capacity; $enrollment = $class->capacity; $classId = $class->id; ?>
-      <?php } else { // GymClass ?>
-        <p><?= $class->startTimestamp; ?></p>
-        <?php $capacity = 0; $enrollment = $class->currentEnrollment; $classId = $class->classTypeId; ?>
-      <?php } ?>
+      <p><?= $class->weekday; ?></p>
+      <p><?= $class->startTime . ' - ' . $class->endTime; ?></p>
+
+      <?php 
+        $capacity = $class->capacity;
+        $classId = $class->id;
+      ?>
+      
 			<p>Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId; ?>"><?= $class->trainerName; ?></a></p>
 		</div>
 		
@@ -39,12 +39,12 @@
 			<div>
 				<p>
 					<span class="material-symbols-outlined">timer</span>
-					<time><?= calculateDurationMinutes($class->startTime ?? $class->startTimestamp, $class->endTime ?? $class->endTimestamp) ?> min</time>
+					<time><?= calculateDurationMinutes($class->startTime, $class->endTime) ?> min</time>
 				</p>
 
 				<p>
 					<span class="material-symbols-outlined">person</span>
-					<span><?= $enrollment; ?></span>
+					<span><?= $capacity; ?></span>
 				</p>
 			</div>
 			<a class="btn medium blue" href="../pages/class.php?id=<?= $classId; ?>">Details</a>
@@ -55,7 +55,7 @@
 <?php function drawClasses(array $classes) { ?>
 	<div class="card-grid class-list">
 		<?php foreach ($classes as $class) {
-			drawClass($class);
+			drawClassType($class);
 		} ?>
 	</div>
 <?php } ?>
