@@ -1,6 +1,14 @@
 <?php 
-  declare(strict_types=1);
+  declare(strict_types=1); 
+?>
 
+<?php function checkExistingMember(PDO $db, int $member_id) {
+  $stmt = $db->prepare('SELECT id FROM Member WHERE id = ?');
+  $stmt->execute([$member_id]);
+  return $stmt->fetch();
+} ?>
+
+<?php 
   require_once(__DIR__ . '/../utils/session.php');
   $session = new Session();
 
@@ -35,10 +43,10 @@
   // First month insertion
   try {
     $db->beginTransaction();
-    // Check if member exists: if not, create it (to satisfy foreign key constraint)
-    $stmt = $db->prepare('SELECT id FROM Member WHERE id = ?');
-    $stmt->execute([$session->getId()]);
-    if ($stmt->fetch() === false) {
+
+    $isMember = checkExistingMember($db, $session->getId());
+
+    if ($isMember === false) {
       $stmt = $db->prepare('INSERT INTO Member (id) VALUES (?)');
       $stmt->execute([$session->getId()]);
     }
@@ -53,7 +61,6 @@
     $db->commit();
   } catch (Exception $e) {
     $db->rollBack();
-    $session->addErrorMessage($e->getMessage());
     $session->addErrorMessage('Error creating first month of membership.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
@@ -90,6 +97,7 @@
       exit;
     }
   }
+  $session->setMember(true);
   $session->addSuccessMessage('Membership created successfully!');
   header('Location: ' . $_SERVER['HTTP_REFERER']);
   exit;
