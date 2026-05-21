@@ -90,6 +90,12 @@
       exit;
     }
   }
+
+  // Update the session to reflect the new membership status (fetch user just for confirmation)
+  require_once (__DIR__ . '/../database/authenticated_user.class.php');
+  $user = AuthenticatedUser::getUser($db, $session->getId());
+  $session->setMember($user->isMember($db));
+
   $session->addSuccessMessage('Membership created successfully!');
   header('Location: ' . $_SERVER['HTTP_REFERER']);
   exit;

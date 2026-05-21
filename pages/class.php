@@ -15,6 +15,7 @@
 
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
+  $enrolledClasses = GymClass::getEnrolledClasses($db, $session->getId());
 
   // Dummy data for class reviews.
   $reviews = [
@@ -32,7 +33,7 @@
 
   drawHeader($session, $generalClass->name, ['class.css', 'classes.css']);
 
-  drawClassPage($session, $generalClass, $classes, $reviews);
+  drawClassPage($session, $generalClass, $classes, $enrolledClasses, $reviews);
 
   drawFooter();
 ?>
