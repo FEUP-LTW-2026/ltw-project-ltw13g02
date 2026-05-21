@@ -29,13 +29,13 @@
 
         public static function getClassById(PDO $db, int $classId) : ?GymClass {
             $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
+                SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,
                     CONCAT(User.first_name, " ", User.last_name) as trainer_name,
                     Class.start_timestamp, Class.end_timestamp, Class.status,
                     COUNT(Enrollment.id) as current_enrollment
                 FROM Class
                 JOIN ClassType ON Class.class_type_id = ClassType.id
-                LEFT JOIN User ON Class.trainer_id = User.id
+                LEFT JOIN User ON ClassType.trainer_id = User.id
                 LEFT JOIN Enrollment ON Class.id = Enrollment.class_id AND Enrollment.status = "enrolled"
                 WHERE Class.id = ?
                 GROUP BY Class.id
@@ -62,13 +62,13 @@
 
         public static function getClassesByTypeId(PDO $db, int $classTypeId) : array {
             $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
+                SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,
                     CONCAT(User.first_name, " ", User.last_name) AS trainer_name,
                     Class.start_timestamp, Class.end_timestamp, Class.status,
                     (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.class_id = Class.id AND Enrollment.status = "enrolled") AS current_enrollment
                 FROM Class
                 JOIN ClassType ON Class.class_type_id = ClassType.id
-                LEFT JOIN User ON Class.trainer_id = User.id
+                LEFT JOIN User ON ClassType.trainer_id = User.id
                 WHERE Class.class_type_id = ? AND Class.status = "scheduled"
                 ORDER BY Class.start_timestamp ASC
             ');

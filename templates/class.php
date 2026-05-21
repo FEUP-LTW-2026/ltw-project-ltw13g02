@@ -75,7 +75,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
   <p>
     <span class="material-symbols-outlined">schedule</span>
-    <?= date('g:i', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
+    <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
   </p>
 <?php } ?>
 
