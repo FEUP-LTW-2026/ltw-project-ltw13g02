@@ -265,7 +265,7 @@
 
     & > header {
       overflow: hidden;
-      height: 10em;
+      height: 12em;
       
       & img {
           width: 100%;
@@ -276,6 +276,12 @@
     & > div {
       font-size: var(--font-size-s);
       padding: 0 var(--space-l);
+
+      & > p {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xxs);
+      }
 
       & .trainer {
         color: var(--color-black);
@@ -293,7 +299,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--space-l);
+      padding: 0 var(--space-l) var(--space-l) var(--space-l);
 
       & div {
         display: flex;
@@ -350,11 +356,6 @@
                   display: flex;
                   align-items: center;
                   gap: var(--space-xs);
-
-                  & .material-symbols-outlined {
-                      color: var(--color-primary);
-                      font-size: var(--font-size-m);
-                  }
               }
           }
 
@@ -368,6 +369,11 @@
           }
       }
   }
+
+    & .material-symbols-outlined {
+      color: var(--color-primary);
+      font-size: var(--font-size-m);
+    }
 
   .trainer-card {
     aspect-ratio: 1 / 1;

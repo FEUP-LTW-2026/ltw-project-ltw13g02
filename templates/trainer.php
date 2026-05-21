@@ -64,7 +64,7 @@
     <section class="container">
       <p class="detail">WHERE CAN YOU FIND ME?</p>
       <h2>Classes with <?= $firstname ?></h2>
-      <?php drawClasses($classes) ?>
+      <?php drawClasses($classes) // TODO: place this function (currently in classes.php) inside common.php? ?> 
     </section>
   </div>
 <?php } ?>
