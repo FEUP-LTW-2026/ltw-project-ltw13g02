@@ -8,8 +8,9 @@
 
     return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
   }
-  require_once(__DIR__ . '/../database/gymClass.class.php');
-  require_once(__DIR__ . '/classes.php');
+  require_once(__DIR__ . '/../database/gymClass.class.php'); 
+  // TODO: this is used because of the drawEnrolledClass function (move it to common.php?)
+  require_once(__DIR__ . '/class.php');
 ?>
 
 <?php function drawProfile(int $userId, string $name, string $username) { ?>
@@ -25,16 +26,28 @@
   </div>
 <?php } ?>
 
+<?php function drawEnrolledClass(GymClass $class) { ?>
+  <li class="card">
+      <?php drawClassCardInfo($class); ?>
+
+      <a class="btn medium blue" href="../pages/class.php?id=<?= $class->classTypeId ?>">Details</a>
+      <form action="../actions/action_cancel_enrollment.php" method="post">
+          <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+          <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
+      </form>
+    </li>
+<?php } ?>
+
 <?php function drawEnrolledClasses(array $classes) { ?>
-  <div class="card-grid class-list">
+  <ul class="classes-enrollment">
     <?php if (empty($classes)) { ?>
-      <p>You are not enrolled in any classes yet.</p>
+      <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
       foreach ($classes as $class) {
-        drawClass($class);
+        drawEnrolledClass($class);
       }
     } ?>
-  </div>
+  </ul>
 <?php } ?>
 
 <?php function drawEnrolledClassesContainer(array $classes) { ?>

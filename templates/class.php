@@ -44,9 +44,7 @@
   </div>
 <?php } ?>
 
-<?php
-
-function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
+<?php function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
     foreach ($enrolledClasses as $enrolledClass) {
         if ($enrolledClass->id === $classId) {
             return true;
@@ -54,25 +52,31 @@ function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
     }
     return false;
 }
+?>
 
-function drawClassEnrollmentList(int $classTypeCapacity, array $classes, array $enrolledClasses, bool $isMember, bool $isTrainer) { ?>
+<?php function drawClassCardInfo(GymClass $class) { ?>
+  <div class="class-info">
+    <h3><?= $class->name ?></h3>
+    <p class="date-time">
+      <span class="material-symbols-outlined">event</span>
+      <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
+    </p>
+    <p class="enrollment-status">
+      <span class="material-symbols-outlined">person</span>
+      <?= $class->currentEnrollment . '/' . $class->capacity ?> enrolled
+    </p>
+  </div>
+<?php } ?>
+
+<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, bool $isMember, bool $isTrainer) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
       <ul class="classes-enrollment">
         <?php foreach ($classes as $class) { ?>
           <li class="card">
-            <div class="class-info">
-              <h3><?= $class->name ?></h3>
-              <p class="date-time">
-                <span class="material-symbols-outlined">event</span>
-                <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
-              </p>
-              <p class="enrollment-status">
-                <span class="material-symbols-outlined">person</span>
-                <?= $class->currentEnrollment . '/' . $classTypeCapacity ?> enrolled
-              </p>
-            </div>
+            <?php drawClassCardInfo($class); ?>
+
             <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
               <form action="../actions/action_enrollment.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
@@ -156,7 +160,7 @@ function drawClassEnrollmentList(int $classTypeCapacity, array $classes, array $
 <?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $reviews) {
     drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classType->capacity, $classes, $enrolledClasses, $session->isMember(), $session->isTrainer());
+        drawClassEnrollmentList($classes, $enrolledClasses, $session->isMember(), $session->isTrainer());
     }
     drawReviewSection($session, $reviews);
 } ?>
