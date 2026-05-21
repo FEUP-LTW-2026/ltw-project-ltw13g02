@@ -44,28 +44,52 @@
   </div>
 <?php } ?>
 
-<?php function drawClassEnrollmentList(int $classTypeCapacity, array $classes) { ?>
+<?php function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
+    foreach ($enrolledClasses as $enrolledClass) {
+        if ($enrolledClass->id === $classId) {
+            return true;
+        }
+    }
+    return false;
+}
+?>
+
+<?php function drawClassCardInfo(GymClass $class) { ?>
+  <div class="class-info">
+    <h3><?= $class->name ?></h3>
+    <p class="date-time">
+      <span class="material-symbols-outlined">event</span>
+      <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
+    </p>
+    <p class="enrollment-status">
+      <span class="material-symbols-outlined">person</span>
+      <?= $class->currentEnrollment . '/' . $class->capacity ?> enrolled
+    </p>
+  </div>
+<?php } ?>
+
+<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, bool $isMember, bool $isTrainer) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
       <ul class="classes-enrollment">
         <?php foreach ($classes as $class) { ?>
           <li class="card">
-            <div class="class-info">
-              <h3><?= $class->name ?></h3>
-              <p class="date-time">
-                <span class="material-symbols-outlined">event</span>
-                <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
-              </p>
-              <p class="enrollment-status">
-                <span class="material-symbols-outlined">person</span>
-                <?= $class->currentEnrollment . '/' . $classTypeCapacity ?> enrolled
-              </p>
-            </div>
-            <form action="../actions/action_enrollment.php" method="post">
-              <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-              <button class="btn medium blue" type="submit">Enroll Now</button>
-            </form>
+            <?php drawClassCardInfo($class); ?>
+
+            <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+              <form action="../actions/action_enrollment.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                <button class="btn medium blue" type="submit">Enroll Now</button>
+              </form>
+            <?php } else if ($isMember && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+              <form action="../actions/action_cancel_enrollment.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
+              </form>
+            <?php } else if (!$isTrainer) { ?>
+              <a class="btn medium blue" href="../pages/index.php#membership">Enroll Now</a>
+            <?php } ?>
           </li>
         <?php } ?>
       </ul>
@@ -133,10 +157,10 @@
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $reviews) {
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $reviews) {
     drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classType->capacity, $classes);
+        drawClassEnrollmentList($classes, $enrolledClasses, $session->isMember(), $session->isTrainer());
     }
     drawReviewSection($session, $reviews);
 } ?>

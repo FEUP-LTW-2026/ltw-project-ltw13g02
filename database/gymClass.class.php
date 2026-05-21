@@ -2,6 +2,7 @@
     declare(strict_types = 1);
 
     class GymClass {
+        // TODO: create getters and setters?
         public int $id;
         public int $classTypeId;
         public int $trainerId;
@@ -11,8 +12,9 @@
         public string $endTimestamp;
         public string $status;
         public int $currentEnrollment;
+        public int $capacity;
 
-        public function __construct(int $id, int $classTypeId, int $trainerId, string $name, string $trainerName, string $startTimestamp, string $endTimestamp, string $status, int $currentEnrollment = 0) {
+        public function __construct(int $id, int $classTypeId, int $trainerId, string $name, string $trainerName, string $startTimestamp, string $endTimestamp, string $status, int $currentEnrollment = 0, int $capacity = 0) {
             $this->id = $id;
             $this->classTypeId = $classTypeId;
             $this->trainerId = $trainerId;
@@ -22,11 +24,12 @@
             $this->endTimestamp = $endTimestamp;
             $this->status = $status;
             $this->currentEnrollment = $currentEnrollment;
+            $this->capacity = $capacity;
         }
 
         public static function getClassById(PDO $db, int $classId) : ?GymClass {
             $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name,
+                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
                     CONCAT(User.first_name, " ", User.last_name) as trainer_name,
                     Class.start_timestamp, Class.end_timestamp, Class.status,
                     COUNT(Enrollment.id) as current_enrollment
@@ -52,13 +55,14 @@
                 $row['start_timestamp'],
                 $row['end_timestamp'],
                 $row['status'],
-                $row['current_enrollment']
+                $row['current_enrollment'],
+                $row['capacity']
             );
         }
 
         public static function getClassesByTypeId(PDO $db, int $classTypeId) : array {
             $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name,
+                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
                     CONCAT(User.first_name, " ", User.last_name) AS trainer_name,
                     Class.start_timestamp, Class.end_timestamp, Class.status,
                     (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.class_id = Class.id AND Enrollment.status = "enrolled") AS current_enrollment
@@ -82,7 +86,8 @@
                     $row['start_timestamp'],
                     $row['end_timestamp'],
                     $row['status'],
-                    $row['current_enrollment']
+                    $row['current_enrollment'],
+                    $row['capacity']
                 );
             }
 
@@ -95,7 +100,7 @@
 
         public static function getEnrolledClasses(PDO $db, int $memberId) : array {
             $stmt = $db->prepare('
-                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name,
+                SELECT Class.id, Class.class_type_id, Class.trainer_id, ClassType.name, ClassType.capacity,
                     CONCAT(User.first_name, " ", User.last_name) as trainer_name,
                     Class.start_timestamp, Class.end_timestamp, Class.status,
                     (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.class_id = Class.id AND Enrollment.status = "enrolled") as current_enrollment
@@ -120,7 +125,8 @@
                     $row['start_timestamp'],
                     $row['end_timestamp'],
                     $row['status'],
-                    $row['current_enrollment']
+                    $row['current_enrollment'],
+                    $row['capacity']
                 );
             }
 
