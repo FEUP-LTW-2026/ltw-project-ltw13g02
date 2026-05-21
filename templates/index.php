@@ -38,6 +38,8 @@
         <input type="hidden" name="plan_id" value="<?= $id; ?>">
         <button type="submit" class="btn large wide blue">Choose <?= $planName; ?></button>
       </form>
+    <?php } else if (!$session->isLoggedIn()) { ?>
+      <a class="btn large wide blue" href="../pages/signup.php">Choose <?= $planName; ?></a>
     <?php } ?>
   </article>
 <?php } ?>

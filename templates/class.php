@@ -44,7 +44,7 @@
   </div>
 <?php } ?>
 
-<?php function drawClassEnrollmentList(int $classTypeCapacity, array $classes) { ?>
+<?php function drawClassEnrollmentList(int $classTypeCapacity, array $classes, bool $isMember, bool $isTrainer) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
@@ -62,10 +62,14 @@
                 <?= $class->currentEnrollment . '/' . $classTypeCapacity ?> enrolled
               </p>
             </div>
-            <form action="../actions/action_enrollment.php" method="post">
-              <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-              <button class="btn medium blue" type="submit">Enroll Now</button>
-            </form>
+            <?php if ($isMember) { ?>
+              <form action="../actions/action_enrollment.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                <button class="btn medium blue" type="submit">Enroll Now</button>
+              </form>
+            <?php } else if (!$isTrainer) { ?>
+              <a class="btn medium blue" href="../pages/index.php#membership">Enroll Now</a>
+            <?php } ?>
           </li>
         <?php } ?>
       </ul>
@@ -136,7 +140,7 @@
 <?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $reviews) {
     drawClassIntro($classType, $session);
     if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classType->capacity, $classes);
+        drawClassEnrollmentList($classType->capacity, $classes, $session->isMember(), $session->isTrainer());
     }
     drawReviewSection($session, $reviews);
 } ?>

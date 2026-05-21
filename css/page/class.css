@@ -1,148 +1,152 @@
-.intro .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-xxl);
-}
-
-#class-hero {
-    flex: 1;
-
-    & h1 {
-        margin-top: var(--space-xs);
-    }
-
-    & .detail {
-        font-size: var(--font-size-s);
-        font-weight: var(--weight-medium);
-        color: var(--color-primary);
-        margin: 0;
-    }
-
-    & .rating {
-        font-size: var(--font-size-m);
-        color: var(--color-paragraph);
-    }
-
-    & .stats {
+@layer page {
+    .intro .container {
         display: flex;
-        gap: var(--space-xl);
-        margin-top: var(--space-m);
-        margin-bottom: var(--space-l);
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-xxl);
+    }
 
-        & p {
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-            font-size: var(--font-size-m);
+    #class-hero {
+        flex: 1;
+
+        & h1 {
+            margin-top: var(--space-xs);
+        }
+
+        & .detail {
+            font-size: var(--font-size-s);
+            font-weight: var(--weight-medium);
+            color: var(--color-primary);
             margin: 0;
-
-            & .material-symbols-outlined {
-                color: var(--color-primary);
-            }
-        }
-    }
-
-    & .trainer {
-        color: var(--color-primary);
-    }
-
-    & .trainer:hover {
-        color: var(--color-primary-hover);
-    }
-}
-
-.hero-image {
-    flex: 1;
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-}
-
-#enrollment .container {
-    background-color: var(--color-secondary);
-    padding: var(--space-xl);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-
-    & h2 {
-        margin-top: 0;
-        margin-bottom: var(--space-l);
-    }
-}
-
-.classes-enrollment {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--space-m);
-
-    & li.card {
-        display: flex;
-        flex-direction: column;
-        padding: var(--space-m);
-        background-color: var(--color-background);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-card);
-        transition: all 0.3s ease;
-
-        &:hover {
-            box-shadow: var(--shadow-card);
-            border-color: var(--color-primary);
         }
 
-        & .class-info {
-            flex: 1;
-            margin-bottom: var(--space-m);
+        & .rating {
+            font-size: var(--font-size-m);
+            color: var(--color-paragraph);
+        }
 
-            & h3 {
-                margin: 0 0 var(--space-s) 0;
-                font-size: var(--font-size-m);
-                color: var(--color-text);
-            }
+        & .stats {
+            display: flex;
+            gap: var(--space-xl);
+            margin-top: var(--space-m);
+            margin-bottom: var(--space-l);
 
             & p {
-                margin: var(--space-xs) 0;
-                font-size: var(--font-size-s);
-                color: var(--color-paragraph);
                 display: flex;
                 align-items: center;
                 gap: var(--space-xs);
+                font-size: var(--font-size-m);
+                margin: 0;
 
                 & .material-symbols-outlined {
                     color: var(--color-primary);
-                    font-size: var(--font-size-m);
                 }
             }
         }
 
-        & form {
-            display: flex;
-            gap: var(--space-s);
+        & .trainer {
+            color: var(--color-primary);
+        }
 
-            & button {
+        & .trainer:hover {
+            color: var(--color-primary-hover);
+        }
+    }
+
+    .hero-image {
+        flex: 1;
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+    }
+
+    #enrollment .container {
+        background-color: var(--color-secondary);
+        padding: var(--space-xl);
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+
+        & h2 {
+            margin-top: 0;
+            margin-bottom: var(--space-l);
+        }
+    }
+
+    .classes-enrollment {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-m);
+
+        & li.card {
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-m);
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-card);
+            transition: all 0.3s ease;
+
+            &:hover {
+                box-shadow: var(--shadow-card);
+                border-color: var(--color-primary);
+            }
+
+            & .class-info {
                 flex: 1;
+                margin-bottom: var(--space-m);
+
+                & h3 {
+                    margin: 0 0 var(--space-s) 0;
+                    font-size: var(--font-size-m);
+                    color: var(--color-text);
+                }
+
+                & p {
+                    margin: var(--space-xs) 0;
+                    font-size: var(--font-size-s);
+                    color: var(--color-paragraph);
+                    display: flex;
+                    align-items: center;
+                    gap: var(--space-xs);
+
+                    & .material-symbols-outlined {
+                        color: var(--color-primary);
+                        font-size: var(--font-size-m);
+                    }
+                }
+            }
+
+            & form {
+                display: flex;
+                gap: var(--space-s);
+
+                & button {
+                    flex: 1;
+                }
             }
         }
     }
 }
 
-@media (max-width: 60rem) {
-    .classes-enrollment {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 60rem) {
-    #class-hero .stats {
-        justify-content: center;
+@layer responsive {
+    @media (max-width: 60rem) {
+        .classes-enrollment {
+            grid-template-columns: 1fr;
+        }
     }
 
-    .hero-image {
-        display: none;
+    @media (max-width: 60rem) {
+        #class-hero .stats {
+            justify-content: center;
+        }
+
+        .hero-image {
+            display: none;
+        }
     }
 }
