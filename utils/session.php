@@ -34,27 +34,19 @@
     }
 
     public function isAdmin() : bool {
-      return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Admin';
     }
 
     public function isMember() : bool {
-      return isset($_SESSION['is_member']) && $_SESSION['is_member'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Member';
     }
 
     public function isTrainer() : bool {
-      return isset($_SESSION['is_trainer']) && $_SESSION['is_trainer'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Trainer';
     }
 
-    public function setAdmin(bool $is_admin) {
-      $_SESSION['is_admin'] = $is_admin;
-    }
-
-    public function setMember(bool $is_member) {
-      $_SESSION['is_member'] = $is_member;
-    }
-
-    public function setTrainer(bool $is_trainer) {
-      $_SESSION['is_trainer'] = $is_trainer;
+    public function setRole(string $role) {
+      $_SESSION['role'] = $role;
     }
 
     public function setIsActive(bool $is_active) {

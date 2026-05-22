@@ -66,7 +66,7 @@
 <?php } ?>
 
 
-<?php function drawAccountManagement(array $users, PDO $db, Session $session) { ?>
+<?php function drawAccountManagement(array $users, PDO $db, Session $session, RoleManager $roleManager) { ?>
   <article class="dashboard-section" id="account-management">
     <header>
       <div class="section-header">
@@ -94,10 +94,28 @@
               <tr>
                 <td><?= $user->getUsername() ?></td>
                 <td><?= $user->getEmail() ?></td>
-                <td><?= $user->isAdmin($db) ? 'Admin' : ($user->isTrainer($db) ? 'Trainer' : 'Member') ?></td>
+                <td>
+                  <div class="role-update-container">
+                      <span><?php echo $user->getRole(); ?></span>
+                      <form action="../actions/action_changeRole.php" method="POST" id="role-form-<?= $user->getId() ?>" class="role-update-form">
+                        <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
+                        <input type="hidden" name="user_name" value="<?= $user->getUsername() ?>">
+                        <input type="hidden" name="old_role_table" value="<?= $user->getRole() ?>">
+                        <select name="new_role_table">
+                          <option value="" disabled selected>Change Role</option>
+                          <?php 
+                            $roles = $roleManager->getAvailableRoles($user->getRole());
+                            foreach ($roles as $role) { ?>
+                            <!-- only show roles that the user can transition to -->
+                            <option value="<?= $role ?>"><?= $role ?></option>
+                          <?php } ?>
+                        </select>
+                      </form>
+                  </div>
+                </td>
                 <td><span class="status <?= $user->IsActive() ? 'active' : 'inactive' ?>"><?= $user->IsActive() ? 'Active' : 'Inactive' ?></span></td>
                 <td class="actions">
-                  <button class="btn white">Edit</button>
+                  <button class="btn white" type="submit" form="role-form-<?= $user->getId() ?>">Submit</button>
                   <?php if (!$user->IsActive()) { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
@@ -236,10 +254,6 @@
     </header>
     <form class="settings-form" action="#" method="POST">
       <label>
-        <h4>Monthly Membership Price (€)</h4>
-        <input type="number" step="0.01" value="29.99">
-      </label>
-      <label>
         <h4>Opening Time</h4>
         <input type="time" value="06:00">
       </label>
@@ -302,12 +316,12 @@
 <?php } ?>
 
 
-<?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers) { ?>
+<?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers, RoleManager $roleManager) { ?>
 <div class="admin-dashboard container">
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
       <?php drawOverview(); ?>
-      <?php drawAccountManagement($users, $db, $session); ?>
+      <?php drawAccountManagement($users, $db, $session, $roleManager); ?>
       <?php drawClassCatalog(); ?>
       <?php drawEquipmentManagement(); ?>
       <?php drawGymSettings(); ?>

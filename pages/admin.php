@@ -32,8 +32,11 @@
   require_once (__DIR__ . '/../database/membership_tier.class.php');
   $tiers = MembershipTier::getMembershipTiers($db);
 
+  require_once (__DIR__ . '/../database/roleManager.class.php');
+  $roleManager = new RoleManager();
+
   require_once (__DIR__ . '/../templates/admin.php');
-  drawAdminPanel($users, $db, $session, $tiers);
+  drawAdminPanel($users, $db, $session, $tiers, $roleManager);
 ?>
 
 <?php drawFooter() ?>
