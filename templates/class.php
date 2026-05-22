@@ -5,31 +5,62 @@
   require_once(__DIR__ . '/../database/gymClass.class.php');
 ?>
 
-<?php function drawClassIntro(ClassType $classType, Session $session) { ?>
+<?php
+// Helper function to calculate class duration in minutes
+function calculateDurationMinutes(string $startTime, string $endTime) : int {
+    $start = new DateTime($startTime);
+    $end = new DateTime($endTime);
+    $interval = $start->diff($end);
+    return (int)$interval->format('%i') + ((int)$interval->format('%h') * 60);
+} ?>
+
+<?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
+  <p>
+    <span class="material-symbols-outlined">sports</span>
+    Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= $trainerName; ?></a>
+  </p>
+<?php } ?>
+
+<?php function drawClassDuration(string $startTime, string $endTime) { ?>
+  <p>
+    <span class="material-symbols-outlined">timer</span>
+    <?= calculateDurationMinutes($startTime, $endTime) ?> min
+  </p>
+<?php } ?>
+
+<?php function drawClassTypeCapacity(int $capacity) { ?>
+  <p>
+    <span class="material-symbols-outlined">person</span>
+    Capacity: <?= $capacity ?>
+  </p>
+<?php } ?>
+
+<?php function drawClassIntro(ClassType $classType, Session $session, ?array $classTypeRating) { ?>
   <div class="intro">
     <section class="container">
       <div id="class-hero">
         <p class="detail"><?= $classType->weekday ?></p>
         <h1><?= $classType->name ?></h1>
-        <p class="rating">⭐⭐⭐⭐⭐ 4.9 / 5 (127 reviews)</p>
-        <p class="time">
-            <time datetime="19:00">7:00 PM</time> -
-            <time datetime="20:00">8:00 PM</time>
-        </p>
-        <p class="trainer-info">
-          Trainer:
-          <a class="trainer" href="../pages/trainer.php?id=<?= $classType->trainerId ?>"><?= $classType->trainerName ?></a>
-        </p>
-        <div class="stats">
-          <p>
-            <span class="material-symbols-outlined">timer</span>
-            <time datetime="PT60M">60 min</time>
+        <?php if($classTypeRating === null) { ?>
+          <p class="rating">No reviews yet</p>
+        <?php } else { ?>
+          <p class="rating">
+            <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
+              <span class="material-symbols-outlined">⭐</span>
+            <?php } ?>
+            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
           </p>
+        <?php } ?>
 
-          <p>
-            <span class="material-symbols-outlined">person</span>
-            <span><?= $classType->capacity ?></span>
-          </p>
+        <?php
+          drawClassTime($classType->startTime, $classType->endTime); 
+          drawClassTrainer($classType->trainerId, $classType->trainerName);
+        ?>
+        <div class="stats">
+          <?php
+            drawClassDuration($classType->startTime, $classType->endTime);
+            drawClassTypeCapacity($classType->capacity);
+          ?>
         </div>
         <?php
         if($session->isLoggedIn()) {
@@ -136,21 +167,18 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
   </div>
 <?php } ?>
 
-<?php function drawReview($name, $rating, $comment) { ?>
+<?php function drawReview(string $username, string $firstName, string $lastName, int $rating, string $comment, string $timestamp) { ?>
   <article class="card review">
-    <h3><?= $name ?></h3>
+    <h3><?= $username ?> <span><?= $firstName . ' ' . $lastName ?></span></h3>
     <p><?= $rating .  "/5" ?></p>
-    <p><?= $comment ?></p>
+    <p id="review-text"><?= $comment ?></p>
+    <p id="timestamp"><?= $timestamp ?></p>
   </article>
 <?php } ?>
 
-<?php function drawReviewForm() { ?>
-  <form class="comment-form" action="#" method="post">
+<?php function drawReviewForm(int $classTypeId) { ?>
+  <form class="comment-form" action="../actions/action_sumbitReview.php" method="POST">
     <h3>Leave a comment</h3>
-    <label>
-      Name
-      <input type="text" name="name" placeholder="Your name" required />
-    </label>
 
     <label>
       Rating
@@ -171,11 +199,12 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
       <textarea name="comment" placeholder="Your feedback" required></textarea>
     </label>
 
+    <input type="hidden" name="class_type_id" value="<?= $classTypeId ?>" />
     <button class="btn medium blue" type="submit">Submit</button>
   </form>
 <?php } ?>
 
-<?php function drawReviewSection(Session $session, array $reviews) { ?>
+<?php function drawReviewSection(ClassType $classType, Session $session, array $reviews) { ?>
   <div id="reviews">
     <section class="container">
       <h2>Reviews</h2>
@@ -184,22 +213,20 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
       <?php } ?>
       <div id="reviews-list">
         <?php foreach ($reviews as $review) {
-          drawReview($review['name'], $review['rating'], $review['comment']);
+          drawReview($review['username'], $review['first_name'], $review['last_name'], $review['rating'], $review['review_text'], $review['review_timestamp']);
         } ?>
       </div>
       <?php 
         if($session->isLoggedIn()) {
-            drawReviewForm();
+            drawReviewForm($classType->id);
         } 
       ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $waitlistedClasses, array $reviews) {
-    drawClassIntro($classType, $session);
-    if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session);
-    }
-    drawReviewSection($session, $reviews);
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $waitlistedClasses, array $reviews, ?array $classTypeRating) {
+    drawClassIntro($classType, $session, $classTypeRating);
+    drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session);
+    drawReviewSection($classType, $session, $reviews);
 } ?>

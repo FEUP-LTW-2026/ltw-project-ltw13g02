@@ -9,6 +9,12 @@
     #class-hero {
         flex: 1;
 
+        & > p {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
         & h1 {
             margin-top: var(--space-xs);
         }

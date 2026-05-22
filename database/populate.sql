@@ -78,11 +78,7 @@ INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_d
 (2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2),
 (3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3);
 
--- Insert Reviews
-INSERT INTO Review (id, review_text, rating, review_timestamp) VALUES 
-(1, 'Great and very relaxing class!', 5, '2026-05-11 10:00:00');
 
 -- Insert Enrollments
-INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp, review_id) VALUES 
-(2, 3, 2, 'enrolled', '2026-05-21 11:00:00', NULL),
-(3, 3, 3, 'enrolled', '2026-05-22 12:00:00', NULL);
+INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp) VALUES 
+(2, 3, 1, 'attended', '2026-05-20 11:00:00');

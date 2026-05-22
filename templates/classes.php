@@ -6,15 +6,6 @@
   require_once (__DIR__ . '/../database/trainer.class.php');
   require_once (__DIR__ . '/../database/connection.db.php');
   require_once(__DIR__ . '/class.php');
-
-  // Helper function to calculate class duration in minutes
-  function calculateDurationMinutes(string $startTime, string $endTime) : int {
-    $start = new DateTime($startTime);
-    $end = new DateTime($endTime);
-    $interval = $start->diff($end);
-    return (int)$interval->format('%i') + ((int)$interval->format('%h') * 60);
-  }
-
 ?>
 
 <?php function drawClassType(ClassType $class) { ?>
@@ -29,24 +20,18 @@
         <span class="material-symbols-outlined">calendar_today</span>
         <?= $class->weekday; ?>
       </p>
-      <?php drawClassTime($class->startTime, $class->endTime); ?>
-      <p>
-        <span class="material-symbols-outlined">sports</span>
-        Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $class->trainerId; ?>"><?= $class->trainerName; ?></a>
-      </p>
+      <?php
+        drawClassTime($class->startTime, $class->endTime);
+        drawClassTrainer($class->trainerId, $class->trainerName);
+      ?>
 		</div>
 		
 		<footer>
 			<div>
-				<p>
-					<span class="material-symbols-outlined">timer</span>
-					<time><?= calculateDurationMinutes($class->startTime, $class->endTime) ?> min</time>
-				</p>
-
-				<p>
-					<span class="material-symbols-outlined">person</span>
-					<span><?= $class->capacity; ?></span>
-				</p>
+				<?php
+            drawClassDuration($class->startTime, $class->endTime);
+            drawClassTypeCapacity($class->capacity);
+          ?>
 			</div>
 			<a class="btn medium blue" href="../pages/class.php?id=<?= $class->id; ?>">Details</a>
 		</footer>

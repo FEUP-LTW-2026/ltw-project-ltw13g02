@@ -435,9 +435,15 @@
             padding: var(--space-m) var(--space-l);
 
             & h3 {
-                margin: 0;
-                font-size: var(--font-size-s);
-                font-weight: var(--weight-medium);
+              margin: 0;
+              font-size: var(--font-size-s);
+              font-weight: var(--weight-medium);
+              color: var(--color-primary);
+
+              & span {
+                color: var(--color-light-gray);
+                font-size: var(--font-size-xs);
+              }
             }
 
             & p {
@@ -447,9 +453,16 @@
 
             & p:first-of-type {
                 color: var(--color-reviews);
-                font-size: (--font-size-s);
-                font-weight: var(--weight-medium);
-                letter-spacing: 0.04rem;
+                font-weight: var(--weight-strong);
+            }
+
+            & #review-text {
+                color: var(--color-text);
+            }
+
+            & #timestamp {
+              color: var(--color-light-gray);
+              text-align: right;
             }
        }
     }
