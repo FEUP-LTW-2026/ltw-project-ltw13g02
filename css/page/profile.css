@@ -35,9 +35,13 @@
     }
   }
 
-  .container h2 {
+  .container h2:not(.detail) {
       margin: 0;
       margin-bottom: var(--space-l);
+  }
+
+  #waitlisted-classes {
+    margin-top: var(--space-xl);
   }
 }
 

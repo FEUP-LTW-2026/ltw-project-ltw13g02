@@ -85,8 +85,12 @@
       $this->addMessage('success', $text);
     }
 
+    public function addWarningMessage(string $text) {
+      $this->addMessage('warning', $text);
+    }
+
     public function addInactiveAccountMessage() : void {
-      $this->addMessage('error', 'This account is currently not active. Please contact the administrator if you want to reactivate it.');
+      $this->addErrorMessage('This account is currently not active. Please contact the administrator if you want to reactivate it.');
     }
 
     public function getMessages() {

@@ -5,6 +5,36 @@
   require_once(__DIR__ . '/../database/gymClass.class.php');
 ?>
 
+<?php
+// Helper function to calculate class duration in minutes
+function calculateDurationMinutes(string $startTime, string $endTime) : int {
+    $start = new DateTime($startTime);
+    $end = new DateTime($endTime);
+    $interval = $start->diff($end);
+    return (int)$interval->format('%i') + ((int)$interval->format('%h') * 60);
+} ?>
+
+<?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
+  <p>
+    <span class="material-symbols-outlined">sports</span>
+    Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= $trainerName; ?></a>
+  </p>
+<?php } ?>
+
+<?php function drawClassDuration(string $startTime, string $endTime) { ?>
+  <p>
+    <span class="material-symbols-outlined">timer</span>
+    <?= calculateDurationMinutes($startTime, $endTime) ?> min
+  </p>
+<?php } ?>
+
+<?php function drawClassTypeCapacity(int $capacity) { ?>
+  <p>
+    <span class="material-symbols-outlined">person</span>
+    Capacity: <?= $capacity ?>
+  </p>
+<?php } ?>
+
 <?php function drawClassIntro(ClassType $classType, Session $session, ?array $classTypeRating) { ?>
   <div class="intro">
     <section class="container">
@@ -21,29 +51,21 @@
             <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
           </p>
         <?php } ?>
-        <p class="time">
-            <time datetime="19:00">7:00 PM</time> -
-            <time datetime="20:00">8:00 PM</time>
-        </p>
-        <p class="trainer-info">
-          Trainer:
-          <a class="trainer" href="../pages/trainer.php?id=<?= $classType->trainerId ?>"><?= $classType->trainerName ?></a>
-        </p>
-        <div class="stats">
-          <p>
-            <span class="material-symbols-outlined">timer</span>
-            <time datetime="PT60M">60 min</time>
-          </p>
 
-          <p>
-            <span class="material-symbols-outlined">person</span>
-            <span><?= $classType->capacity ?></span>
-          </p>
+        <?php
+          drawClassTime($classType->startTime, $classType->endTime); 
+          drawClassTrainer($classType->trainerId, $classType->trainerName);
+        ?>
+        <div class="stats">
+          <?php
+            drawClassDuration($classType->startTime, $classType->endTime);
+            drawClassTypeCapacity($classType->capacity);
+          ?>
         </div>
         <?php
         if($session->isLoggedIn()) {
             ?>
-            <a class="btn large blue" href="#enrollment">Join Class</a>
+            <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
             <?php
         }
         ?>
@@ -53,7 +75,8 @@
   </div>
 <?php } ?>
 
-<?php function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
+<?php 
+function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
     foreach ($enrolledClasses as $enrolledClass) {
         if ($enrolledClass->id === $classId) {
             return true;
@@ -61,43 +84,81 @@
     }
     return false;
 }
+
+function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool {
+    foreach ($waitlistedClasses as $waitlistedClass) {
+        if ($waitlistedClass->id === $classId) {
+            return true;
+        }
+    }
+    return false;
+}
 ?>
 
-<?php function drawClassCardInfo(GymClass $class) { ?>
-  <div class="class-info">
-    <h3><?= $class->name ?></h3>
-    <p class="date-time">
-      <span class="material-symbols-outlined">event</span>
-      <?= date('M j, Y g:i A', strtotime($class->startTimestamp)) ?>
-    </p>
-    <p class="enrollment-status">
-      <span class="material-symbols-outlined">person</span>
-      <?= $class->currentEnrollment . '/' . $class->capacity ?> enrolled
-    </p>
-  </div>
+<?php function drawClassDate(string $startTimestamp) { ?>
+  <p>
+    <span class="material-symbols-outlined">calendar_today</span>
+    <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
+    <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
+  </p>
 <?php } ?>
 
-<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, bool $isMember, bool $isTrainer) { ?>
+<?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
+  <p>
+    <span class="material-symbols-outlined">schedule</span>
+    <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
+  </p>
+<?php } ?>
+
+<?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
+  <p>
+    <span class="material-symbols-outlined">person</span>
+    <?= $currentEnrollment . '/' . $capacity ?> enrolled
+  </p>
+<?php } ?>
+
+<?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, Session $session) { ?>
   <div id="enrollment">
     <section class="container">
       <h2>Available Classes</h2>
       <ul class="classes-enrollment">
         <?php foreach ($classes as $class) { ?>
           <li class="card">
-            <?php drawClassCardInfo($class); ?>
+            <div class="class-info">
+              <h3><?= $class->name ?></h3>
+              <?php drawClassDate($class->startTimestamp); ?>
+              <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
 
-            <?php if ($isMember && !classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-              <form action="../actions/action_enrollment.php" method="post">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium blue" type="submit">Enroll Now</button>
-              </form>
-            <?php } else if ($isMember && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+              <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
+                <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+              <?php } ?>
+
+            </div>
+
+            <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                if ($class->hasRemainingCapacity()) { ?>
+                <form action="../actions/action_enrollment.php" method="post">
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <button class="btn medium blue" type="submit">Enroll Now</button>
+                </form>
+              <?php } else { ?>
+                <form action="../actions/action_join_waitlist.php" method="post">
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <button class="btn medium blue" type="submit">Join Waitlist</button>
+                </form>
+              <?php } ?>
+
+            <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
               <form action="../actions/action_cancel_enrollment.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                 <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
               </form>
-            <?php } else if (!$isTrainer) { ?>
-              <a class="btn medium blue" href="../pages/index.php#membership">Enroll Now</a>
+
+            <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
+              <form action="../actions/action_leave_waitlist.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
+              </form>
             <?php } ?>
           </li>
         <?php } ?>
@@ -164,10 +225,8 @@
   </div>
 <?php } ?>
 
-<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $reviews, ?array $classTypeRating) {
+<?php function drawClassPage(Session $session, ClassType $classType, array $classes, array $enrolledClasses, array $waitlistedClasses, array $reviews, ?array $classTypeRating) {
     drawClassIntro($classType, $session, $classTypeRating);
-    if($session->isLoggedIn()) {
-        drawClassEnrollmentList($classes, $enrolledClasses, $session->isMember(), $session->isTrainer());
-    }
+    drawClassEnrollmentList($classes, $enrolledClasses, $waitlistedClasses, $session);
     drawReviewSection($classType, $session, $reviews);
 } ?>

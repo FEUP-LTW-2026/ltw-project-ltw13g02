@@ -11,8 +11,7 @@
   }
 
   if(!$session->isMember()) {
-    var_dump($session->isMember());
-    header('Location: ../pages/membership_terminal.php');
+    header('Location: ../pages/index.php#membership');
     exit;
   }
 
@@ -30,7 +29,6 @@
   $db = getDatabaseConnection();
 
   require_once(__DIR__ . '/../database/enrollment.class.php');
-  var_dump($session->getId(), $class_type_id);
   $hasAttended = Enrollment::hasAttendedClassType($db, $session->getId(), $class_type_id);
 
 

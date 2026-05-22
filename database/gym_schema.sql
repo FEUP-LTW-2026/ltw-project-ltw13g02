@@ -141,6 +141,23 @@ CREATE TABLE ClassType (
     CONSTRAINT ValidCapacity CHECK (capacity > 0)
 );
 
+
+CREATE TABLE Class (
+    id INTEGER NOT NULL, 
+    class_type_id INTEGER NOT NULL, -- reference to the class type
+    start_timestamp TEXT NOT NULL,
+    end_timestamp TEXT NOT NULL,
+    status TEXT NOT NULL,
+    -- add constraints and checks
+    CONSTRAINT PK_ClassSchedule PRIMARY KEY (id),
+    CONSTRAINT FK_ClassSchedule_ClassType 
+        FOREIGN KEY (class_type_id) 
+        REFERENCES ClassType(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp))
+);
+
 -- Using a trigger checks before if the user has attended that class_type 
 CREATE TABLE Review (
     id INTEGER NOT NULL,
@@ -160,28 +177,6 @@ CREATE TABLE Review (
         FOREIGN KEY (member_id) 
         REFERENCES Member(id)
         ON UPDATE CASCADE
-);
-
-CREATE TABLE Class (
-    id INTEGER NOT NULL, 
-    trainer_id INTEGER NOT NULL, -- reference to the trainer that will be teaching this class
-    class_type_id INTEGER NOT NULL, -- reference to the class type
-    start_timestamp TEXT NOT NULL,
-    end_timestamp TEXT NOT NULL,
-    status TEXT NOT NULL,
-    -- add constraints and checks
-    CONSTRAINT PK_ClassSchedule PRIMARY KEY (id),
-    CONSTRAINT FK_ClassSchedule_Trainer 
-        FOREIGN KEY (trainer_id) 
-        REFERENCES Trainer(trainer_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT FK_ClassSchedule_ClassType 
-        FOREIGN KEY (class_type_id) 
-        REFERENCES ClassType(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp))
 );
 
 -- after the capacity is full all tuples should be inserted with status as waitlisted (should be checked in the php file)
@@ -283,9 +278,9 @@ FOR EACH ROW
 WHEN NEW.status = 'cancelled' AND OLD.status = 'enrolled'
 BEGIN
     UPDATE Enrollment
-    SET status = 'enrolled', status_update_timestamp = datetime('now')
+    SET status = 'enrolled', status_update_timestamp = datetime('now', 'localtime')
     WHERE class_id = NEW.class_id AND status = 'waitlisted' AND status_update_timestamp = (
-        SELECT MIN(status_update_timestamp)
+        SELECT MIN(status_update_timestamp) -- select the oldest waitlisted member for that class session
         FROM Enrollment
         WHERE class_id = NEW.class_id AND status = 'waitlisted'
     );
@@ -356,7 +351,7 @@ END;
 CREATE TRIGGER BlockDeleteOfPastClasses
 BEFORE DELETE ON Class
 FOR EACH ROW
-WHEN OLD.start_timestamp <= datetime('now')
+WHEN OLD.start_timestamp <= datetime('now', 'localtime')
 BEGIN
     SELECT RAISE(ABORT, 'Cannot delete classes that have already started or ended.'); 
     -- ABORT -> stops the statement and rolls back changes (all or nothing)
@@ -372,8 +367,9 @@ BEGIN
     WHERE EXISTS (
         SELECT 1
         FROM Class
-        WHERE trainer_id = NEW.trainer_id
-        AND (datetime(end_timestamp) > datetime(NEW.start_timestamp) AND datetime(start_timestamp) < datetime(NEW.end_timestamp))
+        JOIN ClassType ON Class.class_type_id = ClassType.id
+        WHERE ClassType.trainer_id = (SELECT trainer_id FROM ClassType WHERE id = NEW.class_type_id)
+        AND (datetime(start_timestamp) < datetime(NEW.end_timestamp) AND datetime(end_timestamp) > datetime(NEW.start_timestamp))
     );
 END;
 
@@ -383,7 +379,7 @@ END;
 CREATE TRIGGER DeleteEnrollmentsAfterClassDeletion
 AFTER DELETE ON Class
 FOR EACH ROW
-WHEN datetime(OLD.start_timestamp) > datetime('now')
+WHEN datetime(OLD.start_timestamp) > datetime('now', 'localtime')
 BEGIN
     DELETE FROM Enrollment
     WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
@@ -402,7 +398,7 @@ BEGIN
     WHERE member_id = NEW.id AND status IN ('enrolled', 'waitlisted')
     AND class_id IN (
         SELECT id FROM Class
-        WHERE start_timestamp > datetime('now')
+        WHERE start_timestamp > datetime('now', 'localtime')
     );
 END;
 
@@ -425,5 +421,5 @@ FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
-    WHERE trainer_id = NEW.id AND start_timestamp > datetime('now');
+    WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) AND start_timestamp > datetime('now', 'localtime');
 END;

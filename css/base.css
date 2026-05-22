@@ -34,12 +34,14 @@
     
     --color-success: #4CAF50;
     --color-success-bg: #ccffcc;
-    --color-warning: #e40000;
-    --color-warning-bg: #ffcccc;
+    --color-error: #e40000;
+    --color-error-bg: #ffcccc;
+    --color-warning: #d7d000;
+    --color-warning-bg: #fdf9dc;
 
     --color-reviews: #d4aa01;
     --color-available: var(--color-success);
-    --color-unavailable: var(--color-warning);
+    --color-unavailable: var(--color-error);
 
     /* Font related */
     --font: 'Host Grotesk';
@@ -159,7 +161,7 @@
 
   label:has(input:required)::before {
     content: '*';
-    color: var(--color-warning);
+    color: var(--color-error);
   }
 }
 

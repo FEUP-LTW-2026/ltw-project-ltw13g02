@@ -9,7 +9,7 @@
     return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
   }
   require_once(__DIR__ . '/../database/gymClass.class.php'); 
-  // TODO: this is used because of the drawEnrolledClass function (move it to common.php?)
+  // TODO: this is used because of the drawClassDate, drawClassTime, and drawClassCapacity functions (move them to common.php?)
   require_once(__DIR__ . '/class.php');
 ?>
 
@@ -23,6 +23,15 @@
         <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
       </header>
     </section>
+  </div>
+<?php } ?>
+
+<?php function drawClassCardInfo(GymClass $class) { ?>
+  <div class="class-info">
+    <h3><?= $class->name ?></h3>
+    <?php drawClassDate($class->startTimestamp); ?>
+    <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+    <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
   </div>
 <?php } ?>
 
@@ -51,16 +60,51 @@
 <?php } ?>
 
 <?php function drawEnrolledClassesContainer(array $classes) { ?>
+  <section>
+    <h2>Enrolled Classes</h2>
+    <?php drawEnrolledClasses($classes); ?>
+  </section>
+<?php } ?>
+
+<?php function drawWaitlistedClass(GymClass $class) { ?>
+  <li class="card">
+    <?php drawClassCardInfo($class); ?>
+    
+    <a class="btn medium blue" href="../pages/class.php?id=<?= $class->classTypeId ?>">Details</a>
+    <form action="../actions/action_leave_waitlist.php" method="post">
+      <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+      <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
+    </form>
+<?php } ?>
+
+<?php function drawWaitlistedClasses(array $classes) { ?>
+  <ul class="classes-enrollment">
+    <?php {
+      foreach ($classes as $class) {
+        drawWaitlistedClass($class);
+      }
+    } ?>
+  </ul>
+<?php } ?>
+
+<?php function drawWaitlistedClassesContainer(array $classes) { ?>
+  <section id="waitlisted-classes">
+    <h2>Waitlisted Classes</h2>
+    <?php drawWaitlistedClasses($classes); ?>
+  </section>
+<?php } ?>
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses) {
+  drawProfile($userId, $name, $username); ?>
   <div>
     <section class="container">
-      <p class="detail">YOUR CLASSES</p>
-      <h2>Enrolled Classes</h2>
-      <?php drawEnrolledClasses($classes); ?>
+      <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
+
+      <?php drawEnrolledClassesContainer($classes);
+      if (!empty($waitlistedClasses)) {
+        drawWaitlistedClassesContainer($waitlistedClasses);
+      } ?>
+
     </section>
   </div>
 <?php } ?>
-
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes) {
-  drawProfile($userId, $name, $username);
-  drawEnrolledClassesContainer($classes);
-} ?>

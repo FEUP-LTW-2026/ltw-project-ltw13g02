@@ -52,15 +52,17 @@ INSERT INTO TrainerSpecialization (trainer_id, specialization_id) VALUES
 INSERT INTO ClassType (id, trainer_id, name, description, capacity, start_time, end_time, weekday) VALUES 
 (1, 6, 'Morning HIIT', 'High intensity interval training to start the day.', 20, '08:00', '09:00', 1),
 (2, 7, 'Evening Yoga', 'Relaxing yoga session.', 15, '18:00', '19:00', 3),
-(3, 6, 'CrossFit WOD', 'Intense Workout of the Day.', 10, '14:00', '15:00', 5);
+(3, 6, 'CrossFit WOD', 'Intense Workout of the Day.', 10, '14:00', '15:00', 5),
+(4, 7, 'Body Building', 'Strength training for muscle growth.', 2, '18:00', '19:00', 2);
 
 -- Insert Classes
 -- Start and end timestamps should follow 'YYYY-MM-DD HH:MM:SS'
-INSERT INTO Class (id, trainer_id, class_type_id, start_timestamp, end_timestamp, status) VALUES 
-(1, 6, 1, '2026-06-01 08:00:00', '2026-06-01 09:00:00', 'scheduled'),
-(2, 7, 2, '2026-06-03 18:00:00', '2026-06-03 19:00:00', 'scheduled'),
-(3, 6, 3, '2026-06-05 14:00:00', '2026-06-05 15:00:00', 'scheduled'),
-(4, 7, 2, '2026-06-10 18:00:00', '2026-06-10 19:00:00', 'scheduled');
+INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VALUES 
+(1, 1, '2026-06-01 08:00:00', '2026-06-01 09:00:00', 'scheduled'),
+(2, 2, '2026-06-03 18:00:00', '2026-06-03 19:00:00', 'scheduled'),
+(3, 3, '2026-06-05 14:00:00', '2026-06-05 15:00:00', 'scheduled'),
+(4, 2, '2026-06-10 18:00:00', '2026-06-10 19:00:00', 'scheduled'),
+(5, 4, '2026-06-09 18:00:00', '2026-06-09 19:00:00', 'scheduled');
 
 -- Insert Equipment
 INSERT INTO Equipment (id, name, description, status) VALUES 
