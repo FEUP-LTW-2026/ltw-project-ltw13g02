@@ -19,16 +19,13 @@
 
     try {
         $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
-    
+
         if ($user) {
             $session->setId($user->getId());
             $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
-            $session->setAdmin($user->isAdmin($db));
-            $session->setMember($user->isMember($db));
-            $session->setTrainer($user->isTrainer($db));
+            $session->setRole($user->getRole());
             $session->setIsActive($user->IsActive());
-
             $session->addSuccessMessage('Successfully logged in!');
             if (!$session->isActive()) {
                 $session->addInactiveAccountMessage();

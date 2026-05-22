@@ -8,14 +8,16 @@
         private string $username;
         private string $email;
         private bool $isActive;
+        private string $role;
         
-        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, bool $isActive) {
+        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, bool $isActive, string $role) {
             $this->id = $id;
             $this->firstName = $firstName;
             $this->lastName = $lastName;
             $this->username = $username;
             $this->email = $email;
             $this->isActive = $isActive;
+            $this->role = $role;
         }
 
         public function getId() : int {
@@ -83,7 +85,8 @@
                     $userData['last_name'],
                     $userData['username'],
                     $userData['email'],
-                    (bool) $userData['is_active']
+                    (bool) $userData['is_active'],
+                    self::getRoleFromDB($db, $userData['id'])
                 );
 
             } else { // try with username
@@ -99,7 +102,8 @@
                         $userData['last_name'],
                         $userData['username'],
                         $userData['email'],
-                        (bool) $userData['is_active']
+                        (bool) $userData['is_active'],
+                        self::getRoleFromDB($db, $userData['id'])
                     );
                 }
 
@@ -114,7 +118,7 @@
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword]);
             $insertedId = (int) $db->lastInsertId();
 
-            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true);
+            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true, 'AuthenticatedUser');
         }
 
         public function isMember(PDO $db) : bool {
@@ -124,13 +128,13 @@
         }
 
         public function isTrainer(PDO $db) : bool {
-            $stmt = $db->prepare('SELECT 1 FROM Trainer WHERE trainer_id = ?');
+            $stmt = $db->prepare('SELECT 1 FROM Trainer WHERE id = ?');
             $stmt->execute([$this->id]);
             return $stmt->fetch() !== false;
         }
 
         public function isAdmin(PDO $db) : bool {
-            $stmt = $db->prepare('SELECT 1 FROM Admin WHERE admin_id = ?');
+            $stmt = $db->prepare('SELECT 1 FROM Admin WHERE id = ?');
             $stmt->execute([$this->id]);
             return $stmt->fetch() !== false;
         }
@@ -139,6 +143,7 @@
             $stmt = $db->prepare('SELECT * FROM User WHERE id = ?');
             $stmt->execute([$id]);
             $userData = $stmt->fetch();
+            $role = self::getRoleFromDB($db, $id);
 
             if ($userData) {
                 return new AuthenticatedUser(
@@ -147,7 +152,8 @@
                     $userData['last_name'],
                     $userData['username'],
                     $userData['email'],
-                    (bool) $userData['is_active']
+                    (bool) $userData['is_active'],
+                    $role
                 );
             }
 
@@ -190,17 +196,43 @@
             $users = [];
 
             foreach ($usersData as $userData) {
+                $role = self::getRoleFromDB($db, $userData['id']);
                 $users[] = new AuthenticatedUser(
                     $userData['id'],
                     $userData['first_name'],
                     $userData['last_name'],
                     $userData['username'],
                     $userData['email'],
-                    (bool) $userData['is_active']
+                    (bool) $userData['is_active'],
+                    $role
                 );
             }
 
             return $users;
+        }
+
+        // Used when the user logs in to get their role stored in the session
+        private static function getRoleFromDB(PDO $db, int $userId) : string {
+            // Single query to get the role of the user
+            $stmt = $db->prepare("
+                SELECT CASE
+                    WHEN Admin.id IS NOT NULL THEN 'Admin'
+                    WHEN Trainer.id IS NOT NULL THEN 'Trainer'
+                    WHEN Member.id IS NOT NULL THEN 'Member'
+                    ELSE 'AuthenticatedUser'
+                END AS role
+                FROM User
+                LEFT JOIN Admin ON User.id = Admin.id
+                LEFT JOIN Trainer ON User.id = Trainer.id
+                LEFT JOIN Member  ON User.id = Member.id
+                WHERE User.id = ?");
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch();
+            return $result['role'];
+        }
+
+        public function getRole() : string {
+            return $this->role;
         }
     }
 ?>

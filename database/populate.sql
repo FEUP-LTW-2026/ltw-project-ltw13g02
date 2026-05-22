@@ -11,7 +11,8 @@ INSERT INTO User (id, first_name, last_name, username, email, password, is_activ
 (7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1);
 
 -- Insert Admin
-INSERT INTO Admin (admin_id) VALUES (1);
+INSERT INTO Admin (id) VALUES 
+(1);
 
 -- Insert Members
 INSERT INTO Member (id) VALUES 
@@ -20,7 +21,7 @@ INSERT INTO Member (id) VALUES
 (5);
 
 -- Insert Trainers
-INSERT INTO Trainer (trainer_id, bio) VALUES 
+INSERT INTO Trainer (id, bio) VALUES 
 (6, 'Hi, I''m Chris Trainer, a certified personal trainer with over 8 years of experience helping clients reach their fitness goals. I specialize in strength training and functional fitness, focusing on building practical, sustainable habits that lead to long-term success.'),
 (7, 'Hello, I''m Sarah Trainer, a passionate yoga instructor with a decade of experience in teaching various styles of yoga. My classes are designed to promote mindfulness, flexibility, and overall well-being, catering to practitioners of all levels. I believe in creating a supportive and inclusive environment where everyone can thrive on their fitness journey.');
 

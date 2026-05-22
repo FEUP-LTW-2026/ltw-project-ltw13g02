@@ -186,6 +186,16 @@
           width: 100%;
         }
       }
+
+      & .role-update-container {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+      }
+
+      & .role-update-form {
+        margin: 0;
+      }
     }
 
     & ul.stats-grid {
