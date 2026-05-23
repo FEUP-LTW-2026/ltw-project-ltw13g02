@@ -24,7 +24,7 @@
 
     $plan_id = (int) $_POST['plan_id'];
 
-    drawMembershipTerminalForm($plans, $plan_id);
+    drawMembershipTerminalForm($plans, $plan_id, $session);
 
     drawFooter();
   }

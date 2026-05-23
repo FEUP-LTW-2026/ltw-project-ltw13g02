@@ -66,35 +66,36 @@
   </section>
 <?php } ?>
 
-<?php function drawWaitlistedClass(GymClass $class) { ?>
+<?php function drawWaitlistedClass(GymClass $class, Session $session) { ?>
   <li class="card">
     <?php drawClassCardInfo($class); ?>
     
     <a class="btn medium blue" href="../pages/class.php?id=<?= $class->classTypeId ?>">Details</a>
     <form action="../actions/action_leave_waitlist.php" method="post">
+      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
       <input type="hidden" name="class_id" value="<?= $class->id ?>" />
       <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
     </form>
 <?php } ?>
 
-<?php function drawWaitlistedClasses(array $classes) { ?>
+<?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
   <ul class="classes-enrollment">
     <?php {
       foreach ($classes as $class) {
-        drawWaitlistedClass($class);
+        drawWaitlistedClass($class, $session);
       }
     } ?>
   </ul>
 <?php } ?>
 
-<?php function drawWaitlistedClassesContainer(array $classes) { ?>
+<?php function drawWaitlistedClassesContainer(array $classes, Session $session) { ?>
   <section id="waitlisted-classes">
     <h2>Waitlisted Classes</h2>
-    <?php drawWaitlistedClasses($classes); ?>
+    <?php drawWaitlistedClasses($classes, $session); ?>
   </section>
 <?php } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses) {
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <div>
     <section class="container">
@@ -102,7 +103,7 @@
 
       <?php drawEnrolledClassesContainer($classes);
       if (!empty($waitlistedClasses)) {
-        drawWaitlistedClassesContainer($waitlistedClasses);
+        drawWaitlistedClassesContainer($waitlistedClasses, $session);
       } ?>
 
     </section>

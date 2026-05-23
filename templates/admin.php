@@ -260,7 +260,7 @@
   </article>
 <?php } ?>
 
-<?php function drawMembershipTiers(array $tiers) { ?>
+<?php function drawMembershipTiers(array $tiers, Session $session) { ?>
   <article class="dashboard-section" id="membership-tiers">
     <header>
       <div class="section-header">
@@ -314,7 +314,7 @@
       <?php drawClassCatalog(); ?>
       <?php drawEquipmentManagement(); ?>
       <?php drawGymSettings(); ?>
-      <?php drawMembershipTiers($tiers); ?>
+      <?php drawMembershipTiers($tiers, $session); ?>
     </section>
   </div>
 <?php } ?>
