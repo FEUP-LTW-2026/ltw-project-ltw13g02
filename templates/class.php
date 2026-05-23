@@ -16,21 +16,21 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
 
 <?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
   <p>
-    <span class="material-symbols-outlined">sports</span>
+    <span class="symbol">sports</span>
     Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= $trainerName; ?></a>
   </p>
 <?php } ?>
 
 <?php function drawClassDuration(string $startTime, string $endTime) { ?>
   <p>
-    <span class="material-symbols-outlined">timer</span>
+    <span class="symbol">timer</span>
     <?= calculateDurationMinutes($startTime, $endTime) ?> min
   </p>
 <?php } ?>
 
 <?php function drawClassTypeCapacity(int $capacity) { ?>
   <p>
-    <span class="material-symbols-outlined">person</span>
+    <span class="symbol">person</span>
     Capacity: <?= $capacity ?>
   </p>
 <?php } ?>
@@ -46,7 +46,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
         <?php } else { ?>
           <p class="rating">
             <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
-              <span class="material-symbols-outlined">⭐</span>
+              <span class="symbol">⭐</span>
             <?php } ?>
             <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
           </p>
@@ -97,7 +97,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawClassDate(string $startTimestamp) { ?>
   <p>
-    <span class="material-symbols-outlined">calendar_today</span>
+    <span class="symbol">calendar_today</span>
     <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
     <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
   </p>
@@ -105,14 +105,14 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
   <p>
-    <span class="material-symbols-outlined">schedule</span>
+    <span class="symbol">schedule</span>
     <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
   </p>
 <?php } ?>
 
 <?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
   <p>
-    <span class="material-symbols-outlined">person</span>
+    <span class="symbol">person</span>
     <?= $currentEnrollment . '/' . $capacity ?> enrolled
   </p>
 <?php } ?>

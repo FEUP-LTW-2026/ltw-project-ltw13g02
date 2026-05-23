@@ -160,10 +160,20 @@
 <?php } ?>
 
 
-<?php function drawProfilePicture(int $userId) : string {
+<?php
+
+function drawProfilePicture(int $userId) : string {
    $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
       ? '../img/profiles/' . $userId . '.jpg'
       : '../img/profiles/default.jpg';
 
     return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo">';
-} ?>
+} 
+
+function getProfileImageUrl(?int $userId): string {
+    return file_exists('../img/profiles/' . $userId . '.jpg')
+      ? '../img/profiles/' . $userId . '.jpg'
+      : '../img/profiles/default.jpg';
+}
+
+?>

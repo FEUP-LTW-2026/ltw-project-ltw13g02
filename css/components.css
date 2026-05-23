@@ -132,6 +132,16 @@
     display: none;
   }
 
+  .symbol {
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-size: var(--font-size-m);
+    color: var(--color-primary);
+
+    &.close {
+      color: var(--color-error);
+    }
+  }
+
   .btn {
     font-size: var(--font-size-s);
     display: inline-block;
@@ -369,11 +379,6 @@
           }
       }
   }
-
-    & .material-symbols-outlined {
-      color: var(--color-primary);
-      font-size: var(--font-size-m);
-    }
 
   .trainer-card {
     aspect-ratio: 1 / 1;

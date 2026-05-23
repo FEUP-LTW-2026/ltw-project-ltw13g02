@@ -34,15 +34,34 @@
 
     #trainer-info .container {
         display: flex;
-        gap: var(--space-l);
+        gap: var(--space-xxl);
 
         & article h2 {
             margin-top: 0;
+        }
+
+        & .remove-btn {
+            border-radius: 5em;
         }
     }
 
     #trainer-info .container > article:first-of-type {
         flex: 7;
+
+        & #add-specialization {
+            margin-top: var(--space-xl);
+        
+            display: flex;
+            gap: var(--space-l);
+
+            & select {
+                flex: 4;
+            }
+
+            & button {
+                flex: 1;
+            }
+        }
     }
 
     #trainer-info .container > article:first-of-type ul {
@@ -63,12 +82,12 @@
                     margin: 0;
                     font-size: var(--font-size-s);
                     font-weight: var(--weight-medium);
+                    flex: 1;
                 }
 
-                & .material-symbols-outlined {
+                & .symbol {
                     font-size: var(--font-size-l);
-                    color: var(--color-primary);
-                    margin-top: 0.2rem;
+                    flex-shrink: 0;
                 }
             }
 
@@ -82,6 +101,16 @@
 
     #trainer-info .container > article:nth-of-type(2) {
         flex: 3;
+
+        & #add-certification {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+
+            & button {
+                align-self: flex-end;
+            }
+        }
     }
 
     #trainer-info .container > article:nth-of-type(2) ul {
@@ -98,6 +127,7 @@
 
             & > h3 {
                 font-size: var(--font-size-s);
+                flex: 1;
             }
         }
 

@@ -5,10 +5,13 @@
   require_once(__DIR__ . '/../database/authenticated_user.class.php');
 ?>
 
-<?php function drawTrainerIntro(Trainer $trainer, Session $session) { ?>
+<?php function drawTrainerIntro(Trainer $trainer, Session $session) { 
+  $photoUrl = getProfileImageUrl($trainer->getId());
+  ?>
+
   <div id="trainer-profile" class="intro">
     <section class="container">
-      <img src="https://picsum.photos/500/700" alt="Trainer">
+      <img src="<?= htmlspecialchars($photoUrl) ?>" alt="trainer photo">
       <div>
         <h1><?= $trainer->getFirstName() ?> <b><?= $trainer->getLastName() ?></b></h1>
         <h2>Biography</h2>
@@ -40,14 +43,16 @@
     <?php foreach ($specializations as $specialization) { ?>
       <li class="card">
         <header>
-          <span class="material-symbols-outlined"><?= $specialization['logo'] ?? 'exercise' ?></span>
+          <span class="symbol"><?= $specialization['logo'] ?? 'exercise' ?></span>
           <h3><?= $specialization['name'] ?></h3>
 
           <?php if ($session->getId() == $trainerId) { ?>
             <form method="post" action="../actions/action_remove_specialization.php">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
               <input type="hidden" name="specialization_id" value="<?= $specialization['id'] ?>">
-              <button type="submit" class="remove-btn" title="Remove Specialization">X</button>
+              <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
+                <span class="symbol close">close</span>
+              </button>
             </form>
           <?php } ?>
         </header>
@@ -57,18 +62,18 @@
   </ul>
 
   <?php if ($session->getId() == $trainerId) { ?>
-    <form method="post" action="../actions/action_add_specialization.php">
+    <form id="add-specialization" method="post" action="../actions/action_add_specialization.php">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
       <select name="specialization_id">
-        <option value="" disabled selected>Add a specialization...</option>
+        <option value="" disabled selected>Select a specialization...</option>
 
         <?php foreach (remainingSpecializations($allSpecializations, $specializations) as $spec) { ?>
           <option value="<?= $spec['id'] ?>"><?= htmlspecialchars($spec['name']) ?></option>
         <?php } ?>
 
       </select>
-      <button type="submit" class="btn medium blue">Add</button>
+      <button type="submit" class="btn medium blue">Add specialization</button>
     </form>
 <?php }
 } ?>
@@ -83,7 +88,9 @@
           <form method="post" action="../actions/action_remove_certification.php">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="certification_id" value="<?= $certification['id'] ?>">
-            <button type="submit" class="remove-btn" title="Remove Certification">X</button>
+            <button type="submit" class="btn warning remove-btn" title="Remove Certification">
+              <span class="symbol close">close</span>
+            </button>
           </form>
         <?php } ?>
       </li>
@@ -91,18 +98,18 @@
   </ul>
 
   <?php if ($session->getId() == $trainerId) { ?>
-      <form method="post" action="../actions/action_add_certification.php">
+      <form id="add-certification" method="post" action="../actions/action_add_certification.php">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <select name="certification_id">
-          <option value="" disabled selected>Add a certification...</option>
+          <option value="" disabled selected>Select a certification...</option>
 
           <?php foreach (remainingCertifications($allCertifications, $certifications) as $cert) { ?>
             <option value="<?= $cert['id'] ?>"><?= htmlspecialchars($cert['name']) ?></option>
           <?php } ?>
 
         </select>
-        <button type="submit" class="btn medium blue">Add</button>
+        <button type="submit" class="btn medium blue">Add certification</button>
       </form>
   <?php } 
 }?>

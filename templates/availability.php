@@ -26,7 +26,7 @@
 <?php function drawTreadMill(string $id, string $status) { ?>
   <article class="availability-data">
     <h3 class="treadmill">
-      <span class="material-symbols-outlined">
+      <span class="symbol">
         sprint
       </span>
       <?= 'TM' . $id ?>

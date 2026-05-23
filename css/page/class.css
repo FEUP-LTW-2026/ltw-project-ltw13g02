@@ -43,10 +43,6 @@
                 gap: var(--space-xs);
                 font-size: var(--font-size-m);
                 margin: 0;
-
-                & .material-symbols-outlined {
-                    color: var(--color-primary);
-                }
             }
         }
 

@@ -1,13 +1,8 @@
 <?php 
   declare(strict_types=1);
 
-  function getProfileImageUrl(?int $userId): string {
-    return file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg';
-  }
-
   require_once(__DIR__ . '/trainer.php');
+  require_once(__DIR__ . '/common.php')
 ?>
 
 <?php function drawEditTrainerInfo(Trainer $trainer, array $allSpecializations, array $allCertifications, Session $session) { ?>
@@ -30,7 +25,7 @@
               <li class="card">
                 <header>
                   <button type="button" class="remove-btn" title="Remove">X</button>
-                  <span class="material-symbols-outlined"><?= htmlspecialchars($spec['logo'] ?? 'exercise') ?></span>
+                  <span class="symbol"><?= htmlspecialchars($spec['logo'] ?? 'exercise') ?></span>
                   <h3><?= htmlspecialchars($spec['name']) ?></h3>
                 </header>
                 <p><?= htmlspecialchars($spec['description']) ?></p>
@@ -84,7 +79,7 @@
     <div id="profile">
       
       <div class="profile-picture">
-        <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo" class="profile-image" >
+        <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">
 
         <form method="post" action="../actions/action_uploadProfilePicture.php" enctype="multipart/form-data" id="upload-form">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">

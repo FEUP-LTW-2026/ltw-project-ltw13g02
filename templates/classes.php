@@ -17,7 +17,7 @@
 		<div>
 			<h3><?= $class->name; ?></h3>
       <p>
-        <span class="material-symbols-outlined">calendar_today</span>
+        <span class="symbol">calendar_today</span>
         <?= $class->weekday; ?>
       </p>
       <?php
