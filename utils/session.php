@@ -21,6 +21,10 @@
       session_destroy();
     }
 
+    public function invalidateAuth(): void {
+      unset($_SESSION['id'], $_SESSION['username'], $_SESSION['email'], $_SESSION['role'], $_SESSION['role_change_count'], $_SESSION['is_active']);
+    }
+
     public function getId() : ?int {
       return isset($_SESSION['id']) ? $_SESSION['id'] : null;    
     }
@@ -48,6 +52,15 @@
     public function setRole(string $role) {
       $_SESSION['role'] = $role;
     }
+
+    public function setRoleChangeCount(int $count) {
+      $_SESSION['role_change_count'] = $count;
+    }
+
+    public function getRoleChangeCount() : ?int {
+      return isset($_SESSION['role_change_count']) ? $_SESSION['role_change_count'] : null;
+    }
+
 
     public function setIsActive(bool $is_active) {
       $_SESSION['is_active'] = $is_active;

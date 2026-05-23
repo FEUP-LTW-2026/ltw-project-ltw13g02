@@ -21,6 +21,9 @@
         $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
 
         if ($user) {
+            $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, $user->getId());
+            $session->setRoleChangeCount($roleChangeCount);
+            
             $session->setId($user->getId());
             $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
@@ -39,6 +42,7 @@
         }
 
     } catch (PDOException $e) {
+        $session->addErrorMessage('Database error: ' . $e->getMessage());
         $session->addErrorMessage('Database error occured.');
     }
 

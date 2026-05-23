@@ -1,14 +1,14 @@
 PRAGMA foreign_keys = ON;
 
 -- Insert Users (Admins, Trainers, Members)
-INSERT INTO User (id, first_name, last_name, username, email, password, is_active) VALUES 
-(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1),
-(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1);
+INSERT INTO User (id, first_name, last_name, username, email, password, is_active, role_change_count) VALUES 
+(1, 'Admin', 'Root', 'admin', 'admin@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(2, 'John', 'Doe', 'johndoe', 'johndoe@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(3, 'Jane', 'Smith', 'janesmith', 'janesmith@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(4, 'Mark', 'Johnson', 'markj', 'markj@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(5, 'Emily', 'Davis', 'emilyd', 'emilyd@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(6, 'Chris', 'Trainer', 'christ', 'chris@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(7, 'Sarah', 'Trainer', 'saraht', 'sarah@gym.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0);
 
 -- Insert Admin
 INSERT INTO Admin (id) VALUES 

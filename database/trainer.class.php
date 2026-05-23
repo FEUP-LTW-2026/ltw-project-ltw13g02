@@ -92,7 +92,7 @@
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
                 FROM User
-                JOIN Trainer ON User.id = Trainer.trainer_id
+                JOIN Trainer ON User.id = Trainer.id
                 WHERE User.is_active = 1 AND User.id = ?
             ');
 

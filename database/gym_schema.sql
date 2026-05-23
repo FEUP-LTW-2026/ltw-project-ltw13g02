@@ -25,6 +25,7 @@ CREATE TABLE User (
     email TEXT NOT NULL,
     password TEXT NOT NULL,
     is_active INTEGER NOT NULL DEFAULT 1,
+    role_change_count INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT PK_User PRIMARY KEY (id),
     CONSTRAINT UQ_User_username UNIQUE (username),

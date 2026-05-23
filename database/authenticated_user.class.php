@@ -234,5 +234,11 @@
         public function getRole() : string {
             return $this->role;
         }
+
+        public static function getUserRoleChangeCount(PDO $db, int $userId): ?int {
+            $stmt = $db->prepare('SELECT role_change_count FROM User WHERE id = ?');
+            $stmt->execute([$userId]);
+            return $stmt->fetchColumn();
+        }
     }
 ?>

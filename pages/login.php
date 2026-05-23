@@ -7,13 +7,14 @@
   require_once (__DIR__ . '/../templates/common.php');
   require_once (__DIR__ . '/../templates/auth.php');
 
-  drawHeader($session, 'Login', ['auth.css']);
-
-  if ($session->isLoggedIn()) {
+  if($session->isLoggedIn()) {
     header('Location: index.php');
-  } else {
-    drawLoginPage();
+    exit;
   }
+
+  drawHeader($session, 'Login', ['auth.css']);
+    
+  drawLoginPage();
   
   drawFooter();
 ?>
