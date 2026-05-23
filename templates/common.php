@@ -22,6 +22,7 @@
     <?php } ?>
     <script src="../javascript/searchByUserName.js" defer></script>
     <script src="../javascript/updateCheckoutSelection.js" defer></script>
+    <script src="../javascript/addInputFields.js" defer></script>
   </head>
 <body>
   <header>

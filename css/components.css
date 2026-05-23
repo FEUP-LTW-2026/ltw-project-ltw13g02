@@ -150,6 +150,11 @@
       transform: translateY(1px);
     }
 
+    &.small {
+      font-size: var(--font-size-xs);
+      padding: var(--space-xxs) var(--space-s);
+    }
+
     &.medium {
       padding: var(--space-xs) var(--space-m);
     }

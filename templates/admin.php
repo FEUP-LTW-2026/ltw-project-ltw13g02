@@ -12,6 +12,7 @@
     <nav class="admin-nav">
       <ul>
         <li><a href="#overview" class="active" data-section="overview">Overview</a></li>
+        <li><a href="#trainer-creation" data-section="trainer">Create Trainer</a></li>
         <li><a href="#account-management" data-section="accounts">Manage Accounts</a></li>
         <li><a href="#class-catalog" data-section="catalog">Class Catalog</a></li>
         <li><a href="#equipment-management" data-section="equipment">Manage Equipment</a></li>
@@ -272,11 +273,10 @@
     
     <div class="tiers">
       <?php foreach ($tiers as $tier) { ?>
-        <article class="card tier-edit-card">
+        <article class="card tier-edit-card <?= $tier->isActive() ? 'is-active' : 'is-inactive' ?>">
           <form action="../actions/action_update_tier.php" method="POST" class="tier-form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="tier_id" value="<?= $tier->getId() ?>">
-            
             <header class="tier-header">
               <input type="text" name="name" value="<?= $tier->getName() ?>" required>
               <div class="price-input-group">
@@ -284,18 +284,57 @@
                 <input type="number" step="0.01" name="price" value="<?= $tier->getMonthlyFee() ?>" class="editable-price" required>
                 <span class="period">/4 weeks</span>
               </div>
-              <label for="booking_window_<?= $tier->getId() ?>" class="booking-window-label">Booking Window (days):</label>
-              <input type="number" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
+              <label for="booking_window_days<?= $tier->getId() ?>" class="booking-window-label">Booking Window (days):</label>
+              <input type="number" id="booking_window_days<?= $tier->getId() ?>" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
             </header>
             
-            <div class="tier-features-edit">
-              <label for="description_<?= $tier->getId() ?>">Description (use ';' to separate):</label>
-              <textarea id="description_<?= $tier->getId() ?>" name="description" rows="4" class="editable-features" required><?= $tier->getDescription() ?></textarea>
-            </div>
+            <label>
+              Description (add each perk separately):
+              <div class="description-container">
+                <?php
+                  $parts = array_filter(array_map('trim', explode(';', $tier->getDescription() ?? '')));
+                  if (empty($parts)) { ?>
+                    <!-- This name allows submitting multiple values for the same variable
+                     Description has multple rows - different values that all are grouped in this same array:-->
+                    <input type="text" name="description[]" placeholder="Perk" required>
+                <?php } else {
+                    foreach ($parts as $p) { ?>
+                      <input type="text" name="description[]" value="<?= htmlspecialchars($p) ?>" required>
+                <?php }
+                  }
+                ?>
+              </div>
+              <div class="controls">
+                <button type="button" 
+                  class="btn transparent-dark small add" 
+                  data-target="description" 
+                  data-label="Perk">
+                  + Add</button>
+                <button type="button"
+                 class="btn transparent-dark small remove" 
+                 data-target="description">
+                 - Remove</button>
+              </div>
+            </label>
             
             <div class="tier-actions">
-              <button type="submit" class="btn blue">Save Changes</button>
-              <button  type="button" class="btn warning">Delete</button>
+              <button type="submit" class="btn blue" <?= $tier->isActive() ? '' : 'disabled' ?>>Save Changes</button>
+              <?php if ($tier->isActive()) { ?>
+                <!-- formnovalidate allows submitting the form without filling all required fields -->
+                <button type="submit"
+                        class="btn warning"
+                        formaction="../actions/action_disable_membership_tier.php"
+                        formnovalidate>
+                  Disable Tier
+                </button>
+              <?php } else { ?>
+                <button type="submit"
+                        class="btn available"
+                        formaction="../actions/action_enable_membership_tier.php"
+                        formnovalidate>
+                  Enable Tier
+                </button>
+              <?php } ?>
             </div>
           </form>
         </article>
@@ -310,6 +349,7 @@
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
       <?php drawOverview(); ?>
+      <?php /*drawTrainerCreation($db, $session); */ ?>
       <?php drawAccountManagement($users, $db, $session); ?>
       <?php drawClassCatalog(); ?>
       <?php drawEquipmentManagement(); ?>

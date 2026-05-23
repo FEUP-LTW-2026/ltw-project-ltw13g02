@@ -7,13 +7,15 @@
     private string $description;
     private float $monthly_fee;
     private int $booking_window_days;
+    private bool $is_active;
 
-    public function __construct(int $id, string $name, string $description, float $monthly_fee, int $booking_window_days){
+    public function __construct(int $id, string $name, string $description, float $monthly_fee, int $booking_window_days, bool $is_active) {
       $this->id = $id;
       $this->name = $name;
       $this->description = $description;
       $this->monthly_fee = $monthly_fee;
       $this->booking_window_days = $booking_window_days;
+      $this->is_active = $is_active;
     }
 
     public function getId() : int {
@@ -34,6 +36,10 @@
 
     public function getBookingWindowDays() : int {
       return $this->booking_window_days;
+    }
+
+    public function isActive() : bool {
+      return $this->is_active;
     }
 
     public function setName(string $name) : void {
@@ -62,7 +68,8 @@
           $row['name'], 
           $row['description'], 
           (float)$row['monthly_fee'], 
-          (int)$row['booking_window_days']
+          (int)$row['booking_window_days'],
+          (bool)$row['is_active']
         );
       }
       return $tiers;
@@ -80,17 +87,19 @@
         $row['name'], 
         $row['description'], 
         (float)$row['monthly_fee'], 
-        (int)$row['booking_window_days']
+        (int)$row['booking_window_days'],
+        (bool)$row['is_active']
       );
     }
 
     public function save(PDO $db) : void {
-      $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
+      $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ?, is_active = ? WHERE id = ?');
       $stmt->execute([
         $this->name, 
         $this->description, 
         $this->monthly_fee, 
         $this->booking_window_days, 
+        $this->is_active,
         $this->id
       ]);
     }
