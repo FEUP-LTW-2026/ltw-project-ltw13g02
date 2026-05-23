@@ -224,6 +224,7 @@ CREATE TABLE MembershipTier(
     description TEXT NOT NULL,
     monthly_fee REAL NOT NULL,
     booking_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
+    is_active INTEGER NOT NULL DEFAULT 1, -- whether the tier is active and can be subscribed to by users
     
     CONSTRAINT PK_MembershipTier PRIMARY KEY (id),
     CONSTRAINT ValidMonthlyFee CHECK (monthly_fee > 0),

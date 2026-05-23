@@ -73,10 +73,10 @@ INSERT INTO Equipment (id, name, description, status) VALUES
 (5, 'Yoga Mats Set', 'Comfortable mats for floor exercises.', 'available');
 
 -- Insert Membership Tiers
-INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days) VALUES 
-(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment;1 day of booking window for classes', 19.99, 1),
-(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2),
-(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3);
+INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days, is_active) VALUES 
+(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment;1 day of booking window for classes', 19.99, 1, 1),
+(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2, 1),
+(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3, 1);
 
 
 -- Insert Enrollments
