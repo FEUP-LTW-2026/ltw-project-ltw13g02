@@ -20,6 +20,11 @@
             $this->classes = $classes;
         }
 
+        public static function updateBiography(PDO $db, int $trainerId, string $newBio) : void {
+            $stmt = $db->prepare('UPDATE Trainer SET bio = ? WHERE trainer_id = ?');
+            $stmt->execute([$newBio, $trainerId]);
+        }
+
         static function getAllTrainers(PDO $db) : array {
             // Query 1: Base Trainer info
             $stmt = $db->prepare('
@@ -76,7 +81,7 @@
             foreach ($stmt->fetchAll() as $row) {
                 $id = $row['trainer_id'];
                 if (isset($trainers[$id])) {
-                    $trainers[$id]->specializations[] = [
+                    $trainers[$id]->specialitizations[] = [
                         'name' => $row['name'],
                         'description' => $row['description'] ?? '',
                         'logo' => $row['logo'] ?? ''
@@ -87,7 +92,7 @@
             return array_values($trainers);
         }
 
-        static function getTrainerById(PDO $db, int $trainerId) : Trainer {
+        static function getTrainerById(PDO $db, int $trainerId) : ?Trainer {
             // Query 1: Base Trainer info
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
@@ -112,7 +117,7 @@
             
             // Query 2: Certifications
             $stmt = $db->prepare('
-                SELECT Certification.name
+                SELECT Certification.id, Certification.name
                 FROM TrainerCertification
                 JOIN Certification ON TrainerCertification.certification_id = Certification.id
                 WHERE TrainerCertification.trainer_id = ?
@@ -122,13 +127,14 @@
         
             foreach ($stmt->fetchAll() as $row) {
                 $trainer->certifications[] = [
+                    'id' => $row['id'],
                     'name' => $row['name']
                 ];
             }
 
             // Query 3: Specializations
             $stmt = $db->prepare('
-                SELECT Specialization.name, Specialization.description, Specialization.logo
+                SELECT Specialization.id, Specialization.name, Specialization.description, Specialization.logo
                 FROM TrainerSpecialization
                 JOIN Specialization ON TrainerSpecialization.specialization_id = Specialization.id
                 WHERE TrainerSpecialization.trainer_id = ?
@@ -138,6 +144,7 @@
             
             foreach ($stmt->fetchAll() as $row) {
                 $trainer->specialitizations[] = [
+                    'id' => $row['id'],
                     'name' => $row['name'],
                     'description' => $row['description'] ?? '',
                     'logo' => $row['logo'] ?? ''
@@ -180,6 +187,38 @@
                 );
             }
             return $trainers;
+        }
+
+        public static function getAllSpecializations(PDO $db) : array {
+            $stmt = $db->prepare('SELECT id, name, description, logo FROM Specialization');
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+
+        public static function getAllCertifications(PDO $db) : array {
+            $stmt = $db->prepare('SELECT id, name FROM Certification');
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+
+        public static function addSpecialization(PDO $db, int $trainerId, int $specializationId) : void {
+            $stmt = $db->prepare('INSERT INTO TrainerSpecialization (trainer_id, specialization_id) VALUES (?, ?)');
+            $stmt->execute([$trainerId, $specializationId]);
+        }
+
+        public static function removeSpecialization(PDO $db, int $trainerId, int $specializationId) : void {
+            $stmt = $db->prepare('DELETE FROM TrainerSpecialization WHERE trainer_id = ? AND specialization_id = ?');
+            $stmt->execute([$trainerId, $specializationId]);
+        }
+
+        public static function addCertification(PDO $db, int $trainerId, int $certificationId) : void {
+            $stmt = $db->prepare('INSERT INTO TrainerCertification (trainer_id, certification_id) VALUES (?, ?)');
+            $stmt->execute([$trainerId, $certificationId]);
+        }
+
+        public static function removeCertification(PDO $db, int $trainerId, int $certificationId) : void {
+            $stmt = $db->prepare('DELETE FROM TrainerCertification WHERE trainer_id = ? AND certification_id = ?');
+            $stmt->execute([$trainerId, $certificationId]);
         }
     }
 ?>

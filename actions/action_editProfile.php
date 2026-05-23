@@ -46,6 +46,11 @@
 
     try {
         $user->save($db);
+
+        if ($_POST['biography'] && $session->isTrainer()) {
+            Trainer::updateBiography($db, $session->getId(), $_POST['biography']);
+        }
+
         $session->setUsername($user->getUsername());
         $session->addSuccessMessage('Profile updated successfully!');
         header('Location: ../pages/profile.php');

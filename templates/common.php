@@ -44,8 +44,14 @@
         <?php } ?>
       </ul>
       <ul class="auth-links">
-        <?php if ($session->isLoggedin()) { ?>
-          <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+        <?php if ($session->isLoggedin()) { 
+
+          if ($session->isTrainer()) { ?>
+            <li><a class="btn medium transparent-dark" href="../pages/trainer.php?id=<?= $session->getId() ?>">Profile</a></li>
+          <?php } else { ?>
+            <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+          <?php } ?>
+
           <li>
             <form action="../actions/auth/action_logout.php" method="post">
               <button class="btn medium transparent-dark" type="submit">Logout</button>
@@ -152,3 +158,12 @@
   </body>
 </html>
 <?php } ?>
+
+
+<?php function drawProfilePicture(int $userId) : string {
+   $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
+      ? '../img/profiles/' . $userId . '.jpg'
+      : '../img/profiles/default.jpg';
+
+    return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo">';
+} ?>

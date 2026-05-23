@@ -6,7 +6,7 @@
     #trainer-profile .container {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: stretch;
         gap: var(--space-xxl);
     }
 
@@ -18,9 +18,13 @@
 
     #trainer-profile .container > div {
         max-width: 25rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
 
         & h2 {
             color: var(--color-secondary);
+            margin-bottom: 0;
         }
 
         & p {

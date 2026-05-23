@@ -1,14 +1,8 @@
 <?php 
   declare(strict_types=1);
 
-  function drawProfilePicture(int $userId) : string {
-    $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg';
-
-    return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
-  }
   require_once(__DIR__ . '/../database/gymClass.class.php'); 
+  require_once(__DIR__ . '/common.php');  
   // TODO: this is used because of the drawClassDate, drawClassTime, and drawClassCapacity functions (move them to common.php?)
   require_once(__DIR__ . '/class.php');
 ?>

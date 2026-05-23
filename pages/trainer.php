@@ -15,10 +15,12 @@
   $db = getDatabaseConnection();
 
   $trainer = Trainer::getTrainerById($db, intval($trainerId));
+  $allSpecializations = Trainer::getAllSpecializations($db);
+  $allCertifications = Trainer::getAllCertifications($db);
 
   drawHeader($session, 'Trainer Name', ['trainer.css']);
 
-  drawTrainerPage($trainer);
+  drawTrainerPage($trainer, $allSpecializations, $allCertifications, $session);
        
   drawFooter(); 
 ?>
