@@ -39,10 +39,10 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipTerminalForm(array $plans, int $plan_id) { ?>  
+<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session) { ?>  
   <section id="membership-terminal" class="container">
     <form action="../actions/action_checkout_membership.php" method="POST" id="membership-form">
-      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((new Session())->getCSRFToken()) ?>">
+      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
       <fieldset class="terminal-step" id="step-tier">
         <legend>
           <h2>1. Select Your Tier</h2>
