@@ -28,13 +28,20 @@
         exit;
     }
 
+    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     try {
         AuthenticatedUser::updatePassword($db, $user->getId(), $_POST['new-password']);
         $session->addSuccessMessage('Password updated successfully!');
         header('Location: ../pages/profile.php');
-        
+        exit;
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error occured.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 ?>

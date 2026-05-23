@@ -8,7 +8,7 @@
   }
 ?>
 
-<?php function drawProfileEditForm(int $userId, string $firstName, string $lastName, string $username) { 
+<?php function drawProfileEditForm(int $userId, string $firstName, string $lastName, string $username, Session $session) { 
   $photoUrl = getProfileImageUrl($userId);
   ?>
   <div class="intro">
@@ -18,12 +18,14 @@
         <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo" class="profile-image" >
 
         <form method="post" action="../actions/action_uploadProfilePicture.php" enctype="multipart/form-data" id="upload-form">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <input type="file" name="profile-picture" id="image-input">
           <button type="button" class="btn medium blue" id="upload-btn">Change Profile Picture</button>
         </form>
       </div>
 
       <form method="post" action="../actions/action_editProfile.php">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <label>
           First Name
           <input type="text" name="first-name" value="<?= htmlspecialchars($firstName) ?>" placeholder="New first name">
@@ -47,6 +49,7 @@
         <p class="detail">Change password</p>
 
         <form method="post" action="../actions/action_changePassword.php">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <label>
             Current password
             <input type="password" name="current-password" placeholder="Enter current password" required>
@@ -70,6 +73,6 @@
   <script src="../javascript/editProfile.js"></script>
 <?php } ?>
 
-<?php function drawEditProfilePage(int $userId, string $firstName, string $lastName, string $username) {
-  drawProfileEditForm($userId, $firstName, $lastName, $username);
+<?php function drawEditProfilePage(int $userId, string $firstName, string $lastName, string $username, Session $session) {
+  drawProfileEditForm($userId, $firstName, $lastName, $username, $session);
 } ?>

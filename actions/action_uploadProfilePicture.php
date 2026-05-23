@@ -2,6 +2,8 @@
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../database/authenticated_user.class.php');
 
     $session = new Session();
 
@@ -14,9 +16,6 @@
     if (!is_dir('../img')) mkdir('../img');
     if (!is_dir('../img/profiles')) mkdir('../img/profiles');
 
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../database/authenticated_user.class.php');
-
     $db = getDatabaseConnection();
     $user = AuthenticatedUser::getUser($db, $session->getId());
 
@@ -24,6 +23,12 @@
         $session->logout();
         $session->addErrorMessage('User not found. Please log in again.');
         header('Location: ../pages/login.php');
+        exit;
+    }
+
+    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 

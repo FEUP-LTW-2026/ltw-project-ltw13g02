@@ -20,6 +20,11 @@
         exit;
     }
 
+    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        redirectToPreviousPage();
+    }
+
     // Validate input
     $classId = $_POST['class_id'] ?? null;
     if (empty($classId)) {

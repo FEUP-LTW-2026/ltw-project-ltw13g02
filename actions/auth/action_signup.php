@@ -41,6 +41,7 @@
     try {
         $user = AuthenticatedUser::createUser($db, $_POST['first-name'], $_POST['last-name'], $_POST['email'], $_POST['username'], $_POST['password']);
 
+        $session->generateCSRFToken();
         $session->setId($user->getId());
         $session->setUsername($user->getUsername());
         $session->setEmail($user->getEmail());

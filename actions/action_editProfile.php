@@ -2,6 +2,8 @@
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../database/authenticated_user.class.php');
 
     $session = new Session();
 
@@ -9,9 +11,12 @@
         header('Location: ../pages/login.php');
         exit;
     }
-    
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+
+    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
 
     $db = getDatabaseConnection();
     $user = AuthenticatedUser::getUser(getDatabaseConnection(), $session->getId());
