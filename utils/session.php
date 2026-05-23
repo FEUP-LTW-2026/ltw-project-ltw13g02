@@ -3,7 +3,9 @@
     private array $messages;
 
     public function __construct() {
-      session_start(); // does not necessarily create a new session, if one already exists for the user (identified by a cookie)
+      if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+      }
 
       $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
       unset($_SESSION['messages']);
@@ -95,6 +97,17 @@
 
     public function getMessages() {
       return $this->messages;
+    }
+
+    public function generateCSRFToken() : string {
+      if(!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+      }
+      return $_SESSION['csrf_token'];
+    }
+
+    public function getCSRFToken() : ?string {
+      return isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : null;
     }
   }
 ?>

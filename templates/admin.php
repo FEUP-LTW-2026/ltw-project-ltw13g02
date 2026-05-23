@@ -100,12 +100,14 @@
                   <button class="btn white">Edit</button>
                   <?php if (!$user->IsActive()) { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
+                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
                       <button class="btn available">Activate</button>
                     </form>
                   <?php } else { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
+                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
                       <button class="btn warning">Deactivate</button>
@@ -272,6 +274,7 @@
       <?php foreach ($tiers as $tier) { ?>
         <article class="card tier-edit-card">
           <form action="../actions/action_update_tier.php" method="POST" class="tier-form">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="tier_id" value="<?= $tier->getId() ?>">
             
             <header class="tier-header">

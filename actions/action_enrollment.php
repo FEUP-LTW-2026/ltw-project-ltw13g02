@@ -15,6 +15,12 @@
         exit;
     }
 
+    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     // TODO: this function is needed in almost every action file (create a helper function?)
     function redirectToPreviousPage() {
         header('Location: ' . $_SERVER['HTTP_REFERER']);

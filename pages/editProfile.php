@@ -29,7 +29,7 @@
 
     drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
 
-    drawEditProfilePage($session->getId(), $firstName, $lastName, $username);
+    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $session);
 
     drawFooter();
   }

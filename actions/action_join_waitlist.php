@@ -26,6 +26,11 @@
         redirectToPreviousPage();
     }
 
+    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        redirectToPreviousPage();
+    }
+
     $classId = (int)$classId;
     $memberId = $session->getId();
     $db = getDatabaseConnection();
