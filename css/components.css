@@ -132,6 +132,17 @@
     display: none;
   }
 
+  .symbol {
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-size: var(--font-size-m);
+    color: var(--color-primary);
+
+    &.close {
+      color: var(--color-error);
+      vertical-align: center;
+    }
+  }
+
   .btn {
     font-size: var(--font-size-s);
     display: inline-block;
@@ -236,6 +247,14 @@
     }
   }
 
+  .floating {
+    background-color: var(--color-secondary);
+    padding: var(--space-xl);
+    border: 1px solid var(--color-secondary-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
   .card {
     display: flex;
     flex-direction: column;
@@ -259,10 +278,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-l);
-  }
-
-  .class-list {
-    padding-top: var(--space-xxl);
   }
 
   .class-card {
@@ -321,12 +336,12 @@
     }
   }
 
-  .classes-enrollment {
+  .scheduled-classes {
       list-style: none;
       padding: 0;
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: var(--space-m);
 
       & li.card {
@@ -373,30 +388,6 @@
               }
           }
       }
-  }
-
-    & .material-symbols-outlined {
-      color: var(--color-primary);
-      font-size: var(--font-size-m);
-    }
-
-  .trainer-card {
-    aspect-ratio: 1 / 1;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    justify-content: flex-end;
-    align-items: center;
-
-    & h2 {
-      color: var(--color-secondary);
-      margin-bottom: 0;
-    }
-
-    & p {
-      color: var(--color-secondary);
-    }
   }
 
   .detail {
@@ -618,6 +609,11 @@
 @layer responsive {
 
   @media (max-width: 75em) {
+
+    .scheduled-classes {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     footer {
       & .grid {
         flex-direction: column;
@@ -701,8 +697,8 @@
     }
 
 
-    .classes-enrollment {
-      grid-template-columns: 1fr;
+    .scheduled-classes {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -773,6 +769,10 @@
           padding: var(--space-xxs) 0;
         }
       }
+    }
+
+    .scheduled-classes {
+      grid-template-columns: 1fr;
     }
   }
 }

@@ -6,7 +6,7 @@
     #trainer-profile .container {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: stretch;
         gap: var(--space-xxl);
     }
 
@@ -18,9 +18,13 @@
 
     #trainer-profile .container > div {
         max-width: 25rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
 
         & h2 {
             color: var(--color-secondary);
+            margin-bottom: 0;
         }
 
         & p {
@@ -29,16 +33,37 @@
     }
 
     #trainer-info .container {
-        display: flex;
-        gap: var(--space-l);
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
+        gap: var(--space-xxl);
 
         & article h2 {
             margin-top: 0;
+        }
+
+        & .remove-btn {
+            border-radius: 5em;
         }
     }
 
     #trainer-info .container > article:first-of-type {
         flex: 7;
+
+        & #add-specialization {
+            margin-top: var(--space-xl);
+        
+            display: flex;
+            gap: var(--space-l);
+
+            & select {
+                flex: 4;
+            }
+
+            & button {
+                flex: 1;
+            }
+        }
     }
 
     #trainer-info .container > article:first-of-type ul {
@@ -59,12 +84,11 @@
                     margin: 0;
                     font-size: var(--font-size-s);
                     font-weight: var(--weight-medium);
+                    flex: 1;
                 }
 
-                & .material-symbols-outlined {
+                & .symbol {
                     font-size: var(--font-size-l);
-                    color: var(--color-primary);
-                    margin-top: 0.2rem;
                 }
             }
 
@@ -78,6 +102,16 @@
 
     #trainer-info .container > article:nth-of-type(2) {
         flex: 3;
+
+        & #add-certification {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+
+            & button {
+                align-self: flex-end;
+            }
+        }
     }
 
     #trainer-info .container > article:nth-of-type(2) ul {
@@ -94,6 +128,7 @@
 
             & > h3 {
                 font-size: var(--font-size-s);
+                flex: 1;
             }
         }
 
@@ -105,17 +140,85 @@
         }
     }
 
+    #trainer-info .container > article:nth-of-type(3) {
+        grid-column-end: span 2;
+    }
+
+    .container .enrolled-members-container {
+        margin-top: var(--space-xl);
+        padding: var(--space-l);
+
+        & h3 {
+            margin-top: 0;
+            font-size: var(--font-size-l);
+        }
+
+        & #enrolled-members-list {
+            width: 100%;
+            overflow-x: auto;
+
+            & table {
+                width: 100%;
+                min-width: 42rem;
+                border-collapse: collapse;
+                margin-top: 0;
+
+                & th,
+                & td {
+                    padding: var(--space-m);
+                    border-bottom: 1px solid var(--color-secondary-border);
+                    text-align: left;
+                    vertical-align: middle;
+                }
+
+                & th {
+                    background-color: var(--color-even-section);
+                    color: var(--color-gray);
+                    font-weight: var(--weight-strong);
+                    text-transform: uppercase;
+                    font-size: var(--font-size-xs);
+                    letter-spacing: 0.05rem;
+                }
+
+                & tbody tr:hover {
+                    background-color: var(--color-even-section);
+                }
+
+                & tbody tr:last-child td {
+                    border-bottom: none;
+                }
+
+                & tbody tr td:last-child {
+                    text-transform: capitalize;
+                }
+
+                & img {
+                    width: 3rem;
+                    height: 4rem;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
     div > section.container > h2 {
         margin: 0;
+        margin-bottom: var(--space-l);
     }
 }
 
 @layer responsive {
     @media (max-width: 60rem) {
+
         #trainer-profile .container {
             display: flex;
             flex-direction: column;
-            gap: var(--space-l);
+            align-items: center;
+
+            & h1 {
+                margin: 0;
+            }
         }
 
         #trainer-profile .container > div {
@@ -129,6 +232,28 @@
             & p {
                 color: var(--color-paragraph);
             }
+        }
+        
+        #trainer-info .container {
+            grid-template-columns: auto;
+        }
+
+        #add-certification, #add-specialization {
+            flex-direction: row;
+            gap: var(--space-s);
+
+            & select {
+                flex: 4;
+            }
+
+            & button {
+                align-self: auto;
+                flex: 1;
+            }
+        }
+
+        #trainer-info .container > article:nth-of-type(3) {
+            grid-column-end: span 1;
         }
 
         #trainer-info .container > article:first-of-type ul {
@@ -148,11 +273,54 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
+
+        .container .enrolled-members-container {
+            padding: var(--space-m);
+
+            & #enrolled-members-list table {
+                min-width: 36rem;
+
+                & th,
+                & td {
+                    padding: var(--space-s);
+                }
+            }
+        }
     }
 
     @media (max-width: 40em) {
+
         #trainer-info .container > article:first-of-type ul {
             grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .container .enrolled-members-container {
+            padding: var(--space-s);
+
+            & #enrolled-members-list table {
+                min-width: 32rem;
+
+                & th,
+                & td {
+                    padding: var(--space-xs);
+                    font-size: var(--font-size-xs);
+                }
+
+                & img {
+                    width: 2rem;
+                    height: 2.5rem;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 30em) {
+        #add-certification, #add-specialization {
+            font-size: var(--font-size-xs);
+
+            & .btn {
+                font-size: var(--font-size-xs);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@
 
   $trainers = Trainer::getAllTrainersBrief($db);
 
-	drawHeader($session, 'Trainers', ['trainers.css','classes.css']);
+	drawHeader($session, 'Trainers', ['trainers.css']);
   
 	drawIntro('REAL EXPERTS. REAL RESULTS', 'Meet our <b>Trainers</b>', 'Meet our certified coaches and find the right trainer for your goals.');
 

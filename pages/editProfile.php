@@ -27,10 +27,16 @@
     $firstName = $user->getFirstName();
     $lastName = $user->getLastName();
     $username = $user->getUsername();
+    $biography = null;
+
+    if ($session->isTrainer()) {
+        require_once (__DIR__ . '/../database/trainer.class.php');
+        $biography = Trainer::getTrainerBioById($db, $session->getId());
+    }
 
     drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
 
-    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $session);
+    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $biography, $session);
 
     drawFooter();
   }

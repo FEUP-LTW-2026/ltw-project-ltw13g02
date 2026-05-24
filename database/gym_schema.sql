@@ -201,6 +201,7 @@ CREATE TABLE Enrollment (
         FOREIGN KEY (class_id) 
         REFERENCES Class(id) 
         ON UPDATE CASCADE
+        ON DELETE CASCADE -- if a class is deleted, all enrollments associated with that class are deleted as well
 );
 
 CREATE TABLE Equipment (

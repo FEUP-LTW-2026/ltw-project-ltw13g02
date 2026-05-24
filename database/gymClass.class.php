@@ -26,7 +26,7 @@
             $this->currentEnrollment = $currentEnrollment;
             $this->capacity = $capacity;
         }
-
+        
         public static function getClassById(PDO $db, int $classId) : ?GymClass {
             $stmt = $db->prepare('
                 SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,
@@ -92,6 +92,28 @@
             }
 
             return $classes;
+        }
+
+        public static function scheduleClass(PDO $db, int $classTypeId, string $startTimestamp, string $endTimestamp) : void {
+            $stmt = $db->prepare('
+                INSERT INTO Class (class_type_id, start_timestamp, end_timestamp, status)
+                VALUES (?, ?, ?, "scheduled")
+            ');
+
+            $stmt->execute([$classTypeId, $startTimestamp, $endTimestamp]);
+        }
+
+        public static function getEnrolledMembers(PDO $db, int $classId) : array {
+            $stmt = $db->prepare('
+                SELECT User.id, User.first_name, User.last_name, User.username, User.email, Enrollment.status
+                FROM Enrollment
+                JOIN User ON Enrollment.member_id = User.id
+                WHERE Enrollment.class_id = ? AND Enrollment.status IN ("enrolled", "waitlisted")
+                ORDER BY Enrollment.status ASC, User.first_name ASC, User.last_name ASC
+            ');
+
+            $stmt->execute([$classId]);
+            return $stmt->fetchAll();
         }
 
         public function isAvailable(int $capacity) : bool {

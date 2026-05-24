@@ -15,10 +15,19 @@
   $db = getDatabaseConnection();
 
   $trainer = Trainer::getTrainerById($db, intval($trainerId));
+  $allSpecializations = Trainer::getAllSpecializations($db);
+  $allCertifications = Trainer::getAllCertifications($db);
+
+  $nextClassesToSchedule = [];
+  if ($session->isTrainer()) {
+    $nextClassesToSchedule = Trainer::getNextClassesToSchedule($db, $trainer->getId());
+  }
 
   drawHeader($session, 'Trainer Name', ['trainer.css']);
 
-  drawTrainerPage($trainer);
+  drawTrainerPage($trainer, $allSpecializations, $allCertifications, $nextClassesToSchedule, $session);
        
   drawFooter(); 
 ?>
+
+<script src="../javascript/enrolledMembers.js" defer></script>

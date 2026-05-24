@@ -43,8 +43,14 @@
         <?php } ?>
       </ul>
       <ul class="auth-links">
-        <?php if ($session->isLoggedin()) { ?>
-          <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+        <?php if ($session->isLoggedin()) { 
+
+          if ($session->isTrainer()) { ?>
+            <li><a class="btn medium transparent-dark" href="../pages/trainer.php?id=<?= $session->getId() ?>">Profile</a></li>
+          <?php } else { ?>
+            <li><a class="btn medium transparent-dark" href="../pages/profile.php">Profile</a></li>
+          <?php } ?>
+
           <li>
             <form action="../actions/auth/action_logout.php" method="post">
               <button class="btn medium transparent-dark" type="submit">Logout</button>
@@ -150,4 +156,33 @@
     </footer>
   </body>
 </html>
+<?php } ?>
+
+
+<?php function drawProfilePicture(int $userId) {
+   $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
+      ? '../img/profiles/' . $userId . '.jpg'
+      : '../img/profiles/default.jpg'; ?>
+
+    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">';
+<?php } ?>
+
+<?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
+   <div class="class-info">
+      <h3><?= $class->name ?></h3>
+      <?php drawClassDate($class->startTimestamp); ?>
+      <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+
+      <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
+        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+      <?php } ?>
+
+    </div>
+<?php } ?>
+
+<?php function drawClassTypeCapacity(int $capacity) { ?>
+  <p>
+    <span class="symbol">person</span>
+    Max: <?= $capacity ?>
+  </p>
 <?php } ?>

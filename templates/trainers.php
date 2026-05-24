@@ -1,10 +1,11 @@
 <?php 
   declare(strict_types=1);
+  require_once(__DIR__ . '/../utils/helpers.php');
 ?>
 
 <?php function drawTrainer(Trainer $trainer) { ?>
   <a href="trainer.php?id=<?= $trainer->getId() ?>">
-    <article class="card trainer-card" style="background-image: url('https://picsum.photos/400/300')">
+    <article class="card trainer-card" style="background-image:url(<?= getProfileImageUrl($trainer->getId()) ?>)">
       <h2><?= $trainer->getFirstName() . ' ' . $trainer->getLastName(); ?></h2>
     </article>
   </a>

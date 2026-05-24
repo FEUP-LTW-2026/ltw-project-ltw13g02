@@ -3,6 +3,7 @@
 
   require_once(__DIR__ . '/../database/classType.class.php');
   require_once(__DIR__ . '/../database/gymClass.class.php');
+  require_once(__DIR__ . '/common.php');
 ?>
 
 <?php
@@ -16,22 +17,15 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
 
 <?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
   <p>
-    <span class="material-symbols-outlined">sports</span>
+    <span class="symbol">sports</span>
     Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= $trainerName; ?></a>
   </p>
 <?php } ?>
 
 <?php function drawClassDuration(string $startTime, string $endTime) { ?>
   <p>
-    <span class="material-symbols-outlined">timer</span>
+    <span class="symbol">timer</span>
     <?= calculateDurationMinutes($startTime, $endTime) ?> min
-  </p>
-<?php } ?>
-
-<?php function drawClassTypeCapacity(int $capacity) { ?>
-  <p>
-    <span class="material-symbols-outlined">person</span>
-    Capacity: <?= $capacity ?>
   </p>
 <?php } ?>
 
@@ -46,7 +40,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
         <?php } else { ?>
           <p class="rating">
             <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
-              <span class="material-symbols-outlined">⭐</span>
+              <span class="symbol">⭐</span>
             <?php } ?>
             <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
           </p>
@@ -63,12 +57,9 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
           ?>
         </div>
         <?php
-        if($session->isLoggedIn()) {
-            ?>
+        if($session->isLoggedIn() && !$session->isTrainer()) { ?>
             <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
-            <?php
-        }
-        ?>
+        <?php } ?>
       </div>
       <img src="https://picsum.photos/800/600" alt="class image" class="hero-image" >
     </section>
@@ -97,7 +88,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawClassDate(string $startTimestamp) { ?>
   <p>
-    <span class="material-symbols-outlined">calendar_today</span>
+    <span class="symbol">calendar_today</span>
     <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
     <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
   </p>
@@ -105,68 +96,65 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
   <p>
-    <span class="material-symbols-outlined">schedule</span>
+    <span class="symbol">schedule</span>
     <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
   </p>
 <?php } ?>
 
 <?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
   <p>
-    <span class="material-symbols-outlined">person</span>
+    <span class="symbol">person</span>
     <?= $currentEnrollment . '/' . $capacity ?> enrolled
   </p>
 <?php } ?>
 
 <?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, Session $session) { ?>
   <div id="enrollment">
-    <section class="container">
+    <section class="container floating">
       <h2>Available Classes</h2>
-      <ul class="classes-enrollment">
-        <?php foreach ($classes as $class) { ?>
-          <li class="card">
-            <div class="class-info">
-              <h3><?= $class->name ?></h3>
-              <?php drawClassDate($class->startTimestamp); ?>
-              <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
 
-              <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-                <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
-              <?php } ?>
+      <?php if (empty($classes)) { ?>
+        <p>No classes available of this type at the moment.</p>
 
-            </div>
+      <?php } else { ?>
+        <ul class="scheduled-classes">
+          <?php foreach ($classes as $class) { ?>
+            <li class="card">
+              <?php drawScheduledClassInfo($class, $session); ?>
 
-            <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
-                if ($class->hasRemainingCapacity()) { ?>
-                <form action="../actions/action_enrollment.php" method="post">
+              <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                  if ($class->hasRemainingCapacity()) { ?>
+                  <form action="../actions/action_enrollment.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium blue" type="submit">Enroll Now</button>
+                  </form>
+                <?php } else { ?>
+                  <form action="../actions/action_join_waitlist.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium blue" type="submit">Join Waitlist</button>
+                  </form>
+                <?php } ?>
+
+              <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+                <form action="../actions/action_cancel_enrollment.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium blue" type="submit">Enroll Now</button>
+                  <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                 </form>
-              <?php } else { ?>
-                <form action="../actions/action_join_waitlist.php" method="post">
+
+              <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
+                <form action="../actions/action_leave_waitlist.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium blue" type="submit">Join Waitlist</button>
+                  <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                 </form>
               <?php } ?>
-
-            <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-              <form action="../actions/action_cancel_enrollment.php" method="post">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
-              </form>
-
-            <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
-              <form action="../actions/action_leave_waitlist.php" method="post">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
-              </form>
-            <?php } ?>
-          </li>
-        <?php } ?>
-      </ul>
+            </li>
+          <?php } ?>
+        </ul>
+      <?php } ?>
     </section>
   </div>
 <?php } ?>
