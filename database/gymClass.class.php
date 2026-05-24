@@ -100,6 +100,7 @@
                 FROM Enrollment
                 JOIN User ON Enrollment.member_id = User.id
                 WHERE Enrollment.class_id = ? AND Enrollment.status IN ("enrolled", "waitlisted")
+                ORDER BY Enrollment.status ASC, User.first_name ASC, User.last_name ASC
             ');
 
             $stmt->execute([$classId]);

@@ -32,7 +32,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
 <?php function drawClassTypeCapacity(int $capacity) { ?>
   <p>
     <span class="symbol">person</span>
-    Capacity: <?= $capacity ?>
+    Max: <?= $capacity ?>
   </p>
 <?php } ?>
 

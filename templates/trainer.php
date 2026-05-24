@@ -164,9 +164,9 @@
 
       <section class="enrolled-members-container floating">
         <h3>Enrolled Members</h3>
-          <div id="enrolled-members-list">
-            <!-- Enrolled members will be loaded here via JS -->
-          </div>
+        <div id="enrolled-members-list">
+          <!-- Enrolled members will be loaded here via JS -->
+        </div>
       </section>
     </section>
   </div>

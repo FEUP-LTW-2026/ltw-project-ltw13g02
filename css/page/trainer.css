@@ -139,6 +139,64 @@
         }
     }
 
+    .container .enrolled-members-container {
+        margin-top: var(--space-xl);
+        padding: var(--space-l);
+
+        & h3 {
+            margin-top: 0;
+            font-size: var(--font-size-l);
+        }
+
+        & #enrolled-members-list {
+            width: 100%;
+            overflow-x: auto;
+
+            & table {
+                width: 100%;
+                min-width: 42rem;
+                border-collapse: collapse;
+                margin-top: 0;
+
+                & th,
+                & td {
+                    padding: var(--space-m);
+                    border-bottom: 1px solid var(--color-secondary-border);
+                    text-align: left;
+                    vertical-align: middle;
+                }
+
+                & th {
+                    background-color: var(--color-even-section);
+                    color: var(--color-gray);
+                    font-weight: var(--weight-strong);
+                    text-transform: uppercase;
+                    font-size: var(--font-size-xs);
+                    letter-spacing: 0.05rem;
+                }
+
+                & tbody tr:hover {
+                    background-color: var(--color-even-section);
+                }
+
+                & tbody tr:last-child td {
+                    border-bottom: none;
+                }
+
+                & tbody tr td:last-child {
+                    text-transform: capitalize;
+                }
+
+                & img {
+                    width: 3rem;
+                    height: 4rem;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
     div > section.container > h2 {
         margin: 0;
         margin-bottom: var(--space-l);
@@ -150,7 +208,11 @@
         #trainer-profile .container {
             display: flex;
             flex-direction: column;
-            gap: var(--space-l);
+            align-items: center;
+
+            & h1 {
+                margin: 0;
+            }
         }
 
         #trainer-profile .container > div {
@@ -183,11 +245,43 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
+
+        .container .enrolled-members-container {
+            padding: var(--space-m);
+
+            & #enrolled-members-list table {
+                min-width: 36rem;
+
+                & th,
+                & td {
+                    padding: var(--space-s);
+                }
+            }
+        }
     }
 
     @media (max-width: 40em) {
         #trainer-info .container > article:first-of-type ul {
             grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .container .enrolled-members-container {
+            padding: var(--space-s);
+
+            & #enrolled-members-list table {
+                min-width: 32rem;
+
+                & th,
+                & td {
+                    padding: var(--space-xs);
+                    font-size: var(--font-size-xs);
+                }
+
+                & img {
+                    width: 2rem;
+                    height: 2.5rem;
+                }
+            }
         }
     }
 }

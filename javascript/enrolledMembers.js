@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
           membersList.appendChild(p);
         } else {
           const table = document.createElement('table');
-          table.className = 'enrolled-members-table';
           
           const thead = document.createElement('thead');
           const headerRow = document.createElement('tr');

@@ -1,0 +1,20 @@
+@layer page {
+    .trainer-card {
+        aspect-ratio: 1 / 1;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        justify-content: flex-end;
+        align-items: center;
+
+        & h2 {
+        color: var(--color-secondary);
+        margin-bottom: var(--space-s);
+        }
+
+        & p {
+        color: var(--color-secondary)
+        }
+    }
+}
