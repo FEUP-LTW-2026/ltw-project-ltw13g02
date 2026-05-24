@@ -25,6 +25,7 @@ CREATE TABLE User (
     email TEXT NOT NULL,
     password TEXT NOT NULL,
     is_active INTEGER NOT NULL DEFAULT 1,
+    role_change_count INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT PK_User PRIMARY KEY (id),
     CONSTRAINT UQ_User_username UNIQUE (username),
@@ -44,12 +45,12 @@ CREATE TABLE Member (
 );
 
 CREATE TABLE Trainer (
-    trainer_id INTEGER NOT NULL,
+    id INTEGER NOT NULL,
     bio STRING NOT NULL DEFAULT '',
     
-    CONSTRAINT PK_Trainer PRIMARY KEY (trainer_id),
+    CONSTRAINT PK_Trainer PRIMARY KEY (id),
     CONSTRAINT FK_Trainer_User 
-        FOREIGN KEY (trainer_id) 
+        FOREIGN KEY (id) 
         REFERENCES User(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE
@@ -63,7 +64,7 @@ CREATE TABLE TrainerSpecialization (
     CONSTRAINT PK_Trainer_Specialization PRIMARY KEY (trainer_id, specialization_id),
     CONSTRAINT FK_Trainer_Specialization_Trainer 
         FOREIGN KEY (trainer_id) 
-        REFERENCES Trainer(trainer_id) 
+        REFERENCES Trainer(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     CONSTRAINT FK_Trainer_Specialization_Specialization 
@@ -81,7 +82,7 @@ CREATE TABLE TrainerCertification (
     CONSTRAINT PK_Trainer_Certification PRIMARY KEY (trainer_id, certification_id),
     CONSTRAINT FK_Trainer_Certification_Trainer 
         FOREIGN KEY (trainer_id) 
-        REFERENCES Trainer(trainer_id) 
+        REFERENCES Trainer(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     CONSTRAINT FK_Trainer_Certification_Certification 
@@ -110,11 +111,11 @@ CREATE TABLE Specialization (
 
 -- admin (first user will be directly initialized inside the database)
 CREATE TABLE Admin (
-    admin_id INTEGER NOT NULL,
+    id INTEGER NOT NULL,
 
-    CONSTRAINT PK_Admin PRIMARY KEY (admin_id),
+    CONSTRAINT PK_Admin PRIMARY KEY (id),
     CONSTRAINT FK_Admin_User 
-        FOREIGN KEY (admin_id) 
+        FOREIGN KEY (id) 
         REFERENCES User(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE
@@ -133,7 +134,7 @@ CREATE TABLE ClassType (
     CONSTRAINT PK_ClassType PRIMARY KEY (id),
     CONSTRAINT FK_ClassType_Trainer 
         FOREIGN KEY (trainer_id) 
-        REFERENCES Trainer(trainer_id) 
+        REFERENCES Trainer(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     CONSTRAINT ValidTimes CHECK (start_time < end_time),
