@@ -19,7 +19,7 @@
   $allCertifications = Trainer::getAllCertifications($db);
 
   $nextClassesToSchedule = [];
-  if ($session->getId() === $trainer->getId()) {
+  if ($session->isTrainer()) {
     $nextClassesToSchedule = Trainer::getNextClassesToSchedule($db, $trainer->getId());
   }
 

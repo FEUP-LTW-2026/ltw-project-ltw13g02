@@ -7,6 +7,7 @@
     require_once(__DIR__ . '/../database/trainer.class.php');
 
     $session = new Session();
+    require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn() || !$session->isAdmin()) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -60,7 +61,7 @@
 
         $user = AuthenticatedUser::createUser($db, $firstName, $lastName, $email, $username, $password);
 
-        $stmt = $db->prepare('INSERT INTO Trainer (trainer_id) VALUES (?)');
+        $stmt = $db->prepare('INSERT INTO Trainer (id) VALUES (?)');
         $stmt->execute([$user->getId()]);
 
         $db->commit();
@@ -70,6 +71,7 @@
         exit;
     } catch (PDOException $e) {
         if ($db->inTransaction()) $db->rollBack();
+        $session->addErrorMessage('Database error: ' . $e->getMessage());
         $session->addErrorMessage('Database error while creating trainer.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;

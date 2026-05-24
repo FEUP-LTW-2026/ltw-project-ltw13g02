@@ -669,6 +669,7 @@
         transition: cubic-bezier(1, 0, 0, 1) 100ms;
 
         & li a, & li form button {
+          border-radius: 0;
           display: inline-block;
           border: none;
           font-size: var(--font-size-l);

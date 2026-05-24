@@ -23,6 +23,10 @@
       session_destroy();
     }
 
+    public function invalidateAuth(): void {
+      unset($_SESSION['id'], $_SESSION['username'], $_SESSION['email'], $_SESSION['role'], $_SESSION['role_change_count'], $_SESSION['is_active']);
+    }
+
     public function getId() : ?int {
       return isset($_SESSION['id']) ? $_SESSION['id'] : null;    
     }
@@ -36,27 +40,31 @@
     }
 
     public function isAdmin() : bool {
-      return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Admin';
     }
 
     public function isMember() : bool {
-      return isset($_SESSION['is_member']) && $_SESSION['is_member'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Member';
     }
 
     public function isTrainer() : bool {
-      return isset($_SESSION['is_trainer']) && $_SESSION['is_trainer'] === true;
+      return isset($_SESSION['role']) && $_SESSION['role'] === 'Trainer';
     }
 
-    public function setAdmin(bool $is_admin) {
-      $_SESSION['is_admin'] = $is_admin;
+    public function setRole(string $role) {
+      $_SESSION['role'] = $role;
     }
 
-    public function setMember(bool $is_member) {
-      $_SESSION['is_member'] = $is_member;
+    public function getRole() : ?string {
+      return isset($_SESSION['role']) ? $_SESSION['role'] : null;
     }
 
-    public function setTrainer(bool $is_trainer) {
-      $_SESSION['is_trainer'] = $is_trainer;
+    public function setRoleChangeCount(int $count) {
+      $_SESSION['role_change_count'] = $count;
+    }
+
+    public function getRoleChangeCount() : ?int {
+      return isset($_SESSION['role_change_count']) ? $_SESSION['role_change_count'] : null;
     }
 
     public function setIsActive(bool $is_active) {

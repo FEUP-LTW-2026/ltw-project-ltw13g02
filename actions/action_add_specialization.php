@@ -7,6 +7,7 @@
 
 
     $session = new Session();
+    require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');
@@ -40,7 +41,7 @@
         Trainer::addSpecialization($db, $session->getId(), $specializationId);
     } catch (PDOException $e) {
         error_log($e->getMessage());
-        $session->addErrorMessage('Failed to remove specialization: ' . $e->getMessage());
+        $session->addErrorMessage('Failed to add specialization: ' . $e->getMessage());
     }
 
     redirectToPreviousPage();

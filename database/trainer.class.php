@@ -15,7 +15,7 @@
         public array $scheduledClasses;
 
         public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, string $bio, array $certifications = [], array $specialitizations = [], array $classes = [], array $scheduledClasses = []) {
-            parent::__construct($id, $firstName, $lastName, $username, $email, true);
+            parent::__construct($id, $firstName, $lastName, $username, $email, true, 'Trainer');
             $this->bio = $bio;
             $this->certifications = $certifications;
             $this->specialitizations = $specialitizations;
@@ -40,7 +40,7 @@
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
                 FROM User
-                JOIN Trainer ON User.id = Trainer.trainer_id
+                JOIN Trainer ON User.id = Trainer.id
                 WHERE User.is_active = 1
             ');
 
@@ -107,7 +107,7 @@
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
                 FROM User
-                JOIN Trainer ON User.id = Trainer.trainer_id
+                JOIN Trainer ON User.id = Trainer.id
                 WHERE User.is_active = 1 AND User.id = ?
             ');
 
@@ -280,7 +280,7 @@
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name
                 FROM User
-                JOIN Trainer ON User.id = Trainer.trainer_id
+                JOIN Trainer ON User.id = Trainer.id
                 WHERE User.is_active = 1
             ');
 
