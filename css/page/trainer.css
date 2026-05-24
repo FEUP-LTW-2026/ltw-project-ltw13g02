@@ -33,7 +33,9 @@
     }
 
     #trainer-info .container {
-        display: flex;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
         gap: var(--space-xxl);
 
         & article h2 {
@@ -137,6 +139,10 @@
             font-size: var(--font-size-s);
             color: var(--color-primary);
         }
+    }
+
+    #trainer-info .container > article:nth-of-type(3) {
+        grid-column-end: span 2;
     }
 
     .container .enrolled-members-container {

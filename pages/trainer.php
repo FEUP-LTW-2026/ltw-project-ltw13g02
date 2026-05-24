@@ -18,9 +18,14 @@
   $allSpecializations = Trainer::getAllSpecializations($db);
   $allCertifications = Trainer::getAllCertifications($db);
 
+  $nextClassesToSchedule = [];
+  if ($session->getId() === $trainer->getId()) {
+    $nextClassesToSchedule = Trainer::getNextClassesToSchedule($db, $trainer->getId());
+  }
+
   drawHeader($session, 'Trainer Name', ['trainer.css']);
 
-  drawTrainerPage($trainer, $allSpecializations, $allCertifications, $session);
+  drawTrainerPage($trainer, $allSpecializations, $allCertifications, $nextClassesToSchedule, $session);
        
   drawFooter(); 
 ?>

@@ -28,7 +28,7 @@
             $stmt->execute([$newBio, $trainerId]);
         }
 
-        static function getAllTrainers(PDO $db) : array {
+        public static function getAllTrainers(PDO $db) : array {
             // Query 1: Base Trainer info
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
@@ -95,7 +95,7 @@
             return array_values($trainers);
         }
 
-        static function getTrainerById(PDO $db, int $trainerId) : ?Trainer {
+        public static function getTrainerById(PDO $db, int $trainerId) : ?Trainer {
             // Base Trainer info
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
@@ -182,7 +182,128 @@
             return $trainer;
         }
 
-        static function getAllTrainersBrief(PDO $db) : array {
+        private static function buildNextScheduledClassFromClassTypeRow(PDO $db, array $row, ?DateTimeImmutable $now = null) : ?GymClass {
+            $now ??= new DateTimeImmutable();
+
+            if (!empty($row['class_id'])) {
+                $latestClassScheduled = GymClass::getClassById($db, (int)$row['class_id']);
+               
+                $start = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->startTimestamp);
+                $end = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->endTimestamp);
+
+                $latestClassScheduled->startTimestamp = $start->modify('+1 week')->format('Y-m-d H:i:s');
+                $latestClassScheduled->endTimestamp = $end->modify('+1 week')->format('Y-m-d H:i:s');
+
+                return $latestClassScheduled;
+            }
+
+            $weekdayNumber = (int)$row['weekday'];
+            $currentWeekday = (int)$now->format('w');
+            $daysUntil = ($weekdayNumber - $currentWeekday + 7) % 7;
+
+            [$startHour, $startMinute] = array_map('intval', explode(':', (string)$row['start_time']));
+            [$endHour, $endMinute] = array_map('intval', explode(':', (string)$row['end_time']));
+
+            $nextStartTimestamp = $now->modify("+{$daysUntil} days")->setTime($startHour, $startMinute);
+            $nextEndTimestamp = $now->modify("+{$daysUntil} days")->setTime($endHour, $endMinute);
+
+            if ($daysUntil === 0 && $nextStartTimestamp <= $now) {
+                $nextStartTimestamp = $nextStartTimestamp->modify('+1 week');
+                $nextEndTimestamp = $nextEndTimestamp->modify('+1 week');
+            }
+
+            return new GymClass(
+                0,
+                (int)$row['class_type_id'],
+                (int)$row['trainer_id'],
+                (string)$row['name'],
+                (string)$row['trainer_name'],
+                $nextStartTimestamp->format('Y-m-d H:i:s'),
+                $nextEndTimestamp->format('Y-m-d H:i:s'),
+                'scheduled',
+                0,
+                (int)$row['capacity']
+            );
+        }
+
+        public static function getNextClassToScheduleByTypeId(PDO $db, int $trainerId, int $classTypeId) : ?GymClass {
+            $stmt = $db->prepare('
+                SELECT
+                    ct.id AS class_type_id,
+                    ct.name,
+                    ct.capacity,
+                    ct.weekday,
+                    ct.start_time,
+                    ct.end_time,
+                    ct.trainer_id,
+                    CONCAT(u.first_name, " ", u.last_name) AS trainer_name,
+                    c.id AS class_id
+                FROM ClassType ct
+                LEFT JOIN User u ON ct.trainer_id = u.id
+                LEFT JOIN Class c ON c.id = (
+                    SELECT c2.id
+                    FROM Class c2
+                    WHERE c2.class_type_id = ct.id
+                      AND c2.status = "scheduled"
+                    ORDER BY c2.start_timestamp DESC, c2.id DESC
+                    LIMIT 1
+                )
+                WHERE ct.id = ? AND ct.trainer_id = ?
+            ');
+
+            $stmt->execute([$classTypeId, $trainerId]);
+            $row = $stmt->fetch();
+
+            if (empty($row)) {
+                return null;
+            }
+
+            return self::buildNextScheduledClassFromClassTypeRow($db, $row);
+        }
+
+        public static function getNextClassesToSchedule(PDO $db, int $trainerId) : array {
+
+            // Selects the latest scheduled class of each class type associated with this trainer ID
+            $stmt = $db->prepare('
+                SELECT
+                    ct.id AS class_type_id,
+                    ct.name,
+                    ct.capacity,
+                    ct.weekday,
+                    ct.start_time,
+                    ct.end_time,
+                    ct.trainer_id,
+                    CONCAT(u.first_name, " ", u.last_name) AS trainer_name,
+                    c.id AS class_id,
+                    c.start_timestamp
+                FROM ClassType ct
+                LEFT JOIN User u ON ct.trainer_id = u.id
+                LEFT JOIN Class c ON c.id = (
+                    SELECT c2.id
+                    FROM Class c2
+                    WHERE c2.class_type_id = ct.id
+                      AND c2.status = "scheduled"
+                    ORDER BY c2.start_timestamp DESC
+                    LIMIT 1
+                )
+                WHERE ct.trainer_id = ?
+                ORDER BY c.start_timestamp ASC
+            ');
+
+            $stmt->execute([$trainerId]);
+
+            $nextClassesToSchedule = [];
+            foreach ($stmt->fetchAll() as $row) {
+                $nextClass = self::buildNextScheduledClassFromClassTypeRow($db, $row);
+                if ($nextClass !== null) {
+                    $nextClassesToSchedule[] = $nextClass;
+                }
+            }
+
+            return $nextClassesToSchedule;
+        }
+
+        public static function getAllTrainersBrief(PDO $db) : array {
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name
                 FROM User

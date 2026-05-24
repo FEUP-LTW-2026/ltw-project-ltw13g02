@@ -26,7 +26,7 @@
             $this->currentEnrollment = $currentEnrollment;
             $this->capacity = $capacity;
         }
-
+        
         public static function getClassById(PDO $db, int $classId) : ?GymClass {
             $stmt = $db->prepare('
                 SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,

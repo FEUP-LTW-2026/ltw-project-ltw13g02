@@ -115,7 +115,27 @@
   <?php } 
 }?>
 
-<?php function drawTrainerInfoContainer(int $trainerId, array $specializations, array $certifications, array $allSpecializations, array $allCertifications, Session $session) { ?>
+<?php function drawNextClassesToSchedule(array $nextClassesToSchedule, Session $session) { ?>
+  <ul class="scheduled-classes">
+    <?php foreach ($nextClassesToSchedule as $class) { ?>
+      <li class="card">
+        <div class="class-info">
+          <h3><?= $class->name ?></h3>
+          <?php drawClassDate($class->startTimestamp); ?>
+          <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+
+          <form method="post" action="../actions/action_schedule_class.php">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+            <input type="hidden" name="class_type_id" value="<?= $class->classTypeId ?>">
+            <button type="submit" class="btn medium transparent-dark">Schedule Class</button>
+          </form>
+        </div>
+      </li>
+    <?php } ?>
+  </ul>
+<?php } ?>
+
+<?php function drawTrainerInfoContainer(int $trainerId, array $specializations, array $certifications, array $allSpecializations, array $allCertifications, array $nextClassesToSchedule, Session $session) { ?>
   <div id="trainer-info">
     <div class="container">
       <article>
@@ -127,6 +147,13 @@
         <h2>Certifications</h2>
         <?php drawCertifications($trainerId, $certifications, $allCertifications, $session) ?>
       </article>
+
+      <?php if ($session->getId() === $trainerId) { ?>
+        <article>
+          <h2>Next Classes To Schedule</h2>
+          <?php drawNextClassesToSchedule($nextClassesToSchedule, $session) ?>
+        </article>
+      <?php } ?>
     </div>
   </div>
 <?php } ?>
@@ -152,16 +179,17 @@
           <button class="btn medium blue see-enrolled" data-class-id="<?= $class->id ?>">See Enrolled Members</button>
         <?php } ?>
       </li>
-    <?php } ?>
+    <?php } ?> 
   </ul>
 <?php } ?>
+
 
 <?php function drawTrainerScheduledClassesContainer(int $trainerId, array $scheduledClasses, Session $session) { ?>
   <div>
     <section class="container">
       <h2>Scheduled Classes</h2>
       <?php drawScheduledClasses($trainerId, $scheduledClasses, $session) ?> 
-
+  
       <section class="enrolled-members-container floating">
         <h3>Enrolled Members</h3>
         <div id="enrolled-members-list">
@@ -172,9 +200,9 @@
   </div>
 <?php } ?>
 
-<?php function drawTrainerPage(Trainer $trainer, array $allSpecializations, array $allCertifications, Session $session) {
+<?php function drawTrainerPage(Trainer $trainer, array $allSpecializations, array $allCertifications, array $nextClassesToSchedule, Session $session) {
   drawTrainerIntro($trainer, $session);
-  drawTrainerInfoContainer($trainer->getId(), $trainer->specialitizations, $trainer->certifications, $allSpecializations, $allCertifications, $session);
+  drawTrainerInfoContainer($trainer->getId(), $trainer->specialitizations, $trainer->certifications, $allSpecializations, $allCertifications, $nextClassesToSchedule, $session);
   drawTrainerClassesContainer($trainer->getFirstName(), $trainer->classes);
   drawTrainerScheduledClassesContainer($trainer->getId(), $trainer->scheduledClasses, $session);
 } ?>
