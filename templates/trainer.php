@@ -4,6 +4,7 @@
   require_once(__DIR__ . '/../database/trainer.class.php');
   require_once(__DIR__ . '/../database/authenticated_user.class.php');
   require_once(__DIR__ . '/../utils/helpers.php');
+  require_once(__DIR__ . '/common.php');
 ?>
 
 <?php function drawTrainerIntro(Trainer $trainer, Session $session) { 
@@ -120,13 +121,16 @@
     <?php foreach ($nextClassesToSchedule as $class) { ?>
       <li class="card">
         <div class="class-info">
-          <h3><?= $class->name ?></h3>
-          <?php drawClassDate($class->startTimestamp); ?>
-          <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+          <h3><?= $class['name'] ?></h3>
+          <?php drawClassDate($class['startTimestamp']); ?>
+          <?php drawClassTime($class['startTimestamp'], $class['endTimestamp']); ?>
+          <?php drawClassTypeCapacity($class['capacity']); ?>
 
           <form method="post" action="../actions/action_schedule_class.php">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-            <input type="hidden" name="class_type_id" value="<?= $class->classTypeId ?>">
+            <input type="hidden" name="class_type_id" value="<?= $class['classTypeId'] ?>">
+            <input type="hidden" name="start_timestamp" value="<?= $class['startTimestamp'] ?>">
+            <input type="hidden" name="end_timestamp" value="<?= $class['endTimestamp'] ?>">
             <button type="submit" class="btn medium transparent-dark">Schedule Class</button>
           </form>
         </div>
@@ -174,7 +178,7 @@
     <?php foreach ($scheduledClasses as $class) { ?>
       <li class="card">
         <?php drawScheduledClassInfo($class, $session);
-        
+    
         if ($session->getId() === $trainerId) { ?>
           <button class="btn medium blue see-enrolled" data-class-id="<?= $class->id ?>">See Enrolled Members</button>
         <?php } ?>
@@ -188,14 +192,21 @@
   <div>
     <section class="container">
       <h2>Scheduled Classes</h2>
-      <?php drawScheduledClasses($trainerId, $scheduledClasses, $session) ?> 
-  
-      <section class="enrolled-members-container floating">
-        <h3>Enrolled Members</h3>
-        <div id="enrolled-members-list">
-          <!-- Enrolled members will be loaded here via JS -->
-        </div>
-      </section>
+
+      <?php if (empty($scheduledClasses)) { ?>
+        <p>No classes scheduled yet.</p>
+
+      <?php } else { ?>
+        <?php drawScheduledClasses($trainerId, $scheduledClasses, $session) ?> 
+    
+        <section class="enrolled-members-container floating">
+          <h3>Enrolled Members</h3>
+          <div id="enrolled-members-list">
+            <!-- Enrolled members will be loaded here via JS -->
+          </div>
+        </section>
+      <?php } ?>
+
     </section>
   </div>
 <?php } ?>

@@ -23,6 +23,13 @@
             $this->scheduledClasses = $scheduledClasses;
         }
 
+        public static function getTrainerBioById(PDO $db, int $trainerId) : ?string {
+            $stmt = $db->prepare('SELECT bio FROM Trainer WHERE trainer_id = ?');
+            $stmt->execute([$trainerId]);
+            $row = $stmt->fetch();
+            return $row ? $row['bio'] : null;
+        }
+
         public static function updateBiography(PDO $db, int $trainerId, string $newBio) : void {
             $stmt = $db->prepare('UPDATE Trainer SET bio = ? WHERE trainer_id = ?');
             $stmt->execute([$newBio, $trainerId]);
@@ -182,85 +189,6 @@
             return $trainer;
         }
 
-        private static function buildNextScheduledClassFromClassTypeRow(PDO $db, array $row, ?DateTimeImmutable $now = null) : ?GymClass {
-            $now ??= new DateTimeImmutable();
-
-            if (!empty($row['class_id'])) {
-                $latestClassScheduled = GymClass::getClassById($db, (int)$row['class_id']);
-               
-                $start = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->startTimestamp);
-                $end = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->endTimestamp);
-
-                $latestClassScheduled->startTimestamp = $start->modify('+1 week')->format('Y-m-d H:i:s');
-                $latestClassScheduled->endTimestamp = $end->modify('+1 week')->format('Y-m-d H:i:s');
-
-                return $latestClassScheduled;
-            }
-
-            $weekdayNumber = (int)$row['weekday'];
-            $currentWeekday = (int)$now->format('w');
-            $daysUntil = ($weekdayNumber - $currentWeekday + 7) % 7;
-
-            [$startHour, $startMinute] = array_map('intval', explode(':', (string)$row['start_time']));
-            [$endHour, $endMinute] = array_map('intval', explode(':', (string)$row['end_time']));
-
-            $nextStartTimestamp = $now->modify("+{$daysUntil} days")->setTime($startHour, $startMinute);
-            $nextEndTimestamp = $now->modify("+{$daysUntil} days")->setTime($endHour, $endMinute);
-
-            if ($daysUntil === 0 && $nextStartTimestamp <= $now) {
-                $nextStartTimestamp = $nextStartTimestamp->modify('+1 week');
-                $nextEndTimestamp = $nextEndTimestamp->modify('+1 week');
-            }
-
-            return new GymClass(
-                0,
-                (int)$row['class_type_id'],
-                (int)$row['trainer_id'],
-                (string)$row['name'],
-                (string)$row['trainer_name'],
-                $nextStartTimestamp->format('Y-m-d H:i:s'),
-                $nextEndTimestamp->format('Y-m-d H:i:s'),
-                'scheduled',
-                0,
-                (int)$row['capacity']
-            );
-        }
-
-        public static function getNextClassToScheduleByTypeId(PDO $db, int $trainerId, int $classTypeId) : ?GymClass {
-            $stmt = $db->prepare('
-                SELECT
-                    ct.id AS class_type_id,
-                    ct.name,
-                    ct.capacity,
-                    ct.weekday,
-                    ct.start_time,
-                    ct.end_time,
-                    ct.trainer_id,
-                    CONCAT(u.first_name, " ", u.last_name) AS trainer_name,
-                    c.id AS class_id
-                FROM ClassType ct
-                LEFT JOIN User u ON ct.trainer_id = u.id
-                LEFT JOIN Class c ON c.id = (
-                    SELECT c2.id
-                    FROM Class c2
-                    WHERE c2.class_type_id = ct.id
-                      AND c2.status = "scheduled"
-                    ORDER BY c2.start_timestamp DESC, c2.id DESC
-                    LIMIT 1
-                )
-                WHERE ct.id = ? AND ct.trainer_id = ?
-            ');
-
-            $stmt->execute([$classTypeId, $trainerId]);
-            $row = $stmt->fetch();
-
-            if (empty($row)) {
-                return null;
-            }
-
-            return self::buildNextScheduledClassFromClassTypeRow($db, $row);
-        }
-
         public static function getNextClassesToSchedule(PDO $db, int $trainerId) : array {
 
             // Selects the latest scheduled class of each class type associated with this trainer ID
@@ -294,9 +222,53 @@
 
             $nextClassesToSchedule = [];
             foreach ($stmt->fetchAll() as $row) {
-                $nextClass = self::buildNextScheduledClassFromClassTypeRow($db, $row);
-                if ($nextClass !== null) {
-                    $nextClassesToSchedule[] = $nextClass;
+                
+                $now = new DateTimeImmutable();
+
+                if (!empty($row['class_id'])) { // if there is a scheduled class of an assigned class type
+                    $latestClassScheduled = GymClass::getClassById($db, (int)$row['class_id']);
+                
+                    // Get the start and end timestamps of the latest scheduled class
+                    $start = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->startTimestamp);
+                    $end = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->endTimestamp);
+
+                    // Add one week to the start and end timestamps to get the next class to schedule
+                    $latestClassScheduled->startTimestamp = $start->modify('+1 week')->format('Y-m-d H:i:s');
+                    $latestClassScheduled->endTimestamp = $end->modify('+1 week')->format('Y-m-d H:i:s');
+
+                    $nextClassesToSchedule[] = [
+                        "name" => $row['name'],
+                        "startTimestamp" => $latestClassScheduled->startTimestamp,
+                        "endTimestamp" => $latestClassScheduled->endTimestamp,
+                        "classTypeId" => (int)$row['class_type_id'],
+                        "capacity" => (int)$row['capacity']
+                    ];
+                   
+                } else { // there is no scheduled class of an assigned class type
+
+                    $weekdayNumber = (int)$row['weekday'];
+                    $currentWeekday = (int)$now->format('w'); // 0 (for Sunday) through 6 (for Saturday), like stored in the database   
+                    $daysUntil = ($weekdayNumber - $currentWeekday + 7) % 7; // number of days until the next occurrence of the class type's weekday
+
+                    [$startHour, $startMinute] = array_map('intval', explode(':', (string)$row['start_time']));
+                    [$endHour, $endMinute] = array_map('intval', explode(':', (string)$row['end_time']));
+
+                    $nextStartTimestamp = $now->modify("+{$daysUntil} days")->setTime($startHour, $startMinute);
+                    $nextEndTimestamp = $now->modify("+{$daysUntil} days")->setTime($endHour, $endMinute);
+
+                    // If the class type's weekday is today but the start time has already passed, schedule for the next week
+                    if ($daysUntil === 0 && $nextStartTimestamp <= $now) {
+                        $nextStartTimestamp = $nextStartTimestamp->modify('+1 week');
+                        $nextEndTimestamp = $nextEndTimestamp->modify('+1 week');
+                    }
+
+                    $nextClassesToSchedule[] = [
+                        "name" => $row['name'],
+                        "startTimestamp" => $nextStartTimestamp->format('Y-m-d H:i:s'),
+                        "endTimestamp" => $nextEndTimestamp->format('Y-m-d H:i:s'),
+                        "classTypeId" => (int)$row['class_type_id'],
+                        "capacity" => (int)$row['capacity']
+                    ];
                 }
             }
 

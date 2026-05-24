@@ -211,6 +211,7 @@
 
 @layer responsive {
     @media (max-width: 60rem) {
+
         #trainer-profile .container {
             display: flex;
             flex-direction: column;
@@ -232,6 +233,28 @@
             & p {
                 color: var(--color-paragraph);
             }
+        }
+        
+        #trainer-info .container {
+            grid-template-columns: auto;
+        }
+
+        #add-certification, #add-specialization {
+            flex-direction: row;
+            gap: var(--space-s);
+
+            & select {
+                flex: 4;
+            }
+
+            & button {
+                align-self: auto;
+                flex: 1;
+            }
+        }
+
+        #trainer-info .container > article:nth-of-type(3) {
+            grid-column-end: span 1;
         }
 
         #trainer-info .container > article:first-of-type ul {
@@ -267,6 +290,7 @@
     }
 
     @media (max-width: 40em) {
+
         #trainer-info .container > article:first-of-type ul {
             grid-template-columns: repeat(1, minmax(0, 1fr));
         }
@@ -287,6 +311,16 @@
                     width: 2rem;
                     height: 2.5rem;
                 }
+            }
+        }
+    }
+
+    @media (max-width: 30em) {
+        #add-certification, #add-specialization {
+            font-size: var(--font-size-xs);
+
+            & .btn {
+                font-size: var(--font-size-xs);
             }
         }
     }

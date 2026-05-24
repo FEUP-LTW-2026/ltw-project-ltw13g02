@@ -94,6 +94,15 @@
             return $classes;
         }
 
+        public static function scheduleClass(PDO $db, int $classTypeId, string $startTimestamp, string $endTimestamp) : void {
+            $stmt = $db->prepare('
+                INSERT INTO Class (class_type_id, start_timestamp, end_timestamp, status)
+                VALUES (?, ?, ?, "scheduled")
+            ');
+
+            $stmt->execute([$classTypeId, $startTimestamp, $endTimestamp]);
+        }
+
         public static function getEnrolledMembers(PDO $db, int $classId) : array {
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Enrollment.status

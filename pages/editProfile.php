@@ -26,21 +26,16 @@
     $firstName = $user->getFirstName();
     $lastName = $user->getLastName();
     $username = $user->getUsername();
-
-    $trainer = null;
-    $allSpecializations = [];
-    $allCertifications = [];
+    $biography = null;
 
     if ($session->isTrainer()) {
         require_once (__DIR__ . '/../database/trainer.class.php');
-        $trainer = Trainer::getTrainerById($db, $session->getId());
-        $allSpecializations = Trainer::getAllSpecializations($db);
-        $allCertifications = Trainer::getAllCertifications($db);
+        $biography = Trainer::getTrainerBioById($db, $session->getId());
     }
 
-    drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css', 'trainer.css']); // include trainer.css?
+    drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
 
-    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $session, $trainer, $allSpecializations, $allCertifications);
+    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $biography, $session);
 
     drawFooter();
   }

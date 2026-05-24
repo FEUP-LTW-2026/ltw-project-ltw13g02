@@ -29,13 +29,6 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
   </p>
 <?php } ?>
 
-<?php function drawClassTypeCapacity(int $capacity) { ?>
-  <p>
-    <span class="symbol">person</span>
-    Max: <?= $capacity ?>
-  </p>
-<?php } ?>
-
 <?php function drawClassIntro(ClassType $classType, Session $session, ?array $classTypeRating) { ?>
   <div class="intro">
     <section class="container">
@@ -64,12 +57,9 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
           ?>
         </div>
         <?php
-        if($session->isLoggedIn()) {
-            ?>
+        if($session->isLoggedIn() && !$session->isTrainer()) { ?>
             <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
-            <?php
-        }
-        ?>
+        <?php } ?>
       </div>
       <img src="https://picsum.photos/800/600" alt="class image" class="hero-image" >
     </section>
@@ -122,43 +112,49 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
   <div id="enrollment">
     <section class="container floating">
       <h2>Available Classes</h2>
-      <ul class="scheduled-classes">
-        <?php foreach ($classes as $class) { ?>
-          <li class="card">
-            <?php drawScheduledClassInfo($class, $session); ?>
 
-            <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
-                if ($class->hasRemainingCapacity()) { ?>
-                <form action="../actions/action_enrollment.php" method="post">
+      <?php if (empty($classes)) { ?>
+        <p>No classes available of this type at the moment.</p>
+
+      <?php } else { ?>
+        <ul class="scheduled-classes">
+          <?php foreach ($classes as $class) { ?>
+            <li class="card">
+              <?php drawScheduledClassInfo($class, $session); ?>
+
+              <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                  if ($class->hasRemainingCapacity()) { ?>
+                  <form action="../actions/action_enrollment.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium blue" type="submit">Enroll Now</button>
+                  </form>
+                <?php } else { ?>
+                  <form action="../actions/action_join_waitlist.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium blue" type="submit">Join Waitlist</button>
+                  </form>
+                <?php } ?>
+
+              <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+                <form action="../actions/action_cancel_enrollment.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium blue" type="submit">Enroll Now</button>
+                  <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                 </form>
-              <?php } else { ?>
-                <form action="../actions/action_join_waitlist.php" method="post">
+
+              <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
+                <form action="../actions/action_leave_waitlist.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium blue" type="submit">Join Waitlist</button>
+                  <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                 </form>
               <?php } ?>
-
-            <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-              <form action="../actions/action_cancel_enrollment.php" method="post">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
-              </form>
-
-            <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
-              <form action="../actions/action_leave_waitlist.php" method="post">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
-              </form>
-            <?php } ?>
-          </li>
-        <?php } ?>
-      </ul>
+            </li>
+          <?php } ?>
+        </ul>
+      <?php } ?>
     </section>
   </div>
 <?php } ?>

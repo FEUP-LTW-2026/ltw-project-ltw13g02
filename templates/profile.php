@@ -10,7 +10,7 @@
 <?php function drawProfile(int $userId, string $name, string $username) { ?>
   <div class="intro">
     <section id="profile">
-      <?= drawProfilePicture($userId); ?>
+      <?php drawProfilePicture($userId); ?>
       <header>
         <h1><?= $name; ?></h1>
         <h2><?= $username; ?></h2>

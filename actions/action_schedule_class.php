@@ -28,30 +28,18 @@
     }
 
     $classTypeId = (int)($_POST['class_type_id'] ?? 0);
-    if ($classTypeId <= 0) {
-        $session->addErrorMessage('Class type is required.');
+    $nextStartTimestamp = $_POST['start_timestamp'] ?? null;
+    $nextEndTimestamp = $_POST['end_timestamp'] ?? null;
+
+    if ($classTypeId <= 0 || !$nextStartTimestamp || !$nextEndTimestamp) {
+        $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }
 
     $db = getDatabaseConnection();
 
-    $nextClass = Trainer::getNextClassToScheduleByTypeId($db, $session->getId(), $classTypeId);
-
-    if ($nextClass === null) {
-        $session->addErrorMessage('No upcoming class found to schedule.');
-        redirectToPreviousPage();
-    }
-
-    $nextStartTimestamp = $nextClass->startTimestamp;
-    $nextEndTimestamp = $nextClass->endTimestamp;
-
-    $stmt = $db->prepare('
-        INSERT INTO Class (class_type_id, start_timestamp, end_timestamp, status)
-        VALUES (?, ?, ?, "scheduled")
-    ');
-
     try {
-        $stmt->execute([$classTypeId, $nextStartTimestamp, $nextEndTimestamp]);
+        GymClass::scheduleClass($db, $classTypeId, $nextStartTimestamp, $nextEndTimestamp);
         $session->addSuccessMessage('Class scheduled successfully.');
     } catch (PDOException $e) {
         error_log($e->getMessage());

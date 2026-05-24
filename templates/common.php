@@ -160,17 +160,15 @@
 <?php } ?>
 
 
-<?php
-
-function drawProfilePicture(int $userId) : string {
+<?php function drawProfilePicture(int $userId) {
    $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
       ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg';
+      : '../img/profiles/default.jpg'; ?>
 
-    return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo">';
-} 
+    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">';
+<?php } ?>
 
-function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
+<?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
    <div class="class-info">
       <h3><?= $class->name ?></h3>
       <?php drawClassDate($class->startTimestamp); ?>
@@ -181,4 +179,11 @@ function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
       <?php } ?>
 
     </div>
+<?php } ?>
+
+<?php function drawClassTypeCapacity(int $capacity) { ?>
+  <p>
+    <span class="symbol">person</span>
+    Max: <?= $capacity ?>
+  </p>
 <?php } ?>

@@ -72,7 +72,7 @@
   </div>
 <?php } ?>
 
-<?php function drawProfileEditForm(int $userId, string $firstName, string $lastName, string $username, Session $session, ?Trainer $trainer = null, array $allSpecializations = [], array $allCertifications = []) { 
+<?php function drawProfileEditForm(int $userId, string $firstName, string $lastName, string $username, ?string $biography, Session $session) { 
   $photoUrl = getProfileImageUrl($userId);
   ?>
   <div class="intro">
@@ -105,10 +105,10 @@
           <input type="text" name="username" value="<?= htmlspecialchars($username) ?>" placeholder="New username">
         </label>
 
-        <?php if ($session->isTrainer() && $trainer) { ?>
+        <?php if ($session->isTrainer() && $biography !== null) { ?>
           <label>
             Biography
-            <textarea name="biography" placeholder="New biography"><?= htmlspecialchars($trainer->bio) ?></textarea>
+            <textarea name="biography" placeholder="New biography"><?= htmlspecialchars($biography) ?></textarea>
           </label>
         <?php } ?>
 
@@ -144,6 +144,6 @@
   <script src="../javascript/editProfile.js"></script>
 <?php } ?>
 
-<?php function drawEditProfilePage(int $userId, string $firstName, string $lastName, string $username, Session $session, ?Trainer $trainer = null, array $allSpecializations = [], array $allCertifications = []) {
-  drawProfileEditForm($userId, $firstName, $lastName, $username, $session, $trainer, $allSpecializations, $allCertifications);
+<?php function drawEditProfilePage(int $userId, string $firstName, string $lastName, string $username, ?string $biography, Session $session, ) {
+  drawProfileEditForm($userId, $firstName, $lastName, $username, $biography, $session);
 } ?>
