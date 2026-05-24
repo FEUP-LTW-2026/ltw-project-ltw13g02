@@ -35,9 +35,6 @@
     }
   }
 
-  .card :last-child {
-    margin-top: auto;
-  }
 
   .membership-plan {
     display: flex;
@@ -47,7 +44,6 @@
     border-radius: var(--radius-card);
     transition: border-color 150ms, background-color 150ms, transform 150ms, box-shadow 150ms;
     cursor: pointer;
-    ;
 
     & h3 {
       margin: 0 0 var(--space-s) 0;

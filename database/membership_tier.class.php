@@ -58,8 +58,38 @@
       $this->booking_window_days = $booking_window_days;
     }
 
-    public static function getMembershipTiers(PDO $db) : array {
-      $stmt = $db->prepare('SELECT * FROM MembershipTier ORDER BY monthly_fee ASC');
+    public static function create(PDO $db, string $name, string $description, float $monthly_fee, int $booking_window_days) : int {
+      $stmt = $db->prepare('INSERT INTO MembershipTier (name, description, monthly_fee, booking_window_days, is_active) VALUES (?, ?, ?, ?, ?)');
+      $stmt->execute([
+        $name,
+        $description,
+        $monthly_fee,
+        $booking_window_days,
+        1
+      ]);
+
+      return (int)$db->lastInsertId();
+    }
+
+    public static function getAllMembershipTiers(PDO $db) : array {
+      $stmt = $db->prepare('SELECT * FROM MembershipTier ORDER BY is_active DESC, monthly_fee ASC');
+      $stmt->execute();
+      $tiers = [];
+      while ($row = $stmt->fetch()) {
+        $tiers[] = new MembershipTier(
+          (int)$row['id'], 
+          $row['name'], 
+          $row['description'], 
+          (float)$row['monthly_fee'], 
+          (int)$row['booking_window_days'],
+          (bool)$row['is_active']
+        );
+      }
+      return $tiers;
+    }
+
+    public static function getActiveMembershipTiers(PDO $db) : array {
+      $stmt = $db->prepare('SELECT * FROM MembershipTier WHERE is_active = 1 ORDER BY monthly_fee ASC');
       $stmt->execute();
       $tiers = [];
       while ($row = $stmt->fetch()) {
