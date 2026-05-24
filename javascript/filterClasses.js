@@ -6,11 +6,23 @@ const classes = document.querySelectorAll(".class-list > article");
 
 function getTimeOfDay(timeString) {
     if (!timeString) return "all";
-    const startTime = timeString.split(" - ")[0].trim();
-    const hour = parseInt(startTime.split(":")[0]);
-    if (hour < 12) {
+
+    const times = timeString.split(" - ")
+
+    let startHour = parseInt(times[0].split(':')[0], 10);
+    const meridiem = times[0].split(' ')[1].toUpperCase();
+
+    if (meridiem === "PM" && startHour !== 12) {
+        startHour += 12;
+    }
+
+    if (meridiem === "AM" && startHour === 12) {
+        startHour = 0;
+    }
+
+    if (startHour < 12) {
         return "morning";
-    } else if (hour < 18) {
+    } else if (startHour < 18) {
         return "afternoon";
     } else {
         return "evening";
@@ -25,9 +37,9 @@ function filterClasses() {
 
     classes.forEach((card) => {
         const content = card.children[1];
-        const className = content.children[0].textContent.toLowerCase().trim();
-        const dayText = content.children[1].textContent.toLowerCase().trim();
-        const timeText = content.children[2].textContent;
+        const className = content.querySelector("h3").textContent.toLowerCase().trim();
+        const dayText = content.querySelectorAll("p")[0].lastChild.textContent.toLowerCase().trim();
+        const timeText = content.querySelectorAll("p")[1].lastChild.textContent.trim();
         const trainerLink = content.querySelector(".trainer");
 
         const matchDay = selectedDay === "all" || dayText === selectedDay;
