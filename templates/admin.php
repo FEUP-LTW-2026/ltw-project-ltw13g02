@@ -426,6 +426,12 @@
                         formnovalidate>
                   Enable Tier
                 </button>
+                <button type="submit"
+                        class="btn warning"
+                        formaction="../actions/action_delete_membership_tier.php"
+                        formnovalidate>
+                  Delete Tier
+                </button>
               <?php } ?>
             </div>
           </form>
