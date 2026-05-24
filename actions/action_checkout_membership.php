@@ -14,6 +14,7 @@ function checkExistingMember(PDO $db, int $member_id) {
     require_once(__DIR__ . '/../utils/session.php');
 
     $session = new Session();
+    require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if(!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');
@@ -54,13 +55,6 @@ function checkExistingMember(PDO $db, int $member_id) {
     try {
         $db->beginTransaction();
 
-        $isMember = checkExistingMember($db, $session->getId());
-
-        if ($isMember === false) {
-        $stmt = $db->prepare('INSERT INTO Member (id) VALUES (?)');
-        $stmt->execute([$session->getId()]);
-        }
-        
         // Create first month
         $stmt = $db->prepare("
         INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, 
@@ -111,7 +105,12 @@ function checkExistingMember(PDO $db, int $member_id) {
     // Update the session to reflect the new membership status (fetch user just for confirmation)
     require_once (__DIR__ . '/../database/authenticated_user.class.php');
     $user = AuthenticatedUser::getUser($db, $session->getId());
-    $session->setMember($user->isMember($db));
+
+    // Update the role
+    require_once (__DIR__ . '/../database/roleManager.class.php');
+    RoleManager::changeUserRole($db, $session->getId(), $session->getRole(), 'Member', $session);
+    // Update the session role
+    $session->setRole('Member');
 
     $session->addSuccessMessage('Membership created successfully!');
     header('Location: ' . $_SERVER['HTTP_REFERER']);

@@ -3,6 +3,7 @@
 
   require_once (__DIR__ . '/../utils/session.php');
   $session = new Session();
+  require_once (__DIR__ . '/../utils/role_change_guard.php');
 
   require_once (__DIR__ . '/../database/connection.db.php');
   $db = getDatabaseConnection();
@@ -32,8 +33,15 @@
   require_once (__DIR__ . '/../database/membership_tier.class.php');
   $tiers = MembershipTier::getAllMembershipTiers($db);
 
+  require_once (__DIR__ . '/../database/roleManager.class.php');
+  $roleManager = new RoleManager();
+
   require_once (__DIR__ . '/../templates/admin.php');
-  drawAdminPanel($users, $db, $session, $tiers);
+
+  echo '<script src="../javascript/searchByUserName.js" defer></script>';
+  echo '<script src="../javascript/addMembershipTier.js" defer></script>';
+
+  drawAdminPanel($users, $db, $session, $tiers, $roleManager);
 ?>
 
 <?php drawFooter() ?>
