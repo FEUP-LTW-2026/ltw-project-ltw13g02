@@ -11,7 +11,7 @@
   $db = getDatabaseConnection();
 
   require_once (__DIR__ . '/../database/membership_tier.class.php');
-  $plans = MembershipTier::getMembershipTiers($db);
+  $plans = MembershipTier::getActiveMembershipTiers($db);
 
   drawHeader($session, 'Home', ['index.css']);
   
