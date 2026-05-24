@@ -37,6 +37,10 @@
       }
     }
   }
+
+  .class-list {
+    padding-top: var(--space-xxl);
+  }
 }
 
 @layer responsive {

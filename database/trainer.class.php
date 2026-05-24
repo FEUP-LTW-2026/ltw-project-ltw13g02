@@ -4,6 +4,7 @@
     require_once(__DIR__ . '/authenticated_user.class.php');
     require_once(__DIR__ . '/connection.db.php');
     require_once(__DIR__ . '/classType.class.php');
+    require_once(__DIR__ . '/gymClass.class.php');
 
     class Trainer extends AuthenticatedUser {
 
@@ -11,13 +12,15 @@
         public array $certifications;  // Array of associative arrays with name and description
         public array $specialitizations;  // Array of associative arrays with name and description
         public array $classes;
+        public array $scheduledClasses;
 
-        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, string $bio, array $certifications = [], array $specialitizations = [], array $classes = []) {
+        public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, string $bio, array $certifications = [], array $specialitizations = [], array $classes = [], array $scheduledClasses = []) {
             parent::__construct($id, $firstName, $lastName, $username, $email, true);
             $this->bio = $bio;
             $this->certifications = $certifications;
             $this->specialitizations = $specialitizations;
             $this->classes = $classes;
+            $this->scheduledClasses = $scheduledClasses;
         }
 
         public static function updateBiography(PDO $db, int $trainerId, string $newBio) : void {
@@ -93,7 +96,7 @@
         }
 
         static function getTrainerById(PDO $db, int $trainerId) : ?Trainer {
-            // Query 1: Base Trainer info
+            // Base Trainer info
             $stmt = $db->prepare('
                 SELECT User.id, User.first_name, User.last_name, User.username, User.email, Trainer.bio
                 FROM User
@@ -115,7 +118,7 @@
                 $row['bio']
             );
             
-            // Query 2: Certifications
+            // Certifications
             $stmt = $db->prepare('
                 SELECT Certification.id, Certification.name
                 FROM TrainerCertification
@@ -132,7 +135,7 @@
                 ];
             }
 
-            // Query 3: Specializations
+            // Specializations
             $stmt = $db->prepare('
                 SELECT Specialization.id, Specialization.name, Specialization.description, Specialization.logo
                 FROM TrainerSpecialization
@@ -151,7 +154,7 @@
                 ];
             }
 
-            // Query 4: Classes
+            // Classes
             $stmt = $db->prepare('
                 SELECT ClassType.id
                 FROM ClassType
@@ -161,6 +164,19 @@
             $stmt->execute([$trainerId]);
             foreach ($stmt->fetchAll() as $row) {
                 $trainer->classes[] = ClassType::getClassTypeById($db, $row['id']);
+            }
+
+            // Scheduled classes
+            $stmt = $db->prepare('
+                SELECT Class.id
+                FROM Class
+                JOIN ClassType ON Class.class_type_id = ClassType.id
+                WHERE ClassType.trainer_id = ? AND Class.status = "scheduled"
+            ');
+
+            $stmt->execute([$trainerId]);
+            foreach ($stmt->fetchAll() as $row) {
+                $trainer->scheduledClasses[] = GymClass::getClassById($db, $row['id']);
             }
 
             return $trainer;

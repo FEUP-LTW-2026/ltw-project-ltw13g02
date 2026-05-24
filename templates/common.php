@@ -170,10 +170,15 @@ function drawProfilePicture(int $userId) : string {
     return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo">';
 } 
 
-function getProfileImageUrl(?int $userId): string {
-    return file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg';
-}
+function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
+   <div class="class-info">
+      <h3><?= $class->name ?></h3>
+      <?php drawClassDate($class->startTimestamp); ?>
+      <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
 
-?>
+      <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
+        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+      <?php } ?>
+
+    </div>
+<?php } ?>

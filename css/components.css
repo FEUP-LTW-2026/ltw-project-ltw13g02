@@ -241,6 +241,13 @@
     }
   }
 
+  .floating {
+    background-color: var(--color-secondary);
+    padding: var(--space-xl);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
   .card {
     display: flex;
     flex-direction: column;
@@ -264,10 +271,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-l);
-  }
-
-  .class-list {
-    padding-top: var(--space-xxl);
   }
 
   .class-card {
@@ -326,7 +329,7 @@
     }
   }
 
-  .classes-enrollment {
+  .scheduled-classes {
       list-style: none;
       padding: 0;
       margin: 0;
@@ -720,7 +723,7 @@
       }
     }
 
-    .classes-enrollment {
+    .scheduled-classes {
       grid-template-columns: 1fr;
     }
   }

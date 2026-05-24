@@ -42,7 +42,7 @@
 <?php } ?>
 
 <?php function drawEnrolledClasses(array $classes) { ?>
-  <ul class="classes-enrollment">
+  <ul class="scheduled-classes">
     <?php if (empty($classes)) { ?>
       <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
@@ -73,7 +73,7 @@
 <?php } ?>
 
 <?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
-  <ul class="classes-enrollment">
+  <ul class="scheduled-classes">
     <?php {
       foreach ($classes as $class) {
         drawWaitlistedClass($class, $session);

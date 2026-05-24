@@ -24,3 +24,5 @@
        
   drawFooter(); 
 ?>
+
+<script src="../javascript/enrolledMembers.js" defer></script>

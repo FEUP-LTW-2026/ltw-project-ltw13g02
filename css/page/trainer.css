@@ -141,6 +141,7 @@
 
     div > section.container > h2 {
         margin: 0;
+        margin-bottom: var(--space-l);
     }
 }
 

@@ -3,6 +3,7 @@
 
   require_once(__DIR__ . '/../database/classType.class.php');
   require_once(__DIR__ . '/../database/gymClass.class.php');
+  require_once(__DIR__ . '/common.php');
 ?>
 
 <?php
@@ -119,21 +120,12 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, Session $session) { ?>
   <div id="enrollment">
-    <section class="container">
+    <section class="container floating">
       <h2>Available Classes</h2>
-      <ul class="classes-enrollment">
+      <ul class="scheduled-classes">
         <?php foreach ($classes as $class) { ?>
           <li class="card">
-            <div class="class-info">
-              <h3><?= $class->name ?></h3>
-              <?php drawClassDate($class->startTimestamp); ?>
-              <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
-
-              <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-                <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
-              <?php } ?>
-
-            </div>
+            <?php drawScheduledClassInfo($class, $session); ?>
 
             <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
                 if ($class->hasRemainingCapacity()) { ?>

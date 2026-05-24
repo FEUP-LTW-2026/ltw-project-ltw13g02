@@ -3,6 +3,7 @@
 
   require_once(__DIR__ . '/../database/trainer.class.php');
   require_once(__DIR__ . '/../database/authenticated_user.class.php');
+  require_once(__DIR__ . '/../utils/helpers.php');
 ?>
 
 <?php function drawTrainerIntro(Trainer $trainer, Session $session) { 
@@ -16,7 +17,7 @@
         <h1><?= $trainer->getFirstName() ?> <b><?= $trainer->getLastName() ?></b></h1>
         <h2>Biography</h2>
         <p><?= $trainer->bio ?></p>
-        <?php if ($trainer->getId() == $session->getId()) { ?>
+        <?php if ($trainer->getId() === $session->getId()) { ?>
           <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
         <?php } else if ($session->isMember()){ ?>
           <a class="btn medium blue" href="#">Book A Session With <?= $trainer->getFullName() ?></a>
@@ -46,7 +47,7 @@
           <span class="symbol"><?= $specialization['logo'] ?? 'exercise' ?></span>
           <h3><?= $specialization['name'] ?></h3>
 
-          <?php if ($session->getId() == $trainerId) { ?>
+          <?php if ($session->getId() === $trainerId) { ?>
             <form method="post" action="../actions/action_remove_specialization.php">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
               <input type="hidden" name="specialization_id" value="<?= $specialization['id'] ?>">
@@ -61,7 +62,7 @@
     <?php } ?>
   </ul>
 
-  <?php if ($session->getId() == $trainerId) { ?>
+  <?php if ($session->getId() === $trainerId) { ?>
     <form id="add-specialization" method="post" action="../actions/action_add_specialization.php">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
@@ -84,7 +85,7 @@
       <li class="card">
         <h3><?= $certification['name'] ?></h3>
         
-        <?php if ($session->getId() == $trainerId) { ?>
+        <?php if ($session->getId() === $trainerId) { ?>
           <form method="post" action="../actions/action_remove_certification.php">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="certification_id" value="<?= $certification['id'] ?>">
@@ -97,7 +98,7 @@
     <?php } ?>
   </ul>
 
-  <?php if ($session->getId() == $trainerId) { ?>
+  <?php if ($session->getId() === $trainerId) { ?>
       <form id="add-certification" method="post" action="../actions/action_add_certification.php">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
@@ -140,8 +141,40 @@
   </div>
 <?php } ?>
 
+
+<?php function drawScheduledClasses(int $trainerId, array $scheduledClasses, Session $session) { ?>
+  <ul class="scheduled-classes">
+    <?php foreach ($scheduledClasses as $class) { ?>
+      <li class="card">
+        <?php drawScheduledClassInfo($class, $session);
+        
+        if ($session->getId() === $trainerId) { ?>
+          <button class="btn medium blue see-enrolled" data-class-id="<?= $class->id ?>">See Enrolled Members</button>
+        <?php } ?>
+      </li>
+    <?php } ?>
+  </ul>
+<?php } ?>
+
+<?php function drawTrainerScheduledClassesContainer(int $trainerId, array $scheduledClasses, Session $session) { ?>
+  <div>
+    <section class="container">
+      <h2>Scheduled Classes</h2>
+      <?php drawScheduledClasses($trainerId, $scheduledClasses, $session) ?> 
+
+      <section class="enrolled-members-container floating">
+        <h3>Enrolled Members</h3>
+          <div id="enrolled-members-list">
+            <!-- Enrolled members will be loaded here via JS -->
+          </div>
+      </section>
+    </section>
+  </div>
+<?php } ?>
+
 <?php function drawTrainerPage(Trainer $trainer, array $allSpecializations, array $allCertifications, Session $session) {
   drawTrainerIntro($trainer, $session);
   drawTrainerInfoContainer($trainer->getId(), $trainer->specialitizations, $trainer->certifications, $allSpecializations, $allCertifications, $session);
   drawTrainerClassesContainer($trainer->getFirstName(), $trainer->classes);
+  drawTrainerScheduledClassesContainer($trainer->getId(), $trainer->scheduledClasses, $session);
 } ?>

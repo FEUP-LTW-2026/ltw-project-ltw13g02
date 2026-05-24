@@ -94,6 +94,18 @@
             return $classes;
         }
 
+        public static function getEnrolledMembers(PDO $db, int $classId) : array {
+            $stmt = $db->prepare('
+                SELECT User.id, User.first_name, User.last_name, User.username, User.email, Enrollment.status
+                FROM Enrollment
+                JOIN User ON Enrollment.member_id = User.id
+                WHERE Enrollment.class_id = ? AND Enrollment.status IN ("enrolled", "waitlisted")
+            ');
+
+            $stmt->execute([$classId]);
+            return $stmt->fetchAll();
+        }
+
         public function isAvailable(int $capacity) : bool {
             return $this->currentEnrollment < $capacity && $this->status === 'scheduled';
         }

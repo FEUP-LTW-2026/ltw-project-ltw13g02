@@ -2,7 +2,7 @@
   declare(strict_types=1);
 
   require_once(__DIR__ . '/trainer.php');
-  require_once(__DIR__ . '/common.php')
+  require_once(__DIR__ . '/../utils/helpers.php');
 ?>
 
 <?php function drawEditTrainerInfo(Trainer $trainer, array $allSpecializations, array $allCertifications, Session $session) { ?>
