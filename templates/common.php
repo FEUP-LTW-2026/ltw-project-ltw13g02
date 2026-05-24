@@ -20,10 +20,7 @@
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
-    <script src="../javascript/searchByUserName.js" defer></script>
-    <script src="../javascript/updateCheckoutSelection.js" defer></script>
     <script src="../javascript/addInputFields.js" defer></script>
-    <script src="../javascript/addMembershipTier.js" defer></script>
   </head>
 <body>
   <header>
@@ -38,7 +35,7 @@
         <li><a href="../pages/index.php">Home</a></li>
         <li><a href="../pages/classes.php">Classes</a></li>
         <li><a href="../pages/trainers.php">Trainers</a></li>
-        <?php if ($session->isLoggedin()) { ?>
+        <?php if ($session->isMember()) { ?>
           <li><a href="../pages/availability.php">Availability</a></li>
         <?php } ?>
         <?php if ($session->isAdmin()) { ?>
