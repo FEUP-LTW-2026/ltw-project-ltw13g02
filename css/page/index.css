@@ -54,27 +54,6 @@
     }
   }
 
-  @media (max-width: 60em) {
-    #membership {
-      & .container {
-        & .plans {
-          flex-direction: column;
-          align-items: stretch;
-
-          & article.card {
-            & p:nth-of-type(2) {
-              text-align: center;
-            }
-
-            & ul {
-              align-items: center;
-            }
-          }
-        }
-      }
-    }
-  }
-
   @media (max-width: 40em) {
 
     #hero {
@@ -105,12 +84,6 @@
             }
           }
         }
-      }
-    }
-
-    #membership {
-      .container .plans article.card ul {
-        align-items: flex-start;
       }
     }
   }
