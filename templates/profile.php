@@ -1,14 +1,8 @@
 <?php 
   declare(strict_types=1);
 
-  function drawProfilePicture(int $userId) : string {
-    $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg';
-
-    return '<img src="' . htmlspecialchars($photoUrl) . '" alt="profile photo" class="profile image">';
-  }
   require_once(__DIR__ . '/../database/gymClass.class.php'); 
+  require_once(__DIR__ . '/common.php');  
   // TODO: this is used because of the drawClassDate, drawClassTime, and drawClassCapacity functions (move them to common.php?)
   require_once(__DIR__ . '/class.php');
 ?>
@@ -16,7 +10,7 @@
 <?php function drawProfile(int $userId, string $name, string $username) { ?>
   <div class="intro">
     <section id="profile">
-      <?= drawProfilePicture($userId); ?>
+      <?php drawProfilePicture($userId); ?>
       <header>
         <h1><?= $name; ?></h1>
         <h2><?= $username; ?></h2>
@@ -48,7 +42,7 @@
 <?php } ?>
 
 <?php function drawEnrolledClasses(array $classes) { ?>
-  <ul class="classes-enrollment">
+  <ul class="scheduled-classes">
     <?php if (empty($classes)) { ?>
       <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
@@ -79,7 +73,7 @@
 <?php } ?>
 
 <?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
-  <ul class="classes-enrollment">
+  <ul class="scheduled-classes">
     <?php {
       foreach ($classes as $class) {
         drawWaitlistedClass($class, $session);

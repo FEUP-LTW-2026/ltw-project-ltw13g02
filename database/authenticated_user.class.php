@@ -2,12 +2,12 @@
     declare(strict_types = 1);
 
     class AuthenticatedUser {
-        private int $id;
-        private string $firstName;
-        private string $lastName;
-        private string $username;
-        private string $email;
-        private bool $isActive;
+        protected int $id;
+        protected string $firstName;
+        protected string $lastName;
+        protected string $username;
+        protected string $email;
+        protected bool $isActive;
         
         public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, bool $isActive) {
             $this->id = $id;

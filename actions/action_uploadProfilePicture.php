@@ -80,5 +80,10 @@
     imagejpeg($finalPic, '../img/profiles/' . $session->getId() . '.jpg');
 
     $session->addSuccessMessage('Profile picture updated successfully!');
-    header('Location: ../pages/profile.php');
+
+    if ($session->isTrainer()) {
+        header("Location: ../pages/trainer.php?id={$session->getId()}");
+    } else {
+        header('Location: ../pages/profile.php');
+    }
 ?>

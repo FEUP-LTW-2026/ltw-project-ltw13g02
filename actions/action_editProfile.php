@@ -46,9 +46,20 @@
 
     try {
         $user->save($db);
+
+        if ($_POST['biography'] && $session->isTrainer()) {
+            require_once(__DIR__ . '/../database/trainer.class.php');
+            Trainer::updateBiography($db, $session->getId(), $_POST['biography']);
+        }
+
         $session->setUsername($user->getUsername());
         $session->addSuccessMessage('Profile updated successfully!');
-        header('Location: ../pages/profile.php');
+
+        if ($session->isTrainer()) {
+            header("Location: ../pages/trainer.php?id={$session->getId()}");
+        } else {
+            header('Location: ../pages/profile.php');
+        }
         
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error occured.');
