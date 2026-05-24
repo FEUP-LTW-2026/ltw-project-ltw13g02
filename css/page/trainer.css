@@ -89,7 +89,6 @@
 
                 & .symbol {
                     font-size: var(--font-size-l);
-                    flex-shrink: 0;
                 }
             }
 

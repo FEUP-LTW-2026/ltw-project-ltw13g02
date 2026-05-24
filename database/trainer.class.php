@@ -179,6 +179,7 @@
                 FROM Class
                 JOIN ClassType ON Class.class_type_id = ClassType.id
                 WHERE ClassType.trainer_id = ? AND Class.status = "scheduled"
+                ORDER BY Class.start_timestamp ASC
             ');
 
             $stmt->execute([$trainerId]);
@@ -328,6 +329,26 @@
         public static function removeCertification(PDO $db, int $trainerId, int $certificationId) : void {
             $stmt = $db->prepare('DELETE FROM TrainerCertification WHERE trainer_id = ? AND certification_id = ?');
             $stmt->execute([$trainerId, $certificationId]);
+        }
+
+        public static function createTrainer(PDO $db, string $firstName, string $lastName, string $username, string $email, string $password) : Trainer {
+            try {
+                $db->beginTransaction();
+                $stmt = $db->prepare('INSERT INTO User (first_name, last_name, username, email, password_hash, is_trainer) VALUES (?, ?, ?, ?, ?, 1)');
+                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                $stmt->execute([$firstName, $lastName, $username, $email, $passwordHash]);
+                $trainerId = (int) $db->lastInsertId();
+
+                $stmt = $db->prepare('INSERT INTO Trainer (trainer_id) VALUES (?)');
+                $stmt->execute([$trainerId]);
+                $db->commit();
+                return new Trainer($trainerId, $firstName, $lastName, $username, $email, '');
+            } catch (PDOException $e) {
+                if ($db->inTransaction()) {
+                    $db->rollBack();
+                }
+                throw new Exception('Failed to create trainer: ' . $e->getMessage());
+            }
         }
     }
 ?>

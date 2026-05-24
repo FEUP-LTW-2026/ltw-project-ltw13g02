@@ -1,6 +1,6 @@
 <?php function drawMembershipTerminal(int $id, string $planName, float $price, array $features, int $plan_id) { ?>
-  <label>
-    <article class="card membership-plan">
+  <label class="card membership-plan">
+    <article>
       <h3><?= $planName; ?></h3>
       <p><span><?= $price; ?>€</span>/4 weeks</p>
       <p>What's included:</p>

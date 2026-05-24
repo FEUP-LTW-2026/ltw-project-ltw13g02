@@ -11,7 +11,7 @@
         exit;
     }
 
-    if (empty($_POST['tier_id']) || empty($_POST['name']) || empty($_POST['price']) || !isset($_POST['description']) || empty($_POST['booking_window_days'])) {
+    if (empty($_POST['tier_id']) || empty($_POST['name']) || empty($_POST['price']) || empty($_POST['booking_window_days'])) {
         $session->addErrorMessage('Invalid request. Please fill in all required fields.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
@@ -27,9 +27,16 @@
     $tierId = (int) $_POST['tier_id'];
     $name = trim($_POST['name']);
     $price = (float) $_POST['price'];
-    $description = trim($_POST['description']);
+    $description = '';
+    if (isset($_POST['description']) && is_array($_POST['description'])) {
+      // Artificially add semicolons
+      for($i = 0; $i < count($_POST['description']); $i++) {
+        // Only add semicolon if it's not the last element
+        $_POST['description'][$i] = trim($_POST['description'][$i]) . ($i < count($_POST['description']) - 1 ? ';' : '');
+      }
+      $description = implode('', $_POST['description']);
+    }
     $bookingWindowDays = (int) $_POST['booking_window_days'];
-    
     try {
         $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
         $stmt->execute([$name, $description, $price, $bookingWindowDays, $tierId]);

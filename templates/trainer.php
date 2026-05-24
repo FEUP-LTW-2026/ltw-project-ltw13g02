@@ -41,27 +41,32 @@
 ?>
 
 <?php function drawSpecializations(int $trainerId, array $specializations, array $allSpecializations, Session $session) { ?>
-  <ul>
-    <?php foreach ($specializations as $specialization) { ?>
-      <li class="card">
-        <header>
-          <span class="symbol"><?= $specialization['logo'] ?? 'exercise' ?></span>
-          <h3><?= $specialization['name'] ?></h3>
 
-          <?php if ($session->getId() === $trainerId) { ?>
-            <form method="post" action="../actions/action_remove_specialization.php">
-              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-              <input type="hidden" name="specialization_id" value="<?= $specialization['id'] ?>">
-              <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
-                <span class="symbol close">close</span>
-              </button>
-            </form>
-          <?php } ?>
-        </header>
-        <p><?= $specialization['description'] ?></p>
-      </li>
-    <?php } ?>
-  </ul>
+  <?php if (empty($specializations)) { ?>
+    <p>No specializations added yet.</p>
+  <?php } else {?>
+    <ul>
+      <?php foreach ($specializations as $specialization) { ?>
+        <li class="card">
+          <header>
+            <span class="symbol"><?= $specialization['logo'] ?? 'exercise' ?></span>
+            <h3><?= $specialization['name'] ?></h3>
+
+            <?php if ($session->getId() === $trainerId) { ?>
+              <form method="post" action="../actions/action_remove_specialization.php">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                <input type="hidden" name="specialization_id" value="<?= $specialization['id'] ?>">
+                <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
+                  <span class="symbol close">close</span>
+                </button>
+              </form>
+            <?php } ?>
+          </header>
+          <p><?= $specialization['description'] ?></p>
+        </li>
+      <?php } ?>
+    </ul>
+  <?php } ?>
 
   <?php if ($session->getId() === $trainerId) { ?>
     <form id="add-specialization" method="post" action="../actions/action_add_specialization.php">
@@ -81,23 +86,29 @@
 } ?>
 
 <?php function drawCertifications(int $trainerId, array $certifications, array $allCertifications, Session $session) { ?>
-  <ul>
-    <?php foreach ($certifications as $certification) { ?>
-      <li class="card">
-        <h3><?= $certification['name'] ?></h3>
-        
-        <?php if ($session->getId() === $trainerId) { ?>
-          <form method="post" action="../actions/action_remove_certification.php">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-            <input type="hidden" name="certification_id" value="<?= $certification['id'] ?>">
-            <button type="submit" class="btn warning remove-btn" title="Remove Certification">
-              <span class="symbol close">close</span>
-            </button>
-          </form>
-        <?php } ?>
-      </li>
-    <?php } ?>
-  </ul>
+
+  <?php if (empty($certifications)) { ?>
+    <p>No certifications added yet.</p>
+  <?php } else { ?>
+
+    <ul>
+      <?php foreach ($certifications as $certification) { ?>
+        <li class="card">
+          <h3><?= $certification['name'] ?></h3>
+          
+          <?php if ($session->getId() === $trainerId) { ?>
+            <form method="post" action="../actions/action_remove_certification.php">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+              <input type="hidden" name="certification_id" value="<?= $certification['id'] ?>">
+              <button type="submit" class="btn warning remove-btn" title="Remove Certification">
+                <span class="symbol close">close</span>
+              </button>
+            </form>
+          <?php } ?>
+        </li>
+      <?php } ?>
+    </ul>
+  <?php } ?>
 
   <?php if ($session->getId() === $trainerId) { ?>
       <form id="add-certification" method="post" action="../actions/action_add_certification.php">
@@ -155,7 +166,11 @@
       <?php if ($session->getId() === $trainerId) { ?>
         <article>
           <h2>Next Classes To Schedule</h2>
-          <?php drawNextClassesToSchedule($nextClassesToSchedule, $session) ?>
+          <?php if (empty($nextClassesToSchedule)) { ?>
+            <p>You have not been assigned with any class type.</p>
+          <?php } else { ?>
+            <?php drawNextClassesToSchedule($nextClassesToSchedule, $session) ?>
+          <?php } ?>
         </article>
       <?php } ?>
     </div>
@@ -167,7 +182,11 @@
     <section class="container">
       <p class="detail">WHERE CAN YOU FIND ME?</p>
       <h2>Classes with <?= $firstname ?></h2>
-      <?php drawClasses($classes) // TODO: place this function (currently in classes.php) inside common.php? ?> 
+      <?php if (empty($classes)) { ?>
+        <p><?= $firstname ?> is not teaching any classes at the moment.</p>
+      <?php } else { ?>
+        <?php drawClasses($classes) // TODO: place this function (currently in classes.php) inside common.php? ?>
+      <?php } ?>
     </section>
   </div>
 <?php } ?>
