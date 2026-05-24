@@ -16,36 +16,34 @@
     require_once(__DIR__ . '/../../database/authenticated_user.class.php');
 
     $db = getDatabaseConnection();
+    try {
+        $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
 
-        try {
-            $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
-        
-            if ($user) {
-                
-                $session->generateCSRFToken();
-                $session->setId($user->getId());
-                $session->setUsername($user->getUsername());
-                $session->setEmail($user->getEmail());
-                $session->setAdmin($user->isAdmin($db));
-                $session->setMember($user->isMember($db));
-                $session->setTrainer($user->isTrainer($db));
-                $session->setIsActive($user->IsActive());
+        if ($user) {
+            $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, $user->getId());
+            $session->setRoleChangeCount($roleChangeCount);
 
-                $session->addSuccessMessage('Successfully logged in!');
-                if (!$session->isActive()) {
-                    $session->addInactiveAccountMessage();
-                }
+            $session->setId($user->getId());
+            $session->setUsername($user->getUsername());
+            $session->setEmail($user->getEmail());
+            $session->setRole($user->getRole());
+            $session->setIsActive($user->IsActive());
 
-                header('Location: /../../pages/index.php');
-                exit;
+            // Ensure a CSRF token exists for the session
+            $session->generateCSRFToken();
 
-            } else { 
-                $session->addErrorMessage('Wrong email or password.');
+            $session->addSuccessMessage('Successfully logged in!');
+            if (!$session->isActive()) {
+                $session->addInactiveAccountMessage();
             }
 
-        } catch (PDOException $e) {
-            $session->addErrorMessage('Database error occured.');
+            header('Location: /../../pages/index.php');
+            exit;
+        } else {
+            $session->addErrorMessage('Wrong email or password.');
         }
-
-    header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page
-?>  
+    } catch (PDOException $e) {
+        $session->addErrorMessage('Database error: ' . $e->getMessage());
+    }
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+?>
