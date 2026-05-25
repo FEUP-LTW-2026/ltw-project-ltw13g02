@@ -3,10 +3,10 @@
 ?>
 
 <?php function drawEquipment(string $name, string $status, string $count) { ?>
-  <a class="availability-data" href=<?=strtolower($name).'-zone'?>>
-    <span class="zone-title"><?= $name ?></span>
-    <span class="availability <?= strtolower($status) ?>"><?= $status ?></span>
-    <span class="count"><?= $count ?></span>
+  <a class="availability-data" href=<?=htmlspecialchars(strtolower($name).'-zone')?>> 
+    <span class="zone-title"><?= htmlspecialchars($name) ?></span>
+    <span class="availability <?= strtolower($status) ?>"><?= htmlspecialchars($status) ?></span>
+    <span class="count"><?= htmlspecialchars((string)$count) ?></span>
   </a>
 <?php } ?>
 
@@ -29,10 +29,10 @@
       <span class="symbol">
         sprint
       </span>
-      <?= 'TM' . $id ?>
+      <?= 'TM' . htmlspecialchars((string)$id) ?>
     </h3>
-    <span class="availability <?= strtolower($status) ?>"><?= $status ?></span>
-    <a href="#tm<?= $id ?>-reservation" class="btn medium transparent-dark">View reservation slots</a>
+    <span class="availability <?= strtolower($status) ?>"><?= htmlspecialchars($status) ?></span>
+    <a href="#tm<?= htmlspecialchars((string)$id) ?>-reservation" class="btn medium transparent-dark">View reservation slots</a>
   </article>
 <?php } ?>
 

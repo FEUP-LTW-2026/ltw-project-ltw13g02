@@ -18,7 +18,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
 <?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
   <p>
     <span class="symbol">sports</span>
-    Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= $trainerName; ?></a>
+    Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= htmlspecialchars($trainerName); ?></a>
   </p>
 <?php } ?>
 
@@ -33,8 +33,8 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
   <div class="intro">
     <section class="container">
       <div id="class-hero">
-        <p class="detail"><?= $classType->weekday ?></p>
-        <h1><?= $classType->name ?></h1>
+        <p class="detail"><?= htmlspecialchars($classType->weekday) ?></p>
+        <h1><?= htmlspecialchars($classType->name) ?></h1>
         <?php if($classTypeRating === null) { ?>
           <p class="rating">No reviews yet</p>
         <?php } else { ?>
@@ -42,7 +42,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
             <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
               <span class="symbol">⭐</span>
             <?php } ?>
-            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
+            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= htmlspecialchars($classTypeRating[1]) ?> reviews)
           </p>
         <?php } ?>
 
@@ -126,13 +126,13 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
                   if ($class->hasRemainingCapacity()) { ?>
                   <form action="../actions/action_enrollment.php" method="post">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
                     <button class="btn medium blue" type="submit">Enroll Now</button>
                   </form>
                 <?php } else { ?>
                   <form action="../actions/action_join_waitlist.php" method="post">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
                     <button class="btn medium blue" type="submit">Join Waitlist</button>
                   </form>
                 <?php } ?>
@@ -140,14 +140,14 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
               <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
                 <form action="../actions/action_cancel_enrollment.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
                   <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                 </form>
 
               <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
                 <form action="../actions/action_leave_waitlist.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                  <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
                   <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                 </form>
               <?php } ?>
@@ -161,10 +161,10 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
 <?php function drawReview(string $username, string $firstName, string $lastName, int $rating, string $comment, string $timestamp) { ?>
   <article class="card review">
-    <h3><?= $username ?> <span><?= $firstName . ' ' . $lastName ?></span></h3>
-    <p><?= $rating .  "/5" ?></p>
-    <p id="review-text"><?= $comment ?></p>
-    <p id="timestamp"><?= $timestamp ?></p>
+    <h3><?= htmlspecialchars($username) ?> <span><?= htmlspecialchars($firstName . ' ' . $lastName) ?></span></h3>
+    <p><?= htmlspecialchars($rating) .  "/5" ?></p>
+    <p id="review-text"><?= htmlspecialchars($comment) ?></p>
+    <p id="timestamp"><?= htmlspecialchars($timestamp) ?></p>
   </article>
 <?php } ?>
 

@@ -33,6 +33,15 @@
         exit;
     }
 
+    // TODO: check this validation   
+    // Validate file size (max 5MB)
+    $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+    if ($_FILES['profile-picture']['size'] > $maxFileSize) {
+        $session->addErrorMessage('File size exceeds 5MB limit. Please upload a smaller image.');
+        header('Location: ../pages/editProfile.php');
+        exit;
+    }
+
     $tempFileName = $_FILES['profile-picture']['tmp_name'];
 
     // Create an image representation of the original image

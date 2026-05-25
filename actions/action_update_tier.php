@@ -29,6 +29,13 @@
     $name = trim($_POST['name']);
     $price = (float) $_POST['price'];
     $description = '';
+
+    if (!preg_match('/^[a-zA-Z]+$/', $name)) {
+        $session->addErrorMessage('Name can only contain letters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     if (isset($_POST['description']) && is_array($_POST['description'])) {
       // Artificially add semicolons
       for($i = 0; $i < count($_POST['description']); $i++) {

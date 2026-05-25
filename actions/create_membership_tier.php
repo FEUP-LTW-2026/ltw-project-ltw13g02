@@ -29,6 +29,12 @@
   $price = (float)$_POST['price'];
   $bookingWindowDays = (int)$_POST['booking_window_days'];
 
+  if( !preg_match('/^[a-zA-Z]+$/', $name) ) {
+    $session->addErrorMessage('Name can only contain letters.');
+    header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '../pages/admin.php#membership-tiers'));
+    exit;
+  }
+
   $description = '';
   if (isset($_POST['description'])) {
     if (is_array($_POST['description'])) {
@@ -36,6 +42,17 @@
       foreach ($_POST['description'] as $part) {
         $trimmedPart = trim((string)$part);
         if ($trimmedPart !== '') {
+          // Validate each description part: max 200 chars, no HTML tags
+          if (strlen($trimmedPart) > 200) {
+            $session->addErrorMessage('Each perk must be 200 characters or less.');
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '../pages/admin.php#membership-tiers'));
+            exit;
+          }
+          if (strip_tags($trimmedPart) !== $trimmedPart) {
+            $session->addErrorMessage('Perks cannot contain HTML tags.');
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '../pages/admin.php#membership-tiers'));
+            exit;
+          }
           $parts[] = $trimmedPart;
         }
       }

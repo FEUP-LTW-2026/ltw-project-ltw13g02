@@ -15,13 +15,13 @@
     <section class="container">
       <img src="<?= htmlspecialchars($photoUrl) ?>" alt="trainer photo">
       <div>
-        <h1><?= $trainer->getFirstName() ?> <b><?= $trainer->getLastName() ?></b></h1>
+        <h1><?= htmlspecialchars($trainer->getFirstName()) ?> <b><?= htmlspecialchars($trainer->getLastName()) ?></b></h1>
         <h2>Biography</h2>
-        <p><?= $trainer->bio ?></p>
+        <p><?= htmlspecialchars($trainer->bio) ?></p>
         <?php if ($trainer->getId() === $session->getId()) { ?>
           <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
         <?php } else if ($session->isMember()){ ?>
-          <a class="btn medium blue" href="#">Book A Session With <?= $trainer->getFullName() ?></a>
+          <a class="btn medium blue" href="#">Book A Session With <?= htmlspecialchars($trainer->getFullName()) ?></a>
         <?php } ?>
       </div>
     </section>
@@ -49,20 +49,20 @@
       <?php foreach ($specializations as $specialization) { ?>
         <li class="card">
           <header>
-            <span class="symbol"><?= $specialization['logo'] ?? 'exercise' ?></span>
-            <h3><?= $specialization['name'] ?></h3>
+            <span class="symbol"><?= htmlspecialchars($specialization['logo'] ?? 'exercise') ?></span>
+            <h3><?= htmlspecialchars($specialization['name']) ?></h3>
 
             <?php if ($session->getId() === $trainerId) { ?>
               <form method="post" action="../actions/action_remove_specialization.php">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                <input type="hidden" name="specialization_id" value="<?= $specialization['id'] ?>">
+                <input type="hidden" name="specialization_id" value="<?= (int) $specialization['id'] ?>">
                 <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
                   <span class="symbol close">close</span>
                 </button>
               </form>
             <?php } ?>
           </header>
-          <p><?= $specialization['description'] ?></p>
+          <p><?= htmlspecialchars($specialization['description']) ?></p>
         </li>
       <?php } ?>
     </ul>
@@ -76,7 +76,7 @@
         <option value="" disabled selected>Select a specialization...</option>
 
         <?php foreach (remainingSpecializations($allSpecializations, $specializations) as $spec) { ?>
-          <option value="<?= $spec['id'] ?>"><?= htmlspecialchars($spec['name']) ?></option>
+          <option value="<?= (int) $spec['id'] ?>"><?= htmlspecialchars($spec['name']) ?></option>
         <?php } ?>
 
       </select>
@@ -94,12 +94,12 @@
     <ul>
       <?php foreach ($certifications as $certification) { ?>
         <li class="card">
-          <h3><?= $certification['name'] ?></h3>
-          
+          <h3><?= htmlspecialchars($certification['name']) ?></h3>
+
           <?php if ($session->getId() === $trainerId) { ?>
             <form method="post" action="../actions/action_remove_certification.php">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-              <input type="hidden" name="certification_id" value="<?= $certification['id'] ?>">
+              <input type="hidden" name="certification_id" value="<?= (int) $certification['id'] ?>">
               <button type="submit" class="btn warning remove-btn" title="Remove Certification">
                 <span class="symbol close">close</span>
               </button>
@@ -118,7 +118,7 @@
           <option value="" disabled selected>Select a certification...</option>
 
           <?php foreach (remainingCertifications($allCertifications, $certifications) as $cert) { ?>
-            <option value="<?= $cert['id'] ?>"><?= htmlspecialchars($cert['name']) ?></option>
+            <option value="<?= (int) $cert['id'] ?>"><?= htmlspecialchars($cert['name']) ?></option>
           <?php } ?>
 
         </select>
@@ -132,16 +132,16 @@
     <?php foreach ($nextClassesToSchedule as $class) { ?>
       <li class="card">
         <div class="class-info">
-          <h3><?= $class['name'] ?></h3>
+          <h3><?= htmlspecialchars($class['name']) ?></h3>
           <?php drawClassDate($class['startTimestamp']); ?>
           <?php drawClassTime($class['startTimestamp'], $class['endTimestamp']); ?>
           <?php drawClassTypeCapacity($class['capacity']); ?>
 
           <form method="post" action="../actions/action_schedule_class.php">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-            <input type="hidden" name="class_type_id" value="<?= $class['classTypeId'] ?>">
-            <input type="hidden" name="start_timestamp" value="<?= $class['startTimestamp'] ?>">
-            <input type="hidden" name="end_timestamp" value="<?= $class['endTimestamp'] ?>">
+            <input type="hidden" name="class_type_id" value="<?= (int) $class['classTypeId'] ?>">
+            <input type="hidden" name="start_timestamp" value="<?= htmlspecialchars((string)$class['startTimestamp']) ?>">
+            <input type="hidden" name="end_timestamp" value="<?= htmlspecialchars((string)$class['endTimestamp']) ?>">
             <button type="submit" class="btn medium transparent-dark">Schedule Class</button>
           </form>
         </div>
@@ -181,9 +181,9 @@
   <div>
     <section class="container">
       <p class="detail">WHERE CAN YOU FIND ME?</p>
-      <h2>Classes with <?= $firstname ?></h2>
+      <h2>Classes with <?= htmlspecialchars($firstname) ?></h2>
       <?php if (empty($classes)) { ?>
-        <p><?= $firstname ?> is not teaching any classes at the moment.</p>
+        <p><?= htmlspecialchars($firstname) ?> is not teaching any classes at the moment.</p>
       <?php } else { ?>
         <?php drawClasses($classes) // TODO: place this function (currently in classes.php) inside common.php? ?>
       <?php } ?>
@@ -199,7 +199,7 @@
         <?php drawScheduledClassInfo($class, $session);
     
         if ($session->getId() === $trainerId) { ?>
-          <button class="btn medium blue see-enrolled" data-class-id="<?= $class->id ?>">See Enrolled Members</button>
+          <button class="btn medium blue see-enrolled" data-class-id="<?= (int) $class->id ?>">See Enrolled Members</button>
         <?php } ?>
       </li>
     <?php } ?> 

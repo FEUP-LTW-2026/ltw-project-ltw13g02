@@ -6,7 +6,7 @@
 <?php function drawTrainer(Trainer $trainer) { ?>
   <a href="trainer.php?id=<?= $trainer->getId() ?>">
     <article class="card trainer-card" style="background-image:url(<?= getProfileImageUrl($trainer->getId()) ?>)">
-      <h2><?= $trainer->getFirstName() . ' ' . $trainer->getLastName(); ?></h2>
+      <h2><?= htmlspecialchars($trainer->getFirstName()) . ' ' . htmlspecialchars($trainer->getLastName()); ?></h2>
     </article>
   </a>
 <?php } ?>
