@@ -17,6 +17,12 @@
     $db = getDatabaseConnection();
     $user = AuthenticatedUser::getUser($db, $session->getId());
 
+    if (strlen($_POST['new-password']) < 8) {
+        $session->addErrorMessage('Password must be at least 8 characters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     if (!AuthenticatedUser::verifyPassword($db, $user->getId(), $_POST['current-password'])) {
         $session->addErrorMessage('Current password is incorrect.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);

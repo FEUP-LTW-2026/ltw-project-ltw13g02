@@ -25,21 +25,21 @@
 
 <?php function drawMembershipPlan(int $id, string $planName, float $price, array $features, Session $session) { ?>
   <article class="card membership-plan">
-    <h3><?= $planName; ?></h3>
+    <h3><?= htmlspecialchars($planName) ?></h3>
     <p><span><?= $price; ?>€</span>/4 weeks</p>
     <p>What's included:</p>
     <ul>
       <?php foreach ($features as $feature) { ?>
-        <li><?= $feature; ?></li>
+        <li><?= htmlspecialchars($feature) ?></li>
       <?php } ?>
     </ul>
     <?php if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
       <form method="POST" action="../pages/membership_terminal.php">
-        <input type="hidden" name="plan_id" value="<?= $id; ?>">
-        <button type="submit" class="btn large wide blue">Choose <?= $planName; ?></button>
+        <input type="hidden" name="plan_id" value="<?= (int) $id; ?>">
+        <button type="submit" class="btn large wide blue">Choose <?= htmlspecialchars($planName) ?></button>
       </form>
     <?php } else if (!$session->isLoggedIn()) { ?>
-      <a class="btn large wide blue" href="../pages/signup.php">Choose <?= $planName; ?></a>
+      <a class="btn large wide blue" href="../pages/signup.php">Choose <?= htmlspecialchars($planName) ?></a>
     <?php } ?>
   </article>
 <?php } ?>

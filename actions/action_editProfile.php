@@ -4,17 +4,39 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     $session = new Session();
-    require_once(__DIR__ . '/../utils/role_change_guard.php');
+    
+    $firstName = $_POST['first-name'] ?? '';
+    $lastName = $_POST['last-name'] ?? '';
+    $username = $_POST['username'] ?? '';
 
     if (!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');
         exit;
     }
 
-    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
         $session->addErrorMessage('Invalid CSRF token.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    if (!preg_match('/^[a-zA-Z]*$/', $firstName)) {
+        $session->addErrorMessage('First name can only contain letters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    if (!preg_match('/^[a-zA-Z]*$/', $lastName)) {
+        $session->addErrorMessage('Last name can only contain letters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    if (!preg_match('/^[a-zA-Z0-9_]*$/', $username)) {
+        $session->addErrorMessage('Username can only contain letters, numbers and underscores.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -22,27 +44,26 @@
     $db = getDatabaseConnection();
     $user = AuthenticatedUser::getUser(getDatabaseConnection(), $session->getId());
 
-    if ($_POST['first-name']) {
-        $user->setFirstName($_POST['first-name']);
+    if ($firstName) {
+        $user->setFirstName($firstName);
     }
 
-    if ($_POST['last-name']) {
-        $user->setLastName($_POST['last-name']);
+    if ($lastName) {
+        $user->setLastName($lastName);
     }
     
-    if ($_POST['username']) {
-
+    if ($username) {
         // Verify if the inserted username is already in use
         $stmt = $db->prepare('SELECT 1 FROM User WHERE username = ?');
-        $stmt->execute(([$_POST['username']]));
+        $stmt->execute([$username]);
 
-        if (!AuthenticatedUser::isUsernameAvailable($db, $_POST['username']) && $_POST['username'] !== $user->getUsername()) {
+        if (!AuthenticatedUser::isUsernameAvailable($db, $username) && $username !== $user->getUsername()) {
             $session->addErrorMessage('That username is already in use.');
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
         }
 
-        $user->setUsername($_POST['username']);
+        $user->setUsername($username);
     }
 
     try {

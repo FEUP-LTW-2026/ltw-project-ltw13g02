@@ -11,14 +11,14 @@
 <?php function drawClassType(ClassType $class) { ?>
 	<article class="card class-card">
 		<header>
-			<img src="https://picsum.photos/400/300" alt="<?= $class->name ?>">
+			<img src="https://picsum.photos/400/300" alt="<?= htmlspecialchars($class->name) ?>">
 		</header>
 				
 		<div>
-			<h3><?= $class->name; ?></h3>
+			<h3><?= htmlspecialchars($class->name) ?></h3>
       <p>
         <span class="symbol">calendar_today</span>
-        <?= $class->weekday; ?>
+        <?= htmlspecialchars($class->weekday) ?>
       </p>
       <?php
         drawClassTime($class->startTime, $class->endTime);
@@ -33,7 +33,7 @@
             drawClassTypeCapacity($class->capacity);
           ?>
 			</div>
-			<a class="btn medium blue" href="../pages/class.php?id=<?= $class->id; ?>">Details</a>
+			<a class="btn medium blue" href="../pages/class.php?id=<?= htmlspecialchars($class->id) ?>">Details</a>
 		</footer>
 	</article>
 <?php } ?>
@@ -94,7 +94,7 @@
           <?php  
             $trainers = Trainer::getAllTrainers(getDatabaseConnection());
             foreach ($trainers as $trainer) { ?>
-              <option value="<?= strtolower(str_replace(" ", "-", $trainer->getFirstName() . " " . $trainer->getLastName())) ?>"><?= $trainer->getFirstName() . ' ' . $trainer->getLastName() ?></option>
+              <option value="<?= htmlspecialchars(strtolower(str_replace(" ", "-", $trainer->getFirstName() . " " . $trainer->getLastName()))) ?>"><?= htmlspecialchars($trainer->getFirstName() . ' ' . $trainer->getLastName()) ?></option>
             <?php }
           ?>
         </select>

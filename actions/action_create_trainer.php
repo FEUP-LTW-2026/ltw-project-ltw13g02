@@ -36,6 +36,38 @@
     $password = (string) $_POST['password'];
     $confirm = (string) $_POST['confirm-password'];
 
+    if (!preg_match('/^[a-zA-Z]+$/', $firstName)) {
+        $session->addErrorMessage('First name can only contain letters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    if (!preg_match('/^[a-zA-Z]+$/', $lastName)) {
+        $session->addErrorMessage('Last name can only contain letters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // TODO: check if this is valid.
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $session->addErrorMessage('Invalid email address.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
+        $session->addErrorMessage('Username can only contain letters, numbers and underscores.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // TODO: check it there's need for stronger password requirements.
+    if (strlen($password) < 8) {
+        $session->addErrorMessage('Password must be at least 8 characters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     if ($password !== $confirm) {
         $session->addErrorMessage('Passwords do not match.');
         header('Location: ' . $_SERVER['HTTP_REFERER']);

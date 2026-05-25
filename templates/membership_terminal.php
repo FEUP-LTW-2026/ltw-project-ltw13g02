@@ -1,20 +1,20 @@
 <?php function drawMembershipTerminal(int $id, string $planName, float $price, array $features, int $plan_id) { ?>
   <label class="card membership-plan">
     <article>
-      <h3><?= $planName; ?></h3>
+      <h3><?= htmlspecialchars($planName) ?></h3>
       <p><span><?= $price; ?>€</span>/4 weeks</p>
       <p>What's included:</p>
       <ul>
         <?php foreach ($features as $feature) { ?>
-          <li><?= $feature; ?></li>
+          <li><?= htmlspecialchars($feature) ?></li>
         <?php } ?>
       </ul>
       <input type="radio" 
              name="tier_id" 
              id="tier-<?= $id; ?>" 
-             value="<?= $id; ?>" 
+             value="<?= (int) $id; ?>" 
              data-tier-price="<?= $price; ?>" 
-             data-tier-name="<?= $planName; ?>" 
+             data-tier-name="<?= htmlspecialchars($planName) ?>" 
              required 
              <?php if ($plan_id === $id) 
              echo 'checked'; ?>>

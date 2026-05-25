@@ -28,6 +28,12 @@
         exit;
     }
 
+    if (strlen(trim($_POST['comment'])) > 500) {
+        $session->addErrorMessage('Comment cannot exceed 500 characters.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     $comment = trim($_POST['comment']);
     $rating = (int) $_POST['rating'];
     $class_type_id = (int) $_POST['class_type_id'];

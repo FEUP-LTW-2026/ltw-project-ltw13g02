@@ -169,12 +169,12 @@
 
 <?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
    <div class="class-info">
-      <h3><?= $class->name ?></h3>
-      <?php drawClassDate($class->startTimestamp); ?>
-      <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+      <h3><?= htmlspecialchars($class->name) ?></h3>
+      <?php drawClassDate(htmlspecialchars($class->startTimestamp)); ?>
+      <?php drawClassTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
 
       <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+        <?php drawClassCapacity(htmlspecialchars($class->currentEnrollment), htmlspecialchars($class->capacity)); ?>
       <?php } ?>
 
     </div>
@@ -183,6 +183,6 @@
 <?php function drawClassTypeCapacity(int $capacity) { ?>
   <p>
     <span class="symbol">person</span>
-    Max: <?= $capacity ?>
+    Max: <?= (int) $capacity ?>
   </p>
 <?php } ?>

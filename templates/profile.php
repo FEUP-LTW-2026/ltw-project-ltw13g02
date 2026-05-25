@@ -12,8 +12,8 @@
     <section id="profile">
       <?php drawProfilePicture($userId); ?>
       <header>
-        <h1><?= $name; ?></h1>
-        <h2><?= $username; ?></h2>
+        <h1><?= htmlspecialchars($name); ?></h1>
+        <h2><?= htmlspecialchars($username); ?></h2>
         <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
       </header>
     </section>
@@ -22,7 +22,7 @@
 
 <?php function drawClassCardInfo(GymClass $class) { ?>
   <div class="class-info">
-    <h3><?= $class->name ?></h3>
+    <h3><?= htmlspecialchars($class->name); ?></h3>
     <?php drawClassDate($class->startTimestamp); ?>
     <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
     <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
@@ -33,9 +33,9 @@
   <li class="card">
       <?php drawClassCardInfo($class); ?>
 
-      <a class="btn medium blue" href="../pages/class.php?id=<?= $class->classTypeId ?>">Details</a>
+      <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
       <form action="../actions/action_cancel_enrollment.php" method="post">
-          <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+          <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
           <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
       </form>
     </li>
@@ -64,10 +64,10 @@
   <li class="card">
     <?php drawClassCardInfo($class); ?>
     
-    <a class="btn medium blue" href="../pages/class.php?id=<?= $class->classTypeId ?>">Details</a>
+    <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
     <form action="../actions/action_leave_waitlist.php" method="post">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-      <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+      <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
       <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
     </form>
 <?php } ?>

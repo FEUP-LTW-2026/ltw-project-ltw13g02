@@ -135,21 +135,21 @@
           <?php foreach ($users as $user) { ?>
             <?php if ($user->getId() === $session->getId()) continue;?> <!-- Skip current user - admin -->
               <tr>
-                <td><?= $user->getUsername() ?></td>
-                <td><?= $user->getEmail() ?></td>
+                <td><?= htmlspecialchars($user->getUsername()) ?></td>
+                <td><?= htmlspecialchars($user->getEmail()) ?></td>
                 <td>
                   <div class="role-update-container">
-                      <span><?php echo $user->getRole(); ?></span>
-                      <form action="../actions/action_changeRole.php" method="POST" id="role-form-<?= $user->getId() ?>" class="role-update-form">
-                        <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
-                        <input type="hidden" name="user_name" value="<?= $user->getUsername() ?>">
-                        <input type="hidden" name="old_role_table" value="<?= $user->getRole() ?>">
+                      <span><?= htmlspecialchars($user->getRole()) ?></span>
+                      <form action="../actions/action_changeRole.php" method="POST" id="role-form-<?= (int) $user->getId() ?>" class="role-update-form">
+                        <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
+                        <input type="hidden" name="user_name" value="<?= htmlspecialchars($user->getUsername()) ?>">
+                        <input type="hidden" name="old_role_table" value="<?= htmlspecialchars($user->getRole()) ?>">
                         <select name="new_role_table">
                           <option value="" disabled selected>Change Role</option>
                           <?php 
                             $roles = $roleManager->getAvailableRoles($user->getRole());
                             foreach ($roles as $role) { ?>
-                            <option value="<?= $role ?>"><?= $role ?></option>
+                            <option value="<?= htmlspecialchars($role) ?>"><?= htmlspecialchars($role) ?></option>
                           <?php } ?>
                         </select>
                       </form>
@@ -157,18 +157,18 @@
                 </td>
                 <td><span class="status <?= $user->IsActive() ? 'active' : 'inactive' ?>"><?= $user->IsActive() ? 'Active' : 'Inactive' ?></span></td>
                 <td class="actions">
-                  <button class="btn white" type="submit" form="role-form-<?= $user->getId() ?>">Submit</button>
+                  <button class="btn white" type="submit" form="role-form-<?= (int) $user->getId() ?>">Submit</button>
                   <?php if (!$user->IsActive()) { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                      <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
+                      <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
                       <button class="btn available">Activate</button>
                     </form>
                   <?php } else { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                      <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
+                      <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
                       <button class="btn warning">Deactivate</button>
                     </form>
@@ -381,16 +381,16 @@
         <article class="card tier-edit-card <?= $tier->isActive() ? 'is-active' : 'is-inactive' ?>">
           <form action="../actions/action_update_tier.php" method="POST" class="tier-form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-            <input type="hidden" name="tier_id" value="<?= $tier->getId() ?>">
+            <input type="hidden" name="tier_id" value="<?= (int) $tier->getId() ?>">
             <header class="tier-header">
-              <input type="text" name="name" value="<?= $tier->getName() ?>" required>
+              <input type="text" name="name" value="<?= htmlspecialchars($tier->getName()) ?>" required>
               <div class="price-input-group">
                 <span class="currency">€</span>
                 <input type="number" step="0.01" name="price" value="<?= $tier->getMonthlyFee() ?>" class="editable-price" required>
                 <span class="period">/4 weeks</span>
               </div>
-              <label for="booking_window_days<?= $tier->getId() ?>" class="booking-window-label">Booking Window (days):</label>
-              <input type="number" id="booking_window_days<?= $tier->getId() ?>" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
+              <label for="booking_window_days<?= (int) $tier->getId() ?>" class="booking-window-label">Booking Window (days):</label>
+              <input type="number" id="booking_window_days<?= (int) $tier->getId() ?>" name="booking_window_days" value="<?= $tier->getBookingWindowDays() ?>" class="editable-booking-window" required>
             </header>
             
             <label>

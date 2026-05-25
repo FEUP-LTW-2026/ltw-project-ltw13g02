@@ -29,7 +29,7 @@
                   <h3><?= htmlspecialchars($spec['name']) ?></h3>
                 </header>
                 <p><?= htmlspecialchars($spec['description']) ?></p>
-                <input type="hidden" name="specializations[]" value="<?= $spec['id'] ?>">
+                <input type="hidden" name="specializations[]" value="<?= (int) $spec['id'] ?>">
               </li>
             <?php } ?>
           </ul>
@@ -37,7 +37,7 @@
             <select id="add-specialization-select">
               <option value="" disabled selected>Select a specialization...</option>
               <?php foreach ($allSpecializations as $spec) { ?>
-                <option value="<?= $spec['id'] ?>" data-name="<?= htmlspecialchars($spec['name']) ?>" data-logo="<?= htmlspecialchars($spec['logo']) ?>" data-desc="<?= htmlspecialchars($spec['description']) ?>"><?= htmlspecialchars($spec['name']) ?></option>
+                <option value="<?= (int) $spec['id'] ?>" data-name="<?= htmlspecialchars($spec['name']) ?>" data-logo="<?= htmlspecialchars($spec['logo']) ?>" data-desc="<?= htmlspecialchars($spec['description']) ?>"><?= htmlspecialchars($spec['name']) ?></option>
               <?php } ?>
             </select>
             <button type="button" id="add-specialization-btn" class="btn medium blue">Add</button>
@@ -51,7 +51,7 @@
               <li class="card">
                 <button type="button" class="remove-btn" title="Remove">X</button>
                 <h3><?= htmlspecialchars($cert['name']) ?></h3>
-                <input type="hidden" name="certifications[]" value="<?= $cert['id'] ?>">
+                <input type="hidden" name="certifications[]" value="<?= (int) $cert['id'] ?>">
               </li>
             <?php } ?>
           </ul>
@@ -59,7 +59,7 @@
             <select id="add-certification-select">
               <option value="" disabled selected>Select a certification...</option>
               <?php foreach ($allCertifications as $cert) { ?>
-                <option value="<?= $cert['id'] ?>" data-name="<?= htmlspecialchars($cert['name']) ?>"><?= htmlspecialchars($cert['name']) ?></option>
+                <option value="<?= (int) $cert['id'] ?>" data-name="<?= htmlspecialchars($cert['name']) ?>"><?= htmlspecialchars($cert['name']) ?></option>
               <?php } ?>
             </select>
             <button type="button" id="add-certification-btn" class="btn medium blue">Add</button>
