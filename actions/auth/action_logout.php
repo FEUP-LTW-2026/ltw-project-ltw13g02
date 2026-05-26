@@ -7,4 +7,5 @@
     $session->logout();
 
     header('Location: /../../pages/index.php');
+    exit;
 ?>

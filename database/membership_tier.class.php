@@ -133,6 +133,59 @@
         $this->id
       ]);
     }
+
+    public static function checkExistingMember(PDO $db, int $member_id) : ?array {
+      $stmt = $db->prepare('SELECT id FROM Member WHERE id = ?');
+      $stmt->execute([$member_id]);
+      return $stmt->fetch();
+    }
+
+    public static function createMembership(PDO $db, int $member_id, int $tier_id, float $monthly_fee, int $duration, string $payment_type) : void {
+      // First month insertion
+      try {
+        $db->beginTransaction();
+
+        $stmt = $db->prepare("
+          INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, 
+          membership_tier_id, payment_due_timestamp, payment_amount, payment_status) 
+          VALUES (?, datetime('now', 'localtime'), datetime('now', '+1 month', 'localtime'), ?, ?, datetime('now', 'localtime'), ?, ?)");
+        $stmt->execute([$member_id, 'active', $tier_id, $monthly_fee, 'paid']);
+        
+        $db->commit();
+      } catch (Exception $e) {
+        $db->rollBack();
+        throw new Exception('Error creating first month of membership: ' . $e->getMessage());
+      }
+      
+      // Future months insertion
+      if ($duration > 1) {
+        try {
+          $db->beginTransaction();
+          for ($i = 1; $i < $duration; $i++) {
+            $month_offset = '+' . $i . ' months';
+            $next_month_offset = '+' . ($i + 1) . ' months';
+            
+            if ($payment_type === 'monthly') {
+              $stmt = $db->prepare("
+                INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, membership_tier_id,
+                payment_due_timestamp, payment_amount, payment_status) 
+                VALUES (?, datetime('now', ?, 'localtime'), datetime('now', ?, 'localtime'), ?, ?, datetime('now', ?, 'localtime'), ?, ?)");
+              $stmt->execute([$member_id, $month_offset, $next_month_offset, 'pending', $tier_id, $month_offset, $monthly_fee, 'pending']);
+            } else if ($payment_type === 'upfront') {
+              $stmt = $db->prepare("
+                INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, membership_tier_id, 
+                payment_due_timestamp, payment_amount, payment_status) 
+                VALUES (?, datetime('now', ?, 'localtime'), datetime('now', ?, 'localtime'), ?, ?, datetime('now', 'localtime'), ?, ?)");
+              $stmt->execute([$member_id, $month_offset, $next_month_offset, 'planned', $tier_id, $monthly_fee, 'paid']);
+            }
+          }
+          $db->commit();
+        } catch (Exception $e) {
+          if ($db->inTransaction()) $db->rollBack();
+          throw new Exception('Error creating future months of membership: ' . $e->getMessage());
+        }
+      }
+    }
   }
 
 ?>
