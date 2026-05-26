@@ -21,8 +21,11 @@
     exit;
   }
 
+  require_once (__DIR__ . '/../database/classType.class.php');
+
   // Get all existing users 
   $users = AuthenticatedUser::getAllUsers($db);
+  $classesByWeekday = ClassType::getClassesByWeekday($db);
 
   require_once (__DIR__ . '/../templates/common.php');
   
@@ -41,7 +44,9 @@
   echo '<script src="../javascript/searchByUserName.js" defer></script>';
   echo '<script src="../javascript/addMembershipTier.js" defer></script>';
 
-  drawAdminPanel($users, $db, $session, $tiers, $roleManager);
+  drawAdminPanel($users, $db, $session, $tiers, $roleManager, $classesByWeekday);
 ?>
 
 <?php drawFooter() ?>
+
+<script src="../javascript/classCatalog.js" defer></script>

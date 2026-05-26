@@ -1,5 +1,7 @@
 <?php 
   declare(strict_types=1);
+
+  require_once(__DIR__ . '/../database/classType.class.php');
 ?>
 
 <?php function drawNavBar() { ?>
@@ -182,65 +184,87 @@
   </article>
 <?php } ?>
 
-<?php function drawClassCatalog() { ?>
+<?php function drawCreateClassForm() { ?>
+  <dialog id="dialog-create-class">
+    <div class="dialog-content">
+      <h3>Add New Class</h3>
+      <form action="../actions/action_create_class.php" method="POST">
+        <!-- Add crsf token for security -->
+        <label>Class Name</label>
+        <input type="text" name="name" required>
+        
+        <div class="dialog-actions">
+          <button type="submit" class="btn blue">Save</button>
+          <button type="button" class="btn warning btn-close-dialog">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+<?php } ?>
+
+<?php function drawEditClassForm() { ?>
+  <dialog id="dialog-edit-class">
+    <div class="dialog-content">
+      <h3>Edit Class</h3>
+      <form action="../actions/action_edit_class.php" method="POST">
+        <!-- Add crsf token for security -->
+        <input type="hidden" name="class_id" id="edit-class-id">
+        
+        <label>Class Name
+          <input type="text" name="name" id="edit-class-name" required>
+        </label>
+        
+        <div class="dialog-actions">
+          <button type="submit" class="btn blue">Update</button>
+          <button type="button" class="btn warning btn-close-dialog">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+<?php } ?>
+
+<?php function drawClassScheduleCard(string $weekDay, array $classes) { ?>
+  <section class="schedule-day">
+    <h4><?= htmlspecialchars($weekDay) ?></h4>
+    <article class="schedule-classes">
+
+      <?php foreach ($classes as $weekdayClass) { ?>
+        <article class="schedule-class-card">
+          <strong><?= htmlspecialchars($weekdayClass->name) ?></strong>
+
+          <span><?= htmlspecialchars($weekdayClass->startTime) ?> - <?= htmlspecialchars($weekdayClass->endTime) ?></span>
+          <?php drawClassTypeCapacity($weekdayClass->capacity) ?>
+          <div class="card-actions">
+            <button class="btn blue btn-edit-class" data-id="<?= htmlspecialchars((string) ($weekdayClass->id ?? '')) ?>">Edit</button>
+          </div>
+        </article>
+      <?php } ?>
+
+    </article>
+  </section>
+<?php } ?>
+
+<?php function drawClassCatalog(array $classesByWeekday) { ?>
   <article class="dashboard-section" id="class-catalog">
     <header>
       <div class="section-header">
         <h2>Class Catalog</h2>
         <p>Manage the class catalog and assign trainers.</p>
       </div>
-      <button class="btn transparent-dark medium">+ Add Class</button>
+      <button id="add-class-btn" class="btn transparent-dark medium">+ Add Class</button>
     </header>
 
     <div class="table-responsive">
       <div class="schedule-grid">
-        <!-- Monday -->
-        <section class="schedule-day">
-          <h4>Monday</h4>
-          <article class="schedule-classes">
-            <article class="schedule-class-card">
-              <strong>Yoga Basics</strong>
-              <span>08:00 - 09:00</span>
-              <span>Capacity: 20</span>
-              <div class="card-actions">
-                <button class="btn blue">Edit</button>
-              </div>
-            </article>
-          </article>
-          <article class="schedule-classes">
-            <article class="schedule-class-card">
-              <strong>Cardio</strong>
-              <span>10:00 - 11:00</span>
-              <span>Capacity: 25</span>
-              <div class="card-actions">
-                <button class="btn blue">Edit</button>
-              </div>
-            </article>
-          </article>
-        </section>
-
-        <!-- Tuesday -->
-        <section class="schedule-day">
-          <h4>Tuesday</h4>
-          <article class="schedule-classes">
-            <article class="schedule-class-card">
-              <strong>HIIT Training</strong>
-              <span>18:30 - 19:30</span>
-              <span>Capacity: 15</span>
-              <div class="card-actions">
-                <button class="btn blue">Edit</button>
-              </div>
-            </article>
-          </article>
-        </section>
-        
-        <section class="schedule-day"><h4>Wednesday</h4><div class="schedule-classes"></div></section>
-        <section class="schedule-day"><h4>Thursday</h4><div class="schedule-classes"></div></section>
-        <section class="schedule-day"><h4>Friday</h4><div class="schedule-classes"></div></section>
-        <section class="schedule-day"><h4>Saturday</h4><div class="schedule-classes"></div></section>
-        <section class="schedule-day"><h4>Sunday</h4><div class="schedule-classes"></div></section>
+        <?php foreach ($classesByWeekday as $index => $classes) { 
+          $weekDay = ClassType::$weekdays[$index];
+          drawClassScheduleCard($weekDay, $classes);
+        } ?>
       </div>
     </div>
+
+    <?php drawCreateClassForm(); ?>
+    <?php drawEditClassForm(); ?>
   </article>
 <?php } ?>
 
@@ -455,14 +479,14 @@
 <?php } ?>
 
 
-<?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers, RoleManager $roleManager) { ?>
+<?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers, RoleManager $roleManager, array $classesByWeekday) { ?>
 <div class="admin-dashboard container">
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
       <?php drawOverview(); ?>
       <?php drawTrainerCreation($db, $session); ?>
       <?php drawAccountManagement($users, $session, $roleManager); ?>
-      <?php drawClassCatalog(); ?>
+      <?php drawClassCatalog($classesByWeekday); ?>
       <?php drawEquipmentManagement(); ?>
       <?php drawGymSettings(); ?>
       <?php drawMembershipTiers($tiers, $session); ?>

@@ -82,5 +82,31 @@
 
             return ClassType::build($row);
         }
+
+        // Returns an array where the keys are the weekday indices (0-6) and the values are arrays of ClassType objects for that weekday
+        public static function getClassesByWeekday(PDO $db) : array {
+            $stmt = $db->prepare('
+                SELECT ClassType.id, ClassType.name, ClassType.trainer_id, 
+                    User.first_name, User.last_name,
+                    ClassType.capacity, ClassType.weekday, ClassType.start_time, 
+                    ClassType.end_time
+                FROM ClassType
+                LEFT JOIN User ON ClassType.trainer_id = User.id
+                ORDER BY ClassType.weekday, ClassType.start_time');
+
+            $stmt->execute();
+
+            $classesByWeekday = array_fill(0, 7, []); // an array with 7 elements, for each weekday
+
+            while($row = $stmt->fetch()) {
+                $class = ClassType::build($row);
+                $weekdayIndex = array_search($class->weekday, ClassType::$weekdays);
+                if ($weekdayIndex !== false) {
+                    $classesByWeekday[$weekdayIndex][] = $class;
+                }
+            }
+
+            return $classesByWeekday;
+        }
     };
 ?>
