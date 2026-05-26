@@ -3,41 +3,47 @@
 
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn() || !$session->isAdmin()) {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToLogin();
     }
 
     if (empty($_POST['user_id']) || !isset($_POST['is_active'])) {
         $session->addErrorMessage('Invalid request.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
-    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
+    }
+
+    $userId = (int) $_POST['user_id'];
+    if ($userId <= 0) {
+        $session->addErrorMessage('Invalid user ID.');
+        redirectToPreviousPage();
+    }
+
+    $isActive = (int) $_POST['is_active'];
+    if ($isActive !== 0 && $isActive !== 1) {
+        $session->addErrorMessage('Invalid status value.');
+        redirectToPreviousPage();
     }
 
     $db = getDatabaseConnection();
-    $userId = (int) $_POST['user_id'];
-    $isActive = (int) $_POST['is_active'];
 
     try {
         $stmt = $db->prepare('UPDATE User SET is_active = ? WHERE id = ?');
         $stmt->execute([$isActive, $userId]);
-
         $session->addSuccessMessage('User status updated successfully.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error occurred.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
     }
+
+    redirectToPreviousPage();
 ?>
