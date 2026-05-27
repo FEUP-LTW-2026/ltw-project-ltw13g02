@@ -6,6 +6,7 @@
     require_once(__DIR__ . '/../database/trainer.class.php');
 
     $session = new Session();
+    require_once(__DIR__ . '../../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');

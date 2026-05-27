@@ -7,31 +7,40 @@
 
   if (!$session->isLoggedIn()) {
     header('Location: login.php');
+    exit;
+
+  } else if (!$session->isMember()) {
+    header('Location: index.php');
+    exit;
 
   } else {
 
     require_once (__DIR__ . '/../templates/common.php');
     require_once (__DIR__ . '/../templates/availability.php');
 
-    $equipement = [
-      ['name' => 'Treadmill', 'status' => 'Available', 'count' => '4/6 free'],
-      ['name' => 'Bike', 'status' => 'Unavailable', 'count' => '0/4 free'],
-      ['name' => 'Bench', 'status' => 'Limited', 'count' => '2/6 free'],
-      ['name' => 'Functional Zone', 'status' => 'Available', 'count' => '4/6 free']
-    ];
+    require_once (__DIR__ . '/../database/connection.db.php');
 
-    $treadmills = [
-      ['id' => '01', 'status' => 'Available'],
-      ['id' => '02', 'status' => 'Available'],
-      ['id' => '03', 'status' => 'Available']
-    ];
+    $db = getDatabaseConnection();
+
+    require_once (__DIR__ . '/../database/equipment_type.class.php');
+    $equipmentTypes = EquipmentType::getAllEquipmentTypes($db);
+
+    require_once (__DIR__ . '/../database/equipment_type_map.class.php');
+    $equipmentTypeMap = new EquipmentTypeMap(EquipmentTypeMap::getMapEquipmentTypeEquipments($db));
+
+    require_once (__DIR__ . '/../database/timeslot.class.php');
+    $timeslots = Timeslot::getAllTimeslots($db);
 
     drawHeader($session, 'Availability', ['availability.css','classes.css']);
     
     drawIntro('LIVE UPDATES', 'Check <b>availability</b>', 'Find out which equipment is free or already reserved.');
 
-    drawAvailabilityPage($equipement, $treadmills);
+    drawAvailabilityPage($equipmentTypes, $equipmentTypeMap, $timeslots, $db, $session);
     
     drawFooter();
+
+    // PLace scripts here (echo with php)
+
+    echo '<script src="../javascript/toggleEquipmentData.js" defer></script>';
   }
 ?>

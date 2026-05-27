@@ -114,6 +114,10 @@
       return $_SESSION['csrf_token'];
     }
 
+    public function verifyCSRFToken(string $token) : bool {
+        return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    }
+
     public function getCSRFToken() : ?string {
       return isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : null;
     }

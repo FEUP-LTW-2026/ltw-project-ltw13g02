@@ -36,12 +36,23 @@
   require_once (__DIR__ . '/../database/roleManager.class.php');
   $roleManager = new RoleManager();
 
+  require_once (__DIR__ . '/../database/equipment_type.class.php');
+  require_once (__DIR__ . '/../database/equipment.class.php');
+  require_once (__DIR__ . '/../database/timeslot.class.php');
+  require_once (__DIR__ . '/../database/equipmentStatusManager.class.php');
+
+  $equipmentTypes = EquipmentType::getAllEquipmentTypes($db);
+  $equipmentItems = Equipment::getAllEquipment($db);
+  $timeslots = Timeslot::getAllTimeslots($db);
+  $statusManager = new EquipmentStatusManager();
+
   require_once (__DIR__ . '/../templates/admin.php');
 
   echo '<script src="../javascript/searchByUserName.js" defer></script>';
   echo '<script src="../javascript/addMembershipTier.js" defer></script>';
+  echo '<script src="../javascript/equipmentAdmin.js" defer></script>';
 
-  drawAdminPanel($users, $db, $session, $tiers, $roleManager);
+  drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager);
 ?>
 
 <?php drawFooter() ?>

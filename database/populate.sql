@@ -65,18 +65,36 @@ INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VA
 (4, 2, '2026-06-10 18:00:00', '2026-06-10 19:00:00', 'scheduled'),
 (5, 4, '2026-06-09 18:00:00', '2026-06-09 19:00:00', 'scheduled');
 
--- Insert Equipment
-INSERT INTO Equipment (id, name, description, status) VALUES 
-(1, 'Treadmill Pro', 'Cardio running machine.', 'available'),
-(2, 'Treadmill Advanced', 'Cardio running machine.', 'available'),
-(3, 'Bench Press Station', 'For chest workouts.', 'in use'),
-(4, 'Dumbbell Set 10kg-30kg', 'Free weights.', 'available'),
-(5, 'Yoga Mats Set', 'Comfortable mats for floor exercises.', 'available');
+INSERT INTO EquipmentType (id, name) VALUES 
+(1, 'Treadmill'),
+(2, 'Exercise Bike');
 
--- Insert Membership Tiers
+INSERT INTO Equipment (id, name, status, equipment_type_id) VALUES
+(1, 'TM01', 'available', 1),
+(2, 'EB01', 'available', 2),
+(3, 'TM02', 'maintenance', 1),
+(4, 'EB02', 'in use', 2);
+
+INSERT INTO Timeslot (id, start_time, end_time) VALUES
+(1, '22:00', '23:00'),
+(3, '00:00', '01:00'),
+(4, '01:00', '02:00'),
+(5, '02:00', '03:00'),
+(6, '03:00', '04:00'),
+(7, '04:00', '05:00'),
+(8, '05:00', '06:00'),
+(9, '06:00', '07:00'),
+(10, '07:00', '08:00'),
+(11, '08:00', '09:00'),
+(12, '09:00', '10:00');
+
+
+INSERT INTO EquipmentBooking (id, equipment_id, member_id, booking_date, timeslot_id) VALUES
+(1, 1, 3, '2026-05-27', 12),
+(2, 1, 4, '2026-05-27', 6);
+
 INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days, is_active) VALUES 
 (1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment;1 day of booking window for classes', 19.99, 1, 1),
 (2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2, 1),
 (3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3, 1);
-
 

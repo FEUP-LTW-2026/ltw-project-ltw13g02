@@ -1,4 +1,9 @@
 @layer page {
+  .equipment-zone[hidden],
+  .reservation-form[hidden] {
+    display: none;
+  }
+
   .gym-zones {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -70,7 +75,7 @@
     background-color: var(--color-available);
   }
 
-  .availability.unavailable {
+  .availability.maintenance {
     background-color: var(--color-unavailable);
   }
 

@@ -13,6 +13,9 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Membership;
 DROP TABLE IF EXISTS MembershipTier;
+DROP TABLE IF EXISTS EquipmentType;
+DROP TABLE IF EXISTS Timeslot;
+DROP TABLE IF EXISTS EquipmentBooking;
 
 PRAGMA foreign_keys = ON;
 
@@ -204,15 +207,80 @@ CREATE TABLE Enrollment (
         ON DELETE CASCADE -- if a class is deleted, all enrollments associated with that class are deleted as well
 );
 
+CREATE TABLE EquipmentType (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+
+    CONSTRAINT PK_EquipmentType PRIMARY KEY (id),
+    CONSTRAINT UQ_EquipmentType_name UNIQUE (name)
+);
+
 CREATE TABLE Equipment (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    status TEXT NOT NULL, -- status of the equipment (available, in use, maintenance)
+    status TEXT NOT NULL DEFAULT 'available', -- status of the equipment (available, in use, maintenance)
+    equipment_type_id INTEGER NOT NULL,
 
     CONSTRAINT PK_Equipment PRIMARY KEY (id),
+    CONSTRAINT FK_Equipment_EquipmentType 
+        FOREIGN KEY (equipment_type_id) 
+        REFERENCES EquipmentType(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT UQ_Equipment_name UNIQUE (name),
     CONSTRAINT ValidStatus CHECK (status IN ('available', 'in use', 'maintenance'))
 );
+
+
+CREATE TABLE Timeslot (
+    id INTEGER NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+
+    CONSTRAINT PK_Timeslot PRIMARY KEY (id),
+    CONSTRAINT ValidTimes CHECK (start_time < end_time)
+);
+
+
+CREATE TABLE EquipmentBooking (
+    id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    equipment_id INTEGER NOT NULL,
+    timeslot_id INTEGER NOT NULL,
+    booking_date TEXT NOT NULL,
+    CONSTRAINT PK_EquipmentBooking PRIMARY KEY (id),
+    CONSTRAINT FK_EquipmentBooking_Member
+        FOREIGN KEY (member_id)
+        REFERENCES Member(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT FK_EquipmentBooking_Equipment
+        FOREIGN KEY (equipment_id)
+        REFERENCES Equipment(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT FK_EquipmentBooking_Timeslot
+        FOREIGN KEY (timeslot_id)
+        REFERENCES Timeslot(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TRIGGER IF NOT EXISTS CleanupBookingsOnMaintenance
+AFTER UPDATE OF status ON Equipment
+FOR EACH ROW
+WHEN NEW.status = 'maintenance' AND OLD.status != 'maintenance'
+BEGIN
+    DELETE FROM EquipmentBooking
+    WHERE equipment_id = NEW.id
+      AND booking_date = date('now', 'localtime')
+      AND timeslot_id IN (
+        SELECT id
+        FROM Timeslot
+        WHERE time(start_time) >= time('now', 'localtime')
+      );
+END;
+
 
 -- guarantee that when a membership tier has its price updated, only new memberships will be affected, current ones will be charged
 -- the price before. Only when that user has to pay next months, the new price will be applied
@@ -425,4 +493,30 @@ WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
     WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) AND start_timestamp > datetime('now', 'localtime');
+END;
+
+
+CREATE TRIGGER OverlappingTimeslotCreation
+BEFORE INSERT ON Timeslot
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot create overlapping timeslots.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM Timeslot
+        WHERE (time(start_time) < time(NEW.end_time) AND time(end_time) > time(NEW.start_time))
+    );
+END;
+
+
+CREATE TRIGGER PreventMemberToBookMultipleEquipmentsSameTimeslot
+BEFORE INSERT ON EquipmentBooking
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot book multiple equipments for the same timeslot.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM EquipmentBooking
+        WHERE member_id = NEW.member_id AND booking_date = NEW.booking_date AND timeslot_id = NEW.timeslot_id
+    );
 END;
