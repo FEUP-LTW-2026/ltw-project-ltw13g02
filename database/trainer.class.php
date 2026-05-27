@@ -24,7 +24,7 @@
         }
 
         public static function getTrainerBioById(PDO $db, int $trainerId) : ?string {
-            $stmt = $db->prepare('SELECT bio FROM Trainer WHERE trainer_id = ?');
+            $stmt = $db->prepare('SELECT bio FROM Trainer WHERE id = ?');
             $stmt->execute([$trainerId]);
             $row = $stmt->fetch();
             return $row ? $row['bio'] : null;

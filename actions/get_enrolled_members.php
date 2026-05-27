@@ -7,14 +7,23 @@
     require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
-        header('Location: ../pages/login.php');
-        exit;
+        redirectToLogin();
     }
 
-    $classId = intval($_GET['class_id']);
+    if(empty($_GET['class_id'])) {
+        $session->addErrorMessage('Class ID is required.');
+        redirectToPreviousPage();
+    }
+
+    $classId = (int)$_GET['class_id'];
+    if ($classId <= 0) {
+        $session->addErrorMessage('Invalid class ID.');
+        redirectToPreviousPage();
+    }
 
     $db = getDatabaseConnection();
 

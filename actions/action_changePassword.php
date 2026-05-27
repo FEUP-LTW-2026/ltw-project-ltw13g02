@@ -2,43 +2,44 @@
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
-
+    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
+    
     $session = new Session();
+    
     require_once(__DIR__ . '/../utils/role_change_guard.php');
-
+    
     if (!$session->isLoggedIn()) {
-        header('Location: ../pages/login.php');
-        exit;
+        redirectToLogin();
     }
 
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    if(empty($_POST['current-password']) || empty($_POST['new-password']) || empty($_POST['confirm-password'])) {
+        $session->addErrorMessage('All password fields are required.');
+        redirectToPreviousPage();
+    }
+
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        redirectToPreviousPage();
+    }
+
+    if (!validatePassword($_POST['new-password'])) {
+        $session->addErrorMessage('Password must be at least 8 characters.');
+        redirectToPreviousPage();
+    }
 
     $db = getDatabaseConnection();
     $user = AuthenticatedUser::getUser($db, $session->getId());
 
-    if (strlen($_POST['new-password']) < 8) {
-        $session->addErrorMessage('Password must be at least 8 characters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
-    }
-
     if (!AuthenticatedUser::verifyPassword($db, $user->getId(), $_POST['current-password'])) {
         $session->addErrorMessage('Current password is incorrect.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if ($_POST['new-password'] !== $_POST['confirm-password']) {
         $session->addErrorMessage('Passwords do not match.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
-    }
-
-    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
-        $session->addErrorMessage('Invalid CSRF token.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     try {
@@ -48,7 +49,6 @@
         exit;
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error occured.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 ?>

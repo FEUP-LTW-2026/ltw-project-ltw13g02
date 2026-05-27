@@ -3,38 +3,51 @@
 
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if(!$session->isLoggedIn() || !$session->isAdmin()) {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToLogin();
     }
 
     if (empty($_POST['tier_id']) || empty($_POST['name']) || empty($_POST['price']) || empty($_POST['booking_window_days'])) {
         $session->addErrorMessage('Invalid request. Please fill in all required fields.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
-    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token. Please try again.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
+    }
+    
+    $tierId = (int) $_POST['tier_id'];
+    if($tierId <= 0) {
+        $session->addErrorMessage('Invalid membership tier ID.');
+        redirectToPreviousPage();
+    }
+
+    $name = trim($_POST['name']);
+    if(!validateText($name)) {
+        $session->addErrorMessage('Invalid name. Please use only letters and spaces.');
+        redirectToPreviousPage();
+    }
+
+    $price = (float) $_POST['price'];
+    if($price < 0) {
+        $session->addErrorMessage('Invalid price. Please enter a non-negative value.');
+        redirectToPreviousPage();
+    }
+
+    $bookingWindowDays = (int) $_POST['booking_window_days'];
+    if($bookingWindowDays < 0) {
+        $session->addErrorMessage('Invalid booking window. Please enter a non-negative integer.');
+        redirectToPreviousPage();
     }
 
     $db = getDatabaseConnection();
-    $tierId = (int) $_POST['tier_id'];
-    $name = trim($_POST['name']);
-    $price = (float) $_POST['price'];
-    $description = '';
-
-    if (!preg_match('/^[a-zA-Z]+$/', $name)) {
-        $session->addErrorMessage('Name can only contain letters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
-    }
 
     if (isset($_POST['description']) && is_array($_POST['description'])) {
       // Artificially add semicolons
@@ -44,17 +57,15 @@
       }
       $description = implode('', $_POST['description']);
     }
-    $bookingWindowDays = (int) $_POST['booking_window_days'];
+
     try {
         $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
         $stmt->execute([$name, $description, $price, $bookingWindowDays, $tierId]);
 
         $session->addSuccessMessage('Membership tier updated successfully.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error occurred while updating the tier.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
     }
+
+    redirectToPreviousPage();
 ?>

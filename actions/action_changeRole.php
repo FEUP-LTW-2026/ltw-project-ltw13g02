@@ -1,36 +1,57 @@
 <?php 
-  declare(strict_types=1);
+    declare(strict_types=1);
 
-  require_once (__DIR__ . '/../utils/session.php');
-  $session = new Session();
-  require_once (__DIR__ . '/../utils/role_change_guard.php');
+    require_once (__DIR__ . '/../database/connection.db.php');
+    require_once (__DIR__ . '/../database/authenticated_user.class.php');
+    require_once (__DIR__ . '/../database/roleManager.class.php');
+    require_once (__DIR__ . '/../utils/session.php');
+    require_once (__DIR__ . '/../utils/helpers.php');
+    
+    $session = new Session();
+    
+    require_once (__DIR__ . '/../utils/role_change_guard.php');
 
-  require_once (__DIR__ . '/../database/connection.db.php');
-  $db = getDatabaseConnection();
+    if (!$session->isLoggedIn()) {
+        redirectToLogin();
+    }
 
-  require_once (__DIR__ . '/../database/authenticated_user.class.php');
-  $user = AuthenticatedUser::getUser($db, $session->getId());
+    if (!$session->isAdmin()) {
+        header('Location: index.php');
+        exit;
+    }
 
-  if (!$session->isLoggedIn()) {
-    header('Location: login.php');
-    exit;
-  }
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token.');
+        redirectToPreviousPage();
+    }
 
-  if (!$session->isAdmin()) {
-    header('Location: index.php');
-    exit;
-  }
+    if(empty($_POST['user_id']) || empty($_POST['user_name']) || empty($_POST['old_role_table']) || empty($_POST['new_role_table'])) {
+        $session->addErrorMessage('All fields are required.');
+        redirectToPreviousPage();
+    }
 
-  if(!isset($_POST['user_id'], $_POST['new_role_table'])) {
-    header('Location: ../pages/admin.php');
-    exit;
-  }
+    $userId = (int) $_POST['user_id'];
+    if($userId <= 0) {
+        $session->addErrorMessage('Invalid user ID.');
+        redirectToPreviousPage();
+    }
 
-  $userId = intval($_POST['user_id']);
-  $userName = $_POST['user_name'];
-  $oldRole = $_POST['old_role_table'];
-  $newRole = $_POST['new_role_table'];
+    $username = trim((string) $_POST['user_name']);
+    if(!validateUsername($username)) {
+        $session->addErrorMessage('Invalid username.');
+        redirectToPreviousPage();
+    }
 
-  require_once (__DIR__ . '/../database/roleManager.class.php');
-  RoleManager::changeUserRole($db, $userId, $oldRole, $newRole, $session);
+    $oldRole = $_POST['old_role_table'];
+    $newRole = $_POST['new_role_table'];
+    if(!validateText($oldRole) || !validateText($newRole)) {
+        $session->addErrorMessage('Invalid role values.');
+        redirectToPreviousPage();
+    }
+
+    $db = getDatabaseConnection();
+
+    $user = AuthenticatedUser::getUser($db, $session->getId());
+
+    RoleManager::changeUserRole($db, $userId, $oldRole, $newRole, $session);
 ?>

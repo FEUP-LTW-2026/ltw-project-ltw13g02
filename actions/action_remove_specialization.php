@@ -4,17 +4,14 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/trainer.class.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');
-        exit;
-    }
-
-    function redirectToPreviousPage() {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
@@ -23,14 +20,20 @@
         redirectToPreviousPage();
     }
 
-    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    if(empty($_POST['specialization_id'])) {
+        $session->addErrorMessage('Specialization ID is required.');
+        redirectToPreviousPage();
+    }
+
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token.');
         redirectToPreviousPage();
     }
 
-    $specializationId = (int)$_POST['specialization_id'] ?? null;
-    if (!$specializationId) {
-        $session->addErrorMessage('Specialization ID is required.');
+    $specializationId = (int) $_POST['specialization_id'];
+
+    if ($specializationId <= 0) {
+        $session->addErrorMessage('Invalid specialization ID.');
         redirectToPreviousPage();
     }
 

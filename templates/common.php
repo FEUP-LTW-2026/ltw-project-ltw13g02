@@ -128,16 +128,7 @@
               </ul>
             </nav>
           </section>
-          <section>
-            <h3>Legal</h3>
-            <nav>
-              <ul>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-              </ul>
-            </nav>
-          </section>
+        
           <section>
             <h3>Contact</h3>
             <address>
@@ -174,7 +165,7 @@
       <?php drawClassTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
 
       <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-        <?php drawClassCapacity(htmlspecialchars($class->currentEnrollment), htmlspecialchars($class->capacity)); ?>
+        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
       <?php } ?>
 
     </div>

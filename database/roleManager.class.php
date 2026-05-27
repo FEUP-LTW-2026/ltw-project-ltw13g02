@@ -1,13 +1,16 @@
-<?php 
+<?php
+
+  require_once(__DIR__ . '/../utils/helpers.php');
+
   class RoleManager {
     private array $validTransitions;
 
     public function __construct() {
       $this->validTransitions = [
-        'AuthenticatedUser' => ['Admin', 'Trainer'],
-        'Admin' => ['AuthenticatedUser', 'Trainer'],
-        'Trainer' => ['AuthenticatedUser', 'Admin'],
-        'Member' => ['AuthenticatedUser', 'Admin', 'Trainer']
+        'User' => ['Admin', 'Trainer'],
+        'Admin' => ['User', 'Trainer'],
+        'Trainer' => ['User', 'Admin'],
+        'Member' => ['User', 'Admin', 'Trainer']
       ];
     }
 
@@ -23,33 +26,57 @@
     public static function changeUserRole(PDO $db, int $userId, string $oldRole, string $newRole, Session $session): void {
       try {
         $db->beginTransaction();
-        if ($oldRole === 'AuthenticatedUser') {
-          $stmt = $db->prepare('INSERT INTO ' . $newRole . ' (id) VALUES (?)');
+
+        if ($oldRole === $newRole) {
+          $db->rollBack();
+          $session->addErrorMessage('User already has the role: ' . $newRole);
+          redirectToPreviousPage();
+        }
+
+        // Verify if the role is valid
+        $roleWhitelist = ['User', 'Admin', 'Trainer', 'Member'];
+        if (!in_array($oldRole, $roleWhitelist) || !in_array($newRole, $roleWhitelist)) {
+          $db->rollBack();
+          $session->addErrorMessage('Invalid role specified.');
+          redirectToPreviousPage();
+        }
+
+        // Verify if the transition is valid
+        $roleManager = new RoleManager();
+        $availableRoles = $roleManager->getAvailableRoles($oldRole);
+        if (!in_array($newRole, $availableRoles)) {
+          $db->rollBack();
+          $session->addErrorMessage('Invalid role transition from ' . $oldRole . ' to ' . $newRole);
+          redirectToPreviousPage();
+        }
+
+        if ($oldRole === 'User') { // transitions from User only make insertions
+          $stmt = $db->prepare("INSERT INTO $newRole (id) VALUES (?)");
           $stmt->execute([$userId]);
-        } else if ($newRole === 'AuthenticatedUser') {
-          $stmt = $db->prepare('DELETE FROM ' . $oldRole . ' WHERE id = ?');
+        } else if ($newRole === 'User') { // transitions to User only make deletions
+          $stmt = $db->prepare("DELETE FROM $oldRole WHERE id = ?");
           $stmt->execute([$userId]);
-        } else {
-          $stmt = $db->prepare('DELETE FROM ' . $oldRole . ' WHERE id = ?');
+        } else { // transitions to/from other roles require both insertion and deletion
+          $stmt = $db->prepare("DELETE FROM $oldRole WHERE id = ?");
           $stmt->execute([$userId]);
-          $stmt = $db->prepare('INSERT INTO ' . $newRole . ' (id) VALUES (?)');
+          $stmt = $db->prepare("INSERT INTO $newRole (id) VALUES (?)");
           $stmt->execute([$userId]);
         }
 
-        // bump role change counter atomically within the transaction
+        // bump role change counter atomically within the transaction (used for role confirmation)
         self::updateRoleChangeCount($db, $userId);
-
+      
         $db->commit();
         $session->addSuccessMessage('Role for user changed successfully.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
+        
       } catch (Exception $e) {
         if ($db->inTransaction()) {
           $db->rollBack();
         }
+        $session->addErrorMessage('Error changing role: ' . $e->getMessage());
         $session->addErrorMessage('Failed to change role for user. Please try again.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
       }
     }
   }
