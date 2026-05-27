@@ -89,7 +89,35 @@
   </section>
 <?php } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, Session $session) {
+<?php function drawMemberships(array $activeMemberships, array $otherStatusMemberships, Session $session) { ?>
+  <section>
+    <h2>Memberships</h2>
+    <?php if (empty($activeMemberships)) { ?>
+      <p>You don't have any active memberships.</p>
+      <a class="btn medium blue" href="../pages/index.php#membership">Purchase Membership</a>
+    <?php } else { ?>
+      <ul class="memberships">
+        <?php foreach ($activeMemberships as $membership) { ?>
+          <li class="membership-card">
+            <h3><?= htmlspecialchars($membership->tierName); ?></h3>
+            <p><?= htmlspecialchars($membership->status); ?></p>
+            <p>Valid from: <?= htmlspecialchars($membership->startTimestamp); ?></p>
+            <p>Valid until: <?= htmlspecialchars($membership->endTimestamp); ?></p>
+
+            <button class="btn medium blue" data-membership-id="<?= $membership->id ?>">See Details</button>
+            <form action="../actions/action_cancel_membership.php" method="post">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+              <input type="hidden" name="membership_id" value="<?= $membership->id ?>" />
+              <button type="submit" class="btn medium warning outline">Cancel Membership</button>
+            </form>
+          </li>
+        <?php } ?>
+      </ul>
+    <?php } ?>
+  </section>
+<?php } ?>
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $activeMemberships, array $otherStatusMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <div>
     <section class="container">
@@ -98,8 +126,8 @@
       <?php drawEnrolledClassesContainer($classes);
       if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
-      } ?>
-
+      }
+      drawMemberships($activeMemberships, $otherStatusMemberships, $session); ?>
     </section>
   </div>
 <?php } ?>

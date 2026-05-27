@@ -260,7 +260,7 @@ CREATE TABLE Membership(
         ON UPDATE CASCADE,
     CONSTRAINT ValidMembershipStatus CHECK (
         status IN ('active', 'planned', 'pending', 'expired',
-                   'suspended', 'cancelled_by_user', 'cancelled')
+                   'suspended', 'cancelled')
     ),
     CONSTRAINT ValidPaymentStatus CHECK (
         payment_status IN ('paid', 'failed', 'pending')
@@ -314,7 +314,7 @@ END;
 CREATE TRIGGER DeactivateMemberWhenNoActiveMemberships
 AFTER UPDATE ON Membership
 FOR EACH ROW
-WHEN NEW.status IN ('expired', 'cancelled', 'cancelled_by_user')
+WHEN NEW.status IN ('expired', 'cancelled')
 BEGIN
     UPDATE User
     SET is_active = 0

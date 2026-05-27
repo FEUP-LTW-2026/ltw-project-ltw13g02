@@ -5,6 +5,7 @@
   require_once(__DIR__ . '/../database/connection.db.php');
   require_once(__DIR__ . '/../database/authenticated_user.class.php');
   require_once(__DIR__ . '/../database/enrollment.class.php');
+  require_once(__DIR__ . '/../database/membership.class.php');
   require_once(__DIR__ . '/../templates/common.php');
   require_once(__DIR__ . '/../templates/profile.php');
   require_once(__DIR__ . '/../templates/classes.php');
@@ -29,8 +30,9 @@
 
   $classes = Enrollment::getEnrolledClasses($db, $session->getId());
   $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
+  list($activeMemberships, $otherStatusMemberships) = Membership::getMemberMemberships($db, $session->getId());
 
   drawHeader($session, 'Profile', ['profile.css']);
-  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $session);
+  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $activeMemberships, $otherStatusMemberships, $session);
   drawFooter();
 ?>
