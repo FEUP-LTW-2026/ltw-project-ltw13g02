@@ -33,7 +33,7 @@
             drawClassTypeCapacity($class->capacity);
           ?>
 			</div>
-			<a class="btn medium blue" href="../pages/class.php?id=<?= htmlspecialchars($class->id) ?>">Details</a>
+			<a class="btn medium blue" href="../pages/class.php?id=<?= htmlspecialchars((string)$class->id) ?>">Details</a>
 		</footer>
 	</article>
 <?php } ?>

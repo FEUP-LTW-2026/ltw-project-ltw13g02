@@ -118,7 +118,7 @@
             $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword]);
             $insertedId = (int) $db->lastInsertId();
 
-            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true, 'AuthenticatedUser');
+            return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true, 'User');
         }
 
         public function isMember(PDO $db) : bool {
@@ -219,7 +219,7 @@
                     WHEN Admin.id IS NOT NULL THEN 'Admin'
                     WHEN Trainer.id IS NOT NULL THEN 'Trainer'
                     WHEN Member.id IS NOT NULL THEN 'Member'
-                    ELSE 'AuthenticatedUser'
+                    ELSE 'User'
                 END AS role
                 FROM User
                 LEFT JOIN Admin ON User.id = Admin.id

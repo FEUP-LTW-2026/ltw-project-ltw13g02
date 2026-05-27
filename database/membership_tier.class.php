@@ -134,16 +134,21 @@
       ]);
     }
 
-    public static function checkExistingMember(PDO $db, int $member_id) : ?array {
+    public static function checkExistingMember(PDO $db, int $member_id) : bool {
       $stmt = $db->prepare('SELECT id FROM Member WHERE id = ?');
       $stmt->execute([$member_id]);
-      return $stmt->fetch();
+      return $stmt->fetch() !== false;
     }
 
     public static function createMembership(PDO $db, int $member_id, int $tier_id, float $monthly_fee, int $duration, string $payment_type) : void {
       // First month insertion
       try {
         $db->beginTransaction();
+
+        if (!self::checkExistingMember($db, $member_id)) {
+          $stmt = $db->prepare('INSERT INTO Member (id) VALUES (?)');
+          $stmt->execute([$member_id]);
+        }
 
         $stmt = $db->prepare("
           INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, 

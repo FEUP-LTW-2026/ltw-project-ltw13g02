@@ -165,7 +165,7 @@
       <?php drawClassTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
 
       <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-        <?php drawClassCapacity(htmlspecialchars($class->currentEnrollment), htmlspecialchars($class->capacity)); ?>
+        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
       <?php } ?>
 
     </div>

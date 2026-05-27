@@ -21,26 +21,22 @@
 
     if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
         $session->addErrorMessage('Invalid CSRF token.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z]*$/', $firstName)) {
         $session->addErrorMessage('First name can only contain letters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z]*$/', $lastName)) {
         $session->addErrorMessage('Last name can only contain letters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z0-9_]*$/', $username)) {
         $session->addErrorMessage('Username can only contain letters, numbers and underscores.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     $db = getDatabaseConnection();
@@ -61,8 +57,7 @@
 
         if (!AuthenticatedUser::isUsernameAvailable($db, $username) && $username !== $user->getUsername()) {
             $session->addErrorMessage('That username is already in use.');
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+            redirectToPreviousPage();
         }
 
         $user->setUsername($username);

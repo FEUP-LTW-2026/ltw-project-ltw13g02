@@ -53,7 +53,6 @@
         redirectToPreviousPage();
     }
 
-    // First month insertion
     try {
         MembershipTier::createMembership($db, $session->getId(), $tier_id, $tier->getMonthlyFee(), $duration, $payment_type);
     } catch (Exception $e) {
@@ -61,14 +60,9 @@
         redirectToPreviousPage();
     }
 
-    // Update the session to reflect the new membership status (fetch user just for confirmation)
-    $user = AuthenticatedUser::getUser($db, $session->getId());
-
-    // Update the role
-    RoleManager::changeUserRole($db, $session->getId(), $session->getRole(), 'Member', $session);
     // Update the session role
     $session->setRole('Member');
 
     $session->addSuccessMessage('Membership created successfully!');
-    redirectToPreviousPage();
+    redirectToHomePage();
 ?>

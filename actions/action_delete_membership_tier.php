@@ -22,7 +22,7 @@
         $session->addErrorMessage('Invalid CSRF token. Please try again.');
         redirectToPreviousPage();
     }
-
+    
     $tierId = (int)$_POST['tier_id'];
     if ($tierId <= 0) {
         $session->addErrorMessage('Invalid membership tier ID.');

@@ -15,8 +15,8 @@
         redirectToLogin();
     }
 
-    if (!validateCsrfToken($_POST['csrf_token'])) {
-        $session->addErrorMessage('Invalid CSRF token.');
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
         redirectToPreviousPage();
     }
 

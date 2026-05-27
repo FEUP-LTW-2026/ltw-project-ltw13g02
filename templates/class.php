@@ -104,7 +104,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
   <p>
     <span class="symbol">person</span>
-    <?= $currentEnrollment . '/' . $capacity ?> enrolled
+    <?= htmlspecialchars((string)$currentEnrollment) . '/' . htmlspecialchars((string)$capacity) ?> enrolled
   </p>
 <?php } ?>
 
@@ -126,13 +126,13 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
                   if ($class->hasRemainingCapacity()) { ?>
                   <form action="../actions/action_enrollment.php" method="post">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>">
                     <button class="btn medium blue" type="submit">Enroll Now</button>
                   </form>
                 <?php } else { ?>
                   <form action="../actions/action_join_waitlist.php" method="post">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>">
                     <button class="btn medium blue" type="submit">Join Waitlist</button>
                   </form>
                 <?php } ?>
@@ -140,14 +140,14 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
               <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
                 <form action="../actions/action_cancel_enrollment.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                   <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                 </form>
 
               <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
                 <form action="../actions/action_leave_waitlist.php" method="post">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= htmlspecialchars($class->id) ?>" />
+                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                   <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                 </form>
               <?php } ?>
@@ -162,7 +162,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php function drawReview(string $username, string $firstName, string $lastName, int $rating, string $comment, string $timestamp) { ?>
   <article class="card review">
     <h3><?= htmlspecialchars($username) ?> <span><?= htmlspecialchars($firstName . ' ' . $lastName) ?></span></h3>
-    <p><?= htmlspecialchars($rating) .  "/5" ?></p>
+    <p><?= htmlspecialchars((string)$rating) .  "/5" ?></p>
     <p id="review-text"><?= htmlspecialchars($comment) ?></p>
     <p id="timestamp"><?= htmlspecialchars($timestamp) ?></p>
   </article>

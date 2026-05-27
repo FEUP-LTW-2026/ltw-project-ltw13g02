@@ -159,7 +159,7 @@
     padding: var(--space-m);
   }
 
-  label:has(input:required)::before {
+  label:has(input:required)::before, label:has(select:required)::before, label:has(textarea:required)::before {
     content: '*';
     color: var(--color-error);
   }

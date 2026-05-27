@@ -32,7 +32,7 @@
     }
 
     $comment = (string) $_POST['comment'];
-    if (!validateTextBox($_POST['comment'])) {
+    if (!   validateTextBox($_POST['comment'])) {
         $session->addErrorMessage('Comment cannot exceed 500 characters.');
         redirectToPreviousPage();
     }

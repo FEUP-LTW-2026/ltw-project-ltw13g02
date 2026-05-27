@@ -16,12 +16,7 @@
     }
 
     $required = ['first-name', 'last-name', 'username', 'email', 'password', 'confirm-password', 'csrf_token'];
-    foreach ($required as $r) {
-        if (empty($_POST[$r])) {
-            $session->addErrorMessage('Please fill in all required fields.');
-            redirectToPreviousPage();
-        }
-    }
+    validateRequiredFields($required);
 
     if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token. Please try again.');

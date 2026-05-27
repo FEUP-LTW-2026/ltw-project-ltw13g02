@@ -12,6 +12,11 @@
         exit;
     }
 
+    function redirectToHomePage() {
+        header('Location: ../pages/index.php');
+        exit;
+    }
+
     function redirectToLogin() {
         header('Location: ../pages/login.php');
         exit;
@@ -32,11 +37,18 @@
 
     function validateText(string $text) : bool {
         return preg_match('/^[a-zA-Z]+$/', $text) === 1;
-        
     }
 
     function validateTextBox(string $text): bool {
         return preg_match('/^[a-zA-Z0-9\s.,!?]+$/', $text) && strlen($text) <= 500;
     }
 
+    function validateRequiredFields(array $fields): bool {
+        foreach ($fields as $field) {
+            if (!isset($_POST[$field]) || $_POST[$field] === '') {
+                return false;
+            }
+        }
+        return true;
+    }
 ?>
