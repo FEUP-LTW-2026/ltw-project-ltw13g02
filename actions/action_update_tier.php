@@ -49,6 +49,7 @@
 
     $db = getDatabaseConnection();
 
+    $description = '';
     if (isset($_POST['description']) && is_array($_POST['description'])) {
       // Artificially add semicolons
       for($i = 0; $i < count($_POST['description']); $i++) {
