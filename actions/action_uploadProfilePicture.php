@@ -32,11 +32,15 @@
         redirectToPreviousPage();
     }
 
-    // TODO: check this validation   
-    // Validate file size (max 5MB)
-    $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
-    if ($_FILES['profile-picture']['size'] > $maxFileSize) {
-        $session->addErrorMessage('File size exceeds 5MB limit. Please upload a smaller image.');
+    // Check for upload errors
+    // If the max allowed size of the image was exceeded, $_FILES['profile-picture']['tmp_name'] will be empty
+    if (!isset($_FILES['profile-picture']) || $_FILES['profile-picture']['error'] !== UPLOAD_ERR_OK) {
+        $error = $_FILES['profile-picture']['error'] ?? UPLOAD_ERR_NO_FILE;
+        if ($error === UPLOAD_ERR_INI_SIZE || $error === UPLOAD_ERR_FORM_SIZE) {
+            $session->addErrorMessage('File size exceeds the server limit. Please upload a smaller image.');
+        } else {
+            $session->addErrorMessage('Error uploading file. Please try again.');
+        }
         redirectToPreviousPage();
         exit;
     }
@@ -80,12 +84,12 @@
     $cropX = (int)(($width - $cropWidth) / 2);
     $cropY = (int)(($height - $cropHeight) / 2);
 
-    // Create new 250x340 image and crop/resize it
-    $finalPic = imagecreatetruecolor(250, 340);
-    imagecopyresized($finalPic, $newPic, 0, 0, $cropX, $cropY, 250, 340, $cropWidth, $cropHeight);
+    // Create new 1250x1700 image and crop/resize it
+    $finalPic = imagecreatetruecolor(1250, 1700);
+    imagecopyresized($finalPic, $newPic, 0, 0, $cropX, $cropY, 1250, 1700, $cropWidth, $cropHeight);
 
     // Save the final image as the user's profile picture (overwriting any existing one)
-    // The picture is saved with the user's ID as the filename to associate it with their profile
+    // The picture is saved with the user's ID as the filename to associate it with their profile.
     imagejpeg($finalPic, '../img/profiles/' . $session->getId() . '.jpg');
 
     $session->addSuccessMessage('Profile picture updated successfully!');

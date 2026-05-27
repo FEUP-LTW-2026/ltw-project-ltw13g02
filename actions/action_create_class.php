@@ -23,7 +23,19 @@
     }
     
     $name = trim((string) $_POST['name']);
+
+    if (!validateTextBox($name)) {
+        $session->addErrorMessage('Class name can only contain letters, numbers and spaces.');
+        redirectToPreviousPage();
+    }
+
     $description = trim((string) $_POST['description']);
+
+    if (!validateTextBox($description)) {
+        $session->addErrorMessage('Class description can only contain letters, numbers and spaces.');
+        redirectToPreviousPage();
+    }
+
     $trainerId = (int) $_POST['trainer_id'];
     $capacity = (int) $_POST['capacity'];
     $weekday = (int) $_POST['weekday'];
