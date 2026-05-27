@@ -67,27 +67,6 @@
     }
   }
 
-  dialog {
-    width: 100%;
-    max-width: 500px;
-    border: none;
-    border-radius: var(--radius-button);
-    padding: var(--space-l);
-    background-color: var(--color-secondary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
-    &::backdrop {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    & .dialog-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: var(--space-s);
-      margin-top: var(--space-l);
-    }
-  }
-
   .dashboard-content {
     flex: 1;
     background-color: var(--color-secondary);

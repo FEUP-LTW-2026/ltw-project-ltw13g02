@@ -246,7 +246,7 @@
 
 <?php function drawEditClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-edit-class">
-    <div class="dialog-content">
+    <section class="dialog-content">
       <h3>Edit Class</h3>
       <form action="../actions/action_edit_class.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
@@ -300,7 +300,7 @@
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
-    </div>
+    </section>
   </dialog>
 <?php } ?>
 

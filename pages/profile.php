@@ -32,6 +32,8 @@
   $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
   list($activeMemberships, $otherStatusMemberships) = Membership::getMemberMemberships($db, $session->getId());
 
+  echo '<script src="../javascript/profile.js" defer></script>';
+
   drawHeader($session, 'Profile', ['profile.css']);
   drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $activeMemberships, $otherStatusMemberships, $session);
   drawFooter();
