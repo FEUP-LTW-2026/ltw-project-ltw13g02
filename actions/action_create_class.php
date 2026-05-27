@@ -14,16 +14,14 @@
         redirectToPreviousPage();
     }
 
-    $required = ['name', 'description', 'trainer_id', 'capacity', 'start_time', 'end_time', 'weekday', 'csrf_token'];
-    foreach ($required as $f) {
-        if (empty($_POST[$f])) {
-            $session->addErrorMessage('Please fill in all required fields.');
-            redirectToPreviousPage();
-        }
+    $required = ['name', 'description', 'trainer_id', 'capacity', 'weekday', 'start_time', 'end_time', 'csrf_token'];
+    validateRequiredFields($required);
+
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
+        redirectToPreviousPage();
     }
-
-    validateCSRFToken($_POST['csrf_token'], $session);
-
+    
     $name = trim((string) $_POST['name']);
     $description = trim((string) $_POST['description']);
     $trainerId = (int) $_POST['trainer_id'];
@@ -41,6 +39,8 @@
     } catch (PDOException $e) {
         if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
             $session->addErrorMessage('Error creating class: This class overlaps with another class for the same trainer.');
+        } else if (str_contains($e->getMessage(), 'CHECK constraint failed: ValidTimes')) {
+            $session->addErrorMessage('Error creating class: Start time must be before end time.');
         } else {
             $session->addErrorMessage('Error creating class: ' . $e->getMessage());
         }

@@ -15,24 +15,22 @@
     }
 
     $required = ['name', 'description', 'trainer_id', 'capacity', 'start_time', 'end_time', 'weekday', 'csrf_token'];
-    foreach ($required as $f) {
-        if (empty($_POST[$f])) {
-            $session->addErrorMessage('Please fill in all required fields.');
-            redirectToPreviousPage();
-        }
+    validateRequiredFields($required);
+
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
+        redirectToPreviousPage();
     }
-
-    validateCSRFToken($_POST['csrf_token'], $session);
-
+    
     $classTypeId = (int) $_POST['class_id'];
     $name = trim((string) $_POST['name']);
-    if (!validateText($name)) {
+    if (!validateTextBox($name)) {
         $session->addErrorMessage('Class name can only contain letters, numbers and spaces.');
         redirectToPreviousPage();
     }
 
     $description = trim((string) $_POST['description']);
-    if (!validateText($description)) {
+    if (!validateTextBox($description)) {
         $session->addErrorMessage('Class description can only contain letters, numbers and spaces.');
         redirectToPreviousPage();
     }
@@ -50,7 +48,13 @@
         $session->addSuccessMessage('Class updated successfully.');
         redirectToPreviousPage();
     } catch (Exception $e) {
-        $session->addErrorMessage('Error updating class: ' . $e->getMessage());
+        if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
+            $session->addErrorMessage('Error editing class: This class overlaps with another class for the same trainer.');
+        } else if (str_contains($e->getMessage(), 'CHECK constraint failed: ValidTimes')) {
+            $session->addErrorMessage('Error editing class: Start time must be before end time.');
+        } else {
+            $session->addErrorMessage('Error editing class: ' . $e->getMessage());
+        }
         redirectToPreviousPage();
     }
 ?>

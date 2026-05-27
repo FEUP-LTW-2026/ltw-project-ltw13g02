@@ -22,13 +22,6 @@
         exit;
     }
 
-    function validateCSRFToken(string $CSRFToken, Session $session) {
-        if ($CSRFToken !== $session->getCSRFToken()) {
-            $session->addErrorMessage('Invalid CSRF token. Please try again.');
-            redirectToPreviousPage();
-        }
-    }
-
     function validateEmail(string $email) : bool {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
@@ -44,11 +37,18 @@
 
     function validateText(string $text) : bool {
         return preg_match('/^[a-zA-Z]+$/', $text) === 1;
-        
     }
 
     function validateTextBox(string $text): bool {
         return preg_match('/^[a-zA-Z0-9\s.,!?]+$/', $text) && strlen($text) <= 500;
     }
 
+    function validateRequiredFields(array $fields): bool {
+        foreach ($fields as $field) {
+            if (!isset($_POST[$field]) || $_POST[$field] === '') {
+                return false;
+            }
+        }
+        return true;
+    }
 ?>

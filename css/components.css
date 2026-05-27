@@ -707,6 +707,9 @@
       grid-template-columns: 1fr;
     }
 
+    .btn {
+      font-size: var(--font-size-s);
+    }
 
     nav.container {
       & .logo {
@@ -773,6 +776,12 @@
 
     .scheduled-classes {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 30em) {
+    .btn {
+      font-size: var(--font-size-xs);
     }
   }
 }

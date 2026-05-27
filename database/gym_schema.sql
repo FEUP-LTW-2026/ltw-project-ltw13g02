@@ -252,7 +252,8 @@ CREATE TABLE Membership(
     CONSTRAINT FK_Membership_Member
         FOREIGN KEY (member_id)
         REFERENCES Member(id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE, -- if a member is deleted, all their memberships are deleted as well
     CONSTRAINT FK_Membership_MembershipTier
         FOREIGN KEY (membership_tier_id)
         REFERENCES MembershipTier(id)

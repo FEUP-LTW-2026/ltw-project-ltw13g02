@@ -7,10 +7,10 @@
 
     public function __construct() {
       $this->validTransitions = [
-        'AuthenticatedUser' => ['Admin', 'Trainer'],
-        'Admin' => ['AuthenticatedUser', 'Trainer'],
-        'Trainer' => ['AuthenticatedUser', 'Admin'],
-        'Member' => ['AuthenticatedUser', 'Admin', 'Trainer']
+        'User' => ['Admin', 'Trainer'],
+        'Admin' => ['User', 'Trainer'],
+        'Trainer' => ['User', 'Admin'],
+        'Member' => ['User', 'Admin', 'Trainer']
       ];
     }
 
@@ -32,19 +32,35 @@
           $session->addErrorMessage('User already has the role: ' . $newRole);
           redirectToPreviousPage();
         }
-        
-        if ($oldRole === 'AuthenticatedUser') { // transitions from AuthenticatedUser only make insertions
-          $stmt = $db->prepare('INSERT INTO ? (id) VALUES (?)');
-          $stmt->execute([$newRole, $userId]);
-        } else if ($newRole === 'AuthenticatedUser') { // transitions to AuthenticatedUser only make deletions
-          $stmt = $db->prepare('DELETE FROM ? WHERE id = ?');
-          $stmt->execute([$oldRole, $userId]);
 
+        // Verify if the role is valid
+        $roleWhitelist = ['User', 'Admin', 'Trainer', 'Member'];
+        if (!in_array($oldRole, $roleWhitelist) || !in_array($newRole, $roleWhitelist)) {
+          $db->rollBack();
+          $session->addErrorMessage('Invalid role specified.');
+          redirectToPreviousPage();
+        }
+
+        // Verify if the transition is valid
+        $roleManager = new RoleManager();
+        $availableRoles = $roleManager->getAvailableRoles($oldRole);
+        if (!in_array($newRole, $availableRoles)) {
+          $db->rollBack();
+          $session->addErrorMessage('Invalid role transition from ' . $oldRole . ' to ' . $newRole);
+          redirectToPreviousPage();
+        }
+
+        if ($oldRole === 'User') { // transitions from User only make insertions
+          $stmt = $db->prepare("INSERT INTO $newRole (id) VALUES (?)");
+          $stmt->execute([$userId]);
+        } else if ($newRole === 'User') { // transitions to User only make deletions
+          $stmt = $db->prepare("DELETE FROM $oldRole WHERE id = ?");
+          $stmt->execute([$userId]);
         } else { // transitions to/from other roles require both insertion and deletion
-          $stmt = $db->prepare('DELETE FROM ? WHERE id = ?');
-          $stmt->execute([$oldRole, $userId]);
-          $stmt = $db->prepare('INSERT INTO ? (id) VALUES (?)');
-          $stmt->execute([$newRole, $userId]);
+          $stmt = $db->prepare("DELETE FROM $oldRole WHERE id = ?");
+          $stmt->execute([$userId]);
+          $stmt = $db->prepare("INSERT INTO $newRole (id) VALUES (?)");
+          $stmt->execute([$userId]);
         }
 
         // bump role change counter atomically within the transaction (used for role confirmation)

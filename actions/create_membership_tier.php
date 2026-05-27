@@ -19,8 +19,11 @@
         redirectToPreviousPage();
     }
 
-    validateCSRFToken($_POST['csrf_token'], $session);
-
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
+        redirectToPreviousPage();
+    }
+    
     $name = trim((string)$_POST['name']);
     if(!validateText($name)) {
         $session->addErrorMessage('Invalid name. Please use only letters and spaces.');

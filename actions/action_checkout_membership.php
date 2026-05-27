@@ -21,7 +21,10 @@
         redirectToPreviousPage();
     }
 
-    validateCSRFToken($_POST['csrf_token'], $session);
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
+        redirectToPreviousPage();
+    }
 
     $tier_id = (int) $_POST['tier_id'];
     if($tier_id <= 0) {
