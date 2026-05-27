@@ -46,8 +46,12 @@
         ClassType::create($db, $name, $description, $trainerId, $capacity, $startTime, $endTime, $weekday);
         $session->addSuccessMessage('Class created successfully.');
         redirectToPreviousPage();
-    } catch (Exception $e) {
-        $session->addErrorMessage('Error creating class: ' . $e->getMessage());
+    } catch (PDOException $e) {
+        if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
+            $session->addErrorMessage('Error creating class: This class overlaps with another class for the same trainer.');
+        } else {
+            $session->addErrorMessage('Error creating class: ' . $e->getMessage());
+        }
         redirectToPreviousPage();
     }
 ?>

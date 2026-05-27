@@ -51,6 +51,10 @@ function checkExistingMember(PDO $db, int $member_id) {
         exit;
     }
 
+    // Update the role
+    require_once (__DIR__ . '/../database/roleManager.class.php');
+    RoleManager::changeUserRole($db, $session->getId(), $session->getRole(), 'Member', $session);
+
     // First month insertion
     try {
         $db->beginTransaction();
@@ -63,9 +67,9 @@ function checkExistingMember(PDO $db, int $member_id) {
         $stmt->execute([$session->getId(), 'active', $tier_id, $tier->getMonthlyFee(), 'paid']);
         
         $db->commit();
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         $db->rollBack();
-        $session->addErrorMessage('Error creating first month of membership.');
+        $session->addErrorMessage('Error creating first month of membership.' . $e->getMessage());
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -74,6 +78,7 @@ function checkExistingMember(PDO $db, int $member_id) {
     if($duration > 1) {
         try {
         $db->beginTransaction();
+
         for ($i = 1; $i < $duration; $i++) {
             $month_offset = "+" . $i . " months";
             $next_month_offset = "+" . ($i + 1) . " months";
@@ -106,9 +111,6 @@ function checkExistingMember(PDO $db, int $member_id) {
     require_once (__DIR__ . '/../database/authenticated_user.class.php');
     $user = AuthenticatedUser::getUser($db, $session->getId());
 
-    // Update the role
-    require_once (__DIR__ . '/../database/roleManager.class.php');
-    RoleManager::changeUserRole($db, $session->getId(), $session->getRole(), 'Member', $session);
     // Update the session role
     $session->setRole('Member');
 

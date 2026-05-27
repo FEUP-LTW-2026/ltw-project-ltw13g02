@@ -50,9 +50,9 @@ CREATE TABLE Trainer (
     
     CONSTRAINT PK_Trainer PRIMARY KEY (id),
     CONSTRAINT FK_Trainer_User 
-        FOREIGN KEY (id) 
-        REFERENCES User(id) 
-        ON DELETE CASCADE 
+        FOREIGN KEY (id)
+        REFERENCES User(id)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
@@ -350,43 +350,33 @@ END;
 
 -- o botão é desativado quando é clicado no frontend pelo que um double click não é possível
 
--- can only delete classes that did not occur yet
-CREATE TRIGGER BlockDeleteOfPastClasses
-BEFORE DELETE ON Class
-FOR EACH ROW
-WHEN OLD.start_timestamp <= datetime('now', 'localtime')
-BEGIN
-    SELECT RAISE(ABORT, 'Cannot delete classes that have already started or ended.'); 
-    -- ABORT -> stops the statement and rolls back changes (all or nothing)
-    -- can be catched as an exception using the pdo
-END;
 
--- verificar possivelmente se a inserção de uma nova aula não interfere com as aulas já existentes desse treinador (trigger)
-CREATE TRIGGER BlockInsertionOfOverlappingClasses
-BEFORE INSERT ON Class
+CREATE TRIGGER BlockInsertionOfClassTypes
+BEFORE INSERT ON ClassType
 FOR EACH ROW
 BEGIN
     SELECT RAISE(ABORT, 'Cannot insert overlapping classes for the same trainer.')
     WHERE EXISTS (
         SELECT 1
-        FROM Class
-        JOIN ClassType ON Class.class_type_id = ClassType.id
-        WHERE ClassType.trainer_id = (SELECT trainer_id FROM ClassType WHERE id = NEW.class_type_id)
-        AND (datetime(start_timestamp) < datetime(NEW.end_timestamp) AND datetime(end_timestamp) > datetime(NEW.start_timestamp))
+        FROM ClassType
+        WHERE trainer_id = NEW.trainer_id
+        AND weekday = NEW.weekday
+        AND (start_time < NEW.end_time AND end_time > NEW.start_time)
     );
 END;
 
 -- only delete classes that did not occur yet (start_time > curr_time)
 -- deleting every enrollment associated with this class
 -- (enrolled, waitlisted, cancelled)
-CREATE TRIGGER DeleteEnrollmentsAfterClassDeletion
-AFTER DELETE ON Class
-FOR EACH ROW
-WHEN datetime(OLD.start_timestamp) > datetime('now', 'localtime')
-BEGIN
-    DELETE FROM Enrollment
-    WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
-END;
+
+--- CREATE TRIGGER DeleteEnrollmentsAfterClassDeletion
+--- AFTER DELETE ON Class
+--- FOR EACH ROW
+--- WHEN datetime(OLD.start_timestamp) > datetime('now', 'localtime')
+--- BEGIN
+---    DELETE FROM Enrollment
+---    WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
+--- END;
 
 -- ON UPDATE TRIGGER: When a user is deactivated, 
 -- all enrollments in future classes (start_time > current_time) 
