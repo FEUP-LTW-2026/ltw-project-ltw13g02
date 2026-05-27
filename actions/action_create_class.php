@@ -15,7 +15,10 @@
     }
 
     $required = ['name', 'description', 'trainer_id', 'capacity', 'weekday', 'start_time', 'end_time', 'csrf_token'];
-    validateRequiredFields($required);
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
+        redirectToPreviousPage();
+    }
 
     if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token. Please try again.');

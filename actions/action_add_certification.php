@@ -40,6 +40,7 @@
 
     try {
         Trainer::addCertification($db, $session->getId(), $certificationId);
+        $session->addSuccessMessage('Certification added successfully.');
     } catch (PDOException $e) {
         error_log($e->getMessage());
         $session->addErrorMessage('Failed to add certification: ' . $e->getMessage());

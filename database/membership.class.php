@@ -72,5 +72,10 @@
             }
             return [$activeMemberships, $otherStatusMemberships];
         }
+
+		public static function cancelMembership(PDO $db, int $membershipId): void {
+			$stmt = $db->prepare('UPDATE Membership SET status = "cancelled" WHERE id = ?');
+			$stmt->execute([$membershipId]);
+		}
     }
 ?>
