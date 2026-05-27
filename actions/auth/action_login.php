@@ -2,22 +2,24 @@
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../../utils/session.php');
+    require_once(__DIR__ . '/../../database/connection.db.php');
+    require_once(__DIR__ . '/../../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../../utils/helpers.php');
 
     $session = new Session();
     
     // Verify if the form fields are empty
     if (empty($_POST['email-username']) || empty($_POST['password'])) {
         $session->addErrorMessage('All fields are mandatory.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']); // HTTP redirect to the previous page
-        exit;
+        redirectToPreviousPage();
     }
 
-    require_once(__DIR__ . '/../../database/connection.db.php');
-    require_once(__DIR__ . '/../../database/authenticated_user.class.php');
+    $emailUsername = trim((string) $_POST['email-username']);
+    $password = (string) $_POST['password'];
 
     $db = getDatabaseConnection();
     try {
-        $user = AuthenticatedUser::getUserWithPassword($db, $_POST['email-username'], $_POST['password']);
+        $user = AuthenticatedUser::getUserWithPassword($db, $emailUsername, $password);
 
         if ($user) {
             $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, $user->getId());
@@ -45,5 +47,5 @@
     } catch (PDOException $e) {
         $session->addErrorMessage('Database error: ' . $e->getMessage());
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    redirectToPreviousPage();
 ?>

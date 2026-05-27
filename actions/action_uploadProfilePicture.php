@@ -4,13 +4,14 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
-        header('Location: ../pages/login.php');
-        exit;
+        redirectToLogin();
     }
     
     // Create folders if they don't exist
@@ -23,14 +24,12 @@
     if (!$user) {
         $session->logout();
         $session->addErrorMessage('User not found. Please log in again.');
-        header('Location: ../pages/login.php');
-        exit;
+        redirectToLogin();
     }
 
-    if($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     // TODO: check this validation   
@@ -38,7 +37,7 @@
     $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
     if ($_FILES['profile-picture']['size'] > $maxFileSize) {
         $session->addErrorMessage('File size exceeds 5MB limit. Please upload a smaller image.');
-        header('Location: ../pages/editProfile.php');
+        redirectToPreviousPage();
         exit;
     }
 

@@ -143,6 +143,7 @@
                   <div class="role-update-container">
                       <span><?= htmlspecialchars($user->getRole()) ?></span>
                       <form action="../actions/action_changeRole.php" method="POST" id="role-form-<?= (int) $user->getId() ?>" class="role-update-form">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                         <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                         <input type="hidden" name="user_name" value="<?= htmlspecialchars($user->getUsername()) ?>">
                         <input type="hidden" name="old_role_table" value="<?= htmlspecialchars($user->getRole()) ?>">

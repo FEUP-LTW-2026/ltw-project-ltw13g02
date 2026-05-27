@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+  require_once(__DIR__ . '/../utils/helpers.php');
+
   class RoleManager {
     private array $validTransitions;
 
@@ -27,44 +30,37 @@
         if ($oldRole === $newRole) {
           $db->rollBack();
           $session->addErrorMessage('User already has the role: ' . $newRole);
-          header('Location: ' . $_SERVER['HTTP_REFERER']);
-          exit;
+          redirectToPreviousPage();
         }
         
-        if ($oldRole === 'AuthenticatedUser' && $newRole === 'Member') {
-          $stmt = $db->prepare('INSERT INTO Member (id) VALUES (?)');
-          $stmt->execute([$userId]);
-          
-        } else {
-          if ($oldRole === 'AuthenticatedUser') {
-            $stmt = $db->prepare('INSERT INTO ' . $newRole . ' (id) VALUES (?)');
-            $stmt->execute([$userId]);
-          } else if ($newRole === 'AuthenticatedUser') {
-            $stmt = $db->prepare('DELETE FROM ' . $oldRole . ' WHERE id = ?');
-            $stmt->execute([$userId]);
-          } else {
-            $stmt = $db->prepare('DELETE FROM ' . $oldRole . ' WHERE id = ?');
-            $stmt->execute([$userId]);
-            $stmt = $db->prepare('INSERT INTO ' . $newRole . ' (id) VALUES (?)');
-            $stmt->execute([$userId]);
-          }
+        if ($oldRole === 'AuthenticatedUser') { // transitions from AuthenticatedUser only make insertions
+          $stmt = $db->prepare('INSERT INTO ? (id) VALUES (?)');
+          $stmt->execute([$newRole, $userId]);
+        } else if ($newRole === 'AuthenticatedUser') { // transitions to AuthenticatedUser only make deletions
+          $stmt = $db->prepare('DELETE FROM ? WHERE id = ?');
+          $stmt->execute([$oldRole, $userId]);
 
-          // bump role change counter atomically within the transaction
-          self::updateRoleChangeCount($db, $userId);
+        } else { // transitions to/from other roles require both insertion and deletion
+          $stmt = $db->prepare('DELETE FROM ? WHERE id = ?');
+          $stmt->execute([$oldRole, $userId]);
+          $stmt = $db->prepare('INSERT INTO ? (id) VALUES (?)');
+          $stmt->execute([$newRole, $userId]);
         }
 
+        // bump role change counter atomically within the transaction (used for role confirmation)
+        self::updateRoleChangeCount($db, $userId);
+      
         $db->commit();
         $session->addSuccessMessage('Role for user changed successfully.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
+        
       } catch (Exception $e) {
         if ($db->inTransaction()) {
           $db->rollBack();
         }
         $session->addErrorMessage('Error changing role: ' . $e->getMessage());
         $session->addErrorMessage('Failed to change role for user. Please try again.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
       }
     }
   }

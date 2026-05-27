@@ -5,18 +5,13 @@
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
     require_once(__DIR__ . '/../database/trainer.class.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn() || !$session->isAdmin()) {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
-    }
-
-    function redirectToPreviousPage() {
-        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '../pages/admin.php#membership-tiers'));
-        exit;
+        redirectToPreviousPage();
     }
 
     $required = ['name', 'description', 'trainer_id', 'capacity', 'start_time', 'end_time', 'weekday', 'csrf_token'];
@@ -27,14 +22,21 @@
         }
     }
 
-    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
-        $session->addErrorMessage('Invalid CSRF token. Please try again.');
-        redirectToPreviousPage();
-    }
+    validateCSRFToken($_POST['csrf_token'], $session);
 
     $classTypeId = (int) $_POST['class_id'];
     $name = trim((string) $_POST['name']);
+    if (!validateText($name)) {
+        $session->addErrorMessage('Class name can only contain letters, numbers and spaces.');
+        redirectToPreviousPage();
+    }
+
     $description = trim((string) $_POST['description']);
+    if (!validateText($description)) {
+        $session->addErrorMessage('Class description can only contain letters, numbers and spaces.');
+        redirectToPreviousPage();
+    }
+
     $trainerId = (int) $_POST['trainer_id'];
     $capacity = (int) $_POST['capacity'];
     $weekday = (string) $_POST['weekday'];

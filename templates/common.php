@@ -128,16 +128,7 @@
               </ul>
             </nav>
           </section>
-          <section>
-            <h3>Legal</h3>
-            <nav>
-              <ul>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-              </ul>
-            </nav>
-          </section>
+        
           <section>
             <h3>Contact</h3>
             <address>

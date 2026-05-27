@@ -4,13 +4,15 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
-    require_once(__DIR__ . '/../utils/role_change_guard.php');
-
+    require_once(__DIR__ . '/../utils/helpers.php');
+    
     $session = new Session();
     
-    $firstName = $_POST['first-name'] ?? '';
-    $lastName = $_POST['last-name'] ?? '';
-    $username = $_POST['username'] ?? '';
+    require_once(__DIR__ . '/../utils/role_change_guard.php');
+    
+    $firstName = trim((string) $_POST['first-name'] ?? '');
+    $lastName = trim((string) $_POST['last-name'] ?? '');
+    $username = trim((string) $_POST['username'] ?? '');
 
     if (!$session->isLoggedIn()) {
         header('Location: ../pages/login.php');
@@ -19,26 +21,22 @@
 
     if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
         $session->addErrorMessage('Invalid CSRF token.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z]*$/', $firstName)) {
         $session->addErrorMessage('First name can only contain letters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z]*$/', $lastName)) {
         $session->addErrorMessage('Last name can only contain letters.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     if (!preg_match('/^[a-zA-Z0-9_]*$/', $username)) {
         $session->addErrorMessage('Username can only contain letters, numbers and underscores.');
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        redirectToPreviousPage();
     }
 
     $db = getDatabaseConnection();
@@ -59,8 +57,7 @@
 
         if (!AuthenticatedUser::isUsernameAvailable($db, $username) && $username !== $user->getUsername()) {
             $session->addErrorMessage('That username is already in use.');
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+            redirectToPreviousPage();
         }
 
         $user->setUsername($username);

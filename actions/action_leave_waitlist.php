@@ -1,39 +1,37 @@
 <?php
     declare(strict_types=1);
 
-    // TODO: require_once in the beggining of the file or in the middle?
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/gymClass.class.php');
     require_once(__DIR__ . '/../database/enrollment.class.php');
+    require_once(__DIR__ . '/../utils/helpers.php');
 
     $session = new Session();
+
     require_once(__DIR__ . '/../utils/role_change_guard.php');
 
     if (!$session->isLoggedIn()) {
-        header('Location: ../pages/login.php');
-        exit;
+        redirectToLogin();
     }
 
-    // TODO: this function is needed in almost every action file (create a helper function?)
-    function redirectToPreviousPage() {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
-    }
-
-    // Validate input
-    $classId = $_POST['class_id'] ?? null;
-    if (empty($classId)) {
+    if(empty($_POST['class_id'])) {
         $session->addErrorMessage('Class ID is required.');
         redirectToPreviousPage();
     }
-
-    if ($_POST['csrf_token'] !== $session->getCSRFToken()) {
+    
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token.');
         redirectToPreviousPage();
     }
 
-    $classId = (int)$classId;
+    // Validate input
+    $classId = (int)$_POST['class_id'];
+    if ($classId <= 0) {
+        $session->addErrorMessage('Invalid class ID.');
+        redirectToPreviousPage();
+    }
+
     $memberId = $session->getId();
     $db = getDatabaseConnection();
 
