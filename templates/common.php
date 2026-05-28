@@ -153,12 +153,12 @@
 <?php } ?>
 
 
-<?php function drawProfilePicture(int $userId) {
-   $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg'; ?>
+<?php function drawPicture(int $userId, string $path) {
+   $photoUrl = file_exists('../img/'.$path.'/' . $userId . '.jpg')
+      ? '../img/'.$path.'/' . $userId . '.jpg'
+      : '../img/'.$path.'/default.jpg'; ?>
 
-    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">';
+    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">
 <?php } ?>
 
 <?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
