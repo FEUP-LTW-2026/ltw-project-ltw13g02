@@ -40,12 +40,15 @@
 
   $roleManager = new RoleManager();
 
-  echo '<script src="../javascript/searchByUserName.js" defer></script>';
-  echo '<script src="../javascript/addMembershipTier.js" defer></script>';
-  echo '<script src="../javascript/classCatalog.js" defer></script>';
 
   drawAdminPanel($users, $db, $tiers, $roleManager, $classesByWeekday, $trainers, $session);
+  drawFooter();
+
 ?>
 
-<?php drawFooter() ?>
+<script src="../javascript/adminNav.js" defer></script>
+<script src="../javascript/searchByUserName.js" defer></script>
+<script src="../javascript/addMembershipTier.js" defer></script>
+<script src="../javascript/classCatalog.js" defer></script>
+<script src="../javascript/script.js" defer></script>
 

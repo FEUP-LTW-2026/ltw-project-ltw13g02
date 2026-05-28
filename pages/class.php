@@ -36,3 +36,5 @@
 
   drawFooter();
 ?>
+
+<script src="../javascript/enrollment.js" defer></script>
