@@ -186,56 +186,7 @@
       }
     }
 
-    & .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-top: var(--space-m);
-      border: 1px solid var(--color-secondary-border);
-      border-radius: var(--radius-button);
-    }
-
     & .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 0;
-
-      & th, & td {
-        padding: var(--space-m);
-        border-bottom: 1px solid var(--color-secondary-border);
-        text-align: left;
-      }
-
-      & th {
-        background-color: var(--color-even-section);
-        color: var(--color-gray);
-        font-weight: var(--weight-strong);
-        text-transform: uppercase;
-        font-size: var(--font-size-xs);
-        letter-spacing: 0.05em;
-      }
-
-      & tbody tr:hover {
-        background-color: var(--color-even-section);
-      }
-
-      & tbody tr:last-child th,
-      & tbody tr:last-child td {
-        border-bottom: none;
-      }
-
-      & .actions{
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-xs);
-        padding: var(--space-xs);
-
-        & button {
-          padding: var(--space-xxs);
-          width: 100%;
-        }
-      }
-
       & .role-update-container {
         display: flex;
         align-items: center;

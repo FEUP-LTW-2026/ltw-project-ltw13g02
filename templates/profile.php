@@ -97,7 +97,7 @@
       <p>You don't have any memberships yet.</p>
       <a class="btn medium blue" href="../pages/index.php#membership">Purchase Membership</a>
     <?php } else { ?>
-      <div class="table-responsive memberships-table-responsive">
+      <div class="table-container">
         <table class="data-table memberships-table">
           <thead>
             <tr>
@@ -115,7 +115,7 @@
             ?>
               <tr>
                 <td><?= htmlspecialchars($membership->tierName); ?></td>
-                <td><?= htmlspecialchars((string) $membership->monthlyFee); ?></td>
+                <td><?= htmlspecialchars((string) $membership->monthlyFee); ?>€</td>
                 <td><span class="status <?= htmlspecialchars($membership->status) ?>"><?= htmlspecialchars($membership->status); ?></span></td>
                 <td><?= htmlspecialchars($membership->startTimestamp); ?></td>
                 <td><?= htmlspecialchars($membership->endTimestamp); ?></td>

@@ -122,7 +122,7 @@
     </header>
     <!-- Search bar for filtering users, by username -->
     <input type="text" id="search-bar" placeholder="Search users by username...">
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="data-table">
         <thead>
           <tr>
@@ -352,7 +352,7 @@
       <button id="add-class-btn" class="btn transparent-dark medium">+ Add Class</button>
     </header>
 
-    <div class="table-responsive">
+    <div class="table-container">
       <div class="schedule-grid">
         <?php foreach ($classesByWeekday as $index => $classes) { 
           $weekDay = ClassType::$weekdays[$index];
@@ -375,7 +375,7 @@
       </div>
       <button class="btn transparent-dark medium">+ Add Equipment</button>
     </header>
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="data-table">
         <thead>
           <tr>
