@@ -160,7 +160,8 @@ CREATE TABLE Class (
         REFERENCES ClassType(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp))
+    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp)),
+    CONSTRAINT ValidStatus CHECK (status IN ('scheduled', 'completed'))
 );
 
 -- Using a trigger checks before if the user has attended that class_type 
@@ -196,7 +197,7 @@ CREATE TABLE Enrollment (
     status_update_timestamp TEXT NOT NULL, -- timestamp of the last status update
     -- add constraints and checks
     CONSTRAINT PK_Enrollment PRIMARY KEY (id),
-    CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted', 'missed')),
+    CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted')),
     CONSTRAINT FK_Enrollment_member 
         FOREIGN KEY (member_id) 
         REFERENCES Member(id)

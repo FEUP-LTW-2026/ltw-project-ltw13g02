@@ -101,8 +101,8 @@ INSERT INTO ClassType (id, trainer_id, name, description, capacity, start_time, 
 (8, 5, 'Recovery Reset', 'Mobility, stretching, and recovery work to finish the week well.', 12, '10:00', '11:00', 6);
 
 INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VALUES
-(1, 1, '2026-06-01 07:00:00', '2026-06-01 08:00:00', 'scheduled'),
-(2, 5, '2026-06-01 18:30:00', '2026-06-01 19:30:00', 'scheduled'),
+(1, 1, '2026-04-01 07:00:00', '2026-04-01 08:00:00', 'scheduled'),
+(2, 5, '2026-04-01 18:30:00', '2026-04-01 19:30:00', 'scheduled'),
 (3, 3, '2026-06-02 07:30:00', '2026-06-02 08:30:00', 'scheduled'),
 (4, 7, '2026-06-02 18:00:00', '2026-06-02 19:00:00', 'scheduled'),
 (5, 6, '2026-06-03 07:00:00', '2026-06-03 08:00:00', 'scheduled'),

@@ -31,6 +31,12 @@
             $session->setRole($user->getRole());
             $session->setIsActive($user->IsActive());
 
+            if(!$session->IsActive()) {
+                $session->addInactiveAccountMessage();
+                header('Location: /../../pages/index.php');
+                exit;
+            }
+
             // Ensure a CSRF token exists for the session
             $session->generateCSRFToken();
 

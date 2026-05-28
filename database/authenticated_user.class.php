@@ -240,5 +240,11 @@
             $stmt->execute([$userId]);
             return $stmt->fetchColumn();
         }
+
+        public static function isUserActive(PDO $db, int $userId): bool {
+            $stmt = $db->prepare('SELECT is_active FROM User WHERE id = ?');
+            $stmt->execute([$userId]);
+            return (bool) $stmt->fetchColumn();
+        }
     }
 ?>

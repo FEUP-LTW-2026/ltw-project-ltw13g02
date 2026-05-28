@@ -16,6 +16,12 @@
   $db = getDatabaseConnection();
   require_once __DIR__ . '/../database/authenticated_user.class.php';
 
+  if (!AuthenticatedUser::isUserActive($db, (int) $session->getId())) {
+    $session->addInactiveAccountMessage();
+    header('Location: ../pages/index.php');
+    exit;
+  }
+
   $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, (int) $session->getId());
 
   if ($roleChangeCount !== $session->getRoleChangeCount()) {

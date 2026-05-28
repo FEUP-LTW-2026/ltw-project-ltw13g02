@@ -13,7 +13,7 @@
 
   $session = new Session();
   $db = getDatabaseConnection();
-  require_once (__DIR__ . '/../utils/role_change_guard.php');
+  require_once (__DIR__ . '/../utils/protected_file_guard.php');
 
   $user = AuthenticatedUser::getUser($db, $session->getId());
 
@@ -60,6 +60,7 @@
   echo '<script src="../javascript/addMembershipTier.js" defer></script>';
   echo '<script src="../javascript/equipmentAdmin.js" defer></script>';
   echo '<script src="../javascript/classCatalog.js" defer></script>';
+  echo '<script src="../javascript/addInputFields.js" defer></script>';
 
   drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager, $classesByWeekday, $trainers, $perksMap);
 ?>

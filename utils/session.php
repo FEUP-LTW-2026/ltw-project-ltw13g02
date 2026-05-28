@@ -9,10 +9,6 @@ class Session {
 
         $this->messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
         unset($_SESSION['messages']);
-
-        if (isset($_SESSION['is_active']) && !$_SESSION['is_active']) {
-            $this->addInactiveAccountMessage();
-        }
     }
 
     public function isLoggedIn() : bool {
@@ -23,6 +19,7 @@ class Session {
         session_destroy();
     }
 
+    // Used so that the user can see the message after being redirected to the login page by the guard
     public function invalidateAuth(): void {
         unset($_SESSION['id'], $_SESSION['username'], $_SESSION['email'], $_SESSION['role'], $_SESSION['role_change_count'], $_SESSION['is_active']);
     }
