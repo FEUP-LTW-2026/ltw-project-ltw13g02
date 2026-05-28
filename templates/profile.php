@@ -71,36 +71,77 @@
       <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
       <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
     </form>
+  </li>
 <?php } ?>
 
 <?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
   <ul class="scheduled-classes">
-    <?php {
+    <?php
       foreach ($classes as $class) {
         drawWaitlistedClass($class, $session);
       }
-    } ?>
+    ?>
   </ul>
 <?php } ?>
 
 <?php function drawWaitlistedClassesContainer(array $classes, Session $session) { ?>
-  <section id="waitlisted-classes">
+  <section class="container" id="waitlisted-classes">
     <h2>Waitlisted Classes</h2>
     <?php drawWaitlistedClasses($classes, $session); ?>
   </section>
 <?php } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, Session $session) {
+<?php function drawMemberships(int $numMemberships, Session $session) { ?>
+  <section class="container">
+    <h2>My Memberships</h2>
+    <?php if ($numMemberships === 0) { ?>
+      <p>You don't have any memberships yet.</p>
+      <a class="btn medium blue" href="../pages/index.php#membership">Purchase Membership</a>
+    <?php } else { ?>
+      <div class="table-container">
+        <table class="data-table memberships-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Fee</th>
+              <th>Status</th>
+              <th>Valid From</th>
+              <th>Valid Until</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody
+            id="membership-table-body"
+            data-page="1"
+            data-memberships-per-page="5"
+            data-num-memberships="<?= $numMemberships ?>"
+            data-csrf-token="<?= htmlspecialchars($session->getCSRFToken()) ?>"
+          >
+          </tbody>
+        </table>
+      </div>
+
+      <nav class="pagination">
+        <button class="btn medium transparent-dark" id="prev-membership-page">Previous</button>
+        <button class="btn medium transparent-dark" id="next-membership-page">Next</button>
+      </nav>
+      
+  </section>
+  <?php }
+} ?>
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, int $numMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
-  <div>
     <section class="container">
       <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
 
-      <?php drawEnrolledClassesContainer($classes, $session);
-      if (!empty($waitlistedClasses)) {
-        drawWaitlistedClassesContainer($waitlistedClasses, $session);
-      } ?>
-
+      <?php drawEnrolledClassesContainer($classes, $session); ?>
     </section>
-  </div>
+
+    
+    <?php if (!empty($waitlistedClasses)) {
+        drawWaitlistedClassesContainer($waitlistedClasses, $session);
+      }
+      drawMemberships($numMemberships, $session); ?>
+    </section>
 <?php } ?>

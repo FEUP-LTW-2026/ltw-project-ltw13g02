@@ -260,7 +260,7 @@ CREATE TABLE Membership(
         ON UPDATE CASCADE,
     CONSTRAINT ValidMembershipStatus CHECK (
         status IN ('active', 'planned', 'pending', 'expired',
-                   'suspended', 'cancelled_by_user', 'cancelled')
+                   'suspended', 'cancelled')
     ),
     CONSTRAINT ValidPaymentStatus CHECK (
         payment_status IN ('paid', 'failed', 'pending')
@@ -314,7 +314,7 @@ END;
 CREATE TRIGGER DeactivateMemberWhenNoActiveMemberships
 AFTER UPDATE ON Membership
 FOR EACH ROW
-WHEN NEW.status IN ('expired', 'cancelled', 'cancelled_by_user')
+WHEN NEW.status IN ('expired', 'cancelled')
 BEGIN
     UPDATE User
     SET is_active = 0
@@ -363,6 +363,21 @@ BEGIN
         WHERE trainer_id = NEW.trainer_id
         AND weekday = NEW.weekday
         AND (start_time < NEW.end_time AND end_time > NEW.start_time)
+    );
+END;
+
+CREATE TRIGGER BlockUpdateOfClassTypes
+BEFORE UPDATE ON ClassType
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot update to overlapping classes for the same trainer.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM ClassType
+        WHERE trainer_id = NEW.trainer_id
+        AND weekday = NEW.weekday
+        AND (start_time < NEW.end_time AND end_time > NEW.start_time)
+        AND id != NEW.id  -- exclude the row being updated
     );
 END;
 
