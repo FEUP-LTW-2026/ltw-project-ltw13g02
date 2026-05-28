@@ -4,6 +4,8 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../utils/helpers.php');
+    require_once(__DIR__ . '/../database/membership_tier.class.php');
+    require_once(__DIR__ . '/../database/membership_tier_perk.class.php');
 
     $session = new Session();
 
@@ -47,24 +49,42 @@
         redirectToPreviousPage();
     }
 
-    $db = getDatabaseConnection();
-
-    $description = '';
-    if (isset($_POST['description']) && is_array($_POST['description'])) {
-      // Artificially add semicolons
-      for($i = 0; $i < count($_POST['description']); $i++) {
-        // Only add semicolon if it's not the last element
-        $_POST['description'][$i] = trim($_POST['description'][$i]) . ($i < count($_POST['description']) - 1 ? ';' : '');
-      }
-      $description = implode('', $_POST['description']);
+    $perks = [];
+    foreach ($_POST['perks'] as $perk) {
+        $perk = trim((string)$perk);
+        if (!validateTextBox($perk)) {
+            $session->addErrorMessage('Invalid perk description. Please use only letters, numbers, spaces, and basic punctuation, and limit to 500 characters.');
+            redirectToPreviousPage();
+        }
+        $perks[] = $perk;
     }
 
-    try {
-        $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, description = ?, monthly_fee = ?, booking_window_days = ? WHERE id = ?');
-        $stmt->execute([$name, $description, $price, $bookingWindowDays, $tierId]);
 
+    $db = getDatabaseConnection();
+    
+
+    try {
+        $db->beginTransaction();
+        $membership = MembershipTier::getMembershipTierById($db, $tierId);
+        if($membership){
+            $membership->setName($name);
+            $membership->setMonthlyFee($price);
+            $membership->setBookingWindowDays($bookingWindowDays);
+            $membership->save($db);
+        }
+        // Delete existing perks
+        MembershipTierPerk::deleteByMembershipTierId($db, $tierId);
+
+        // Insert new perks
+        foreach ($perks as $perk) {
+            MembershipTierPerk::create($db, $tierId, $perk);
+        }
+        $db->commit();
         $session->addSuccessMessage('Membership tier updated successfully.');
     } catch (PDOException $e) {
+        if($db->inTransaction()) {
+            $db->rollBack();
+        }
         $session->addErrorMessage('Database error occurred while updating the tier.');
     }
 

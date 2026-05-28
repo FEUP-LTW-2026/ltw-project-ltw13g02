@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS MembershipTier;
 DROP TABLE IF EXISTS EquipmentType;
 DROP TABLE IF EXISTS Timeslot;
 DROP TABLE IF EXISTS EquipmentBooking;
+DROP TABLE IF EXISTS MembershipTierPerk;
 
 PRAGMA foreign_keys = ON;
 
@@ -291,7 +292,6 @@ END;
 CREATE TABLE MembershipTier(
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
     monthly_fee REAL NOT NULL,
     booking_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
     is_active INTEGER NOT NULL DEFAULT 1, -- whether the tier is active and can be subscribed to by users
@@ -299,6 +299,19 @@ CREATE TABLE MembershipTier(
     CONSTRAINT PK_MembershipTier PRIMARY KEY (id),
     CONSTRAINT ValidMonthlyFee CHECK (monthly_fee > 0),
     CONSTRAINT ValidBookingWindow CHECK (booking_window_days > 0)
+);
+
+CREATE TABLE MembershipTierPerk (
+    id INTEGER NOT NULL,
+    membership_tier_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+
+    CONSTRAINT PK_MembershipTierPerk PRIMARY KEY (id),
+    CONSTRAINT FK_MembershipTierPerk_MembershipTier
+        FOREIGN KEY (membership_tier_id)
+        REFERENCES MembershipTier(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- membership start_timestamp is one day after the payment due date
@@ -509,5 +522,17 @@ BEGIN
         SELECT 1
         FROM EquipmentBooking
         WHERE member_id = NEW.member_id AND booking_date = NEW.booking_date AND timeslot_id = NEW.timeslot_id
+    );
+END;
+
+CREATE TRIGGER PreventBookingUnavailableEquipment
+BEFORE INSERT ON EquipmentBooking
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot book equipment that is not available.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM Equipment
+        WHERE id = NEW.equipment_id AND status != 'available'
     );
 END;

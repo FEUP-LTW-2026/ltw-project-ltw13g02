@@ -41,10 +41,15 @@
     EquipmentBooking::create($db, $memberId, $equipmentId, $timeslotId, $bookingDate);
     $session->addSuccessMessage('Equipment reserved successfully!');
   } catch (PDOException $e) {
-    if(str_contains($e->getMessage(), 'Cannot book multiple equipments for the same timeslot')) {
-      $session->addErrorMessage('Cannot book multiple equipments for the same timeslot.');
-    } else {
-      $session->addErrorMessage('Failed to reserve the desired equipment.');
+    switch ($e->getMessage()){
+      case str_contains($e->getMessage(), 'Cannot book multiple equipments for the same timeslot'):
+        $session->addErrorMessage('Cannot book multiple equipments for the same timeslot.');
+        break;
+      case str_contains($e->getMessage(), 'Cannot book equipment that is not available'):
+        $session->addErrorMessage('The selected equipment is not available.');
+        break;
+      default:
+        $session->addErrorMessage('Failed to reserve the desired equipment.');
     }
   }
 

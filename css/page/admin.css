@@ -270,7 +270,7 @@
 
     & ul.stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: var(--space-l);
 
       & article {
@@ -279,9 +279,10 @@
         padding: var(--space-m);
         border-radius: var(--radius-button);
         text-align: center;
+        height: 100%;
 
         & h4 {
-          margin: 0 0 0.5rem 0;
+          margin: 0 0 var(--space-s) 0;
           font-size: var(--font-size-s);
           color: var(--color-gray);
         }
@@ -292,7 +293,7 @@
 
         & .stat-number {
           margin: 0;
-          font-size: var(--font-size-xl);
+          font-size: var(--font-size-m);
           font-weight: 700;
           color: var(--color-primary);
         }
@@ -689,6 +690,10 @@
 
   @media (max-width: 60em) {
     #trainer-creation fieldset {
+      grid-template-columns: 1fr;
+    }
+
+    ul.stats-grid {
       grid-template-columns: 1fr;
     }
   }

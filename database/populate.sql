@@ -93,8 +93,24 @@ INSERT INTO EquipmentBooking (id, equipment_id, member_id, booking_date, timeslo
 (1, 1, 3, '2026-05-27', 12),
 (2, 1, 4, '2026-05-27', 6);
 
-INSERT INTO MembershipTier (id, name, description, monthly_fee, booking_window_days, is_active) VALUES 
-(1, 'Basic', 'Full gym access; Access to locker rooms; 1 group class per week; Basic fitness assessment;1 day of booking window for classes', 19.99, 1, 1),
-(2, 'Pro', 'Everything in Standard; Unlimited group classes; Personalized workout plan; Nutrition guidance;Progress tracking every 4 weeks; 2 days of booking window for classes', 29.99, 2, 1),
-(3, 'Elite', 'Everything in Premium; 2 personal training sessions per month; Priority class booking; Access to premium recovery area; Exclusive VIP support;3 days of booking window for classes', 39.99, 3, 1);
+INSERT INTO MembershipTier (id, name, monthly_fee, booking_window_days, is_active) VALUES 
+(1, 'Basic', 19.99, 1, 1),
+(2, 'Pro', 29.99, 2, 1),
+(3, 'Elite', 39.99, 3, 1);
 
+INSERT INTO MembershipTierPerk (id, membership_tier_id, description) VALUES
+(1, 1, 'Full gym access'),
+(2, 1, 'Access to locker rooms'),
+(3, 1, '1 group class per week'),
+(4, 1, 'Basic fitness assessment'),
+(5, 1, '1 day of booking window for classes'),
+(6, 2, 'Unlimited group classes'),
+(7, 2, 'Personalized workout plan'),
+(8, 2, 'Nutrition guidance'),
+(9, 2, 'Progress tracking every 4 weeks'),
+(10, 2, '2 days of booking window for classes'),
+(11, 3, '2 personal training sessions per month'),
+(12, 3, 'Priority class booking'),
+(13, 3, 'Access to premium recovery area'),
+(14, 3, 'Exclusive VIP support'),
+(15, 3, '3 days of booking window for classes');

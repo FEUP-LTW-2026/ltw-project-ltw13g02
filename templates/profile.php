@@ -91,15 +91,15 @@
 
 <?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, Session $session) {
   drawProfile($userId, $name, $username); ?>
-  <div>
-    <section class="container">
-      <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
-
-      <?php drawEnrolledClassesContainer($classes);
-      if (!empty($waitlistedClasses)) {
-        drawWaitlistedClassesContainer($waitlistedClasses, $session);
-      } ?>
-
-    </section>
-  </div>
+  <?php if ($session->isMember()) { ?>
+    <div>
+      <section class="container">
+        <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
+        <?php drawEnrolledClassesContainer($classes);
+        if (!empty($waitlistedClasses)) {
+          drawWaitlistedClassesContainer($waitlistedClasses, $session);
+        } ?>
+      </section>
+    </div>
+  <?php } ?>
 <?php } ?>
