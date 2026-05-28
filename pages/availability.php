@@ -39,8 +39,6 @@
     
     drawFooter();
 
-    // PLace scripts here (echo with php)
-
     echo '<script src="../javascript/toggleEquipmentData.js" defer></script>';
   }
 ?>

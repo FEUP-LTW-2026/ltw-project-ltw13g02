@@ -20,8 +20,6 @@
         <p><?= htmlspecialchars($trainer->bio) ?></p>
         <?php if ($trainer->getId() === $session->getId()) { ?>
           <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
-        <?php } else if ($session->isMember()){ ?>
-          <a class="btn medium blue" href="#">Book A Session With <?= htmlspecialchars($trainer->getFullName()) ?></a>
         <?php } ?>
       </div>
     </section>
