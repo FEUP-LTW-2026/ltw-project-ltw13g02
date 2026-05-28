@@ -16,7 +16,8 @@
         redirectToLogin();
     }
 
-    if(empty($_POST['tier_id']) || empty($_POST['duration']) || empty($_POST['payment_type'])) {
+    $required = ['tier_id', 'duration', 'payment_type', 'csrf_token'];
+    if (!validateRequiredFields($required)) {
         $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }

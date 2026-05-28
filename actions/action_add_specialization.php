@@ -41,6 +41,7 @@
 
     try {
         Trainer::addSpecialization($db, $session->getId(), $specializationId);
+        $session->addSuccessMessage('Specialization added successfully.');
     } catch (PDOException $e) {
         error_log($e->getMessage());
         $session->addErrorMessage('Failed to add specialization: ' . $e->getMessage());
