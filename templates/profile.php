@@ -90,80 +90,54 @@
   </section>
 <?php } ?>
 
-<?php function drawMembershipDetailsModal(array $activeMemberships, array $otherStatusMemberships) { ?>
-  <dialog id="membership-details-modal">
-    <section id="membership-details-content">
-      <h3>Membership Details</h3>
-
-      <label>Membership Tier
-        <input type="text" id="membership-tier" readonly>
-      </label>
-
-      <label>Description
-        <input type="text" id="membership-description" readonly>
-      </label>
-
-      <label>Membership Fee
-        <input type="text" id="membership-fee" readonly>
-      </label>
-
-      <label>Status
-        <input type="text" id="membership-status" readonly>
-      </label>
-
-      <label>Valid from
-        <input type="text" id="membership-start" readonly>
-      </label>
-
-      <label>Valid until
-        <input type="text" id="membership-end" readonly>
-      </label>
-
-      <div class="dialog-actions">
-        <button type="button" class="btn medium blue btn-close-dialog">Close</button>
-      </div>
-    </section>
-  </dialog>
-<?php } ?>
-
-<?php function drawMemberships(array $activeMemberships, array $otherStatusMemberships, Session $session) { ?>
+<?php function drawMemberships(array $memberships, Session $session) { ?>
   <section>
-    <h2>Memberships</h2>
-    <?php if (empty($activeMemberships)) { ?>
-      <p>You don't have any active memberships.</p>
+    <h2>My Memberships</h2>
+    <?php if (empty($memberships)) { ?>
+      <p>You don't have any memberships yet.</p>
       <a class="btn medium blue" href="../pages/index.php#membership">Purchase Membership</a>
     <?php } else { ?>
-      <ul class="memberships">
-        <?php foreach ($activeMemberships as $membership) { ?>
-          <li class="membership-card">
-            <h3><?= htmlspecialchars($membership->tierName); ?></h3>
-            <p><?= htmlspecialchars($membership->status); ?></p>
-            <p>Valid from: <?= htmlspecialchars($membership->startTimestamp); ?></p>
-            <p>Valid until: <?= htmlspecialchars($membership->endTimestamp); ?></p>
-
-            <button class="btn medium blue see-membership-details-btn"
-            data-membership-id="<?= $membership->id ?>"
-            data-membership-tier="<?= htmlspecialchars($membership->tierName) ?>"
-            data-membership-description="<?= htmlspecialchars($membership->tierDescription) ?>"
-            data-membership-status="<?= htmlspecialchars($membership->status) ?>"
-            data-membership-start="<?= htmlspecialchars($membership->startTimestamp) ?>"
-            data-membership-end="<?= htmlspecialchars($membership->endTimestamp) ?>"
-            data-membership-fee="<?= $membership->monthlyFee ?>"
-            >See Details</button>
-
-            <form action="../actions/action_cancel_membership.php" method="post">
-              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-              <input type="hidden" name="membership_id" value="<?= $membership->id ?>" />
-              <button type="submit" class="btn medium warning outline">Cancel Membership</button>
-            </form>
-          </li>
-        <?php } ?>
-      </ul>
+      <div class="table-responsive memberships-table-responsive">
+        <table class="data-table memberships-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Fee</th>
+              <th>Status</th>
+              <th>Valid From</th>
+              <th>Valid Until</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              foreach ($memberships as $membership) {
+            ?>
+              <tr>
+                <td><?= htmlspecialchars($membership->tierName); ?></td>
+                <td><?= htmlspecialchars((string) $membership->monthlyFee); ?></td>
+                <td><span class="status <?= htmlspecialchars($membership->status) ?>"><?= htmlspecialchars($membership->status); ?></span></td>
+                <td><?= htmlspecialchars($membership->startTimestamp); ?></td>
+                <td><?= htmlspecialchars($membership->endTimestamp); ?></td>
+                <td class="actions">
+                  <?php if ($membership->status === 'active' || $membership->status === 'planned' || $membership->status === 'pending') { ?>
+                    <form action="../actions/action_cancel_membership.php" method="post">
+                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                      <input type="hidden" name="membership_id" value="<?= $membership->id ?>" />
+                      <button type="submit" class="btn warning">Cancel Membership</button>
+                    </form>
+                  <?php } ?>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
     <?php } ?>
   </section>
 <?php } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $activeMemberships, array $otherStatusMemberships, Session $session) {
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $memberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <div>
     <section class="container">
@@ -173,8 +147,7 @@
       if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       }
-      drawMemberships($activeMemberships, $otherStatusMemberships, $session);
-      drawMembershipDetailsModal($activeMemberships, $otherStatusMemberships); ?>
+      drawMemberships($memberships, $session); ?>
     </section>
   </div>
 <?php } ?>

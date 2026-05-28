@@ -36,41 +36,23 @@
             ');
             $stmt->execute([$memberId]);
 
-            $activeMemberships = [];
-            $otherStatusMemberships = [];
+            $memberships = [];
 
             foreach ($stmt->fetchAll() as $row) {
-
-                if ($row['status'] === 'active' || $row['status'] === 'planned' || $row['status'] === 'pending') {
-                    $activeMemberships[] = new Membership(
-                        $row['id'],
-                        $row['membershipTierId'],
-                        $row['startTimestamp'],
-                        $row['endTimestamp'],
-                        $row['status'],
-                        $row['paymentStatus'],
-                        $row['tierName'],
-                        $row['tierDescription'],
-                        $row['monthlyFee'],
-                        $row['bookingWindowDays']
-                    );
-
-                } else {
-                    $otherStatusMemberships[] = new Membership(
-                        $row['id'],
-                        $row['membershipTierId'],
-                        $row['startTimestamp'],
-                        $row['endTimestamp'],
-                        $row['status'],
-                        $row['paymentStatus'],
-                        $row['tierName'],
-                        $row['tierDescription'],
-                        $row['monthlyFee'],
-                        $row['bookingWindowDays']
-                    );
-                }
-            }
-            return [$activeMemberships, $otherStatusMemberships];
+				$memberships[] = new Membership(
+					$row['id'],
+					$row['membershipTierId'],
+					$row['startTimestamp'],
+					$row['endTimestamp'],
+					$row['status'],
+					$row['paymentStatus'],
+					$row['tierName'],
+					$row['tierDescription'],
+					$row['monthlyFee'],
+					$row['bookingWindowDays']
+				);
+			}
+			return $memberships;
         }
 
 		public static function cancelMembership(PDO $db, int $membershipId): void {
