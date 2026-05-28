@@ -34,10 +34,6 @@
       $this->name = $name;
     }
 
-    public function setDescription(string $description) : void {
-      $this->description = $description;
-    }
-
     public function setStatus(string $status) : void {
       $this->status = $status;
     }

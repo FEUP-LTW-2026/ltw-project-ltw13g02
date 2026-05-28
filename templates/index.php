@@ -23,14 +23,15 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipPlan(int $id, string $planName, float $price, array $features, Session $session) { ?>
+<?php function drawMembershipPlan(int $id, string $planName, float $price, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <article class="card membership-plan">
     <h3><?= htmlspecialchars($planName) ?></h3>
     <p><span><?= $price; ?>€</span>/4 weeks</p>
     <p>What's included:</p>
     <ul>
-      <?php foreach ($features as $feature) { ?>
-        <li><?= htmlspecialchars($feature) ?></li>
+      <?php $perks = $perksMap->getPerksForMembershipTierId($id);
+      foreach ($perks as $perk) { ?>
+        <li><?= htmlspecialchars($perk->getDescription()) ?></li>
       <?php } ?>
     </ul>
     <?php if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
@@ -44,27 +45,25 @@
   </article>
 <?php } ?>
 
-<?php function drawMembershipPlans(array $plans, Session $session) { ?>
+<?php function drawMembershipPlans(array $plans, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      // Parse the description into individual features (considering semicolon as a separator)
-      $features = explode(';', $plan->getDescription());
-      drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $features, $session);
+      drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $session, $perksMap);
     } ?>
   </div>
 <?php } ?>
 
-<?php function drawMembershipContainer(array $plans, Session $session) { ?>
+<?php function drawMembershipContainer(array $plans, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <div id="membership">
     <section class="container">
       <p class="detail">OUR PLANS</p>
       <h2>MEMBERSHIP PLANS</h2>
-      <?php drawMembershipPlans($plans, $session); ?>
+      <?php drawMembershipPlans($plans, $session, $perksMap); ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawIndexPage(array $plans, Session $session) {
+<?php function drawIndexPage(array $plans, Session $session, MembershipTierPerksMap $perksMap) {
   drawHero();
-  drawMembershipContainer($plans, $session);
+  drawMembershipContainer($plans, $session, $perksMap);
 } ?>

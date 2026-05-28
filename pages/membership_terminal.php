@@ -23,11 +23,14 @@
     require_once (__DIR__ . '/../database/membership_tier.class.php');
     $plans = MembershipTier::getActiveMembershipTiers($db);
 
+    require_once (__DIR__ . '/../database/membership_tiers_perks_map.class.php');
+    $perksMap = new MembershipTierPerksMap($db);
+
     $plan_id = (int) $_POST['plan_id'];
 
     echo '<script src="../javascript/updateCheckoutSelection.js" defer></script>';
 
-    drawMembershipTerminalForm($plans, $plan_id, $session);
+    drawMembershipTerminalForm($plans, $plan_id, $session, $perksMap);
 
     drawFooter();
   }

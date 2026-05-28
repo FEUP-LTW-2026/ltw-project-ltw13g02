@@ -1,12 +1,12 @@
-<?php function drawMembershipTerminal(int $id, string $planName, float $price, array $features, int $plan_id) { ?>
+<?php function drawMembershipTerminal(int $id, string $planName, float $price, int $plan_id, array $perks) { ?>
   <label class="card membership-plan">
     <article>
       <h3><?= htmlspecialchars($planName) ?></h3>
       <p><span><?= $price; ?>€</span>/4 weeks</p>
       <p>What's included:</p>
       <ul>
-        <?php foreach ($features as $feature) { ?>
-          <li><?= htmlspecialchars($feature) ?></li>
+        <?php foreach ($perks as $perk) { ?>
+          <li><?= htmlspecialchars($perk->getDescription()) ?></li>
         <?php } ?>
       </ul>
       <input type="radio" 
@@ -22,24 +22,23 @@
   </label>
 <?php } ?>
 
-<?php function drawMembershipPlansTerminal(array $plans, int $plan_id) { ?>
+<?php function drawMembershipPlansTerminal(array $plans, int $plan_id, MembershipTierPerksMap $perksMap) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      $features = explode(';', $plan->getDescription());
-      drawMembershipTerminal($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $features, $plan_id);
+      drawMembershipTerminal($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $plan_id, $perksMap->getPerksForMembershipTierId($plan->getId()));
     } ?>
   </div>
 <?php } ?>
 
-<?php function drawMembershipTerminalContainer(array $plans, int $plan_id) { ?>
+<?php function drawMembershipTerminalContainer(array $plans, int $plan_id, MembershipTierPerksMap $perksMap) { ?>
   <div id="membership">
     <section class="container">
-      <?php drawMembershipPlansTerminal($plans, $plan_id); ?>
+      <?php drawMembershipPlansTerminal($plans, $plan_id, $perksMap); ?>
     </section>
   </div>
 <?php } ?>
 
-<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session) { ?>  
+<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap) { ?>  
   <section id="membership-terminal" class="container">
     <form action="../actions/action_checkout_membership.php" method="POST" id="membership-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
@@ -47,7 +46,7 @@
         <legend>
           <h2>1. Select Your Tier</h2>
         </legend>
-        <?php drawMembershipTerminalContainer($plans, $plan_id); ?>
+        <?php drawMembershipTerminalContainer($plans, $plan_id, $perksMap); ?>
       </fieldset>
 
       <fieldset class="terminal-step" id="step-duration">

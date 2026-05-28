@@ -2,6 +2,8 @@
   declare(strict_types=1);
 
   require_once(__DIR__ . '/../database/classType.class.php');
+
+  require_once(__DIR__ . '/../database/admin-dash-queries.class.php')
 ?>
 
 <?php function drawNavBar() { ?>
@@ -13,7 +15,7 @@
 
     <nav class="admin-nav">
       <ul>
-        <li><a href="#overview" class="active" data-section="overview">Overview</a></li>
+        <li><a href="#overview" class="active" data-section="overview">Monthly Overview</a></li>
         <li><a href="#trainer-creation" data-section="trainer">Create Trainer</a></li>
         <li><a href="#account-management" data-section="accounts">Manage Accounts</a></li>
         <li><a href="#class-catalog" data-section="catalog">Class Catalog</a></li>
@@ -26,11 +28,11 @@
 <?php } ?>
 
 
-<?php function drawOverview() { ?>
+<?php function drawOverview(PDO $db) { ?>
   <article class="dashboard-section active" id="overview">
     <header>
       <div class="section-header">
-        <h2>Overview</h2>
+        <h2>Monthly Overview</h2>
         <p>Welcome to the admin dashboard. Here you have a bird's-eye view of your gym.</p>
       </div>
     </header>
@@ -39,36 +41,63 @@
     <ul class="stats-grid">
       <li>
         <article class="stat-card">
-          <h4>Active Members</h4>
-
-          <!-- In a real implementation, these values would be dynamically updated with AJAX and database data -->
-          <p class="stat-number">1,245</p>
-          <!-- calculated by comparing with last month, would require new table-->
-          <span class="stat-change positive">+5%</span>
-          <p>from last month</p>
+          <h4>Monthly Revenue By Tier</h4>
+          <?php foreach (QueriesForAdminDashboard::getMonthlyRevenueByTier($db) as $row) { ?>
+            <p><?= htmlspecialchars($row['tier']) ?>: <span class="stat-number"><?= number_format($row['monthly_revenue'], 2) ?>€</span></p>
+          <?php } ?>
+          <p>Total Monthly Revenue: <span class="stat-number"><?= number_format(QueriesForAdminDashboard::getTotalMonthlyRevenue($db), 2) ?>€</span></p>
         </article>
       </li>
       <li>
         <article class="stat-card">
-          <h4>Classes Today</h4>
-          <p class="stat-number">12</p>
-          <span class="stat-change negative">-2%</span>
-          <p>from last month</p>
+          <h4>Active Memberships By Tier</h4>
+          <?php foreach (QueriesForAdminDashboard::getActiveMembershipsByTier($db) as $row) { ?>
+            <p><?= htmlspecialchars($row['tier']) ?>: <span class="stat-number"><?= (int)$row['active_memberships'] ?></span></p>
+          <?php } ?>
         </article>
       </li>
       <li>
         <article class="stat-card">
-          <h4>Equip. Maintenance</h4>
-          <p class="stat-number">3</p>
-          <span class="stat-change neutral">0%</span>
-          <p>from last month</p>
+          <h4>Equipments in Maintenance</h4>
+          <?php foreach (QueriesForAdminDashboard::equipmentsInMaintenance($db) as $row) { ?>
+            <p><span class="stat-number"><?= htmlspecialchars($row['equipment_type_name']) ?></span> - <?= htmlspecialchars($row['equipment_name']) ?></p>
+          <?php } ?>
+        </article>
+      </li>
+      <li>
+        <article class="stat-card">
+          <h4>Most Booked Equipment This Month</h4>
+          <?php foreach (QueriesForAdminDashboard::getMostBookedEquipmentThisMonth($db) as $row) { ?>
+            <p><span class="stat-number"><?= htmlspecialchars($row['equipment_type_name']) ?></span> <?= htmlspecialchars($row['equipment_name']) ?> - <?= (int)$row['bookings'] ?> bookings</p>
+          <?php } ?>
+        </article>
+      </li>
+      <li>
+        <article class="stat-card">
+          <h4>Most Attended Classes This Month</h4>
+          <?php foreach (QueriesForAdminDashboard::getMostAttendedClassesThisMonth($db) as $row) { ?>
+            <p><span class="stat-number"><?= htmlspecialchars($row['class_name']) ?></span> - <?= $row['trainer_name'] ?> - <?= (int)$row['enrollments'] ?> attended</p>
+          <?php } ?>
+        </article>
+      </li>
+      <li>
+        <article>
+          <h4>Best Reviewed Classes</h4>
+          <?php foreach (QueriesForAdminDashboard::getBestReviewedClasses($db) as $row) { ?>
+            <p>
+              <span class="stat-number"><?= htmlspecialchars($row['class_name']) ?></span>
+               - 
+               <?= number_format($row['average_rating'], 2) ?> stars
+               (<?= (int)$row['review_count'] === 1 ? (int)$row['review_count'] . ' review' : (int)$row['review_count'] . ' reviews' ?>)
+            </p>
+          <?php } ?>
         </article>
       </li>
     </ul>
   </article>
 <?php } ?>
 
-<?php function drawTrainerCreation(PDO $db, Session $session) { ?>
+<?php function drawTrainerCreation(Session $session) { ?>
   <article class="dashboard-section" id="trainer-creation">
     <header>
       <div class="section-header">
@@ -584,7 +613,7 @@
   </article>
 <?php } ?>
 
-<?php function drawMembershipTiers(array $tiers, Session $session) { ?>
+<?php function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <article class="dashboard-section" id="membership-tiers">
     <header>
       <div class="section-header">
@@ -595,7 +624,7 @@
        <!-- Using a template to be able to clone it when adding new tiers with JS  -->
       <template id="tier-template">
         <article class="card tier-edit-card is-active">
-          <form action="../actions/create_membership_tier.php" method="POST" class="tier-form">
+          <form action="../actions/action_create_membership_tier.php" method="POST" class="tier-form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="tier_id" value="">
             <header class="tier-header">
@@ -611,20 +640,20 @@
             
             <label>
               Description (add each perk separately):
-              <div class="description-container">
+              <div class="perks-container">
                 <!-- This name allows submitting multiple values for the same variable
                     Description has multple rows - different values that all are grouped in this same array:-->
-                <input type="text" name="description[]" placeholder="Perk" required>
+                <input type="text" name="perks[]" placeholder="Perk" required>
               </div>
               <div class="controls">
                 <button type="button" 
                   class="btn transparent-dark small add" 
-                  data-target="description" 
+                  data-target="perks" 
                   data-label="Perk">
                   + Add</button>
                 <button type="button"
                 class="btn transparent-dark small remove" 
-                data-target="description">
+                data-target="perks">
                 - Remove</button>
               </div>
             </label>
@@ -663,29 +692,27 @@
             
             <label>
               Description (add each perk separately):
-              <div class="description-container">
+              <div class="perks-container">
                 <?php
-                  $parts = array_filter(array_map('trim', explode(';', $tier->getDescription() ?? '')));
-                  if (empty($parts)) { ?>
-                    <!-- This name allows submitting multiple values for the same variable
-                     Description has multple rows - different values that all are grouped in this same array:-->
-                    <input type="text" name="description[]" placeholder="Perk" required>
-                <?php } else {
-                    foreach ($parts as $p) { ?>
-                      <input type="text" name="description[]" value="<?= htmlspecialchars($p) ?>" required>
-                <?php }
-                  }
-                ?>
+                      $perks = $perksMap->getPerksForMembershipTierId($tier->getId());
+                      if (empty($perks)) { ?>
+                        <input type="text" name="perks[]" placeholder="Perk" required>
+                      <?php } else {
+                        foreach ($perks as $p) { ?>
+                          <input type="text" name="perks[]" value="<?= htmlspecialchars($p->getDescription()) ?>" required>
+                        <?php }
+                      }
+                    ?>
               </div>
               <div class="controls">
                 <button type="button" 
                   class="btn transparent-dark small add" 
-                  data-target="description" 
+                  data-target="perks" 
                   data-label="Perk">
                   + Add</button>
                 <button type="button"
                  class="btn transparent-dark small remove" 
-                 data-target="description">
+                 data-target="perks">
                  - Remove</button>
               </div>
             </label>
@@ -724,57 +751,17 @@
 
 
 <?php function drawAdminPanel(array $users, PDO $db, Session $session, array $tiers, RoleManager $roleManager
-, array $equipmentTypes, array $equipmentByType, array $timeslots, EquipmentStatusManager $statusManager, array $classesByWeekday, array $trainers) { ?>
+, array $equipmentTypes, array $equipmentByType, array $timeslots, EquipmentStatusManager $statusManager, array $classesByWeekday, array $trainers, MembershipTierPerksMap $perksMap) { ?>
 <div class="admin-dashboard container">
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
-      <?php drawOverview(); ?>
-      <?php drawTrainerCreation($db, $session); ?>
+      <?php drawOverview($db); ?>
+      <?php drawTrainerCreation($session); ?>
       <?php drawAccountManagement($users, $session, $roleManager); ?>
       <?php drawClassCatalog($classesByWeekday, $trainers, $session); ?>
       <?php drawEquipmentManagement($equipmentTypes, $equipmentByType, $timeslots, $session, $statusManager); ?>
       <?php drawGymSettings(); ?>
-      <?php drawMembershipTiers($tiers, $session); ?>
+      <?php drawMembershipTiers($tiers, $session, $perksMap); ?>
     </section>
   </div>
 <?php } ?>
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.querySelectorAll('.admin-nav a');
-    const sections = document.querySelectorAll('.dashboard-section');
-
-    // Ensure only the active section is visible on page load
-    sections.forEach(section => {
-      if (section.classList.contains('active')) {
-        section.style.display = 'block';
-      } else {
-        section.style.display = 'none';
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Update active link styling
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-
-        // Hide all sections and show the targeted one
-        const targetId = link.getAttribute('href').substring(1);
-        sections.forEach(sec => {
-          if (sec.id === targetId) {
-            sec.style.display = 'block';
-            sec.classList.add('active');
-          } else {
-            sec.style.display = 'none';
-            sec.classList.remove('active');
-          }
-        });
-      });
-    });
-  });
-</script>

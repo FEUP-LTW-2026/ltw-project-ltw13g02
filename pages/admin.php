@@ -45,20 +45,23 @@
   require_once (__DIR__ . '/../database/equipment_type.class.php');
   require_once (__DIR__ . '/../database/timeslot.class.php');
   require_once (__DIR__ . '/../database/equipment_status_manager.class.php');
+  require_once (__DIR__ . '/../database/membership_tiers_perks_map.class.php');
 
   $equipmentTypes = EquipmentType::getAllEquipmentTypes($db);
   $equipmentItems = Equipment::getAllEquipment($db);
   $timeslots = Timeslot::getAllTimeslots($db);
   $statusManager = new EquipmentStatusManager();
+  $perksMap = new MembershipTierPerksMap($db);
 
   require_once (__DIR__ . '/../templates/admin.php');
 
+  echo '<script src="../javascript/adminNav.js" defer></script>';
   echo '<script src="../javascript/searchByUserName.js" defer></script>';
   echo '<script src="../javascript/addMembershipTier.js" defer></script>';
   echo '<script src="../javascript/equipmentAdmin.js" defer></script>';
   echo '<script src="../javascript/classCatalog.js" defer></script>';
 
-  drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager, $classesByWeekday, $trainers);
+  drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager, $classesByWeekday, $trainers, $perksMap);
 ?>
 
 <?php drawFooter() ?>
