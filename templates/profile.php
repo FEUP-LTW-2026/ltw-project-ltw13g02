@@ -34,7 +34,7 @@
       <?php drawClassCardInfo($class); ?>
 
       <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
-      <form action="../actions/action_cancel_enrollment.php" method="post">
+      <form data-action="cancel">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
           <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
@@ -66,7 +66,7 @@
     <?php drawClassCardInfo($class); ?>
     
     <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
-    <form action="../actions/action_leave_waitlist.php" method="post">
+    <form data-action="leave_waitlist">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
       <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
       <button class="btn medium warning outline" type="submit">Leave Waitlist</button>

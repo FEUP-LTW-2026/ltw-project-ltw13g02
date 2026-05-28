@@ -1,4 +1,5 @@
 <?php
+    // TODO: REMOVE
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
@@ -19,13 +20,13 @@
         redirectToPreviousPage();
     }
 
-    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
-        $session->addErrorMessage('Invalid CSRF token.');
+    if(empty($_POST['specialization_id'])) {
+        $session->addErrorMessage('Specialization is required.');
         redirectToPreviousPage();
     }
 
-    if(empty($_POST['specialization_id'])) {
-        $session->addErrorMessage('Specialization is required.');
+    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token.');
         redirectToPreviousPage();
     }
 

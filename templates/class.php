@@ -124,13 +124,13 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 
               <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
                   if ($class->hasRemainingCapacity()) { ?>
-                  <form action="../actions/action_enrollment.php" method="post">
+                  <form data-action="enroll">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                     <input type="hidden" name="class_id" value="<?= $class->id ?>">
                     <button class="btn medium blue" type="submit">Enroll Now</button>
                   </form>
                 <?php } else { ?>
-                  <form action="../actions/action_join_waitlist.php" method="post">
+                  <form data-action="join_waitlist">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                     <input type="hidden" name="class_id" value="<?= $class->id ?>">
                     <button class="btn medium blue" type="submit">Join Waitlist</button>
@@ -138,14 +138,14 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
                 <?php } ?>
 
               <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-                <form action="../actions/action_cancel_enrollment.php" method="post">
+                <form data-action="cancel">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                   <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                 </form>
 
               <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
-                <form action="../actions/action_leave_waitlist.php" method="post">
+                <form data-action="leave_waitlist">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                   <input type="hidden" name="class_id" value="<?= $class->id ?>" />
                   <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
