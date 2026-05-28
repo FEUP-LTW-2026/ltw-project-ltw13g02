@@ -74,12 +74,19 @@
         public static function getMembershipPage(PDO $db, int $memberId, int $page, int $perPage): array {
             $offset = ($page - 1) * $perPage;
 
+            // Order by status (active, planned, pending first), then by start date (oldest first)
             $stmt = $db->prepare('
                 SELECT m.id, mt.name as tierName, mt.monthly_fee as monthlyFee, m.status, m.start_timestamp, m.end_timestamp
                 FROM Membership m
                 JOIN MembershipTier mt ON m.membership_tier_id = mt.id
                 WHERE m.member_id = ?
-                ORDER BY m.start_timestamp ASC
+                ORDER BY
+                    CASE
+                        WHEN m.status IN ("active", "planned", "pending") THEN 0
+                        WHEN m.status IN ("expired", "suspended", "cancelled") THEN 1
+                        ELSE 2
+                    END,
+                    m.start_timestamp ASC
                 LIMIT ? OFFSET ?
             ');
 

@@ -45,12 +45,12 @@
   }
 
   .memberships-table {
-    & th {
-      background-color: var(--color-bg);
+    & tr {
+      background: var(--color-secondary);
     }
 
-    & tbody tr:hover {
-      background-color: var(--color-bg);
+    & tr:hover {
+      background: var(--color-even-section);
     }
 
     & .actions {
@@ -73,6 +73,22 @@
       text-transform: capitalize;
     }
   }
+
+  .pagination {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-top: var(--space-m);
+
+    #prev-membership-page {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    #next-membership-page {
+      grid-column: 2;
+      justify-self: end;
+    }
+  }
 }
 
 @layer responsive {
@@ -88,6 +104,15 @@
       & section {
         align-items: center;
         text-align: center;
+      }
+    }
+
+    .memberships-table .actions {
+      flex-direction: column;
+      gap: var(--space-xxs);
+      
+      & form {
+        width: 100%;
       }
     }
   }

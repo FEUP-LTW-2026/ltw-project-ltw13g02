@@ -106,6 +106,10 @@ if (membershipTableBody) {
     document.addEventListener('DOMContentLoaded', async () => {
         await getMembershipPage();
         prevPageButton.style.display = 'none';
+
+        if (membershipsPerPage >= numMemberships) {
+            nextPageButton.style.display = 'none';
+        }
     });
 }
 
