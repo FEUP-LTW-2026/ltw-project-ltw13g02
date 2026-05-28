@@ -30,7 +30,7 @@
 
     echo '<script src="../javascript/updateCheckoutSelection.js" defer></script>';
 
-    drawMembershipTerminalForm($plans, $plan_id, $session, $perksMap);
+    drawMembershipTerminalForm($plans, $plan_id, $session, $perksMap, $db);
 
     drawFooter();
   }

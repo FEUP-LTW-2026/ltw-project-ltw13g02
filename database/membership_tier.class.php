@@ -122,13 +122,21 @@
       return $stmt->fetch() !== false;
     }
 
+    public static function hasValidMemberships(PDO $db, int $member_id) : bool {
+      $stmt = $db->prepare('SELECT id FROM Membership WHERE member_id = ? AND status IN ("active", "planned", "pending")');
+      $stmt->execute([$member_id]);
+      return $stmt->fetch() !== false;
+    }
+
     public static function createMembership(PDO $db, int $member_id, int $tier_id, float $monthly_fee, int $duration, string $payment_type) : void {
       try {
         $db->beginTransaction();
 
-        $timezone = new DateTimeZone(date_default_timezone_get());
+        $timezone = new DateTimeZone('Europe/Lisbon');
         $now = new DateTimeImmutable('now', $timezone);
         $baseStart = $now;
+
+        $lastMembership = null;
 
         // If not already a member, update the Member table
         if (!self::checkExistingMember($db, $member_id)) {
@@ -152,11 +160,19 @@
         $firstStart = $baseStart;
         $firstEnd = $firstStart->modify('+1 month');
         $firstStatus = $firstStart <= $now ? 'active' : 'planned';
+        $paymentStatus = 'paid';
 
         $stmt = $db->prepare("
           INSERT INTO Membership (member_id, start_timestamp, end_timestamp, status, 
           membership_tier_id, payment_due_timestamp, payment_amount, payment_status) 
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        // First membership is pending upon membership renewal 
+        if ($payment_type === 'monthly' && $lastMembership !== false) {
+          $firstStatus = 'pending';
+          $paymentStatus = 'pending';
+        }
+
         $stmt->execute([
           $member_id,
           $firstStart->format('Y-m-d H:i:s'),
@@ -165,7 +181,7 @@
           $tier_id,
           $now->format('Y-m-d H:i:s'),
           $monthly_fee,
-          'paid'
+          $paymentStatus
         ]);
 
         if ($duration > 1) {

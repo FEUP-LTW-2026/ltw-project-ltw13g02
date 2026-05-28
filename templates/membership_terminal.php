@@ -38,7 +38,7 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap) { ?>  
+<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap, $db) { ?>  
   <section id="membership-terminal" class="container">
     <form action="../actions/action_checkout_membership.php" method="POST" id="membership-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
@@ -80,9 +80,14 @@
                 <label for="pay-monthly" class="pay-content">
                   <input type="radio" name="payment_type" id="pay-monthly" value="monthly" required checked>
                   <header>
-                    <h4>Pay Monthly</h4>
+                    <?php if (MembershipTier::hasValidMemberships($db, $session->getId())) { ?>
+                      <h4>Renewal</h4>
+                      <p>Can be cancelled afterwards if needed.</p>
+                    <?php } else { ?>
+                      <h4>Pay Monthly</h4>
+                      <p>First month due today. Can be cancelled afterwards if needed.</p>
+                    <?php } ?>
                   </header>
-                  <p>First month due today. Cancel anytime after term.</p>
                 </label>
               </article>
 
