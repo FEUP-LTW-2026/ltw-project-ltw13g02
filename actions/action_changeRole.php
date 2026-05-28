@@ -51,7 +51,5 @@
 
     $db = getDatabaseConnection();
 
-    $user = AuthenticatedUser::getUser($db, $session->getId());
-
     RoleManager::changeUserRole($db, $userId, $oldRole, $newRole, $session);
 ?>
