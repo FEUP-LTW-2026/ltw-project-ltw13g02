@@ -20,8 +20,10 @@
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
+    <script src="../javascript/global.js" defer></script>
     <script src="../javascript/addInputFields.js" defer></script>
     <script src="../javascript/enrollment.js" defer></script>
+    <script src="../javascript/trainerInfo.js" defer></script>
   </head>
 <body>
   <header>
