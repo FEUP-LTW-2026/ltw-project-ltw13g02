@@ -61,7 +61,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
             <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
         <?php } ?>
       </div>
-      <img src="https://picsum.photos/800/600" alt="class image" class="hero-image" >
+      <?= drawPicture($classType->id, 'classes') ?>
     </section>
   </div>
 <?php } ?>
