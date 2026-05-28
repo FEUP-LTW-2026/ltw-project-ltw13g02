@@ -51,7 +51,7 @@
         $session->addSuccessMessage('Class updated successfully.');
         redirectToPreviousPage();
     } catch (Exception $e) {
-        if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
+        if (str_contains($e->getMessage(), 'Cannot update to overlapping classes for the same trainer.')) {
             $session->addErrorMessage('Error editing class: This class overlaps with another class for the same trainer.');
         } else if (str_contains($e->getMessage(), 'CHECK constraint failed: ValidTimes')) {
             $session->addErrorMessage('Error editing class: Start time must be before end time.');

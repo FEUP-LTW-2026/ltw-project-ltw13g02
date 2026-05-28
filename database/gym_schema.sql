@@ -366,6 +366,21 @@ BEGIN
     );
 END;
 
+CREATE TRIGGER BlockUpdateOfClassTypes
+BEFORE UPDATE ON ClassType
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot update to overlapping classes for the same trainer.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM ClassType
+        WHERE trainer_id = NEW.trainer_id
+        AND weekday = NEW.weekday
+        AND (start_time < NEW.end_time AND end_time > NEW.start_time)
+        AND id != NEW.id  -- exclude the row being updated
+    );
+END;
+
 -- only delete classes that did not occur yet (start_time > curr_time)
 -- deleting every enrollment associated with this class
 -- (enrolled, waitlisted, cancelled)
