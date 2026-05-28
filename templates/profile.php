@@ -29,34 +29,35 @@
   </div>
 <?php } ?>
 
-<?php function drawEnrolledClass(GymClass $class) { ?>
+<?php function drawEnrolledClass(GymClass $class, Session $session) { ?>
   <li class="card">
       <?php drawClassCardInfo($class); ?>
 
       <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
-      <form action="../actions/action_cancel_enrollment.php" method="post">
+      <form data-action="cancel">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
           <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
       </form>
     </li>
 <?php } ?>
 
-<?php function drawEnrolledClasses(array $classes) { ?>
+<?php function drawEnrolledClasses(array $classes, Session $session) { ?>
   <ul class="scheduled-classes">
     <?php if (empty($classes)) { ?>
       <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
       foreach ($classes as $class) {
-        drawEnrolledClass($class);
+        drawEnrolledClass($class, $session);
       }
     } ?>
   </ul>
 <?php } ?>
 
-<?php function drawEnrolledClassesContainer(array $classes) { ?>
+<?php function drawEnrolledClassesContainer(array $classes, Session $session) { ?>
   <section>
     <h2>Enrolled Classes</h2>
-    <?php drawEnrolledClasses($classes); ?>
+    <?php drawEnrolledClasses($classes, $session); ?>
   </section>
 <?php } ?>
 
@@ -95,7 +96,7 @@
     <section class="container">
       <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
 
-      <?php drawEnrolledClassesContainer($classes);
+      <?php drawEnrolledClassesContainer($classes, $session);
       if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       } ?>

@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
     <script src="../javascript/addInputFields.js" defer></script>
+    <script src="../javascript/enrollment.js" defer></script>
   </head>
 <body>
   <header>

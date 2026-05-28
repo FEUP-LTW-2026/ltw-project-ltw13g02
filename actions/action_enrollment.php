@@ -1,4 +1,5 @@
 <?php
+    // TODO: can be removed
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
@@ -27,7 +28,7 @@
     }
 
     // Validate input
-    $classId = (int)$_POST['class_id'];;
+    $classId = (int)$_POST['class_id'];
     if ($classId <= 0) {
         $session->addErrorMessage('Invalid class ID.');
         redirectToPreviousPage();
