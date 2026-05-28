@@ -6,6 +6,7 @@
     align-items: stretch;
     padding-top: var(--space-xl);
   }
+  
   aside {
     flex: 0 0 20em; /*Fixed*/ 
     background-color: var(--color-secondary);

@@ -15,7 +15,7 @@ btnEditClasses.forEach(btn => {
     btn.addEventListener('click', (e) => {
         
         if (dialogEdit) {
-            // Get data from button attributes
+            // Get data from button attributes\
             const classId = e.target.getAttribute('data-id');
             const className = e.target.getAttribute('data-name');
             const classDescription = e.target.getAttribute('data-description');

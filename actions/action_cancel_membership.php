@@ -3,9 +3,6 @@
 
     require_once(__DIR__ . '/../utils/session.php');
     require_once (__DIR__ . '/../database/connection.db.php');
-    require_once (__DIR__ . '/../database/membership_tier.class.php');
-    require_once (__DIR__ . '/../database/authenticated_user.class.php');
-    require_once (__DIR__ . '/../database/roleManager.class.php');
     require_once (__DIR__ . '/../utils/helpers.php');
     require_once (__DIR__ . '/../database/membership.class.php');
 

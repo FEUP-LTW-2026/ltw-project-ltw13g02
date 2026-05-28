@@ -90,10 +90,10 @@
   </section>
 <?php } ?>
 
-<?php function drawMemberships(array $memberships, Session $session) { ?>
+<?php function drawMemberships(int $numMemberships, Session $session) { ?>
   <section>
     <h2>My Memberships</h2>
-    <?php if (empty($memberships)) { ?>
+    <?php if ($numMemberships === 0) { ?>
       <p>You don't have any memberships yet.</p>
       <a class="btn medium blue" href="../pages/index.php#membership">Purchase Membership</a>
     <?php } else { ?>
@@ -109,35 +109,27 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <?php
-              foreach ($memberships as $membership) {
-            ?>
-              <tr>
-                <td><?= htmlspecialchars($membership->tierName); ?></td>
-                <td><?= htmlspecialchars((string) $membership->monthlyFee); ?>€</td>
-                <td><span class="status <?= htmlspecialchars($membership->status) ?>"><?= htmlspecialchars($membership->status); ?></span></td>
-                <td><?= htmlspecialchars($membership->startTimestamp); ?></td>
-                <td><?= htmlspecialchars($membership->endTimestamp); ?></td>
-                <td class="actions">
-                  <?php if ($membership->status === 'active' || $membership->status === 'planned' || $membership->status === 'pending') { ?>
-                    <form action="../actions/action_cancel_membership.php" method="post">
-                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                      <input type="hidden" name="membership_id" value="<?= $membership->id ?>" />
-                      <button type="submit" class="btn warning">Cancel Membership</button>
-                    </form>
-                  <?php } ?>
-                </td>
-              </tr>
-            <?php } ?>
+          <tbody
+            id="membership-table-body"
+            data-page="1"
+            data-memberships-per-page="5"
+            data-num-memberships="<?= $numMemberships ?>"
+            data-csrf-token="<?= htmlspecialchars($session->getCSRFToken()) ?>"
+          >
           </tbody>
         </table>
       </div>
-    <?php } ?>
-  </section>
-<?php } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $memberships, Session $session) {
+      <nav class="pagination">
+        <button class="btn medium" id="prev-membership-page">Previous</button>
+        <button class="btn medium" id="next-membership-page">Next</button>
+      </nav>
+      
+  </section>
+  <?php }
+} ?>
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, int $numMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <div>
     <section class="container">
@@ -147,7 +139,7 @@
       if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       }
-      drawMemberships($memberships, $session); ?>
+      drawMemberships($numMemberships, $session); ?>
     </section>
   </div>
 <?php } ?>

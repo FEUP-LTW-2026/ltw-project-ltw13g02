@@ -30,9 +30,12 @@
 
   $classes = Enrollment::getEnrolledClasses($db, $session->getId());
   $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
-  $memberships = Membership::getMemberMemberships($db, $session->getId());
+
+  $numMemberships = Membership::getNumMemberships($db, $session->getId());
+
+  echo '<script src="../javascript/membershipsPaging.js" defer></script>';
 
   drawHeader($session, 'Profile', ['profile.css']);
-  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $memberships, $session);
+  drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $numMemberships, $session);
   drawFooter();
 ?>

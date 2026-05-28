@@ -55,9 +55,54 @@
 			return $memberships;
         }
 
+        public static function payMembership(PDO $db, int $membershipId): void {
+            $stmt = $db->prepare('UPDATE Membership SET payment_status = "paid", status = "planned" WHERE id = ? AND payment_status = "pending" AND status = "pending"');
+            $stmt->execute([$membershipId]);
+        }
+
 		public static function cancelMembership(PDO $db, int $membershipId): void {
-			$stmt = $db->prepare('UPDATE Membership SET status = "cancelled" WHERE id = ?');
+			$stmt = $db->prepare('UPDATE Membership SET status = "cancelled" WHERE id = ? AND status IN ("active", "planned", "pending")');
 			$stmt->execute([$membershipId]);
 		}
+
+        public static function getNumMemberships(PDO $db, int $memberId): int {
+            $stmt = $db->prepare('SELECT COUNT(*) FROM Membership WHERE member_id = ?');
+            $stmt->execute([$memberId]);
+            return (int) $stmt->fetchColumn();
+        }
+
+        public static function getMembershipPage(PDO $db, int $memberId, int $page, int $perPage): array {
+            $offset = ($page - 1) * $perPage;
+
+            $stmt = $db->prepare('
+                SELECT m.id, mt.name as tierName, mt.monthly_fee as monthlyFee, m.status, m.start_timestamp, m.end_timestamp
+                FROM Membership m
+                JOIN MembershipTier mt ON m.membership_tier_id = mt.id
+                WHERE m.member_id = ?
+                ORDER BY m.start_timestamp ASC
+                LIMIT ? OFFSET ?
+            ');
+
+            $stmt->execute([$memberId, $perPage, $offset]);
+
+            $memberships = [];
+            
+            foreach ($stmt->fetchAll() as $row) {
+                $memberships[] = new Membership(
+                    $row['id'],
+                    0, // membershipTierId is not needed for the profile page
+                    $row['start_timestamp'],
+                    $row['end_timestamp'],
+                    $row['status'],
+                    '', // paymentStatus is not needed for the profile page
+                    $row['tierName'],
+                    '', // tierDescription is not needed for the profile page
+                    (float) $row['monthlyFee'],
+                    0 // bookingWindowDays is not needed for the profile page
+                );
+            }
+
+            return $memberships;
+        }
     }
 ?>

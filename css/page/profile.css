@@ -54,8 +54,13 @@
     }
 
     & .actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-s);
 
       & form {
+        flex: 1;
         margin: 0;
       }
 
