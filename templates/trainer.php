@@ -97,7 +97,7 @@
           <h3><?= htmlspecialchars($certification['name']) ?></h3>
 
           <?php if ($session->getId() === $trainerId) { ?>
-            <form method="post" action="">
+            <form method="post">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
               <input type="hidden" name="certification_id" value="<?= (int) $certification['id'] ?>">
               <button type="submit" class="btn warning remove-btn" title="Remove Certification">
@@ -111,7 +111,7 @@
   <?php } ?>
 
   <?php if ($session->getId() === $trainerId) { ?>
-      <form id="add-certification" method="post" action="../actions/action_add_certification.php">
+      <form id="add-certification" method="post">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <select name="certification_id">
