@@ -108,20 +108,51 @@ document.getElementById('add-specialization').addEventListener('submit', async f
         const { logo, name, description, id } = data.specialization;
         const card = document.createElement('li');
         card.classList.add('card');
-        card.innerHTML = `
-            <header>
-                <span class="symbol">${logo ?? 'exercise'}</span>
-                <h3>${name}</h3>
-                <form method="post">
-                    <input type="hidden" name="csrf_token" value="${csrfToken}">
-                    <input type="hidden" name="specialization_id" value="${id}">
-                    <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
-                        <span class="symbol close">close</span>
-                    </button>
-                </form>
-            </header>
-            <p>${description}</p>
-        `;
+
+        const header = document.createElement('header');
+
+        const icon = document.createElement('span');
+        icon.className = 'symbol';
+        icon.textContent = logo ?? 'exercise';
+
+        const h3 = document.createElement('h3');
+        h3.textContent = name;
+
+        const deleteForm = document.createElement('form');
+        deleteForm.method = 'post';
+
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrf_token';
+        csrfInput.value = csrfToken;
+
+        const specIdInput = document.createElement('input');
+        specIdInput.type = 'hidden';
+        specIdInput.name = 'specialization_id';
+        specIdInput.value = id;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'submit';
+        removeBtn.className = 'btn warning remove-btn';
+        removeBtn.title = 'Remove Specialization';
+        const closeIcon = document.createElement('span');
+        closeIcon.className = 'symbol close';
+        closeIcon.textContent = 'close';
+        removeBtn.appendChild(closeIcon);
+
+        deleteForm.appendChild(csrfInput);
+        deleteForm.appendChild(specIdInput);
+        deleteForm.appendChild(removeBtn);
+
+        header.appendChild(icon);
+        header.appendChild(h3);
+        header.appendChild(deleteForm);
+
+        const p = document.createElement('p');
+        p.textContent = description;
+
+        card.appendChild(header);
+        card.appendChild(p);
 
         specializationsList.appendChild(card);
         form.querySelector(`option[value="${id}"]`).remove();
@@ -161,16 +192,38 @@ document.getElementById('add-certification').addEventListener('submit', async fu
         const { name, id } = data.certification;
         const card = document.createElement('li');
         card.classList.add('card');
-        card.innerHTML = `
-            <h3>${name}</h3>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="${csrfToken}">
-                <input type="hidden" name="certification_id" value="${id}">
-                <button type="submit" class="btn warning remove-btn" title="Remove Certification">
-                    <span class="symbol close">close</span>
-                </button>
-            </form>
-        `;
+
+        const h3 = document.createElement('h3');
+        h3.textContent = name;
+
+        const deleteForm = document.createElement('form');
+        deleteForm.method = 'post';
+
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrf_token';
+        csrfInput.value = csrfToken;
+
+        const certIdInput = document.createElement('input');
+        certIdInput.type = 'hidden';
+        certIdInput.name = 'certification_id';
+        certIdInput.value = id;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'submit';
+        removeBtn.className = 'btn warning remove-btn';
+        removeBtn.title = 'Remove Certification';
+        const closeIcon = document.createElement('span');
+        closeIcon.className = 'symbol close';
+        closeIcon.textContent = 'close';
+        removeBtn.appendChild(closeIcon);
+
+        deleteForm.appendChild(csrfInput);
+        deleteForm.appendChild(certIdInput);
+        deleteForm.appendChild(removeBtn);
+
+        card.appendChild(h3);
+        card.appendChild(deleteForm);
 
         certificationsList.appendChild(card);
         form.querySelector(`option[value="${id}"]`).remove();

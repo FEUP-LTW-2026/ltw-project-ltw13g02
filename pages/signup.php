@@ -2,10 +2,10 @@
   declare(strict_types = 1);
 
   require_once(__DIR__ . '/../utils/session.php');
-  $session = new Session();
-
   require_once (__DIR__ . '/../templates/common.php');
   require_once (__DIR__ . '/../templates/auth.php');
+
+  $session = new Session();
 
   drawHeader($session, 'Sign Up', ['auth.css']);
   
