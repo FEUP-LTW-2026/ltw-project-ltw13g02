@@ -34,32 +34,8 @@ async function getMembershipPage() {
         actions.classList.add('actions');
 
         if (membership.status === 'active' || membership.status === 'planned' || membership.status === 'pending') {
-            // Add a cancel button for active, planned and pending memberships        
-            const form = document.createElement('form');
-            form.action = '../actions/action_cancel_membership.php';
-            form.method = 'post';
 
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = 'csrf_token';
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
-
-            const membershipIdInput = document.createElement('input');
-            membershipIdInput.type = 'hidden';
-            membershipIdInput.name = 'membership_id';
-            membershipIdInput.value = membership.id;
-            form.appendChild(membershipIdInput);
-
-            const cancelButton = document.createElement('button');
-            cancelButton.type = 'submit';
-            cancelButton.classList.add('btn', 'medium', 'warning');
-            cancelButton.textContent = 'Cancel Membership';
-            form.appendChild(cancelButton);
-
-            actions.appendChild(form);
-
-            if (membership.status === 'pending') { // Add a pay now button for pending (not paid) memberships
+             if (membership.status === 'pending') { // Add a pay now button for pending (not paid) memberships
                   
                 const form = document.createElement('form');
                 form.action = '../actions/action_pay_membership.php';
@@ -85,6 +61,63 @@ async function getMembershipPage() {
                 
                 actions.appendChild(form);
             }
+
+            if (membership.nextTierId !== null) { // Add an upgrade membership tier button
+                const form = document.createElement('form');
+                form.action = '../actions/action_upgrade_membership.php';
+                form.method = 'post';
+
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrf_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                const membershipIdInput = document.createElement('input');
+                membershipIdInput.type = 'hidden';
+                membershipIdInput.name = 'membership_id';
+                membershipIdInput.value = membership.id;
+                form.appendChild(membershipIdInput);
+
+                const nextTierIdInput = document.createElement('input');
+                nextTierIdInput.type = 'hidden';
+                nextTierIdInput.name = 'next_tier_id';
+                nextTierIdInput.value = membership.nextTierId;
+                form.appendChild(nextTierIdInput);
+
+                const upgradeButton = document.createElement('button');
+                upgradeButton.type = 'submit';
+                upgradeButton.classList.add('btn', 'medium', 'available');
+                upgradeButton.textContent = 'Upgrade to ' + membership.nextTierName;
+                form.appendChild(upgradeButton);
+                
+                actions.appendChild(form);
+            }
+            
+            // Add a cancel button for active, planned and pending memberships        
+            const form = document.createElement('form');
+            form.action = '../actions/action_cancel_membership.php';
+            form.method = 'post';
+
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            const membershipIdInput = document.createElement('input');
+            membershipIdInput.type = 'hidden';
+            membershipIdInput.name = 'membership_id';
+            membershipIdInput.value = membership.id;
+            form.appendChild(membershipIdInput);
+
+            const cancelButton = document.createElement('button');
+            cancelButton.type = 'submit';
+            cancelButton.classList.add('btn', 'medium', 'warning');
+            cancelButton.textContent = 'Cancel Membership';
+            form.appendChild(cancelButton);
+
+            actions.appendChild(form);
         }
 
         const row = document.createElement('tr');
