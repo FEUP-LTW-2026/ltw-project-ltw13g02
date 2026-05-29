@@ -118,7 +118,7 @@
         <h2>Manage Accounts</h2>
         <p>Create, update, deactivate accounts, or elevate users to admin.</p>
       </div>
-      <button class="btn transparent-dark medium">+ Add New User</button>
+      <button class="btn transparent-dark medium" id="add-user-btn">+ Add New User</button>
     </header>
     <!-- Search bar for filtering users, by username -->
     <input type="text" id="search-bar" placeholder="Search users by username...">
@@ -182,6 +182,43 @@
         </tbody>
       </table>
     </div>
+    <dialog id="dialog-add-user">
+      <div class="dialog-content">
+        <h3>Add New User</h3>
+        <form action="../actions/action_create_user.php" method="POST">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+
+          <label>First Name
+            <input type="text" name="first-name" placeholder="First Name" required>
+          </label>
+
+          <label>Last Name
+            <input type="text" name="last-name" placeholder="Last Name" required>
+          </label>
+
+          <label>Username
+            <input type="text" name="username" placeholder="Username" required>
+          </label>
+
+          <label>Email
+            <input type="email" name="email" placeholder="Email" required>
+          </label>
+
+          <label>Password
+            <input type="password" name="password" placeholder="Password" required>
+          </label>
+
+          <label>Confirm Password
+            <input type="password" name="confirm-password" placeholder="Confirm Password" required>
+          </label>
+
+          <div class="dialog-actions">
+            <button type="submit" class="btn medium blue">Create User</button>
+            <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
   </article>
 <?php } ?>
 
@@ -591,43 +628,3 @@
     </section>
   </div>
 <?php } ?>
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.querySelectorAll('.admin-nav a');
-    const sections = document.querySelectorAll('.dashboard-section');
-
-    // Ensure only the active section is visible on page load
-    sections.forEach(section => {
-      if (section.classList.contains('active')) {
-        section.style.display = 'block';
-      } else {
-        section.style.display = 'none';
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Update active link styling
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-
-        // Hide all sections and show the targeted one
-        const targetId = link.getAttribute('href').substring(1);
-        sections.forEach(sec => {
-          if (sec.id === targetId) {
-            sec.style.display = 'block';
-            sec.classList.add('active');
-          } else {
-            sec.style.display = 'none';
-            sec.classList.remove('active');
-          }
-        });
-      });
-    });
-  });
-</script>

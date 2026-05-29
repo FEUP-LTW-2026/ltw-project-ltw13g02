@@ -12,8 +12,6 @@ const nextFormMap = {
     'left_waitlist':{ action: 'enroll', label: 'Enroll Now', css: 'btn medium blue' },
 };
 
-// TODO: move the top messages to a generic js file
-
 document.querySelectorAll('.scheduled-classes').forEach(list => {
     list.addEventListener('submit', async function(e) {
         e.preventDefault();
