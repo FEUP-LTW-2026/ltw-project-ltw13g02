@@ -67,7 +67,6 @@
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="equipment_id" value="<?= htmlspecialchars((string)$equipment->getId()) ?>">
             <input type="hidden" name="booking_date" value="<?= htmlspecialchars(date('Y-m-d')) ?>">
-            <input type="hidden" name="member_id" value="<?= htmlspecialchars((string)$session->getId()) ?>">
             <input type="radio" 
               name="time-slot" 
               id="<?= htmlspecialchars((string)$equipment->getId()) . '-' . htmlspecialchars((string)$timeslot->getId()) ?>" 

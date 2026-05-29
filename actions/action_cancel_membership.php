@@ -28,6 +28,11 @@
     $db = getDatabaseConnection();
     $membershipId = (int)$_POST['membership_id'];
 
+    if (!Membership::belongsToMember($db, $membershipId, (int)$session->getId())) {
+        $session->addErrorMessage('You do not have permission to cancel this membership.');
+        redirectToPreviousPage();
+    }
+
     try {
         Membership::cancelMembership($db, $membershipId);
         $session->addSuccessMessage('Membership cancelled successfully.');
