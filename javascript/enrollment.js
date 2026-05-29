@@ -13,7 +13,7 @@ const nextFormMap = {
     'cancelled_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
 };
 
-document.querySelectorAll('.scheduled-classes').forEach(list => {
+document.querySelectorAll('.js-enrollment').forEach(list => {
     list.addEventListener('submit', async function(e) {
         e.preventDefault();
 

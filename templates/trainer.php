@@ -126,7 +126,7 @@
 }?>
 
 <?php function drawNextClassesToSchedule(array $nextClassesToSchedule, Session $session) { ?>
-  <ul class="card-list">
+  <ul class="card-list js-enrollment">
     <?php foreach ($nextClassesToSchedule as $class) { ?>
       <li class="card">
         <div class="card-info">
@@ -191,7 +191,7 @@
 
 
 <?php function drawScheduledClasses(int $trainerId, array $scheduledClasses, Session $session) { ?>
-  <ul class="card-list">
+  <ul class="card-list js-enrollment">
     <?php foreach ($scheduledClasses as $class) { ?>
       <li class="card">
         <?php drawScheduledClassInfo($class, $session);

@@ -95,7 +95,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
         <p>No classes available of this type at the moment.</p>
 
       <?php } else { ?>
-        <ul class="card-list">
+        <ul class="card-list js-enrollment">
           <?php foreach ($classes as $class) { ?>
             <li class="card">
               <?php drawScheduledClassInfo($class, $session); ?>

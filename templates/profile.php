@@ -41,7 +41,7 @@
 <?php } ?>
 
 <?php function drawEnrolledClasses(array $classes, Session $session) { ?>
-  <ul class="card-list">
+  <ul class="card-list js-enrollment">
     <?php if (empty($classes)) { ?>
       <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
@@ -73,7 +73,7 @@
 <?php } ?>
 
 <?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
-  <ul class="card-list">
+  <ul class="card-list js-enrollment">
     <?php
       foreach ($classes as $class) {
         drawWaitlistedClass($class, $session);
@@ -140,10 +140,10 @@
             <?php drawTime($booking->bookingStartTime, $booking->bookingEndTime); ?>
           </section>
 
-          <form action="../actions/action_cancel_equipment_booking.php" method="post">
+          <form data-action="cancel_equipment_booking" method="post">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="booking_id" value="<?= (int) $booking->id ?>" />
-            <button class="btn medium warning outline" type="submit">Cancel Reservation</button>
+            <button class="btn medium warning outline" type="submit">Cancel Booking</button>
           </form>
         </li>
       <?php } ?>

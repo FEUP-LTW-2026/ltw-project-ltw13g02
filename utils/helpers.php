@@ -40,7 +40,7 @@
     }
 
     function validateTextBox(string $text): bool {
-        return preg_match('/^[a-zA-Z0-9\s.,!?]+$/', $text) && strlen($text) <= 500;
+        return preg_match('/^[a-zA-Z0-9\s.,!?-]+$/', $text) && strlen($text) <= 500;
     }
 
     function validateRequiredFields(array $fields): bool {

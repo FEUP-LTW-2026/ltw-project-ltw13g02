@@ -41,4 +41,4 @@
 ?>
 
 <script src="../javascript/enrollment.js" defer></script>
-<script src="../javascript/membershipsPaging.js" defer></script>'
+<script src="../javascript/membershipsPaging.js" defer></script>
