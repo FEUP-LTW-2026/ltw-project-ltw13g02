@@ -3,3 +3,4 @@
 pages.md
 .vscode
 database/gym.db
+/utils/.last_cron_exec.txt

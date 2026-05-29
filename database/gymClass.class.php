@@ -120,6 +120,10 @@
             return $this->currentEnrollment < $capacity && $this->status === 'scheduled';
         }
 
+        public function isCompleted() : bool {
+            return $this->status === 'completed';
+        }
+
         public function hasRemainingCapacity() : bool {
             return $this->currentEnrollment < $this->capacity;
         }

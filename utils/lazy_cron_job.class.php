@@ -6,6 +6,7 @@
             require_once(__DIR__ . '/../database/connection.db.php');
             require_once(__DIR__ . '/../database/gymClass.class.php');
             require_once(__DIR__ . '/../database/enrollment.class.php');
+            require_once(__DIR__ . '/../database/membership_tier.class.php');
 
             $db = getDatabaseConnection();
             

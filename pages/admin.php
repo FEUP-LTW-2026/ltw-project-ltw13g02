@@ -55,7 +55,23 @@
     $statusManager = new EquipmentStatusManager();
     $perksMap = new MembershipTierPerksMap($db);
 
-    drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager, $classesByWeekday, $trainers, $perksMap);
+    // Acts as a context to pass all necessary data to the admin panel drawing function
+    $context = [
+        'users' => AuthenticatedUser::getAllUsers($db),
+        'db' => $db,
+        'session' => $session,
+        'tiers' => MembershipTier::getAllMembershipTiers($db),
+        'roleManager' => new RoleManager(),
+        'equipmentTypes' => EquipmentType::getAllEquipmentTypes($db),
+        'equipmentItems' => Equipment::getAllEquipment($db),
+        'timeslots' => Timeslot::getAllTimeslots($db),
+        'statusManager' => new EquipmentStatusManager(),
+        'classesByWeekday' => ClassType::getClassesByWeekday($db),
+        'trainers' => Trainer::getAllTrainersBrief($db),
+        'perksMap' => new MembershipTierPerksMap($db)
+    ];
+
+    drawAdminPanel($context);
     drawFooter();
 ?>
 
