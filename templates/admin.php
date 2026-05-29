@@ -255,7 +255,7 @@
   <dialog id="dialog-create-class">
     <div class="dialog-content">
       <h3>Add New Class</h3>
-      <form action="../actions/action_create_class.php" method="POST">
+      <form action="../actions/action_create_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <label>Class Name
@@ -306,6 +306,15 @@
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
+
+      <div class="image-upload-container">
+        <img id="create-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
+        <form method="post" enctype="multipart/form-data" id="create-class-upload-form">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+          <input type="file" name="class-image" id="create-class-image-input" accept="image/*">
+          <button type="button" class="btn medium blue" id="create-class-upload-btn">Choose Image</button>
+        </form>
+      </div>
     </div>
   </dialog>
 <?php } ?>
@@ -366,6 +375,15 @@
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
+      <div class="image-upload-container">
+        <img id="edit-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
+        <form method="post" action="../actions/action_upload_class_image.php" enctype="multipart/form-data" id="edit-class-upload-form">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+          <input type="hidden" name="class_id" id="edit-class-upload-id">
+          <input type="file" name="class-image" id="edit-class-image-input" accept="image/*">
+          <button type="button" class="btn medium blue" id="edit-class-upload-btn">Change Image</button>
+        </form>
+      </div>
     </section>
   </dialog>
 <?php } ?>

@@ -49,6 +49,8 @@
 
     try {
         ClassType::create($db, $name, $description, $trainerId, $capacity, $startTime, $endTime, $weekday);
+        $newClassId = (int) $db->lastInsertId();
+        saveClassImage($newClassId);
         $session->addSuccessMessage('Class created successfully.');
         redirectToPreviousPage();
     } catch (PDOException $e) {

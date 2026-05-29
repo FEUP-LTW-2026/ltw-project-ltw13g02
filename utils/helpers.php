@@ -7,6 +7,45 @@
         : '../img/profiles/default.jpg';
     }
 
+    function saveClassImage(int $classTypeId): void {
+        if (!isset($_FILES['class-image']) || $_FILES['class-image']['error'] !== UPLOAD_ERR_OK) return;
+
+        if (!is_dir('../img')) mkdir('../img');
+        if (!is_dir('../img/classes')) mkdir('../img/classes');
+
+        $tempFileName = $_FILES['class-image']['tmp_name'];
+
+        $img = @imagecreatefromjpeg($tempFileName);
+        if (!$img) $img = @imagecreatefrompng($tempFileName);
+        if (!$img) $img = @imagecreatefromgif($tempFileName);
+        if (!$img) return;
+
+        $width  = imagesx($img);
+        $height = imagesy($img);
+
+        // Target ratio: 800x534 (landscape ~3:2)
+        $targetRatio = 800 / 534;
+        $srcRatio    = $width / $height;
+
+        if ($srcRatio > $targetRatio) { // too wide — crop sides
+            $cropW = (int)($height * $targetRatio);
+            $cropH = $height;
+        } else {                        // too tall — crop top/bottom
+            $cropW = $width;
+            $cropH = (int)($width / $targetRatio);
+        }
+
+        $cropX = (int)(($width  - $cropW) / 2);
+        $cropY = (int)(($height - $cropH) / 2);
+
+        $final = imagecreatetruecolor(800, 534);
+        imagecopyresized($final, $img, 0, 0, $cropX, $cropY, 800, 534, $cropW, $cropH);
+
+        imagejpeg($final, '../img/classes/' . $classTypeId . '.jpg');
+        imagedestroy($img);
+        imagedestroy($final);
+    }
+
     function redirectToPreviousPage() {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
