@@ -12,7 +12,7 @@
 <?php function drawClassType(ClassType $class) { ?>
 	<article class="card class-card">
 		<header>
-			<?=drawPicture($class->id, 'classes')?>
+			<?php drawPicture($class->id, 'classes') ?>
 		</header>
 				
 		<div>

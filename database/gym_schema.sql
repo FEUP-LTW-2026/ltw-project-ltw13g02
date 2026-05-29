@@ -13,6 +13,10 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Membership;
 DROP TABLE IF EXISTS MembershipTier;
+DROP TABLE IF EXISTS EquipmentType;
+DROP TABLE IF EXISTS Timeslot;
+DROP TABLE IF EXISTS EquipmentBooking;
+DROP TABLE IF EXISTS MembershipTierPerk;
 
 PRAGMA foreign_keys = ON;
 
@@ -156,7 +160,8 @@ CREATE TABLE Class (
         REFERENCES ClassType(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp))
+    CONSTRAINT ValidTimes CHECK (datetime(start_timestamp) < datetime(end_timestamp)),
+    CONSTRAINT ValidStatus CHECK (status IN ('scheduled', 'completed'))
 );
 
 -- Using a trigger checks before if the user has attended that class_type 
@@ -192,7 +197,7 @@ CREATE TABLE Enrollment (
     status_update_timestamp TEXT NOT NULL, -- timestamp of the last status update
     -- add constraints and checks
     CONSTRAINT PK_Enrollment PRIMARY KEY (id),
-    CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted', 'missed')),
+    CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted')),
     CONSTRAINT FK_Enrollment_member 
         FOREIGN KEY (member_id) 
         REFERENCES Member(id)
@@ -204,15 +209,80 @@ CREATE TABLE Enrollment (
         ON DELETE CASCADE -- if a class is deleted, all enrollments associated with that class are deleted as well
 );
 
+CREATE TABLE EquipmentType (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+
+    CONSTRAINT PK_EquipmentType PRIMARY KEY (id),
+    CONSTRAINT UQ_EquipmentType_name UNIQUE (name)
+);
+
 CREATE TABLE Equipment (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    status TEXT NOT NULL, -- status of the equipment (available, in use, maintenance)
+    status TEXT NOT NULL DEFAULT 'available', -- status of the equipment (available, in use, maintenance)
+    equipment_type_id INTEGER NOT NULL,
 
     CONSTRAINT PK_Equipment PRIMARY KEY (id),
+    CONSTRAINT FK_Equipment_EquipmentType 
+        FOREIGN KEY (equipment_type_id) 
+        REFERENCES EquipmentType(id) 
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT UQ_Equipment_name UNIQUE (name),
     CONSTRAINT ValidStatus CHECK (status IN ('available', 'in use', 'maintenance'))
 );
+
+
+CREATE TABLE Timeslot (
+    id INTEGER NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+
+    CONSTRAINT PK_Timeslot PRIMARY KEY (id),
+    CONSTRAINT ValidTimes CHECK (start_time < end_time)
+);
+
+
+CREATE TABLE EquipmentBooking (
+    id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    equipment_id INTEGER NOT NULL,
+    timeslot_id INTEGER NOT NULL,
+    booking_date TEXT NOT NULL,
+    CONSTRAINT PK_EquipmentBooking PRIMARY KEY (id),
+    CONSTRAINT FK_EquipmentBooking_Member
+        FOREIGN KEY (member_id)
+        REFERENCES Member(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT FK_EquipmentBooking_Equipment
+        FOREIGN KEY (equipment_id)
+        REFERENCES Equipment(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT FK_EquipmentBooking_Timeslot
+        FOREIGN KEY (timeslot_id)
+        REFERENCES Timeslot(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TRIGGER IF NOT EXISTS CleanupBookingsOnMaintenance
+AFTER UPDATE OF status ON Equipment
+FOR EACH ROW
+WHEN NEW.status = 'maintenance' AND OLD.status != 'maintenance'
+BEGIN
+    DELETE FROM EquipmentBooking
+    WHERE equipment_id = NEW.id
+      AND booking_date = date('now', 'localtime')
+      AND timeslot_id IN (
+        SELECT id
+        FROM Timeslot
+        WHERE time(start_time) >= time('now', 'localtime')
+      );
+END;
+
 
 -- guarantee that when a membership tier has its price updated, only new memberships will be affected, current ones will be charged
 -- the price before. Only when that user has to pay next months, the new price will be applied
@@ -223,7 +293,6 @@ CREATE TABLE Equipment (
 CREATE TABLE MembershipTier(
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
     monthly_fee REAL NOT NULL,
     booking_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
     is_active INTEGER NOT NULL DEFAULT 1, -- whether the tier is active and can be subscribed to by users
@@ -231,6 +300,19 @@ CREATE TABLE MembershipTier(
     CONSTRAINT PK_MembershipTier PRIMARY KEY (id),
     CONSTRAINT ValidMonthlyFee CHECK (monthly_fee > 0),
     CONSTRAINT ValidBookingWindow CHECK (booking_window_days > 0)
+);
+
+CREATE TABLE MembershipTierPerk (
+    id INTEGER NOT NULL,
+    membership_tier_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+
+    CONSTRAINT PK_MembershipTierPerk PRIMARY KEY (id),
+    CONSTRAINT FK_MembershipTierPerk_MembershipTier
+        FOREIGN KEY (membership_tier_id)
+        REFERENCES MembershipTier(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- membership start_timestamp is one day after the payment due date
@@ -259,8 +341,7 @@ CREATE TABLE Membership(
         REFERENCES MembershipTier(id)
         ON UPDATE CASCADE,
     CONSTRAINT ValidMembershipStatus CHECK (
-        status IN ('active', 'planned', 'pending', 'expired',
-                   'suspended', 'cancelled')
+        status IN ('active', 'planned', 'pending', 'expired', 'cancelled')
     ),
     CONSTRAINT ValidPaymentStatus CHECK (
         payment_status IN ('paid', 'failed', 'pending')
@@ -311,13 +392,12 @@ END;
 -- also, if the user has more than 1 month paid in advance, ask if he wants to make next memberships with the new tier
 -- ask if the user only wants to upgrade the tier for the next months and keep the current month with the old tier 
 
-CREATE TRIGGER DeactivateMemberWhenNoActiveMemberships
+CREATE TRIGGER RemoveFromMemberWhenNoActiveMemberships
 AFTER UPDATE ON Membership
 FOR EACH ROW
 WHEN NEW.status IN ('expired', 'cancelled')
 BEGIN
-    UPDATE User
-    SET is_active = 0
+    DELETE FROM Member
     WHERE id = NEW.member_id
     AND NOT EXISTS (
         SELECT 1 FROM Membership
@@ -333,9 +413,7 @@ AFTER UPDATE ON Membership
 FOR EACH ROW
 WHEN NEW.status = 'active'
 BEGIN
-    UPDATE User
-    SET is_active = 1
-    WHERE id = NEW.member_id;
+    INSERT INTO Member (id) VALUES (NEW.member_id);
 END;
 
 -- OTHER IDEA FOR SAME MONTH UPGRADE
@@ -411,17 +489,6 @@ BEGIN
     );
 END;
 
--- if a user who is a member is deactivated his active membership is cancelled
-CREATE TRIGGER CancelMembershipAfterMemberDeactivation
-AFTER UPDATE ON User
-FOR EACH ROW
-WHEN NEW.is_active = 0 AND OLD.is_active = 1
-BEGIN
-    UPDATE Membership
-    SET status = 'cancelled'
-    WHERE member_id = NEW.id AND status = 'active';
-END;
-
 -- ON UPDATE TRIGGER: When a user who is a trainer is deactivated, all classes that did not happen yet are deleted 
 -- (by checking the current time and the start_time of all of his classes)
 CREATE TRIGGER UpdateClassesAfterTrainerDeactivation
@@ -430,5 +497,44 @@ FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
-    WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) AND start_timestamp > datetime('now', 'localtime');
+    WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) 
+    AND start_timestamp > datetime('now', 'localtime');
+END;
+
+
+CREATE TRIGGER OverlappingTimeslotCreation
+BEFORE INSERT ON Timeslot
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot create overlapping timeslots.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM Timeslot
+        WHERE (time(start_time) < time(NEW.end_time) AND time(end_time) > time(NEW.start_time))
+    );
+END;
+
+
+CREATE TRIGGER PreventMemberToBookMultipleEquipmentsSameTimeslot
+BEFORE INSERT ON EquipmentBooking
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot book multiple equipments for the same timeslot.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM EquipmentBooking
+        WHERE member_id = NEW.member_id AND booking_date = NEW.booking_date AND timeslot_id = NEW.timeslot_id
+    );
+END;
+
+CREATE TRIGGER PreventBookingUnavailableEquipment
+BEFORE INSERT ON EquipmentBooking
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot book equipment that is not available.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM Equipment
+        WHERE id = NEW.equipment_id AND status != 'available'
+    );
 END;

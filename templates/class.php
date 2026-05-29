@@ -42,7 +42,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
             <?php for($i = 0; $i < floor($classTypeRating[0]); $i++) { ?>
               <span class="symbol">⭐</span>
             <?php } ?>
-            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= htmlspecialchars($classTypeRating[1]) ?> reviews)
+            <?= number_format($classTypeRating[0], 1) ?> / 5 (<?= $classTypeRating[1] ?> reviews)
           </p>
         <?php } ?>
 
@@ -61,7 +61,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
             <a class="btn large blue" href=<?= $session->isMember() ? "#enrollment" : "../pages/index.php#membership" ?>>Join Class</a>
         <?php } ?>
       </div>
-      <?= drawPicture($classType->id, 'classes') ?>
+      <?php drawPicture($classType->getId(), 'classes') ?>
     </section>
   </div>
 <?php } ?>

@@ -8,7 +8,7 @@
     
     $session = new Session();
     
-    require_once(__DIR__ . '/../utils/role_change_guard.php');
+    require_once(__DIR__ . '/../utils/protected_file_guard.php');
     
     $firstName = trim((string) $_POST['first-name'] ?? '');
     $lastName = trim((string) $_POST['last-name'] ?? '');

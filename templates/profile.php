@@ -132,16 +132,17 @@
 
 <?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, int $numMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
+  <?php if ($session->isMember()) { ?>
     <section class="container">
       <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
-
       <?php drawEnrolledClassesContainer($classes, $session); ?>
     </section>
 
-    
+
     <?php if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       }
       drawMemberships($numMemberships, $session); ?>
     </section>
+  <?php } ?>
 <?php } ?>

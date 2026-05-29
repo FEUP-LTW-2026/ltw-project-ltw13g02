@@ -13,9 +13,12 @@
   require_once (__DIR__ . '/../database/membership_tier.class.php');
   $plans = MembershipTier::getActiveMembershipTiers($db);
 
+  require_once (__DIR__ . '/../database/membership_tiers_perks_map.class.php');
+  $perksMap = new MembershipTierPerksMap($db);
+
   drawHeader($session, 'Home', ['index.css']);
   
-  drawIndexPage($plans, $session);
+  drawIndexPage($plans, $session, $perksMap);
 
   drawFooter();
 ?>

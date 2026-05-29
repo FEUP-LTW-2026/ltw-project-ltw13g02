@@ -20,6 +20,7 @@
     <?php foreach ($extra_css as $css) { ?>
         <link rel="stylesheet" href="<?= '../css/page/' . $css ?>">
     <?php } ?>
+    <script src="../javascript/executeLazyCronJob.js" defer></script>
     <script src="../javascript/global.js" defer></script>
     <script src="../javascript/addInputFields.js" defer></script>
   </head>
@@ -135,7 +136,7 @@
 <?php } ?>
 
 
-<?php function drawPicture(int $userId, string $path) {
+<?php function drawPicture(int $userId, string $path) : void {
    $photoUrl = file_exists('../img/'.$path.'/' . $userId . '.jpg')
       ? '../img/'.$path.'/' . $userId . '.jpg'
       : '../img/'.$path.'/default.jpg'; ?>

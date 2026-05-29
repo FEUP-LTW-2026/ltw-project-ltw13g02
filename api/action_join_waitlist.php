@@ -10,7 +10,7 @@
 
     $session = new Session();
 
-    require_once(__DIR__ . '/../utils/role_change_guard.php');
+    require_once(__DIR__ . '/../utils/protected_file_guard.php');
 
     if (!$session->isLoggedIn()) {
         echo json_encode(['success' => false, 'message' => 'Not logged in.']);

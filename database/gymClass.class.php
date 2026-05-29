@@ -123,5 +123,10 @@
         public function hasRemainingCapacity() : bool {
             return $this->currentEnrollment < $this->capacity;
         }
+
+        public static function updateAllClassesStatus(PDO $db, string $newStatus, string $endTimestamp) : void {
+            $stmt = $db->prepare('UPDATE Class SET status = ? WHERE end_timestamp <= ?');
+            $stmt->execute([$newStatus, $endTimestamp]);
+        }
     }
 ?>

@@ -130,5 +130,16 @@
         public static function addToWaitlist(PDO $db, int $memberId, int $classId) : void {
             self::create($db, $memberId, $classId, 'waitlisted');
         }
+
+        public static function updateAllAttendedEnrollments(PDO $db, string $currentTimestamp) : void {
+            $stmt = $db->prepare('
+                UPDATE Enrollment 
+                SET status = "attended", status_update_timestamp = ?
+                WHERE status = "enrolled" AND class_id IN (
+                    SELECT id FROM Class WHERE end_timestamp <= ? AND status = "completed"
+                )
+            ');
+            $stmt->execute([$currentTimestamp, $currentTimestamp]);
+        }
     }
 ?>

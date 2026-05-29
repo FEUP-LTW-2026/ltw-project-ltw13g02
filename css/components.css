@@ -48,6 +48,7 @@
   }
 
   body > footer {
+    margin-top: 0;
     background-color: var(--color-footer);
     padding: var(--space-xl) 0;
 
