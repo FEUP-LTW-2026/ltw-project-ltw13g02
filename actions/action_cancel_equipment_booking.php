@@ -25,7 +25,7 @@
     redirectToPreviousPage();
   }
 
-  $equipmentBookingId = (int)$_POST['equipment_booking_id'];
+  $equipmentBookingId = (int)$_POST['booking_id'];
 
   try {
     EquipmentBooking::cancel($db, $equipmentBookingId);
