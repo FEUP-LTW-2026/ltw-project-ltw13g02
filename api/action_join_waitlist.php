@@ -38,10 +38,13 @@
 
     try {
         Enrollment::addToWaitlist($db, $memberId, $classId);
+        $updatedClass = GymClass::getClassById($db, $classId);
         echo json_encode([
-            'messageType' => 'warning',
-            'message' => 'Successfully joined waitlist.',
+            'messageType' => 'success',
+            'message' => 'Successfully joined the waitlist.',
             'status' => 'waitlisted',
+            'current_enrollment' => $updatedClass->currentEnrollment,
+            'capacity' => $updatedClass->capacity,
         ]);
     } catch (PDOException $e) {
         echo json_encode(['messageType' => 'error', 'message' => 'Failed to join waitlist.']);

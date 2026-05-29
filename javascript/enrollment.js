@@ -6,10 +6,11 @@ const apiMap = {
 };
 
 const nextFormMap = {
-    'enrolled':    { action: 'cancel', label: 'Cancel Enrollment', css: 'btn medium warning outline' },
-    'waitlisted':  { action: 'leave_waitlist', label: 'Leave Waitlist', css: 'btn medium warning outline' },
-    'cancelled':   { action: 'enroll', label: 'Enroll Now', css: 'btn medium blue' },
-    'left_waitlist':{ action: 'enroll', label: 'Enroll Now', css: 'btn medium blue' },
+    'enrolled':     { action: 'cancel',       label: 'Cancel Enrollment', css: 'btn medium warning outline' },
+    'waitlisted':   { action: 'leave_waitlist', label: 'Leave Waitlist',  css: 'btn medium warning outline' },
+    'cancelled':    { action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
+    'left_waitlist':{ action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
+    'cancelled_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
 };
 
 document.querySelectorAll('.scheduled-classes').forEach(list => {
@@ -43,7 +44,9 @@ document.querySelectorAll('.scheduled-classes').forEach(list => {
                 }
             });
 
-            const next = nextFormMap[data.status];
+            const isFull = data.current_enrollment >= data.capacity;
+            const resolvedStatus = (data.status === 'cancelled' && isFull) ? 'cancelled_full' : data.status;
+            const next = nextFormMap[resolvedStatus];
             const newForm = document.createElement('form');
             newForm.dataset.action = next.action;
 
