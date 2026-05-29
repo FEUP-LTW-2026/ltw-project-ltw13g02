@@ -144,10 +144,10 @@
 <?php } ?>
 
 <?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
-   <div class="class-info">
+   <div class="card-info">
       <h3><?= htmlspecialchars($class->name) ?></h3>
-      <?php drawClassDate(htmlspecialchars($class->startTimestamp)); ?>
-      <?php drawClassTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
+      <?php drawDate(htmlspecialchars($class->startTimestamp)); ?>
+      <?php drawTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
 
       <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
         <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
@@ -160,5 +160,27 @@
   <p>
     <span class="symbol">person</span>
     Max: <?= (int) $capacity ?>
+  </p>
+<?php } ?>
+
+<?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
+  <p>
+    <span class="symbol">person</span>
+    <?= htmlspecialchars((string)$currentEnrollment) . '/' . htmlspecialchars((string)$capacity) ?> enrolled
+  </p>
+<?php } ?>
+
+<?php function drawDate(string $startTimestamp) { ?>
+  <p>
+    <span class="symbol">calendar_today</span>
+    <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
+    <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
+  </p>
+<?php } ?>
+
+<?php function drawTime(string $startTimestamp, string $endTimestamp) { ?>
+  <p>
+    <span class="symbol">schedule</span>
+    <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
   </p>
 <?php } ?>

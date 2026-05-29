@@ -2,9 +2,7 @@
   declare(strict_types=1);
 
   require_once(__DIR__ . '/../database/gymClass.class.php'); 
-  require_once(__DIR__ . '/common.php');  
-  // TODO: this is used because of the drawClassDate, drawClassTime, and drawClassCapacity functions (move them to common.php?)
-  require_once(__DIR__ . '/class.php');
+  require_once(__DIR__ . '/common.php');
 ?>
 
 <?php function drawProfile(int $userId, string $name, string $username) { ?>
@@ -21,10 +19,10 @@
 <?php } ?>
 
 <?php function drawClassCardInfo(GymClass $class) { ?>
-  <div class="class-info">
+  <div class="card-info">
     <h3><?= htmlspecialchars($class->name); ?></h3>
-    <?php drawClassDate($class->startTimestamp); ?>
-    <?php drawClassTime($class->startTimestamp, $class->endTimestamp); ?>
+    <?php drawDate($class->startTimestamp); ?>
+    <?php drawTime($class->startTimestamp, $class->endTimestamp); ?>
     <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
   </div>
 <?php } ?>
@@ -43,7 +41,7 @@
 <?php } ?>
 
 <?php function drawEnrolledClasses(array $classes, Session $session) { ?>
-  <ul class="scheduled-classes">
+  <ul class="card-list js-enrollment">
     <?php if (empty($classes)) { ?>
       <li><p>You are not enrolled in any classes yet.</p></li>
     <?php } else {
@@ -75,7 +73,7 @@
 <?php } ?>
 
 <?php function drawWaitlistedClasses(array $classes, Session $session) { ?>
-  <ul class="scheduled-classes">
+  <ul class="card-list js-enrollment">
     <?php
       foreach ($classes as $class) {
         drawWaitlistedClass($class, $session);
@@ -130,7 +128,31 @@
   <?php }
 } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, int $numMemberships, Session $session) {
+<?php function drawEquipmentReservationsContainer(array $equipmentBooked, Session $session) { ?>
+  <section class="container">
+    <h2>My Equipment Reservations</h2>
+    <ul class="card-list">
+      <?php foreach ($equipmentBooked as $booking) { ?>
+        <li class="card">
+          <section class="card-info">
+            <h3><?= htmlspecialchars($booking->equipmentName); ?></h3>
+            <?php drawDate($booking->bookingStartTime); ?>
+            <?php drawTime($booking->bookingStartTime, $booking->bookingEndTime); ?>
+          </section>
+
+          <form data-action="cancel_equipment_booking" method="post">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+            <input type="hidden" name="booking_id" value="<?= (int) $booking->id ?>" />
+            <button class="btn medium warning outline" type="submit">Cancel Booking</button>
+          </form>
+        </li>
+      <?php } ?>
+    </ul>
+  </section>
+<?php } ?>
+  
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $equipmentBooked, int $numMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <?php if ($session->isMember()) { ?>
     <section class="container">
@@ -142,7 +164,13 @@
     <?php if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       }
+
+      if (!empty($equipmentBooked)) {
+        drawEquipmentReservationsContainer($equipmentBooked, $session);
+      }
+
       drawMemberships($numMemberships, $session); ?>
     </section>
+  
   <?php } ?>
 <?php } ?>

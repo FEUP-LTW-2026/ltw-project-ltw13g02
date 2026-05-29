@@ -22,7 +22,7 @@
         <?= htmlspecialchars($class->weekday) ?>
       </p>
       <?php
-        drawClassTime($class->startTime, $class->endTime);
+        drawTime($class->startTime, $class->endTime);
         drawClassTrainer($class->trainerId, $class->trainerName);
       ?>
 		</div>
