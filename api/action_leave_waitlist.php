@@ -47,10 +47,13 @@ if ($class === null) {
 
 try {
     Enrollment::leaveWaitlist($db, $memberId, $classId);
+    $updatedClass = GymClass::getClassById($db, $classId);
     echo json_encode([
         'messageType' => 'success',
-        'message' => 'Enrollment cancelled.',
+        'message' => 'Left the waitlist.',
         'status' => 'left_waitlist',
+        'current_enrollment' => $updatedClass->currentEnrollment,
+        'capacity' => $updatedClass->capacity,
     ]);
 } catch (PDOException $e) {
     echo json_encode(['messageType' => 'error', 'message' => 'Failed to cancel enrollment.']);

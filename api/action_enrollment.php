@@ -53,12 +53,13 @@ if (Enrollment::isEnrolled($db, $memberId, $classId)) {
 if ($class->currentEnrollment >= $classType->capacity) {
     try {
         Enrollment::create($db, $memberId, $classId, 'waitlisted');
+        $updatedClass = GymClass::getClassById($db, $classId);
         echo json_encode([
             'messageType' => 'success',
             'message' => 'Class is full. Added to waitlist.',
             'status' => 'waitlisted',
-            'current_enrollment' => $class->currentEnrollment + 1,
-            'capacity' => $class->capacity
+            'current_enrollment' => $updatedClass->currentEnrollment,
+            'capacity' => $updatedClass->capacity
         ]);
     } catch (PDOException $e) {
         echo json_encode(['messageType' => 'error', 'message' => 'Failed to add to waitlist.']);
@@ -68,12 +69,13 @@ if ($class->currentEnrollment >= $classType->capacity) {
 
 try {
     Enrollment::create($db, $memberId, $classId, 'enrolled');
+    $updatedClass = GymClass::getClassById($db, $classId);
     echo json_encode([
         'messageType' => 'success',
         'message' => 'Successfully enrolled!',
         'status' => 'enrolled',
-        'current_enrollment' => $class->currentEnrollment + 1,
-        'capacity' => $class->capacity
+        'current_enrollment' => $updatedClass->currentEnrollment,
+        'capacity' => $updatedClass->capacity
     ]);
 } catch (PDOException $e) {
     echo json_encode(['messageType' => 'error', 'message' => 'Failed to enroll.']);
