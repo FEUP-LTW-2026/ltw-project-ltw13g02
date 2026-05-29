@@ -103,6 +103,12 @@
             return $nextTier && (int)$nextTier['id'] === $nextTierId;
         }
 
+        public static function belongsToMember(PDO $db, int $membershipId, int $memberId): bool {
+            $stmt = $db->prepare('SELECT 1 FROM Membership WHERE id = ? AND member_id = ?');
+            $stmt->execute([$membershipId, $memberId]);
+            return $stmt->fetchColumn() !== false;
+        }
+
         public static function getNumMemberships(PDO $db, int $memberId): int {
             $stmt = $db->prepare('SELECT COUNT(*) FROM Membership WHERE member_id = ?');
             $stmt->execute([$memberId]);

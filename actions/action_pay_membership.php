@@ -28,6 +28,11 @@
     $db = getDatabaseConnection();
     $membershipId = (int)$_POST['membership_id'];
 
+    if (!Membership::belongsToMember($db, $membershipId, (int)$session->getId())) {
+        $session->addErrorMessage('You do not have permission to pay this membership.');
+        redirectToPreviousPage();
+    }
+
     try {
         Membership::payMembership($db, $membershipId);
         $session->addSuccessMessage('Membership paid successfully.');

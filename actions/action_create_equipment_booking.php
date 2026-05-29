@@ -26,7 +26,7 @@
     redirectToPreviousPage();
   }
 
-  $memberId = (int)$_POST['member_id'];
+  $memberId = (int)$session->getId();
   $equipmentId = (int)$_POST['equipment_id'];
   $bookingDate = $_POST['booking_date'];
   $timeslotId = (int)$_POST['time-slot'];

@@ -29,6 +29,11 @@
     $membershipId = (int)$_POST['membership_id'];
     $nextTierId = (int)$_POST['next_tier_id'];
 
+    if (!Membership::belongsToMember($db, $membershipId, (int)$session->getId())) {
+        $session->addErrorMessage('You do not have permission to upgrade this membership.');
+        redirectToPreviousPage();
+    }
+
     if (!Membership::isNextTierValid($db, $membershipId, $nextTierId)) {
         $session->addErrorMessage('Invalid membership tier selected for upgrade.');
         redirectToPreviousPage();
