@@ -18,7 +18,8 @@ INSERT INTO User (id, first_name, last_name, username, email, password, is_activ
 (13, 'Catarina', 'Sousa', 'csousa', 'catarina@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
 (14, 'Ricardo', 'Gomes', 'rgomes', 'ricardo@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
 (15, 'Rita', 'Fernandes', 'rfernandes', 'rita@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
-(16, 'Hugo', 'Nunes', 'hnunes', 'hugo@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0);
+(16, 'Hugo', 'Nunes', 'hnunes', 'hugo@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0), 
+(17, 'Mítico', 'Miguel', 'miguel', 'miguel@gmail.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0);
 
 INSERT INTO Admin (id) VALUES
 (1);
@@ -286,7 +287,15 @@ INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp
 (45, 14, 21, 'attended', '2026-05-29 08:00:00'),
 (46, 15, 21, 'attended', '2026-05-29 08:05:00'),
 (47, 16, 22, 'attended', '2026-05-29 18:00:00'),
-(48, 6, 22, 'attended', '2026-05-29 18:05:00');
+(48, 6, 22, 'attended', '2026-05-29 18:05:00'),
+(50, 7, 3, 'enrolled', '2026-06-01 08:02:00'),
+(51, 9, 3, 'enrolled', '2026-06-01 08:05:00'),
+(52, 10, 3, 'enrolled', '2026-06-01 08:07:00'),
+(53, 11, 3, 'enrolled', '2026-06-01 08:09:00'),
+(54, 12, 3, 'enrolled', '2026-06-01 08:11:00'),
+(55, 15, 3, 'enrolled', '2026-06-01 08:13:00'),
+(56, 16, 3, 'enrolled', '2026-06-01 08:15:00'),
+(57, 16, 3, 'enrolled', '2026-06-01 08:17:00');
 
 INSERT INTO Review (id, review_text, rating, review_timestamp, class_type_id, member_id) VALUES
 (1, 'The HIIT format is intense but well paced. I left tired in the best way.', 5, '2026-05-24 18:20:00', 1, 6),

@@ -406,15 +406,6 @@ BEGIN
     );
 END;
 
--- Reactivate member when a membership becomes active (if they were deactivated)
--- will also run even if the member is not deactivated
-CREATE TRIGGER ReactivateMemberOnActiveMembership
-AFTER UPDATE ON Membership
-FOR EACH ROW
-WHEN NEW.status = 'active'
-BEGIN
-    INSERT INTO Member (id) VALUES (NEW.member_id);
-END;
 
 -- OTHER IDEA FOR SAME MONTH UPGRADE
 -- that will result in a new payment with a limit date of that same day
