@@ -31,8 +31,8 @@
     }
 
     function validatePassword(string $password) : bool {
-        // TODO: check the password strenght
-        return strlen($password) >= 8;
+        // Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one digit, and one special character
+        return preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/', $password) === 1;
     }
 
     function validateText(string $text) : bool {
