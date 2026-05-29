@@ -130,7 +130,29 @@
   <?php }
 } ?>
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, int $numMemberships, Session $session) {
+<?php function drawEquipmentReservationsContainer(array $equipmentBooked, Session $session) { ?>
+  <section class="container">
+    <h2>My Equipment Reservations</h2>
+      <ul class="equipment-reservations-list">
+        <?php foreach ($equipmentBooked as $booking) { ?>
+          <li class="card">
+            <h3><?= htmlspecialchars($booking->equipmentName); ?></h3>
+            <p>Date: <?= date('Y-m-d', strtotime($booking->bookingDate)); ?></p>
+            <p>From: <?= date('H:i', strtotime($booking->bookingStartTime)); ?></p>
+            <p>To: <?= date('H:i', strtotime($booking->bookingEndTime)); ?></p>
+
+            <form data-action="cancel_equipment_reservation">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+              <input type="hidden" name="reservation_id" value="<?= (int) $booking->id ?>" />
+              <button class="btn medium warning outline" type="submit">Cancel Reservation</button>
+            </form>
+          </li>
+        <?php } ?>
+      </ul>
+    <?php } ?>
+  </section>
+
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $equipmentBooked, int $numMemberships, Session $session) {
   drawProfile($userId, $name, $username); ?>
   <?php if ($session->isMember()) { ?>
     <section class="container">
@@ -142,7 +164,13 @@
     <?php if (!empty($waitlistedClasses)) {
         drawWaitlistedClassesContainer($waitlistedClasses, $session);
       }
+
+      if (!empty($equipmentBooked)) {
+        drawEquipmentReservationsContainer($equipmentBooked, $session);
+      }
+
       drawMemberships($numMemberships, $session); ?>
     </section>
+  
   <?php } ?>
 <?php } ?>
