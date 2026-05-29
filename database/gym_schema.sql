@@ -295,6 +295,7 @@ CREATE TABLE MembershipTier(
     name TEXT NOT NULL,
     monthly_fee REAL NOT NULL,
     booking_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
+    max_enrollments INTEGER NOT NULL, -- maximum number of class enrollments per membership period (4 weeks)
     is_active INTEGER NOT NULL DEFAULT 1, -- whether the tier is active and can be subscribed to by users
     
     CONSTRAINT PK_MembershipTier PRIMARY KEY (id),

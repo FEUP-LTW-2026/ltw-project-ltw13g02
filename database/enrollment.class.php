@@ -3,17 +3,16 @@
 
     class Enrollment {
 
-        private static function getEnrollmentCount(PDO $db, int $memberId) : int {
+        private static function checkEnrollmentLimit(PDO $db, int $memberId, int $maxEnrollments) : bool {
+
             $stmt = $db->prepare("
                 SELECT COUNT(*) FROM Enrollment 
                 WHERE member_id = ? AND status IN ('enrolled', 'waitlisted')
             ");
             $stmt->execute([$memberId]);
-            return (int)$stmt->fetchColumn();
-        }
+            $currentEnrollments = (int)$stmt->fetchColumn();
 
-        private static function getMaxEnrollments(PDO $db, int $memberId) : int {
-            return 0;
+            return $currentEnrollments < $maxEnrollments;
         }
 
         private static function checkBookingWindow(PDO $db, int $bookingDays, int $classId) : bool {
@@ -33,15 +32,10 @@
             return $daysUntilClass <= $bookingDays;
         }
 
-
         public static function create(PDO $db, int $memberId, int $classId, string $status) : void {
-            // Get the count of enrollments for this user -  not yet implemented
-            // $enrollmentCount = self::getEnrollmentCount($db, $memberId);
-            // $maxEnrollments = self::getMaxEnrollments($db, $memberId);
-
             // TODO: add here the other perks
             $stmt = $db->prepare('
-                SELECT mt.booking_window_days
+                SELECT mt.booking_window_days, mt.max_enrollments
                 FROM MembershipTier mt
                 JOIN Membership m ON mt.id = m.membership_tier_id
                 WHERE m.member_id = ? AND m.status = "active"
@@ -53,6 +47,11 @@
 
             if (!self::checkBookingWindow($db, $bookingWindowDays, $classId)) {
                 throw new Exception("Your membership tier only allows you to book classes within {$bookingWindowDays} days of the class date.");
+            }
+
+            $maxEnrollments = (int)$data['max_enrollments'];
+            if (!self::checkEnrollmentLimit($db, $memberId, $maxEnrollments)) {
+                throw new Exception("You have reached the maximum number of enrollments for your membership tier - {$maxEnrollments} enrollments.");
             }
 
             $stmt = $db->prepare("
