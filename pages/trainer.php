@@ -30,4 +30,5 @@
   drawFooter(); 
 ?>
 
+<script src="../javascript/trainerInfo.js" defer></script>
 <script src="../javascript/enrolledMembers.js" defer></script>

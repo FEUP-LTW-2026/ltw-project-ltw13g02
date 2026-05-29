@@ -23,8 +23,6 @@
     <script src="../javascript/executeLazyCronJob.js" defer></script>
     <script src="../javascript/global.js" defer></script>
     <script src="../javascript/addInputFields.js" defer></script>
-    <script src="../javascript/enrollment.js" defer></script>
-    <script src="../javascript/trainerInfo.js" defer></script>
   </head>
 <body>
   <header>
@@ -85,22 +83,6 @@
   <?php } 
 } ?>
 
-<!-- This will be used to display either the user is logged in or not -->
-<?php function drawLoginButtons() { ?>
-  <ul class="auth-links">
-    <li><a class="btn medium transparent-dark" href="../pages/login.php">Login</a></li>
-    <li><a class="btn medium transparent-dark" href="../pages/signup.php">Sign up</a></li>
-    <li><a class="btn medium blue" href="../pages/index.php#membership">Join Now</a></li>
-  </ul>
-<?php } ?>
-
-<?php function drawLogoutButtons() { ?>
-  <ul class="auth-links">
-    <li><a class="btn medium transparent-dark" href="../pages/login.php">Name</a></li>
-    <li><a class="btn medium transparent-dark" href="../pages/signup.php">Logout</a></li>
-  </ul>
-<?php } ?>
-
 <?php function drawIntro(string $detail, string $title, string $description) { ?>
   <div class="intro">
     <section class="container">
@@ -154,12 +136,12 @@
 <?php } ?>
 
 
-<?php function drawProfilePicture(int $userId) {
-   $photoUrl = file_exists('../img/profiles/' . $userId . '.jpg')
-      ? '../img/profiles/' . $userId . '.jpg'
-      : '../img/profiles/default.jpg'; ?>
+<?php function drawPicture(int $userId, string $path) : void {
+   $photoUrl = file_exists('../img/'.$path.'/' . $userId . '.jpg')
+      ? '../img/'.$path.'/' . $userId . '.jpg'
+      : '../img/'.$path.'/default.jpg'; ?>
 
-    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">';
+    <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">
 <?php } ?>
 
 <?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>

@@ -61,9 +61,9 @@
   echo '<script src="../javascript/equipmentAdmin.js" defer></script>';
   echo '<script src="../javascript/classCatalog.js" defer></script>';
   echo '<script src="../javascript/addInputFields.js" defer></script>';
+  echo '<script src="../javascript/script.js" defer></script>';
 
   drawAdminPanel($users, $db, $session, $tiers, $roleManager, $equipmentTypes, $equipmentItems, $timeslots, $statusManager, $classesByWeekday, $trainers, $perksMap);
+  drawFooter();
 ?>
-
-<?php drawFooter() ?>
 

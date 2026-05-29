@@ -1,17 +1,18 @@
 <?php
 	declare(strict_types=1);
 
-  require_once (__DIR__ . '/../database/classType.class.php');
-  require_once (__DIR__ . '/../database/gymClass.class.php');
-  require_once (__DIR__ . '/../database/trainer.class.php');
-  require_once (__DIR__ . '/../database/connection.db.php');
-  require_once(__DIR__ . '/class.php');
+    require_once (__DIR__ . '/../database/classType.class.php');
+    require_once (__DIR__ . '/../database/gymClass.class.php');
+    require_once (__DIR__ . '/../database/trainer.class.php');
+    require_once (__DIR__ . '/../database/connection.db.php');
+    require_once(__DIR__ . '/common.php');
+    require_once(__DIR__ . '/class.php');
 ?>
 
 <?php function drawClassType(ClassType $class) { ?>
 	<article class="card class-card">
 		<header>
-			<img src="https://picsum.photos/400/300" alt="<?= htmlspecialchars($class->name) ?>">
+			<?php drawPicture($class->id, 'classes') ?>
 		</header>
 				
 		<div>

@@ -12,6 +12,10 @@
         public string $endTime;
         public ?string $description;
 
+        public function getId() : int {
+            return $this->id;
+        }
+
         static array $weekdays = [
             0 => 'Sunday',
             1 => 'Monday',

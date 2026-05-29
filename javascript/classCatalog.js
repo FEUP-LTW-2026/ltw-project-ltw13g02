@@ -1,6 +1,15 @@
   const dialogCreate = document.getElementById('dialog-create-class');
   const dialogEdit = document.getElementById('dialog-edit-class');
   
+// Opens "Add User" Modal
+const btnAddUser = document.getElementById('add-user-btn');
+const dialogAddUser = document.getElementById('dialog-add-user');
+if (btnAddUser && dialogAddUser) {
+    btnAddUser.addEventListener('click', () => {
+        dialogAddUser.showModal();
+    });
+}
+
 // Opens "Add Class" Modal
 const btnAddClass = document.getElementById('add-class-btn');
 if (btnAddClass && dialogCreate) {

@@ -39,3 +39,5 @@
   drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $numMemberships, $session);
   drawFooter();
 ?>
+
+<script src="../javascript/enrollment.js" defer></script>

@@ -18,7 +18,7 @@
         </ul>
       </nav>
     </div>
-    <img src="https://picsum.photos/800/600" alt="gymRAT Hero Image" class="hero-image" >
+    <img src="../img/gym.jpg" alt="gymRAT Hero Image" class="hero-image" >
   </section>
   </div>
 <?php } ?>
