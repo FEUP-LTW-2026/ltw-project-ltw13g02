@@ -2,9 +2,28 @@
   declare(strict_types=1);
 
   class EquipmentBooking {
+    public int $id;
+    public string $equipmentName;
+    public string $bookingDate;
+    public string $bookingStartTime;
+    public string $bookingEndTime;
+
+    public function __construct(int $id, string $equipmentName, string $bookingDate, string $bookingStartTime, string $bookingEndTime) {
+      $this->id = $id;
+      $this->equipmentName = $equipmentName;
+      $this->bookingDate = $bookingDate;
+      $this->bookingStartTime = $bookingStartTime;
+      $this->bookingEndTime = $bookingEndTime;
+    }
+
     public static function create(PDO $db, int $memberId, int $equipmentId, int $timeslotId, string $bookingDate) : void {
       $stmt = $db->prepare('INSERT INTO EquipmentBooking (member_id, equipment_id, timeslot_id, booking_date) VALUES (?, ?, ?, ?)');
       $stmt->execute([$memberId, $equipmentId, $timeslotId, $bookingDate]);
+    }
+
+    public static function cancel(PDO $db, int $equipmentBookingId) : void {
+      $stmt = $db->prepare('DELETE FROM EquipmentBooking WHERE id = ?');
+      $stmt->execute([$equipmentBookingId]);
     }
 
     public static function getBookingsForTimeslot(PDO $db, int $equipmentId, int $timeslotId, string $bookingDate) : array {
@@ -17,6 +36,32 @@
       $stmt = $db->prepare('SELECT * FROM EquipmentBooking WHERE equipment_id = ? AND booking_date = ? ORDER BY timeslot_id ASC');
       $stmt->execute([$equipmentId, $bookingDate]);
       return $stmt->fetchAll();
+    }
+
+    public static function getUserEquipmentBookings(PDO $db, int $memberId) : array {
+      $stmt = $db->prepare('
+        SELECT eb.id, e.name AS equipmentName, eb.booking_date AS bookingDate, t.start_time AS bookingStartTime, t.end_time AS bookingEndTime
+        FROM EquipmentBooking eb
+        JOIN Equipment e ON eb.equipment_id = e.id
+        JOIN Timeslot t ON eb.timeslot_id = t.id
+        WHERE eb.member_id = ?
+        ORDER BY eb.booking_date ASC, t.start_time DESC
+      ');
+      $stmt->execute([$memberId]);
+
+      $bookings = [];
+
+      foreach ($stmt->fetchAll() as $row) {
+        $bookings[] = new EquipmentBooking(
+          (int)$row['id'],
+          $row['equipmentName'],
+          $row['bookingDate'],
+          $row['bookingStartTime'],
+          $row['bookingEndTime']
+        );
+      }
+
+      return $bookings;
     }
 
     //TODO: fix this due to sql injection

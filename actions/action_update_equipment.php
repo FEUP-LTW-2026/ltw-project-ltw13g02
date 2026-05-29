@@ -4,6 +4,7 @@
   require_once(__DIR__ . '/../utils/session.php');
   require_once(__DIR__ . '/../database/connection.db.php');
   require_once(__DIR__ . '/../database/equipment.class.php');
+  require_once(__DIR__ . '/../utils/helpers.php');
 
   $session = new Session();
   require_once(__DIR__ . '/../utils/protected_file_guard.php');
@@ -35,7 +36,7 @@
     exit;
   }
 
-  if (!preg_match('/^[a-zA-Z0-9 ]+$/', $name)) {
+  if (!validateTextBox($name)) {
     $session->addErrorMessage('Equipment name can only contain letters, numbers, and spaces.');
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;

@@ -126,13 +126,13 @@
 }?>
 
 <?php function drawNextClassesToSchedule(array $nextClassesToSchedule, Session $session) { ?>
-  <ul class="scheduled-classes">
+  <ul class="card-list js-enrollment">
     <?php foreach ($nextClassesToSchedule as $class) { ?>
       <li class="card">
-        <div class="class-info">
+        <div class="card-info">
           <h3><?= htmlspecialchars($class['name']) ?></h3>
-          <?php drawClassDate($class['startTimestamp']); ?>
-          <?php drawClassTime($class['startTimestamp'], $class['endTimestamp']); ?>
+          <?php drawDate($class['startTimestamp']); ?>
+          <?php drawTime($class['startTimestamp'], $class['endTimestamp']); ?>
           <?php drawClassTypeCapacity($class['capacity']); ?>
 
           <form method="post" action="../actions/action_schedule_class.php">
@@ -191,7 +191,7 @@
 
 
 <?php function drawScheduledClasses(int $trainerId, array $scheduledClasses, Session $session) { ?>
-  <ul class="scheduled-classes">
+  <ul class="card-list js-enrollment">
     <?php foreach ($scheduledClasses as $class) { ?>
       <li class="card">
         <?php drawScheduledClassInfo($class, $session);

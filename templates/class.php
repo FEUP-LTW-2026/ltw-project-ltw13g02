@@ -47,7 +47,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
         <?php } ?>
 
         <?php
-          drawClassTime($classType->startTime, $classType->endTime); 
+          drawTime($classType->startTime, $classType->endTime); 
           drawClassTrainer($classType->trainerId, $classType->trainerName);
         ?>
         <div class="stats">
@@ -86,28 +86,6 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 }
 ?>
 
-<?php function drawClassDate(string $startTimestamp) { ?>
-  <p>
-    <span class="symbol">calendar_today</span>
-    <?= date('M j, Y', strtotime($startTimestamp)) . ',' ?>
-    <span class="date-weekday"><?= date('l', strtotime($startTimestamp)) ?></span>
-  </p>
-<?php } ?>
-
-<?php function drawClassTime(string $startTimestamp, string $endTimestamp) { ?>
-  <p>
-    <span class="symbol">schedule</span>
-    <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
-  </p>
-<?php } ?>
-
-<?php function drawClassCapacity(int $currentEnrollment, int $capacity) { ?>
-  <p>
-    <span class="symbol">person</span>
-    <?= htmlspecialchars((string)$currentEnrollment) . '/' . htmlspecialchars((string)$capacity) ?> enrolled
-  </p>
-<?php } ?>
-
 <?php function drawClassEnrollmentList(array $classes, array $enrolledClasses, array $waitlistedClasses, Session $session) { ?>
   <div id="enrollment">
     <section class="container floating">
@@ -117,7 +95,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
         <p>No classes available of this type at the moment.</p>
 
       <?php } else { ?>
-        <ul class="scheduled-classes">
+        <ul class="card-list js-enrollment">
           <?php foreach ($classes as $class) { ?>
             <?php if (!$class->isCompleted()) { ?>
               <li class="card">

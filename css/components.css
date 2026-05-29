@@ -418,7 +418,7 @@
       }
     }
 
-  .scheduled-classes {
+  .card-list {
       list-style: none;
       padding: 0;
       margin: 0;
@@ -442,25 +442,6 @@
               border-color: var(--color-primary);
           }
 
-          & .class-info {
-              flex: 1;
-
-              & h3 {
-                  margin: 0 0 var(--space-s) 0;
-                  font-size: var(--font-size-m);
-                  color: var(--color-text);
-              }
-
-              & p {
-                  margin: var(--space-xs) 0;
-                  font-size: var(--font-size-s);
-                  color: var(--color-paragraph);
-                  display: flex;
-                  align-items: center;
-                  gap: var(--space-xs);
-              }
-          }
-
           & form {
               display: flex;
               gap: var(--space-s);
@@ -469,6 +450,25 @@
                   flex: 1;
               }
           }
+      }
+  }
+
+  .card-info {
+      flex: 1;
+
+      & h3 {
+          margin: 0 0 var(--space-s) 0;
+          font-size: var(--font-size-m);
+          color: var(--color-text);
+      }
+
+      & p {
+          margin: var(--space-xs) 0;
+          font-size: var(--font-size-s);
+          color: var(--color-paragraph);
+          display: flex;
+          align-items: center;
+          gap: var(--space-xs);
       }
   }
 
@@ -715,7 +715,7 @@
 
   @media (max-width: 75em) {
 
-    .scheduled-classes {
+    .card-list {
       grid-template-columns: repeat(3, 1fr);
     }
 
@@ -802,7 +802,7 @@
     }
 
 
-    .scheduled-classes {
+    .card-list {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -875,7 +875,7 @@
       }
     }
 
-    .scheduled-classes {
+    .card-list {
       grid-template-columns: 1fr;
     }
   }
