@@ -18,6 +18,7 @@
 
   if (!AuthenticatedUser::isUserActive($db, (int) $session->getId())) {
     $session->addInactiveAccountMessage();
+    $session->invalidateAuth();
     header('Location: ../pages/index.php');
     exit;
   }

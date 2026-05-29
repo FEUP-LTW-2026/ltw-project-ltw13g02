@@ -22,6 +22,12 @@
         $user = AuthenticatedUser::getUserWithPassword($db, $emailUsername, $password);
 
         if ($user) {
+            if(!$user->IsActive()) {
+                $session->addInactiveAccountMessage();
+                header('Location: /../../pages/index.php');
+                exit;
+            }
+
             $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, $user->getId());
             $session->setRoleChangeCount($roleChangeCount);
 
@@ -30,12 +36,6 @@
             $session->setEmail($user->getEmail());
             $session->setRole($user->getRole());
             $session->setIsActive($user->IsActive());
-
-            if(!$session->IsActive()) {
-                $session->addInactiveAccountMessage();
-                header('Location: /../../pages/index.php');
-                exit;
-            }
 
             // Ensure a CSRF token exists for the session
             $session->generateCSRFToken();

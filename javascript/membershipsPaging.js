@@ -33,68 +33,68 @@ async function getMembershipPage() {
         const actions = document.createElement('td');
         actions.classList.add('actions');
 
-        if (membership.status === 'active' || membership.status === 'planned' || membership.status === 'pending') {
 
-             if (membership.status === 'pending') { // Add a pay now button for pending (not paid) memberships
-                  
-                const form = document.createElement('form');
-                form.action = '../actions/action_pay_membership.php';
-                form.method = 'post';
-
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = 'csrf_token';
-                csrfInput.value = csrfToken;
-                form.appendChild(csrfInput);
-
-                const membershipIdInput = document.createElement('input');
-                membershipIdInput.type = 'hidden';
-                membershipIdInput.name = 'membership_id';
-                membershipIdInput.value = membership.id;
-                form.appendChild(membershipIdInput);
-
-                const payButton = document.createElement('button');
-                payButton.type = 'submit';
-                payButton.classList.add('btn', 'medium', 'blue');
-                payButton.textContent = 'Pay Now';
-                form.appendChild(payButton);
+        if (membership.status === 'pending') { // Add a pay now button for pending (not paid) memberships
                 
-                actions.appendChild(form);
-            }
+            const form = document.createElement('form');
+            form.action = '../actions/action_pay_membership.php';
+            form.method = 'post';
 
-            if (membership.nextTierId !== null) { // Add an upgrade membership tier button
-                const form = document.createElement('form');
-                form.action = '../actions/action_upgrade_membership.php';
-                form.method = 'post';
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
 
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = 'csrf_token';
-                csrfInput.value = csrfToken;
-                form.appendChild(csrfInput);
+            const membershipIdInput = document.createElement('input');
+            membershipIdInput.type = 'hidden';
+            membershipIdInput.name = 'membership_id';
+            membershipIdInput.value = membership.id;
+            form.appendChild(membershipIdInput);
 
-                const membershipIdInput = document.createElement('input');
-                membershipIdInput.type = 'hidden';
-                membershipIdInput.name = 'membership_id';
-                membershipIdInput.value = membership.id;
-                form.appendChild(membershipIdInput);
-
-                const nextTierIdInput = document.createElement('input');
-                nextTierIdInput.type = 'hidden';
-                nextTierIdInput.name = 'next_tier_id';
-                nextTierIdInput.value = membership.nextTierId;
-                form.appendChild(nextTierIdInput);
-
-                const upgradeButton = document.createElement('button');
-                upgradeButton.type = 'submit';
-                upgradeButton.classList.add('btn', 'medium', 'available');
-                upgradeButton.textContent = 'Upgrade to ' + membership.nextTierName;
-                form.appendChild(upgradeButton);
-                
-                actions.appendChild(form);
-            }
+            const payButton = document.createElement('button');
+            payButton.type = 'submit';
+            payButton.classList.add('btn', 'medium', 'blue');
+            payButton.textContent = 'Pay Now';
+            form.appendChild(payButton);
             
-            // Add a cancel button for active, planned and pending memberships        
+            actions.appendChild(form);
+        }
+
+        if (membership.nextTierId !== null && 
+            (membership.status === 'active' || membership.status === 'planned' || membership.status === 'pending')) { // Add an upgrade button for active, planned and pending memberships that have a next tier
+            const form = document.createElement('form');
+            form.action = '../actions/action_upgrade_membership.php';
+            form.method = 'post';
+
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            const membershipIdInput = document.createElement('input');
+            membershipIdInput.type = 'hidden';
+            membershipIdInput.name = 'membership_id';
+            membershipIdInput.value = membership.id;
+            form.appendChild(membershipIdInput);
+
+            const nextTierIdInput = document.createElement('input');
+            nextTierIdInput.type = 'hidden';
+            nextTierIdInput.name = 'next_tier_id';
+            nextTierIdInput.value = membership.nextTierId;
+            form.appendChild(nextTierIdInput);
+
+            const upgradeButton = document.createElement('button');
+            upgradeButton.type = 'submit';
+            upgradeButton.classList.add('btn', 'medium', 'available');
+            upgradeButton.textContent = 'Upgrade to ' + membership.nextTierName;
+            form.appendChild(upgradeButton);
+            
+            actions.appendChild(form);
+        }
+
+        if (membership.status === 'pending' || membership.status === 'planned') { // Add a cancel button for active, planned and pending memberships        
             const form = document.createElement('form');
             form.action = '../actions/action_cancel_membership.php';
             form.method = 'post';
