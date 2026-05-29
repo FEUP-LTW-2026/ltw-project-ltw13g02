@@ -34,17 +34,39 @@ document.querySelectorAll('.scheduled-classes').forEach(list => {
             const card = form.closest('.card');
             card.querySelectorAll('p').forEach(p => {
                 if (p.textContent.includes('/')) {
-                    p.innerHTML = `<span class="symbol">person</span> ${data.current_enrollment}/${data.capacity} enrolled`;
+                    p.textContent = '';
+                    const icon = document.createElement('span');
+                    icon.className = 'symbol';
+                    icon.textContent = 'person';
+                    p.appendChild(icon);
+                    p.appendChild(document.createTextNode(` ${data.current_enrollment}/${data.capacity} enrolled`));
                 }
             });
 
             const next = nextFormMap[data.status];
-            form.outerHTML = `
-                <form data-action="${next.action}">
-                    <input type="hidden" name="csrf_token" value="${csrfToken}">
-                    <input type="hidden" name="class_id"   value="${classId}">
-                    <button class="btn ${next.css}" type="submit">${next.label}</button>
-                </form>`;
+            const newForm = document.createElement('form');
+            newForm.dataset.action = next.action;
+
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken;
+
+            const classInput = document.createElement('input');
+            classInput.type = 'hidden';
+            classInput.name = 'class_id';
+            classInput.value = classId;
+
+            const btn = document.createElement('button');
+            btn.type = 'submit';
+            btn.className = next.css;
+            btn.textContent = next.label;
+
+            newForm.appendChild(csrfInput);
+            newForm.appendChild(classInput);
+            newForm.appendChild(btn);
+
+            form.replaceWith(newForm);
         }
     });
 });

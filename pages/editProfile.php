@@ -1,43 +1,45 @@
-<?php 
-  declare(strict_types=1);
+<?php
+    declare(strict_types=1);
 
-  require_once(__DIR__ . '/../utils/session.php');
-  $session = new Session();
-  require_once(__DIR__ . '/../utils/protected_file_guard.php');
-
-  if (!$session->isLoggedIn()) {
-    header('Location: login.php');
-  
-  } else {
+    require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../templates/common.php');
     require_once(__DIR__ . '/../templates/editProfile.php');
     require_once (__DIR__ . '/../database/connection.db.php');
     require_once (__DIR__ . '/../database/authenticated_user.class.php');
+    require_once (__DIR__ . '/../database/trainer.class.php');
 
-    $db = getDatabaseConnection();
-    $user = AuthenticatedUser::getUser($db, $session->getId());
+    $session = new Session();
 
-    if (!$user) {
-      $session->logout();
-      $session->addErrorMessage('User not found. Please log in again.');
-      header('Location: login.php');
-      exit;
+    require_once(__DIR__ . '/../utils/protected_file_guard.php');
+
+    if (!$session->isLoggedIn()) {
+        header('Location: login.php');
+
+    } else {
+
+        $db = getDatabaseConnection();
+        $user = AuthenticatedUser::getUser($db, $session->getId());
+
+        if (!$user) {
+            $session->logout();
+            $session->addErrorMessage('User not found. Please log in again.');
+            header('Location: login.php');
+            exit;
+        }
+
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $username = $user->getUsername();
+        $biography = null;
+
+        if ($session->isTrainer()) {
+            $biography = Trainer::getTrainerBioById($db, $session->getId());
+        }
+
+        drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
+
+        drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $biography, $session);
+
+        drawFooter();
     }
-
-    $firstName = $user->getFirstName();
-    $lastName = $user->getLastName();
-    $username = $user->getUsername();
-    $biography = null;
-
-    if ($session->isTrainer()) {
-        require_once (__DIR__ . '/../database/trainer.class.php');
-        $biography = Trainer::getTrainerBioById($db, $session->getId());
-    }
-
-    drawHeader($session, 'Edit Profile', ['profile.css', 'edit.css']);
-
-    drawEditProfilePage($session->getId(), $firstName, $lastName, $username, $biography, $session);
-
-    drawFooter();
-  }
 ?>
