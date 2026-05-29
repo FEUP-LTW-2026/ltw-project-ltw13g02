@@ -119,39 +119,41 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
       <?php } else { ?>
         <ul class="scheduled-classes">
           <?php foreach ($classes as $class) { ?>
-            <li class="card">
-              <?php drawScheduledClassInfo($class, $session); ?>
+            <?php if (!$class->isCompleted()) { ?>
+              <li class="card">
+                <?php drawScheduledClassInfo($class, $session); ?>
 
-              <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
-                  if ($class->hasRemainingCapacity()) { ?>
-                  <form data-action="enroll">
+                <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                    if ($class->hasRemainingCapacity()) { ?>
+                    <form data-action="enroll">
+                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                      <input type="hidden" name="class_id" value="<?= $class->id ?>">
+                      <button class="btn medium blue" type="submit">Enroll Now</button>
+                    </form>
+                  <?php } else { ?>
+                    <form data-action="join_waitlist">
+                      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+                      <input type="hidden" name="class_id" value="<?= $class->id ?>">
+                      <button class="btn medium blue" type="submit">Join Waitlist</button>
+                    </form>
+                  <?php } ?>
+
+                <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+                  <form data-action="cancel">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>">
-                    <button class="btn medium blue" type="submit">Enroll Now</button>
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                   </form>
-                <?php } else { ?>
-                  <form data-action="join_waitlist">
+
+                <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
+                  <form data-action="leave_waitlist">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>">
-                    <button class="btn medium blue" type="submit">Join Waitlist</button>
+                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                   </form>
                 <?php } ?>
-
-              <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
-                <form data-action="cancel">
-                  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
-                </form>
-
-              <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
-                <form data-action="leave_waitlist">
-                  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                  <input type="hidden" name="class_id" value="<?= $class->id ?>" />
-                  <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
-                </form>
-              <?php } ?>
-            </li>
+              </li>
+            <?php } ?>
           <?php } ?>
         </ul>
       <?php } ?>
