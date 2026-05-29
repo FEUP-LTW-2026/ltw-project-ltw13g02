@@ -2,11 +2,64 @@
     declare(strict_types=1);
 
     class Enrollment {
+
+        private static function getEnrollmentCount(PDO $db, int $memberId) : int {
+            $stmt = $db->prepare("
+                SELECT COUNT(*) FROM Enrollment 
+                WHERE member_id = ? AND status IN ('enrolled', 'waitlisted')
+            ");
+            $stmt->execute([$memberId]);
+            return (int)$stmt->fetchColumn();
+        }
+
+        private static function getMaxEnrollments(PDO $db, int $memberId) : int {
+            return 0;
+        }
+
+        private static function checkBookingWindow(PDO $db, int $bookingDays, int $classId) : bool {
+            $stmt = $db->prepare('
+                SELECT c.start_timestamp
+                FROM Class c
+                WHERE c.id = ?
+            ');
+
+            $stmt->execute([$classId]);
+            $classStartTimestamp = $stmt->fetchColumn();
+            $currentTimestamp = new DateTime();
+            $classStartTime = new DateTime($classStartTimestamp);
+            $interval = $currentTimestamp->diff($classStartTime);
+
+            $daysUntilClass = (int)$interval->format('%a'); // %a gives total days
+            return $daysUntilClass <= $bookingDays;
+        }
+
+
         public static function create(PDO $db, int $memberId, int $classId, string $status) : void {
+            // Get the count of enrollments for this user -  not yet implemented
+            // $enrollmentCount = self::getEnrollmentCount($db, $memberId);
+            // $maxEnrollments = self::getMaxEnrollments($db, $memberId);
+
+            // TODO: add here the other perks
+            $stmt = $db->prepare('
+                SELECT mt.booking_window_days
+                FROM MembershipTier mt
+                JOIN Membership m ON mt.id = m.membership_tier_id
+                WHERE m.member_id = ? AND m.status = "active"
+            ');
+
+            $stmt->execute([$memberId]);
+            $data = $stmt->fetch();
+            $bookingWindowDays = (int)$data['booking_window_days'];
+
+            if (!self::checkBookingWindow($db, $bookingWindowDays, $classId)) {
+                throw new Exception("Your membership tier only allows you to book classes within {$bookingWindowDays} days of the class date.");
+            }
+
             $stmt = $db->prepare("
                 INSERT INTO Enrollment (member_id, class_id, status, status_update_timestamp)
                 VALUES (?, ?, ?, datetime('now', 'localtime'))
             ");
+
             $stmt->execute([$memberId, $classId, $status]);
         }
 

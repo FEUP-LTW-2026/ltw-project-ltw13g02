@@ -61,7 +61,7 @@
         try {
             Enrollment::create($db, $memberId, $classId, 'waitlisted');
             $session->addSuccessMessage('Added to waitlist.');
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             error_log($e->getMessage());
             $session->addErrorMessage('Failed to add to waitlist.');
         }
@@ -72,7 +72,7 @@
     try {
         Enrollment::create($db, $memberId, $classId, 'enrolled');
         $session->addSuccessMessage('Successfully enrolled in the class!');
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
         error_log($e->getMessage());
         $session->addErrorMessage('Failed to enroll: ' . $e->getMessage());
     }
