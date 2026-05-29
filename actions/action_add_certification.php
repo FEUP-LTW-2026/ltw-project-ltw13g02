@@ -1,4 +1,5 @@
 <?php
+    // TODO: REMOVE
     declare(strict_types=1);
 
     require_once(__DIR__ . '/../utils/session.php');
@@ -40,6 +41,7 @@
 
     try {
         Trainer::addCertification($db, $session->getId(), $certificationId);
+        $session->addSuccessMessage('Certification added successfully.');
     } catch (PDOException $e) {
         error_log($e->getMessage());
         $session->addErrorMessage('Failed to add certification: ' . $e->getMessage());

@@ -5,30 +5,32 @@
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/gymClass.class.php');
     require_once(__DIR__ . '/../database/enrollment.class.php');
-    require_once(__DIR__ . '/../utils/helpers.php');
+
+    header('Content-Type: application/json');
 
     $session = new Session();
 
     require_once(__DIR__ . '/../utils/protected_file_guard.php');
 
     if (!$session->isLoggedIn()) {
-        redirectToLogin();
+        echo json_encode(['success' => false, 'message' => 'Not logged in.']);
+        exit;
     }
 
     if(empty($_POST['class_id'])) {
-        $session->addErrorMessage('Class ID is required.');
-        redirectToPreviousPage();
+        echo json_encode(['success' => false, 'message' => 'No class selected.']);
+        exit;
     }
 
     if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
-        $session->addErrorMessage('Invalid CSRF token.');
-        redirectToPreviousPage();
+        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token.']);
+        exit;
     }
 
     $classId = (int)$_POST['class_id'];
     if ($classId <= 0) {
-        $session->addErrorMessage('Invalid class ID.');
-        redirectToPreviousPage();
+        echo json_encode(['success' => false, 'message' => 'Invalid class ID.']);
+        exit;
     }
 
     $memberId = $session->getId();
@@ -36,11 +38,13 @@
 
     try {
         Enrollment::addToWaitlist($db, $memberId, $classId);
-        $session->addWarningMessage('The class is currently full. You have been added to the waitlist.');
+        echo json_encode([
+            'messageType' => 'warning',
+            'message' => 'Successfully joined waitlist.',
+            'status' => 'waitlisted',
+        ]);
     } catch (PDOException $e) {
-        error_log($e->getMessage());
-        $session->addErrorMessage('Failed to join waitlist: ' . $e->getMessage());
+        echo json_encode(['messageType' => 'error', 'message' => 'Failed to join waitlist.']);
     }
 
-    redirectToPreviousPage();
-?>
+exit;

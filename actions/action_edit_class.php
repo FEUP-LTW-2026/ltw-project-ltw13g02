@@ -15,7 +15,10 @@
     }
 
     $required = ['name', 'description', 'trainer_id', 'capacity', 'start_time', 'end_time', 'weekday', 'csrf_token'];
-    validateRequiredFields($required);
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
+        redirectToPreviousPage();
+    }
 
     if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
         $session->addErrorMessage('Invalid CSRF token. Please try again.');
@@ -48,7 +51,7 @@
         $session->addSuccessMessage('Class updated successfully.');
         redirectToPreviousPage();
     } catch (Exception $e) {
-        if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
+        if (str_contains($e->getMessage(), 'Cannot update to overlapping classes for the same trainer.')) {
             $session->addErrorMessage('Error editing class: This class overlaps with another class for the same trainer.');
         } else if (str_contains($e->getMessage(), 'CHECK constraint failed: ValidTimes')) {
             $session->addErrorMessage('Error editing class: Start time must be before end time.');

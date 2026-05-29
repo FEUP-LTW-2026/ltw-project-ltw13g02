@@ -17,7 +17,7 @@
 
   $generalClass = ClassType::getClassTypeById($db, intval($_GET['id']));
   $classes = GymClass::getClassesByTypeId($db, intval($_GET['id']));
-  
+
  if ($session->isLoggedIn()) {
     $memberId = $session->getId();
     $enrolledClasses = Enrollment::getEnrolledClasses($db, $session->getId());

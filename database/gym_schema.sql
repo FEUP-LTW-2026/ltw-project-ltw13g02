@@ -341,8 +341,7 @@ CREATE TABLE Membership(
         REFERENCES MembershipTier(id)
         ON UPDATE CASCADE,
     CONSTRAINT ValidMembershipStatus CHECK (
-        status IN ('active', 'planned', 'pending', 'expired',
-                   'suspended', 'cancelled_by_user', 'cancelled')
+        status IN ('active', 'planned', 'pending', 'expired', 'cancelled')
     ),
     CONSTRAINT ValidPaymentStatus CHECK (
         payment_status IN ('paid', 'failed', 'pending')
@@ -393,13 +392,12 @@ END;
 -- also, if the user has more than 1 month paid in advance, ask if he wants to make next memberships with the new tier
 -- ask if the user only wants to upgrade the tier for the next months and keep the current month with the old tier 
 
-CREATE TRIGGER DeactivateMemberWhenNoActiveMemberships
+CREATE TRIGGER RemoveFromMemberWhenNoActiveMemberships
 AFTER UPDATE ON Membership
 FOR EACH ROW
-WHEN NEW.status IN ('expired', 'cancelled', 'cancelled_by_user')
+WHEN NEW.status IN ('expired', 'cancelled')
 BEGIN
-    UPDATE User
-    SET is_active = 0
+    DELETE FROM Member
     WHERE id = NEW.member_id
     AND NOT EXISTS (
         SELECT 1 FROM Membership
@@ -415,9 +413,7 @@ AFTER UPDATE ON Membership
 FOR EACH ROW
 WHEN NEW.status = 'active'
 BEGIN
-    UPDATE User
-    SET is_active = 1
-    WHERE id = NEW.member_id;
+    INSERT INTO Member (id) VALUES (NEW.member_id);
 END;
 
 -- OTHER IDEA FOR SAME MONTH UPGRADE
@@ -445,6 +441,21 @@ BEGIN
         WHERE trainer_id = NEW.trainer_id
         AND weekday = NEW.weekday
         AND (start_time < NEW.end_time AND end_time > NEW.start_time)
+    );
+END;
+
+CREATE TRIGGER BlockUpdateOfClassTypes
+BEFORE UPDATE ON ClassType
+FOR EACH ROW
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot update to overlapping classes for the same trainer.')
+    WHERE EXISTS (
+        SELECT 1
+        FROM ClassType
+        WHERE trainer_id = NEW.trainer_id
+        AND weekday = NEW.weekday
+        AND (start_time < NEW.end_time AND end_time > NEW.start_time)
+        AND id != NEW.id  -- exclude the row being updated
     );
 END;
 
@@ -478,17 +489,6 @@ BEGIN
     );
 END;
 
--- if a user who is a member is deactivated his active membership is cancelled
-CREATE TRIGGER CancelMembershipAfterMemberDeactivation
-AFTER UPDATE ON User
-FOR EACH ROW
-WHEN NEW.is_active = 0 AND OLD.is_active = 1
-BEGIN
-    UPDATE Membership
-    SET status = 'cancelled'
-    WHERE member_id = NEW.id AND status = 'active';
-END;
-
 -- ON UPDATE TRIGGER: When a user who is a trainer is deactivated, all classes that did not happen yet are deleted 
 -- (by checking the current time and the start_time of all of his classes)
 CREATE TRIGGER UpdateClassesAfterTrainerDeactivation
@@ -497,7 +497,8 @@ FOR EACH ROW
 WHEN NEW.is_active = 0 AND OLD.is_active = 1
 BEGIN
     DELETE FROM Class
-    WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) AND start_timestamp > datetime('now', 'localtime');
+    WHERE class_type_id IN (SELECT id FROM ClassType WHERE trainer_id = NEW.id) 
+    AND start_timestamp > datetime('now', 'localtime');
 END;
 
 

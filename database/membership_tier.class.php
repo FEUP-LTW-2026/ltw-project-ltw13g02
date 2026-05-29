@@ -229,6 +229,24 @@
         throw new Exception('Error creating membership: ' . $e->getMessage());
       }
     }
+
+    public static function expirePastActiveMemberships(PDO $db, string $newStatus, string $timestamp) : void {
+      $stmt = $db->prepare("
+        UPDATE Membership 
+        SET status = ? 
+        WHERE end_timestamp < ? AND status = 'active'
+      ");
+      $stmt->execute([$newStatus, $timestamp]);
+    }
+
+    public static function activatePlannedMemberships(PDO $db, string $newStatus, string $timestamp) : void {
+      $stmt = $db->prepare("
+        UPDATE Membership 
+        SET status = ? 
+        WHERE start_timestamp <= ? AND status = 'planned'
+      ");
+      $stmt->execute([$newStatus, $timestamp]);
+    }
   }
 
 ?>

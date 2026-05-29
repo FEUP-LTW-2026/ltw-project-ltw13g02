@@ -43,7 +43,7 @@
   <?php if (empty($specializations)) { ?>
     <p>No specializations added yet.</p>
   <?php } else {?>
-    <ul>
+    <ul class="specializations">
       <?php foreach ($specializations as $specialization) { ?>
         <li class="card">
           <header>
@@ -51,7 +51,7 @@
             <h3><?= htmlspecialchars($specialization['name']) ?></h3>
 
             <?php if ($session->getId() === $trainerId) { ?>
-              <form method="post" action="../actions/action_remove_specialization.php">
+              <form method="post">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                 <input type="hidden" name="specialization_id" value="<?= (int) $specialization['id'] ?>">
                 <button type="submit" class="btn warning remove-btn" title="Remove Specialization">
@@ -67,7 +67,7 @@
   <?php } ?>
 
   <?php if ($session->getId() === $trainerId) { ?>
-    <form id="add-specialization" method="post" action="../actions/action_add_specialization.php">
+    <form id="add-specialization" method="post">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
       <select name="specialization_id">
@@ -89,13 +89,13 @@
     <p>No certifications added yet.</p>
   <?php } else { ?>
 
-    <ul>
+    <ul class="certifications">
       <?php foreach ($certifications as $certification) { ?>
         <li class="card">
           <h3><?= htmlspecialchars($certification['name']) ?></h3>
 
           <?php if ($session->getId() === $trainerId) { ?>
-            <form method="post" action="../actions/action_remove_certification.php">
+            <form method="post">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
               <input type="hidden" name="certification_id" value="<?= (int) $certification['id'] ?>">
               <button type="submit" class="btn warning remove-btn" title="Remove Certification">
@@ -109,7 +109,7 @@
   <?php } ?>
 
   <?php if ($session->getId() === $trainerId) { ?>
-      <form id="add-certification" method="post" action="../actions/action_add_certification.php">
+      <form id="add-certification" method="post">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <select name="certification_id">

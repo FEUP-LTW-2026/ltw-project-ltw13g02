@@ -151,7 +151,7 @@
     </header>
     <!-- Search bar for filtering users, by username -->
     <input type="text" id="search-bar" placeholder="Search users by username...">
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="data-table">
         <thead>
           <tr>
@@ -275,7 +275,7 @@
 
 <?php function drawEditClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-edit-class">
-    <div class="dialog-content">
+    <section class="dialog-content">
       <h3>Edit Class</h3>
       <form action="../actions/action_edit_class.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
@@ -329,7 +329,7 @@
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
-    </div>
+    </section>
   </dialog>
 <?php } ?>
 
@@ -381,7 +381,7 @@
       <button id="add-class-btn" class="btn transparent-dark medium">+ Add Class</button>
     </header>
 
-    <div class="table-responsive">
+    <div class="table-container">
       <div class="schedule-grid">
         <?php foreach ($classesByWeekday as $index => $classes) { 
           $weekDay = ClassType::$weekdays[$index];

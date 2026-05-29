@@ -8,22 +8,30 @@
             require_once(__DIR__ . '/../database/enrollment.class.php');
 
             $db = getDatabaseConnection();
-
-            // Memberships:
-            // 1. Expire active memberships that have reached their end date
-            // 2. Activate planned memberships that have reached their start date
             
-            //MembershipTier::updateAllMembershipStatus($db);
+            try {
+                $db->beginTransaction();
+                // Memberships:
+                // 1. Expire active memberships that have reached their end date
+                MembershipTier::expirePastActiveMemberships($db, 'expired', date('Y-m-d H:i:s'));
 
-            // Classes:
-            // 1. Mark classes as completed if their end time has passed
+                // 2. Activate planned memberships that have reached their start date
+                MembershipTier::activatePlannedMemberships($db, 'active', date('Y-m-d H:i:s'));
 
-            GymClass::updateAllClassesStatus($db, 'completed', date('Y-m-d H:i:s'));
+                // Classes:
+                // 1. Mark classes as completed if their end time has passed
+                GymClass::updateAllClassesStatus($db, 'completed', date('Y-m-d H:i:s'));
 
-            // Enrollments:
-            // 1. Mark attended enrollments as completed if the class has ended and user enrolled
+                // Enrollments:
+                // 1. Mark attended enrollments as completed if the class has ended and user enrolled
+                Enrollment::updateAllAttendedEnrollments($db, date('Y-m-d H:i:s'));
 
-            Enrollment::updateAllAttendedEnrollments($db, date('Y-m-d H:i:s'));
+                $db->commit();
+            } catch (PDOException $e) {
+                if ($db->inTransaction()) {
+                    $db->rollBack();
+                }
+            }
         }
     }
 ?>
