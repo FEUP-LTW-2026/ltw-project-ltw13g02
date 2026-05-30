@@ -48,6 +48,7 @@
 
     try {
         ClassType::update($db, $classTypeId, $name, $description, $trainerId, $capacity, $startTime, $endTime, $weekday);
+        saveClassImage($classTypeId);
         $session->addSuccessMessage('Class updated successfully.');
         redirectToPreviousPage();
     } catch (Exception $e) {

@@ -301,20 +301,21 @@
           <input type="time" name="end_time" required>
         </label>
 
+        <div class="image-upload-container">
+          <img id="create-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
+          <form method="post" enctype="multipart/form-data" id="create-class-upload-form">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
+            <input type="file" name="class-image" id="create-class-image-input">
+            <button type="button" class="btn medium blue" id="create-class-upload-btn">Choose Image</button>
+          </form>
+        </div>
+
         <div class="dialog-actions">
           <button type="submit" class="btn medium blue">Save</button>
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
 
-      <div class="image-upload-container">
-        <img id="create-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
-        <form method="post" enctype="multipart/form-data" id="create-class-upload-form">
-          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-          <input type="file" name="class-image" id="create-class-image-input" accept="image/*">
-          <button type="button" class="btn medium blue" id="create-class-upload-btn">Choose Image</button>
-        </form>
-      </div>
     </div>
   </dialog>
 <?php } ?>
@@ -323,10 +324,10 @@
   <dialog id="dialog-edit-class">
     <section class="dialog-content">
       <h3>Edit Class</h3>
-      <form action="../actions/action_edit_class.php" method="POST">
+      <form action="../actions/action_edit_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <input type="hidden" name="class_id" id="edit-class-id">
-        
+
         <label>Class Name
           <input type="text" name="name" id="edit-class-name" required>
         </label>
@@ -338,8 +339,8 @@
         <label>Trainer
           <select name="trainer_id" id="edit-class-trainer" required>
             <option value="" disabled selected>Select a trainer</option>
-            
-            <?php foreach ($trainers as $trainer) { ?> 
+
+            <?php foreach ($trainers as $trainer) { ?>
               <option value="<?= (int) $trainer->getId() ?>"><?= htmlspecialchars($trainer->getFullName()) ?></option>
             <?php } ?>
           </select>
@@ -369,21 +370,18 @@
         <label>End Time
           <input type="time" name="end_time" id="edit-class-end-time" required>
         </label>
-        
+
+        <div class="image-upload-container">
+          <img id="edit-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
+          <input type="file" name="class-image" id="edit-class-image-input" accept="image/*">
+          <button type="button" class="btn medium blue" id="edit-class-upload-btn">Change Image</button>
+        </div>
+
         <div class="dialog-actions">
           <button type="submit" class="btn medium blue">Update</button>
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
         </div>
       </form>
-      <div class="image-upload-container">
-        <img id="edit-class-img-preview" src="../img/classes/default.jpg" alt="Class image preview">
-        <form method="post" action="../actions/action_upload_class_image.php" enctype="multipart/form-data" id="edit-class-upload-form">
-          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-          <input type="hidden" name="class_id" id="edit-class-upload-id">
-          <input type="file" name="class-image" id="edit-class-image-input" accept="image/*">
-          <button type="button" class="btn medium blue" id="edit-class-upload-btn">Change Image</button>
-        </form>
-      </div>
     </section>
   </dialog>
 <?php } ?>

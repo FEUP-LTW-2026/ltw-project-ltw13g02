@@ -1,5 +1,6 @@
 const dialogCreate = document.getElementById('dialog-create-class');
 const dialogEdit = document.getElementById('dialog-edit-class');
+const editImgPreview = document.getElementById('edit-class-img-preview');
 
 // Opens "Add User" Modal
 const btnAddUser = document.getElementById('add-user-btn');
@@ -50,22 +51,21 @@ btnEditClasses.forEach(btn => {
             const weekdaySelect = document.getElementById('edit-class-weekday');
             weekdaySelect.value = weekday;
 
-            // Load current class image into preview and set class_id on the upload form
+            // Load current class image into preview
             if (editImgPreview) {
                 editImgPreview.src = `../img/classes/${classId}.jpg`;
                 editImgPreview.onerror = () => { editImgPreview.src = '../img/classes/default.jpg'; };
             }
-            document.getElementById('edit-class-upload-id').value = classId;
 
             dialogEdit.showModal();
         }
     });
 });
 
-// Image upload — Create dialog (preview only, submits with the main form)
-const createUploadBtn   = document.getElementById('create-class-upload-btn');
-const createImageInput  = document.getElementById('create-class-image-input');
-const createImgPreview  = document.getElementById('create-class-img-preview');
+// Image upload — Create dialog
+const createUploadBtn = document.getElementById('create-class-upload-btn');
+const createImageInput = document.getElementById('create-class-image-input');
+const createImgPreview = document.getElementById('create-class-img-preview');
 if (createUploadBtn && createImageInput && createImgPreview) {
     createUploadBtn.addEventListener('click', () => createImageInput.click());
     createImageInput.addEventListener('change', function() {
@@ -75,16 +75,14 @@ if (createUploadBtn && createImageInput && createImgPreview) {
     });
 }
 
-// Image upload — Edit dialog (auto-submits its own form, same as editProfile.js)
-const editUploadBtn    = document.getElementById('edit-class-upload-btn');
-const editImageInput   = document.getElementById('edit-class-image-input');
-const editImgPreview   = document.getElementById('edit-class-img-preview');
-const editUploadForm   = document.getElementById('edit-class-upload-form');
-if (editUploadBtn && editImageInput && editUploadForm) {
+// Image upload — Edit dialog (preview only, submits with the main form)
+const editUploadBtn = document.getElementById('edit-class-upload-btn');
+const editImageInput = document.getElementById('edit-class-image-input');
+if (editUploadBtn && editImageInput && editImgPreview) {
     editUploadBtn.addEventListener('click', () => editImageInput.click());
     editImageInput.addEventListener('change', function() {
         if (this.files.length > 0) {
-            editUploadForm.submit();
+            editImgPreview.src = URL.createObjectURL(this.files[0]);
         }
     });
 }
