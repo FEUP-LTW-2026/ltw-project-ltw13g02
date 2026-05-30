@@ -48,7 +48,7 @@
 ## Running
 
 ``` bash
-    sqlite3 database/database.db < database/database.sql
+    sh reset.sh # resets the database, cron job timestamp and populates the db
     php -S localhost:9000
 ```
 
