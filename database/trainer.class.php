@@ -8,11 +8,17 @@
 
     class Trainer extends AuthenticatedUser {
 
-        public string $bio;
-        public array $certifications;  // Array of associative arrays with name and description
-        public array $specialitizations;  // Array of associative arrays with name and description
-        public array $classes;
-        public array $scheduledClasses;
+        private string $bio;
+        private array $certifications;
+        private array $specialitizations;
+        private array $classes;
+        private array $scheduledClasses;
+
+        public function getBio() : string { return $this->bio; }
+        public function getCertifications() : array { return $this->certifications; }
+        public function getSpecialitizations() : array { return $this->specialitizations; }
+        public function getClasses() : array { return $this->classes; }
+        public function getScheduledClasses() : array { return $this->scheduledClasses; }
 
         public function __construct(int $id, string $firstName, string $lastName, string $username, string $email, string $bio, array $certifications = [], array $specialitizations = [], array $classes = [], array $scheduledClasses = []) {
             parent::__construct($id, $firstName, $lastName, $username, $email, true, 'Trainer');
@@ -230,17 +236,17 @@
                     $latestClassScheduled = GymClass::getClassById($db, (int)$row['class_id']);
                 
                     // Get the start and end timestamps of the latest scheduled class
-                    $start = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->startTimestamp);
-                    $end = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->endTimestamp);
+                    $start = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->getStartTimestamp());
+                    $end = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $latestClassScheduled->getEndTimestamp());
 
                     // Add one week to the start and end timestamps to get the next class to schedule
-                    $latestClassScheduled->startTimestamp = $start->modify('+1 week')->format('Y-m-d H:i:s');
-                    $latestClassScheduled->endTimestamp = $end->modify('+1 week')->format('Y-m-d H:i:s');
+                    $latestClassScheduled->setStartTimestamp($start->modify('+1 week')->format('Y-m-d H:i:s'));
+                    $latestClassScheduled->setEndTimestamp($end->modify('+1 week')->format('Y-m-d H:i:s'));
 
                     $nextClassesToSchedule[] = [
                         "name" => $row['name'],
-                        "startTimestamp" => $latestClassScheduled->startTimestamp,
-                        "endTimestamp" => $latestClassScheduled->endTimestamp,
+                        "startTimestamp" => $latestClassScheduled->getStartTimestamp(),
+                        "endTimestamp" => $latestClassScheduled->getEndTimestamp(),
                         "classTypeId" => (int)$row['class_type_id'],
                         "capacity" => (int)$row['capacity']
                     ];
@@ -331,24 +337,5 @@
             $stmt->execute([$trainerId, $certificationId]);
         }
 
-        public static function createTrainer(PDO $db, string $firstName, string $lastName, string $username, string $email, string $password) : Trainer {
-            try {
-                $db->beginTransaction();
-                $stmt = $db->prepare('INSERT INTO User (first_name, last_name, username, email, password_hash, is_trainer) VALUES (?, ?, ?, ?, ?, 1)');
-                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                $stmt->execute([$firstName, $lastName, $username, $email, $passwordHash]);
-                $trainerId = (int) $db->lastInsertId();
-
-                $stmt = $db->prepare('INSERT INTO Trainer (trainer_id) VALUES (?)');
-                $stmt->execute([$trainerId]);
-                $db->commit();
-                return new Trainer($trainerId, $firstName, $lastName, $username, $email, '');
-            } catch (PDOException $e) {
-                if ($db->inTransaction()) {
-                    $db->rollBack();
-                }
-                throw new Exception('Failed to create trainer: ' . $e->getMessage());
-            }
-        }
     }
 ?>

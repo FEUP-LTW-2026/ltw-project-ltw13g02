@@ -145,12 +145,12 @@
 
 <?php function drawScheduledClassInfo(GymClass $class, Session $session) { ?>
    <div class="card-info">
-      <h3><?= htmlspecialchars($class->name) ?></h3>
-      <?php drawDate(htmlspecialchars($class->startTimestamp)); ?>
-      <?php drawTime(htmlspecialchars($class->startTimestamp), htmlspecialchars($class->endTimestamp)); ?>
+      <h3><?= htmlspecialchars($class->getName()) ?></h3>
+      <?php drawDate(htmlspecialchars($class->getStartTimestamp())); ?>
+      <?php drawTime(htmlspecialchars($class->getStartTimestamp()), htmlspecialchars($class->getEndTimestamp())); ?>
 
       <?php if ($session->isMember() || $session->isTrainer() || $session->isAdmin()) { ?>
-        <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+        <?php drawClassCapacity($class->getCurrentEnrollment(), $class->getCapacity()); ?>
       <?php } ?>
 
     </div>

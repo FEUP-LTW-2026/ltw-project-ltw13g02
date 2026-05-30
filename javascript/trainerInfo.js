@@ -19,7 +19,7 @@ function attachDeleteSpecializationsListener(elem) {
         const specializationId = form.querySelector('input[name="specialization_id"]').value;
         const csrfToken = form.querySelector('input[name="csrf_token"]').value;
 
-        const response = await fetch('../api/action_remove_specialization.php', {
+        const response = await fetch('../api/trainers/action_remove_specialization.php', {
             method: 'post',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: encodeForAjax({ specialization_id: specializationId, csrf_token: csrfToken })
@@ -51,7 +51,7 @@ function attachDeleteCertificationsListener(elem) {
         const certificationId = form.querySelector('input[name="certification_id"]').value;
         const csrfToken = form.querySelector('input[name="csrf_token"]').value;
 
-        const response = await fetch('../api/action_remove_certification.php', {
+        const response = await fetch('../api/trainers/action_remove_certification.php', {
             method: 'post',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: encodeForAjax({ certification_id: certificationId, csrf_token: csrfToken })
@@ -83,7 +83,7 @@ document.getElementById('add-specialization').addEventListener('submit', async f
     const csrfToken = form.querySelector('input[name="csrf_token"]').value;
     const specializationId = form.querySelector('select[name="specialization_id"]').value;
 
-    const response = await fetch('../api/action_add_specialization.php', {
+    const response = await fetch('../api/trainers/action_add_specialization.php', {
         method: 'post',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encodeForAjax({ specialization_id: specializationId, csrf_token: csrfToken })
@@ -167,7 +167,7 @@ document.getElementById('add-certification').addEventListener('submit', async fu
     const csrfToken = form.querySelector('input[name="csrf_token"]').value;
     const certificationId = form.querySelector('select[name="certification_id"]').value;
 
-    const response = await fetch('../api/action_add_certification.php', {
+    const response = await fetch('../api/trainers/action_add_certification.php', {
         method: 'post',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encodeForAjax({ certification_id: certificationId, csrf_token: csrfToken })

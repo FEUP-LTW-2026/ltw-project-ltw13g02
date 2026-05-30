@@ -1,0 +1,45 @@
+<?php 
+    declare(strict_types=1); 
+
+    require_once(__DIR__ . '/../../utils/session.php');
+    require_once (__DIR__ . '/../../database/connection.db.php');
+    require_once (__DIR__ . '/../../utils/helpers.php');
+    require_once (__DIR__ . '/../../database/membership.class.php');
+
+    $session = new Session();
+
+    require_once(__DIR__ . '/../../utils/protected_file_guard.php');
+    
+    if(!$session->isLoggedIn()) {
+        redirectToLogin();
+    }
+
+    $required = ['membership_id', 'csrf_token'];
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
+        redirectToPreviousPage();
+    }
+
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
+        redirectToPreviousPage();
+    }
+
+    $db = getDatabaseConnection();
+    $membershipId = (int)$_POST['membership_id'];
+
+    if (!Membership::belongsToMember($db, $membershipId, (int)$session->getId())) {
+        $session->addErrorMessage('You do not have permission to cancel this membership.');
+        redirectToPreviousPage();
+    }
+
+    try {
+        Membership::cancelMembership($db, $membershipId);
+        $session->addSuccessMessage('Membership cancelled successfully.');
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        $session->addErrorMessage('Failed to cancel membership: ' . $e->getMessage());
+    }
+
+    redirectToPreviousPage();
+?>

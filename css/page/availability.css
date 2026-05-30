@@ -38,7 +38,7 @@
 
     & .zone-text {
       font-size: var(--font-size-s);
-      color: var(--color-secondary-text);
+      color: var(--color-paragraph);
     }
 
     & h3 {

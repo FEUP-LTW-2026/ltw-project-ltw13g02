@@ -2,16 +2,27 @@
   	declare(strict_types = 1);
 
     class Membership {
-        public int $id;
-        public int $membershipTierId;
-        public string $startTimestamp;
-        public string $endTimestamp;
-        public string $status;
-        public string $paymentStatus;
-        public string $tierName;
-        public string $tierDescription;
-        public float $monthlyFee;
-        public int $bookingWindowDays;
+        private int $id;
+        private int $membershipTierId;
+        private string $startTimestamp;
+        private string $endTimestamp;
+        private string $status;
+        private string $paymentStatus;
+        private string $tierName;
+        private string $tierDescription;
+        private float $monthlyFee;
+        private int $bookingWindowDays;
+
+        public function getId() : int { return $this->id; }
+        public function getMembershipTierId() : int { return $this->membershipTierId; }
+        public function getStartTimestamp() : string { return $this->startTimestamp; }
+        public function getEndTimestamp() : string { return $this->endTimestamp; }
+        public function getStatus() : string { return $this->status; }
+        public function getPaymentStatus() : string { return $this->paymentStatus; }
+        public function getTierName() : string { return $this->tierName; }
+        public function getTierDescription() : string { return $this->tierDescription; }
+        public function getMonthlyFee() : float { return $this->monthlyFee; }
+        public function getBookingWindowDays() : int { return $this->bookingWindowDays; }
 
         public function __construct(int $id, int $membershipTierId, string $startTimestamp, string $endTimestamp, string $status, string $paymentStatus, string $tierName, string $tierDescription, float $monthlyFee, int $bookingWindowDays) {
             $this->id = $id;

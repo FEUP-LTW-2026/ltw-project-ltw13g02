@@ -24,13 +24,14 @@
         if ($user) {
             if(!$user->IsActive()) {
                 $session->addInactiveAccountMessage();
-                header('Location: /../../pages/index.php');
+                header('Location: /pages/index.php');
                 exit;
             }
 
             $roleChangeCount = AuthenticatedUser::getUserRoleChangeCount($db, $user->getId());
             $session->setRoleChangeCount($roleChangeCount);
 
+            session_regenerate_id(true);
             $session->setId($user->getId());
             $session->setUsername($user->getUsername());
             $session->setEmail($user->getEmail());
@@ -45,7 +46,7 @@
                 $session->addInactiveAccountMessage();
             }
 
-            header('Location: /../../pages/index.php');
+            header('Location: /pages/index.php');
             exit;
         } else {
             $session->addErrorMessage('Wrong email or password.');

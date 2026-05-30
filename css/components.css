@@ -1,31 +1,4 @@
 @layer components {
-  .messages {
-    padding-top: var(--space-l);
-    z-index: 1001;
-    position: sticky;
-    top: 0;
-  }
-
-  .message {
-    padding: var(--space-m) var(--space-l);
-    margin: var(--space-m);
-    border-radius: 4px;
-    font-weight: 500;
-    animation: slideDown 0.3s ease-out;
-  }
-
-  .message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-
-  .message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-  }
-
   body > header {
     background-color: var(--color-secondary);
     padding: var(--space-s) 0;
@@ -432,8 +405,8 @@
           gap: var(--space-xs);
 
           padding: var(--space-m);
-          background-color: var(--color-background);
-          border: 1px solid var(--color-border);
+          background-color: var(--color-secondary);
+          border: 1px solid var(--color-secondary-border);
           border-radius: var(--radius-card);
           transition: all 0.3s ease;
 

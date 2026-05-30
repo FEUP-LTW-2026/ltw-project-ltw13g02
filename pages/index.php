@@ -10,8 +10,6 @@
 
     $session = new Session();
 
-    require_once(__DIR__ . '/../utils/protected_file_guard.php');
-
     $db = getDatabaseConnection();
 
     $plans = MembershipTier::getActiveMembershipTiers($db);

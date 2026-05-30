@@ -40,7 +40,7 @@
 
 <?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap, PDO $db) { ?>  
   <section id="membership-terminal" class="container">
-    <form action="../actions/action_checkout_membership.php" method="POST" id="membership-form">
+    <form action="../actions/membership/action_checkout_membership.php" method="POST" id="membership-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
       <fieldset class="terminal-step" id="step-tier">
         <legend>

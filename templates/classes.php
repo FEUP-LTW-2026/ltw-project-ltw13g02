@@ -12,29 +12,29 @@
 <?php function drawClassType(ClassType $class) { ?>
 	<article class="card class-card">
 		<header>
-			<?php drawPicture($class->id, 'classes') ?>
+			<?php drawPicture($class->getId(), 'classes') ?>
 		</header>
-				
+
 		<div>
-			<h3><?= htmlspecialchars($class->name) ?></h3>
+			<h3><?= htmlspecialchars($class->getName()) ?></h3>
       <p>
         <span class="symbol">calendar_today</span>
-        <?= htmlspecialchars($class->weekday) ?>
+        <?= htmlspecialchars($class->getWeekday()) ?>
       </p>
       <?php
-        drawTime($class->startTime, $class->endTime);
-        drawClassTrainer($class->trainerId, $class->trainerName);
+        drawTime($class->getStartTime(), $class->getEndTime());
+        drawClassTrainer($class->getTrainerId(), $class->getTrainerName());
       ?>
 		</div>
-		
+
 		<footer>
 			<div>
 				<?php
-            drawClassDuration($class->startTime, $class->endTime);
-            drawClassTypeCapacity($class->capacity);
+            drawClassDuration($class->getStartTime(), $class->getEndTime());
+            drawClassTypeCapacity($class->getCapacity());
           ?>
 			</div>
-			<a class="btn medium blue" href="../pages/class.php?id=<?= htmlspecialchars((string)$class->id) ?>">Details</a>
+			<a class="btn medium blue" href="../pages/class.php?id=<?= htmlspecialchars((string)$class->getId()) ?>">Details</a>
 		</footer>
 	</article>
 <?php } ?>

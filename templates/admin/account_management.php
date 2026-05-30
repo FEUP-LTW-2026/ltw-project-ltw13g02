@@ -33,7 +33,7 @@
                 <td>
                   <div class="role-update-container">
                       <span><?= htmlspecialchars($user->getRole()) ?></span>
-                      <form action="../actions/action_changeRole.php" method="POST" id="role-form-<?= (int) $user->getId() ?>" class="role-update-form">
+                      <form action="../actions/users/action_changeRole.php" method="POST" id="role-form-<?= (int) $user->getId() ?>" class="role-update-form">
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                         <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                         <input type="hidden" name="user_name" value="<?= htmlspecialchars($user->getUsername()) ?>">
@@ -53,14 +53,14 @@
                 <td class="actions">
                   <button class="btn white" type="submit" form="role-form-<?= (int) $user->getId() ?>">Submit</button>
                   <?php if (!$user->IsActive()) { ?>
-                    <form action="../actions/action_toggle_user_status.php" method="POST">
+                    <form action="../actions/users/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= (int) !$user->IsActive() ?>">
                       <button class="btn available">Activate</button>
                     </form>
                   <?php } else { ?>
-                    <form action="../actions/action_toggle_user_status.php" method="POST">
+                    <form action="../actions/users/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
                       <input type="hidden" name="is_active" value="<?= (int) !$user->IsActive() ?>">
@@ -76,7 +76,7 @@
     <dialog id="dialog-add-user">
       <div class="dialog-content">
         <h3>Add New User</h3>
-        <form action="../actions/action_create_user.php" method="POST">
+        <form action="../actions/users/action_create_user.php" method="POST">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
           <label>First Name

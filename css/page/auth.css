@@ -43,8 +43,34 @@
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(4, 1fr) auto auto;
 
-      & label:nth-child(n+3), & > button, & > p {
+      & label:nth-child(n+3), & > button, & > p, & > .password-requirements {
           grid-column-end: span 2;
+      }
+
+      & .password-requirements {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25em 1em;
+        font-size: var(--font-size-s);
+
+        & li {
+          color: var(--color-light-gray);
+
+          &::before {
+            content: '✗ ';
+          }
+
+          &.met {
+            color: var(--color-success);
+
+            &::before {
+              content: '✓ ';
+            }
+          }
+        }
       }
     }
   }

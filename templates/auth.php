@@ -42,18 +42,27 @@
 
     <label>
       Password
-      <input type="password" name="password" placeholder="Enter password" required>
+      <input type="password" id="password-input" name="password" placeholder="Enter password" required>
     </label>
+
+    <ul class="password-requirements" aria-label="Password requirements">
+      <li id="req-length">At least 8 characters</li>
+      <li id="req-uppercase">One uppercase letter</li>
+      <li id="req-lowercase">One lowercase letter</li>
+      <li id="req-digit">One number</li>
+      <li id="req-special">One special character (!@#$%^&*)</li>
+    </ul>
 
     <label>
       Confirm password
       <input type="password" name="confirm-password" placeholder="Enter password" required>
     </label>
-    
+
     <button class="btn large blue" type="submit">Register</button>
-  
+
     <p>Already have an account? Login <a href="../pages/login.php">here</a>.</p>
   </form>
+  <script src="../javascript/passwordRequirements.js" defer></script>
 <?php } ?>
 
 <?php function drawLoginPage() { ?>

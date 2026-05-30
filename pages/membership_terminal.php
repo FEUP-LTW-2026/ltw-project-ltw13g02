@@ -28,9 +28,9 @@
 
     $perksMap = new MembershipTierPerksMap($db);
 
-    $plan_id = (int) $_POST['plan_id'];
+    $planId = (int) $_POST['plan_id'];
 
-    drawMembershipTerminalForm($plans, $plan_id, $session, $perksMap, $db);
+    drawMembershipTerminalForm($plans, $planId, $session, $perksMap, $db);
 
     drawFooter();
     }

@@ -1,8 +1,8 @@
 const apiMap = {
-    'enroll': '../api/action_enrollment.php',
-    'cancel': '../api/action_cancel_enrollment.php',
-    'join_waitlist': '../api/action_join_waitlist.php',
-    'leave_waitlist':'../api/action_leave_waitlist.php',
+    'enroll': '../api/classes/action_enrollment.php',
+    'cancel': '../api/classes/action_cancel_enrollment.php',
+    'join_waitlist': '../api/classes/action_join_waitlist.php',
+    'leave_waitlist':'../api/classes/action_leave_waitlist.php',
 };
 
 const nextFormMap = {
