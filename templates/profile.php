@@ -133,7 +133,7 @@
     <h2>Attended Classes</h2>
     <?php if ($numAttendedClasses === 0) { ?>
       <p>You haven't attended any classes yet.</p>
-      <a class="btn medium blue" href="../pages/index.php#classes">Book a Class</a>
+      <a class="btn medium blue" href="../pages/classes.php">Enroll in a class</a>
     <?php } else { ?>
       <div class="table-container">
         <table class="data-table attended-classes-table">
