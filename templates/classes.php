@@ -47,7 +47,7 @@
 	</div>
 <?php } ?>
 
-<?php function drawFilters() { ?>
+<?php function drawFilters(array $classes) { ?>
  <section id="filters">
     <header>
       <h2>Search</h2>
@@ -79,13 +79,13 @@
 
       <label> Class type
         <select name="type" id="type">
-          <option value="all" selected>All</option>
-          <option value="weightlifting">Weightlifting</option>
-          <option value="yoga">Yoga</option>
-          <option value="pilates">Pilates</option>
-          <option value="cardio">Cardio</option>
-          <option value="boxing">Boxing</option>
-          <option value="crossfit">CrossFit</option>
+            <option value="all" selected>All</option>
+            <?php
+                foreach ($classes as $classType) { ?>
+                    <option value="<?= htmlspecialchars(strtolower(str_replace(" ", "-", $classType->getName()))) ?>"><?= htmlspecialchars($classType->getName()) ?></option>
+                <?php }
+            ?>
+
         </select>
       </label>
 
@@ -107,7 +107,7 @@
 <?php function drawClassesContainer(array $classes) { ?>
   <div class="container">
     <?php
-      drawFilters();
+      drawFilters($classes);
       drawClasses($classes);
     ?>
   </div>

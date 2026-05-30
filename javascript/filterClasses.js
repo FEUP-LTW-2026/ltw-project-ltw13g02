@@ -47,7 +47,7 @@ function filterClasses() {
         const matchTime =
             selectedTime === "all" || getTimeOfDay(timeText) === selectedTime;
 
-        const matchType = selectedType === "all" || className.includes(selectedType);
+        const matchType = selectedType === "all" || className.split(" ").join("-") === selectedType;
 
         const matchTrainer =
             selectedTrainer === "all" ||
