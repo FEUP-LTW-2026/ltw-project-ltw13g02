@@ -48,6 +48,7 @@
 ## Running
 
 ``` bash
+    sudo apt install php-gd # required for profile picture upload
     sh reset.sh # resets the database, cron job timestamp and populates the db
     php -S localhost:9000
 ```
