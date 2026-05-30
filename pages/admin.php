@@ -81,3 +81,4 @@
 <script src="../javascript/equipmentAdmin.js" defer></script>
 <script src="../javascript/classCatalog.js" defer></script>
 <script src="../javascript/addInputFields.js" defer></script>
+<script src="../javascript/adminUserPassword.js" defer></script>

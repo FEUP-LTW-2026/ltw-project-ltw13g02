@@ -478,6 +478,32 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
+    & .password-requirements {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-s);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25em 1em;
+      font-size: var(--font-size-s);
+
+      & li {
+        color: var(--color-light-gray);
+
+        &::before {
+          content: '✗ ';
+        }
+
+        &.met {
+          color: var(--color-success);
+
+          &::before {
+            content: '✓ ';
+          }
+        }
+      }
+    }
+
     & .dialog-actions {
       display: flex;
       justify-content: flex-end;
