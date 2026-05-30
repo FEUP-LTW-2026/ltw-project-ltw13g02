@@ -318,7 +318,7 @@
 
       & p {
         display: flex;
-        align-items: 'center';
+        align-items: center;
 
         & span {
           font-size: 0.8rem;
