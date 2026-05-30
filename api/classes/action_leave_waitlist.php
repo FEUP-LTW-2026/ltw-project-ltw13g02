@@ -49,15 +49,22 @@ try {
     Enrollment::leaveWaitlist($db, $memberId, $classId);
     $updatedClass = GymClass::getClassById($db, $classId);
     if($updatedClass->getCapacity() === $updatedClass->getCurrentEnrollment()) {
-
+        echo json_encode([
+            'messageType' => 'success',
+            'message' => 'Left the waitlist.',
+            'status' => 'left_waitlist_full',
+            'current_enrollment' => $updatedClass->getCurrentEnrollment(),
+            'capacity' => $updatedClass->getCapacity(),
+        ]);
+    } else {
+        echo json_encode([
+            'messageType' => 'success',
+            'message' => 'Left the waitlist.',
+            'status' => 'left_waitlist',
+            'current_enrollment' => $updatedClass->getCurrentEnrollment(),
+            'capacity' => $updatedClass->getCapacity(),
+        ]);
     }
-    echo json_encode([
-        'messageType' => 'success',
-        'message' => 'Left the waitlist.',
-        'status' => 'left_waitlist',
-        'current_enrollment' => $updatedClass->getCurrentEnrollment(),
-        'capacity' => $updatedClass->getCapacity(),
-    ]);
 } catch (PDOException $e) {
     echo json_encode(['messageType' => 'error', 'message' => 'Failed to cancel enrollment.']);
 }

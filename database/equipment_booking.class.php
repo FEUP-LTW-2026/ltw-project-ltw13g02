@@ -58,6 +58,16 @@
       return $bookings;
     }
 
+    public static function getBookedTimeslotsByEquipId(PDO $db, int $equipmentId, string $bookingDate) : array {
+      $stmt = $db->prepare('SELECT timeslot_id FROM EquipmentBooking WHERE equipment_id = ? AND booking_date = ?');
+      $stmt->execute([$equipmentId, $bookingDate]);
+      return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public static function isBooked(array $bookedTimeslots, int $timeslotId) : bool {
+      return in_array($timeslotId, $bookedTimeslots);
+    }
+
     public static function getRemainingBookings(PDO $db, int $equipmentId) : int {
       $stmt = $db->prepare("
       SELECT COUNT(*) AS remaining_bookings

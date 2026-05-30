@@ -11,6 +11,7 @@ const nextFormMap = {
     'cancelled':    { action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
     'left_waitlist':{ action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
     'cancelled_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
+    'left_waitlist_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
 };
 
 document.querySelectorAll('.js-enrollment').forEach(list => {

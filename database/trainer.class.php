@@ -37,7 +37,7 @@
         }
 
         public static function updateBiography(PDO $db, int $trainerId, string $newBio) : void {
-            $stmt = $db->prepare('UPDATE Trainer SET bio = ? WHERE trainer_id = ?');
+            $stmt = $db->prepare('UPDATE Trainer SET bio = ? WHERE id = ?');
             $stmt->execute([$newBio, $trainerId]);
         }
 
