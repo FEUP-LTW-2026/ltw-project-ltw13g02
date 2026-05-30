@@ -79,12 +79,12 @@
     grid-template-columns: auto auto;
     margin-top: var(--space-m);
 
-    #prev-membership-page {
+    #prev-membership-page, #prev-attended-classes-page {
       grid-column: 1;
       justify-self: start;
     }
 
-    #next-membership-page {
+    #next-membership-page, #\next-attended-classes-page {
       grid-column: 2;
       justify-self: end;
     }

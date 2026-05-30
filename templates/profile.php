@@ -208,7 +208,6 @@
       drawMemberships($numMemberships, $session); 
       drawAttendedClasses($numAttendedClasses, $session);
       ?>
-    </section>
   
   <?php } ?>
 <?php } ?>
