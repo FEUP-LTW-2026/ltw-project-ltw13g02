@@ -56,14 +56,14 @@
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
-                      <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
+                      <input type="hidden" name="is_active" value="<?= (int) !$user->IsActive() ?>">
                       <button class="btn available">Activate</button>
                     </form>
                   <?php } else { ?>
                     <form action="../actions/action_toggle_user_status.php" method="POST">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
                       <input type="hidden" name="user_id" value="<?= (int) $user->getId() ?>">
-                      <input type="hidden" name="is_active" value="<?= !$user->IsActive() ?>">
+                      <input type="hidden" name="is_active" value="<?= (int) !$user->IsActive() ?>">
                       <button class="btn warning">Deactivate</button>
                     </form>
                   <?php } ?>
@@ -93,6 +93,17 @@
 
           <label>Email
             <input type="email" name="email" placeholder="Email" required>
+          </label>
+
+          <label>Role
+            <select name="role" required>
+              <option value="" disabled selected>Select Role</option>
+              <?php 
+                $availableRoles = $roleManager->getAllRoles();
+                foreach ($availableRoles as $role) { ?>
+                  <option value="<?= htmlspecialchars($role) ?>"><?= htmlspecialchars($role) ?></option>
+              <?php } ?>
+            </select>
           </label>
 
           <label>Password

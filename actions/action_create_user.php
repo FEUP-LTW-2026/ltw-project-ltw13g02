@@ -5,6 +5,7 @@
     require_once(__DIR__ . '/../database/connection.db.php');
     require_once(__DIR__ . '/../database/authenticated_user.class.php');
     require_once(__DIR__ . '/../utils/helpers.php');
+    require_once(__DIR__ . '/../database/roleManager.class.php');
 
     $session = new Session();
 
@@ -14,7 +15,7 @@
         redirectToLogin();
     }
 
-    $required = ['first-name', 'last-name', 'username', 'email', 'password', 'confirm-password', 'csrf_token'];
+    $required = ['first-name', 'last-name', 'username', 'email', 'password', 'confirm-password', 'csrf_token', 'role'];
     if (!validateRequiredFields($required)) {
         $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
@@ -31,6 +32,14 @@
     $email     = trim((string) $_POST['email']);
     $password  = (string) $_POST['password'];
     $confirm   = (string) $_POST['confirm-password'];
+    $role      = (string) $_POST['role'];
+
+    $availableRoles = RoleManager::getAllRoles();
+
+    if (!in_array($role, $availableRoles)) {
+        $session->addErrorMessage('Invalid role selected.');
+        redirectToPreviousPage();
+    }
 
     if (!validateText($firstName)) {
         $session->addErrorMessage('First name can only contain letters.');
@@ -53,7 +62,7 @@
     }
 
     if (!validatePassword($password)) {
-        $session->addErrorMessage('Password must be at least 8 characters.');
+        $session->addErrorMessage('Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.');
         redirectToPreviousPage();
     }
 
@@ -79,18 +88,15 @@
 
         $user = AuthenticatedUser::createUser($db, $firstName, $lastName, $email, $username, $password);
 
-        $stmt = $db->prepare('INSERT INTO Member (id) VALUES (?)');
+
+        $stmt = $db->prepare("INSERT INTO $role (id) VALUES (?)");
         $stmt->execute([$user->getId()]);
 
+        $session->addSuccessMessage('Account created successfully.');
         $db->commit();
-
-        $session->addSuccessMessage('User account created successfully.');
     } catch (PDOException $e) {
         if ($db->inTransaction()) $db->rollBack();
         $session->addErrorMessage('Database error while creating user.');
-    } catch (Exception $e) {
-        if ($db->inTransaction()) $db->rollBack();
-        $session->addErrorMessage('Unexpected error: ' . $e->getMessage());
     }
 
     redirectToPreviousPage();

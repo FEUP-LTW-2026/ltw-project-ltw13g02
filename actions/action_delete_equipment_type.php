@@ -27,14 +27,6 @@
 
   try {
     $db = getDatabaseConnection();
-    require_once(__DIR__ . '/../database/equipment.class.php');
-    $count = Equipment::getEquipmentTypeCount($db, $equipmentTypeId);
-
-    if ($count > 0) {
-      $session->addErrorMessage('This equipment type cannot be deleted because there are still equipments associated with it.');
-      redirectToPreviousPage();
-      exit;
-    }
 
     $stmt = $db->prepare('DELETE FROM EquipmentType WHERE id = ?');
     $stmt->execute([$equipmentTypeId]);

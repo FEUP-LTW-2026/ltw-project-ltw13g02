@@ -51,7 +51,7 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
                 data-target="perks">
                 - Remove</button>
               </div>
-            </label>class="perks-container">
+            </label>
                 
             
             <div class="tier-actions">

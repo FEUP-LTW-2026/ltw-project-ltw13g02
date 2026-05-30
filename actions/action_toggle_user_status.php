@@ -14,6 +14,7 @@
     }
 
     $required = ['user_id', 'is_active', 'csrf_token'];
+
     if (!validateRequiredFields($required)) {
         $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
