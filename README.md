@@ -57,4 +57,9 @@ View website at http://localhost:9000/.
 
 ## Credentials
 
-* Not existent yet.
+| Role   | Username | Password |
+|--------|----------|----------|
+| Admin  | sofiacosta | 123456|
+| Trainer | mferreira | 123456| 
+| Member | msilva | 123456 |
+| User | cgomes | 123456 |

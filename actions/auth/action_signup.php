@@ -66,10 +66,10 @@
 
     try {
         $user = AuthenticatedUser::createUser($db, $firstName, $lastName, $email, $username, $password);
-
-        session_regenerate_id(true);
         $session->generateCSRFToken();
         $session->setId($user->getId());
+        $session->setRole($user->getRole());
+        $session->setRoleChangeCount(AuthenticatedUser::getUserRoleChangeCount($db, $user->getId()));
         $session->setUsername($user->getUsername());
         $session->setEmail($user->getEmail());
         $session->addSuccessMessage('Successfully signed up!');
