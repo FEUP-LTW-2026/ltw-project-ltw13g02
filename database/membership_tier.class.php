@@ -151,7 +151,7 @@
         $now = new DateTimeImmutable('now', $timezone);
         $baseStart = $now;
 
-        $lastMembership = null;
+        $lastMembership = false;
 
         // If not already a member, update the Member table
         if (!self::checkExistingMember($db, $member_id)) {
@@ -171,6 +171,7 @@
             $baseStart = new DateTimeImmutable($lastMembership['end_timestamp'], $timezone);
           }
         }
+
 
         $firstStart = $baseStart;
         $firstEnd = $firstStart->modify('+1 month');
