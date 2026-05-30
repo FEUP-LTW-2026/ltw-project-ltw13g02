@@ -77,8 +77,9 @@ try {
         'current_enrollment' => $updatedClass->currentEnrollment,
         'capacity' => $updatedClass->capacity
     ]);
-} catch (PDOException $e) {
-    echo json_encode(['messageType' => 'error', 'message' => 'Failed to enroll.']);
+} catch (Exception $e) {
+    echo json_encode(['messageType' => 'error',
+    'message' => $e->getMessage()]);
 }
 
 exit;

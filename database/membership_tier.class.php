@@ -5,14 +5,16 @@
     private int $id;
     private string $name;
     private float $monthly_fee;
-    private int $booking_window_days;
+    private int $enrollment_window_days;
+    private int $max_enrollments;
     private bool $is_active;
 
-    public function __construct(int $id, string $name, float $monthly_fee, int $booking_window_days, bool $is_active) {
+    public function __construct(int $id, string $name, float $monthly_fee, int $enrollment_window_days, int $max_enrollments, bool $is_active) {
       $this->id = $id;
       $this->name = $name;
       $this->monthly_fee = $monthly_fee;
-      $this->booking_window_days = $booking_window_days;
+      $this->enrollment_window_days = $enrollment_window_days;
+      $this->max_enrollments = $max_enrollments;
       $this->is_active = $is_active;
     }
 
@@ -29,7 +31,11 @@
     }
 
     public function getBookingWindowDays() : int {
-      return $this->booking_window_days;
+      return $this->enrollment_window_days;
+    }
+
+    public function getMaxEnrollments() : int {
+      return $this->max_enrollments;
     }
 
     public function isActive() : bool {
@@ -44,16 +50,21 @@
       $this->monthly_fee = $monthly_fee;
     }
 
-    public function setBookingWindowDays(int $booking_window_days) : void {
-      $this->booking_window_days = $booking_window_days;
+    public function setBookingWindowDays(int $enrollment_window_days) : void {
+      $this->enrollment_window_days = $enrollment_window_days;
     }
 
-    public static function create(PDO $db, string $name, float $monthly_fee, int $booking_window_days) : int {
-      $stmt = $db->prepare('INSERT INTO MembershipTier (name, monthly_fee, booking_window_days, is_active) VALUES (?, ?, ?, ?)');
+    public function setMaxEnrollments(int $max_enrollments) : void {
+      $this->max_enrollments = $max_enrollments;
+    }
+
+    public static function create(PDO $db, string $name, float $monthly_fee, int $enrollment_window_days, int $max_enrollments) : int {
+      $stmt = $db->prepare('INSERT INTO MembershipTier (name, monthly_fee, enrollment_window_days, max_enrollments, is_active) VALUES (?, ?, ?, ?, ?)');
       $stmt->execute([
         $name,
         $monthly_fee,
-        $booking_window_days,
+        $enrollment_window_days,
+        $max_enrollments,
         1
       ]);
 
@@ -69,7 +80,8 @@
           (int)$row['id'], 
           $row['name'], 
           (float)$row['monthly_fee'], 
-          (int)$row['booking_window_days'],
+          (int)$row['enrollment_window_days'],
+          (int)$row['max_enrollments'],
           (bool)$row['is_active']
         );
       }
@@ -85,7 +97,8 @@
           (int)$row['id'], 
           $row['name'], 
           (float)$row['monthly_fee'], 
-          (int)$row['booking_window_days'],
+          (int)$row['enrollment_window_days'],
+          (int)$row['max_enrollments'],
           (bool)$row['is_active']
         );
       }
@@ -100,17 +113,19 @@
         (int)$row['id'], 
         $row['name'], 
         (float)$row['monthly_fee'], 
-        (int)$row['booking_window_days'],
+        (int)$row['enrollment_window_days'],
+        (int)$row['max_enrollments'],
         (bool)$row['is_active']
       );
     }
 
     public function save(PDO $db) : void {
-      $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, monthly_fee = ?, booking_window_days = ?, is_active = ? WHERE id = ?');
+      $stmt = $db->prepare('UPDATE MembershipTier SET name = ?, monthly_fee = ?, enrollment_window_days = ?, max_enrollments = ?, is_active = ? WHERE id = ?');
       $stmt->execute([
         $this->name, 
         $this->monthly_fee, 
-        $this->booking_window_days, 
+        $this->enrollment_window_days, 
+        $this->max_enrollments,
         $this->is_active,
         $this->id
       ]);

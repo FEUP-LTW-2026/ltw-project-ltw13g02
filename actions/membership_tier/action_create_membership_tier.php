@@ -1,22 +1,23 @@
 <?php
     declare(strict_types=1);
 
-    require_once(__DIR__ . '/../utils/session.php');
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../database/membership_tier.class.php');
-    require_once(__DIR__ . '/../utils/helpers.php');
-    require_once(__DIR__ . '/../database/membership_tier_perk.class.php');
+    require_once(__DIR__ . '/../../utils/session.php');
+    require_once(__DIR__ . '/../../database/connection.db.php');
+    require_once(__DIR__ . '/../../database/membership_tier.class.php');
+    require_once(__DIR__ . '/../../utils/helpers.php');
+    require_once(__DIR__ . '/../../database/membership_tier_perk.class.php');
 
     $session = new Session();
 
-    require_once(__DIR__ . '/../utils/protected_file_guard.php');
+    require_once(__DIR__ . '/../../utils/protected_file_guard.php');
 
     if (!$session->isLoggedIn() || !$session->isAdmin()) {
         redirectToLogin();
     }
 
-    if (empty($_POST['name']) || empty($_POST['price']) || empty($_POST['booking_window_days'])) {
-        $session->addErrorMessage('Invalid request. Please fill in all required fields.');
+    $required = ['name', 'price', 'enrollment_window_days', 'max_enrollments'];
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }
 
@@ -37,9 +38,15 @@
         redirectToPreviousPage();
     }
 
-    $bookingWindowDays = (int)$_POST['booking_window_days'];
+    $bookingWindowDays = (int)$_POST['enrollment_window_days'];
     if($bookingWindowDays < 0) {
-        $session->addErrorMessage('Invalid booking window. Please enter a non-negative integer.');
+        $session->addErrorMessage('Invalid enrollment window. Please enter a non-negative integer.');
+        redirectToPreviousPage();
+    }
+
+    $maxEnrollments = (int)$_POST['max_enrollments'];
+    if($maxEnrollments < 0) {
+        $session->addErrorMessage('Invalid max enrollments. Please enter a non-negative integer.');
         redirectToPreviousPage();
     }
 
@@ -57,7 +64,7 @@
 
     try {
         $db->beginTransaction();
-        $membershipTierId = MembershipTier::create($db, $name, $price, $bookingWindowDays);
+        $membershipTierId = MembershipTier::create($db, $name, $price, $bookingWindowDays, $maxEnrollments);
 
         foreach ($perks as $perk) {
             MembershipTierPerk::create($db, $membershipTierId, $perk);

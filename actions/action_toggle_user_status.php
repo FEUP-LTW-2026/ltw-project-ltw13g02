@@ -13,8 +13,9 @@
         redirectToLogin();
     }
 
-    if (empty($_POST['user_id']) || !isset($_POST['is_active'])) {
-        $session->addErrorMessage('Invalid request.');
+    $required = ['user_id', 'is_active', 'csrf_token'];
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }
 
