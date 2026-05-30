@@ -5,7 +5,7 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-create-class">
     <div class="dialog-content">
       <h3>Add New Class</h3>
-      <form action="../actions/action_create_class.php" method="POST">
+      <form action="../actions/action_create_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <label>Class Name
@@ -51,6 +51,12 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
           <input type="time" name="end_time" required>
         </label>
 
+        <div class="image-upload-container">
+          <img id="create-class-img-preview" src="../../img/classes/default.jpg" alt="Class image preview">
+          <input type="file" name="class-image" id="create-class-image-input" accept="image/*">
+          <button type="button" class="btn medium blue" id="create-class-upload-btn">Choose Image</button>
+        </div>
+
         <div class="dialog-actions">
           <button type="submit" class="btn medium blue">Save</button>
           <button type="button" class="btn medium warning btn-close-dialog">Cancel</button>
@@ -64,7 +70,7 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-edit-class">
     <section class="dialog-content">
       <h3>Edit Class</h3>
-      <form action="../actions/action_edit_class.php" method="POST">
+      <form action="../actions/action_edit_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <input type="hidden" name="class_id" id="edit-class-id">
         
@@ -110,6 +116,12 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
         <label>End Time
           <input type="time" name="end_time" id="edit-class-end-time" required>
         </label>
+
+        <div class="image-upload-container">
+          <img id="edit-class-img-preview" src="../../img/classes/default.jpg" alt="Class image preview">
+          <input type="file" name="class-image" id="edit-class-image-input" accept="image/*">
+          <button type="button" class="btn medium blue" id="edit-class-upload-btn">Change Image</button>
+        </div>
         
         <div class="dialog-actions">
           <button type="submit" class="btn medium blue">Update</button>

@@ -49,8 +49,8 @@
 
     try {
         ClassType::create($db, $name, $description, $trainerId, $capacity, $startTime, $endTime, $weekday);
+        $newClassId = (int) $db->lastInsertId();
         $session->addSuccessMessage('Class created successfully.');
-        redirectToPreviousPage();
     } catch (PDOException $e) {
         if (str_contains($e->getMessage(), 'Cannot insert overlapping classes for the same trainer.')) {
             $session->addErrorMessage('Error creating class: This class overlaps with another class for the same trainer.');
@@ -61,4 +61,12 @@
         }
         redirectToPreviousPage();
     }
+
+    try {
+        saveClassImage($newClassId);
+    } catch (Exception $e) {
+        $session->addErrorMessage('Class saved but image upload failed: ' . $e->getMessage());
+    }
+
+    redirectToPreviousPage();
 ?>
