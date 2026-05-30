@@ -176,7 +176,7 @@
             <?php drawTime($booking->getBookingStartTime(), $booking->getBookingEndTime()); ?>
           </section>
 
-          <form data-action="cancel_equipment_booking" method="post">
+          <form action="../actions/equipment/action_cancel_equipment_booking.php" method="post">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="booking_id" value="<?= (int) $booking->getId() ?>" />
             <button class="btn medium warning outline" type="submit">Cancel Booking</button>

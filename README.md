@@ -35,7 +35,16 @@
 - [ ] Oversee and ensure the smooth operation of the entire system.
 
 **Extra:**
-- [ ] Something extra (e.g., personal training bookings, membership plans, waitlist, ...).
+- [x] Equipment booking: a member can book a certain equipment for chosen timeslot if it is not already booked by another member in that timeslot and if the member has not already booked another equipment for that timeslot.
+- [x] Class waitlist: if a member tries to enroll in a class that is already at capacity, they can join a waitlist for that class. If a spot opens up, when another member cancels their enrollment in that class, the first member on the waitlist is automatically enrolled.
+- [x] Membership plans: the gym offers different membership plans, that can be managed by admins. Each plan has a number of allowed class enrollments per membership period and a maximum previous time window for class enrollment.
+- [x] Gym overview in admin dashboard: a overview of key metrics, such as
+    - Monthly revenue by membership tier.
+    - Active memberships by membership tier.
+    - Equipments in maintenance.
+    - Most booked equipment in the current month.
+    - Best reviewed classes.
+
 
 ## Running
 
