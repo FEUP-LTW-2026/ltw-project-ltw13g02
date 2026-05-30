@@ -114,16 +114,16 @@ INSERT INTO Timeslot (id, start_time, end_time) VALUES
 (14, '19:00', '20:00');
 
 INSERT INTO ClassType (id, trainer_id, name, description, capacity, start_time, end_time, weekday) VALUES
-(1, 2, 'Early Burn HIIT', 'Fast-paced intervals that start the week with energy.', 2, '07:00', '08:00', 1),
-(2, 2, 'Strength Lab', 'Coached barbell and dumbbell work with progressive overload.', 10, '18:00', '19:00', 4),
-(3, 3, 'Sunrise Pilates', 'Controlled mat work focused on posture and core strength.', 10, '07:30', '08:30', 2),
+(1, 2, 'Cardio HIIT', 'Fast-paced intervals that start the week with energy.', 2, '07:00', '08:00', 1),
+(2, 2, 'Powerlifting Weightlifting', 'Focus on building strength through compound lifts.', 10, '14:00', '15:00', 4),
+(3, 3, 'Boxing', 'A high-energy boxing class for all fitness levels.', 10, '07:30', '08:30', 2),
 (4, 3, 'Flow Yoga', 'A balanced vinyasa flow for flexibility and recovery.', 14, '19:00', '20:00', 5),
-(5, 4, 'Ride and Burn', 'Spin intervals with sprint blocks and endurance climbs.', 16, '18:30', '19:30', 1),
-(6, 4, 'Endurance Spin', 'Cadence-based cycling to build aerobic capacity.', 18, '07:00', '08:00', 3),
-(7, 5, 'Functional Core', 'Functional movement and core stability for daily performance.', 12, '18:00', '19:00', 2),
-(8, 5, 'Recovery Reset', 'Mobility and stretching to finish the week well.', 10, '10:00', '11:00', 6),
-(9, 6, 'Total Body Circuit', 'A full-body strength and conditioning circuit.', 15, '09:00', '10:00', 5),
-(10, 6, 'Mobility Flow', 'A low-impact mobility session to improve range of motion.', 12, '07:00', '08:00', 4);
+(5, 4, 'Cycling Cardio', 'Cardiovascular exercise on stationary bikes.', 16, '13:30', '15:30', 1),
+(6, 4, 'Crossfit', 'High-intensity functional movements.', 18, '07:00', '08:00', 3),
+(7, 5, 'Muay Thai Boxing', 'A traditional Thai boxing class with focus on technique and conditioning.', 12, '18:00', '19:00', 2),
+(8, 5, 'Bodybuilding Weightlifting', 'Focus on building muscle through targeted weightlifting exercises.', 10, '10:00', '11:00', 6),
+(9, 6, 'Advanced Pilates', 'An advanced Pilates class for experienced practitioners.', 15, '09:00', '10:00', 5),
+(10, 6, 'Prenatal Yoga', 'A gentle yoga practice for expectant mothers.', 12, '07:00', '08:00', 4);
 
 INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VALUES
 (1, 1, '2026-05-18 07:00:00', '2026-05-18 08:00:00', 'completed'),

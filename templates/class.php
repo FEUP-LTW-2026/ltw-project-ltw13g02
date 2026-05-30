@@ -39,6 +39,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
       <div id="class-hero">
         <p class="detail"><?= htmlspecialchars($classType->getWeekday()) ?></p>
         <h1><?= htmlspecialchars($classType->getName()) ?></h1>
+        <p><?= htmlspecialchars($classType->getDescription()) ?></p>
         <?php if($classTypeRating === null) { ?>
           <p class="rating">No reviews yet</p>
         <?php } else { ?>
