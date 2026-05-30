@@ -33,7 +33,6 @@
         }
 
         public static function create(PDO $db, int $memberId, int $classId, string $status) : void {
-            // TODO: add here the other perks
             $stmt = $db->prepare('
                 SELECT mt.enrollment_window_days, mt.max_enrollments
                 FROM MembershipTier mt

@@ -8,7 +8,7 @@ async function getMembershipPage() {
     const membershipsPerPage = membershipTableBody.dataset.membershipsPerPage;
     const csrfToken = membershipTableBody.dataset.csrfToken;
 
-    const response = await fetch('../api/get_membership_page.php?page=' + membershipPage + '&per_page=' + membershipsPerPage);
+    const response = await fetch('../api/membership/get_membership_page.php?page=' + membershipPage + '&per_page=' + membershipsPerPage);
     const memberships = await response.json();
 
     memberships.forEach(membership => {
@@ -37,7 +37,7 @@ async function getMembershipPage() {
         if (membership.status === 'pending') { // Add a pay now button for pending (not paid) memberships
                 
             const form = document.createElement('form');
-            form.action = '../actions/action_pay_membership.php';
+            form.action = '../actions/membership/action_pay_membership.php';
             form.method = 'post';
 
             const csrfInput = document.createElement('input');
@@ -64,7 +64,7 @@ async function getMembershipPage() {
         if (membership.nextTierId !== null && 
             (membership.status === 'active' || membership.status === 'planned' || membership.status === 'pending')) { // Add an upgrade button for active, planned and pending memberships that have a next tier
             const form = document.createElement('form');
-            form.action = '../actions/action_upgrade_membership.php';
+            form.action = '../actions/membership/action_upgrade_membership.php';
             form.method = 'post';
 
             const csrfInput = document.createElement('input');
@@ -96,7 +96,7 @@ async function getMembershipPage() {
 
         if (membership.status === 'pending' || membership.status === 'planned') { // Add a cancel button for active, planned and pending memberships        
             const form = document.createElement('form');
-            form.action = '../actions/action_cancel_membership.php';
+            form.action = '../actions/membership/action_cancel_membership.php';
             form.method = 'post';
 
             const csrfInput = document.createElement('input');

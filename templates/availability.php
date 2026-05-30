@@ -54,7 +54,7 @@
   <?php $reservationId = 'reservation-for-equipment-' . (int)$equipment->getId(); ?>
   <section id="<?= htmlspecialchars($reservationId) ?>" class="reservation-form" hidden>
     <h3>Reserve <?= htmlspecialchars($equipment->getName()) ?></h3>          
-    <form action="../actions/action_create_equipment_booking.php" method="POST"> 
+    <form action="../actions/equipment/action_create_equipment_booking.php" method="POST"> 
       <label>
       Select a date:
       <input type="date" name="date-picker" min="<?= htmlspecialchars(date('Y-m-d')) ?>" max="<?= htmlspecialchars(date('Y-m-d')) ?>" value="<?= htmlspecialchars(date('Y-m-d')) ?>">

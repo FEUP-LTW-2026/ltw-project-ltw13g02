@@ -13,7 +13,7 @@
 
       <label>
         Biography
-        <textarea name="biography" placeholder="New biography"><?= htmlspecialchars($trainer->bio) ?></textarea>
+        <textarea name="biography" placeholder="New biography"><?= htmlspecialchars($trainer->getBio()) ?></textarea>
       </label>
       
       <div class="specializations">
@@ -21,7 +21,7 @@
           <h2>Specializations</h2>
 
           <ul id="specializations-list">
-            <?php foreach ($trainer->specialitizations as $spec) { ?>
+            <?php foreach ($trainer->getSpecialitizations() as $spec) { ?>
               <li class="card">
                 <header>
                   <button type="button" class="remove-btn" title="Remove">X</button>
@@ -47,7 +47,7 @@
         <article>
           <h2>Certifications</h2>
           <ul id="certifications-list">
-            <?php foreach ($trainer->certifications as $cert) { ?>
+            <?php foreach ($trainer->getCertifications() as $cert) { ?>
               <li class="card">
                 <button type="button" class="remove-btn" title="Remove">X</button>
                 <h3><?= htmlspecialchars($cert['name']) ?></h3>
@@ -81,14 +81,14 @@
       <div class="profile-picture">
         <img src="<?= htmlspecialchars($photoUrl) ?>" alt="profile photo">
 
-        <form method="post" action="../actions/action_uploadProfilePicture.php" enctype="multipart/form-data" id="upload-form">
+        <form method="post" action="../actions/profile/action_uploadProfilePicture.php" enctype="multipart/form-data" id="upload-form">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <input type="file" name="profile-picture" id="image-input">
           <button type="button" class="btn medium blue" id="upload-btn">Change Profile Picture</button>
         </form>
       </div>
 
-      <form method="post" action="../actions/action_editProfile.php">
+      <form method="post" action="../actions/profile/action_editProfile.php">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <label>
           First Name
@@ -119,7 +119,7 @@
       <div class="change-password">
         <p class="detail">Change password</p>
 
-        <form method="post" action="../actions/action_changePassword.php">
+        <form method="post" action="../actions/profile/action_changePassword.php">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
           <label>
             Current password

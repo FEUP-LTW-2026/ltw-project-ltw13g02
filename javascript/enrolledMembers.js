@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Fetch the data from your new endpoint
       try {
-        const response = await fetch(`../actions/get_enrolled_members.php?class_id=${classId}`);
+        const response = await fetch(`../actions/classes/get_enrolled_members.php?class_id=${classId}`);
         const members = await response.json();
 
         // Clear previous content

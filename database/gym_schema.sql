@@ -42,9 +42,10 @@ CREATE TABLE Member (
     id INTEGER NOT NULL,
 
     CONSTRAINT PK_Member PRIMARY KEY (id),
-    CONSTRAINT FK_Member_User 
-        FOREIGN KEY (id) 
+    CONSTRAINT FK_Member_User
+        FOREIGN KEY (id)
         REFERENCES User(id)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
@@ -175,8 +176,8 @@ CREATE TABLE Review (
     -- add constraints and checks
     CONSTRAINT PK_Review PRIMARY KEY (id),
     CONSTRAINT ValidRating CHECK (rating >= 1 AND rating <= 5),
-    CONSTRAINT FK_Review_ClassType 
-        FOREIGN KEY (class_type_id) 
+    CONSTRAINT FK_Review_ClassType
+        FOREIGN KEY (class_type_id)
         REFERENCES ClassType(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
@@ -198,8 +199,8 @@ CREATE TABLE Enrollment (
     -- add constraints and checks
     CONSTRAINT PK_Enrollment PRIMARY KEY (id),
     CONSTRAINT ValidStatus CHECK (status IN ('enrolled', 'cancelled', 'attended', 'waitlisted')),
-    CONSTRAINT FK_Enrollment_member 
-        FOREIGN KEY (member_id) 
+    CONSTRAINT FK_Enrollment_member
+        FOREIGN KEY (member_id)
         REFERENCES Member(id)
         ON UPDATE CASCADE -- if a member id is updated, the enrollment is updated as well
         ON DELETE CASCADE, -- if a member is deleted, all enrollments associated with that member are deleted as well

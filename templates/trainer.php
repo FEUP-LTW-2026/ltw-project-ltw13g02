@@ -17,7 +17,7 @@
       <div>
         <h1><?= htmlspecialchars($trainer->getFirstName()) ?> <b><?= htmlspecialchars($trainer->getLastName()) ?></b></h1>
         <h2>Biography</h2>
-        <p><?= htmlspecialchars($trainer->bio) ?></p>
+        <p><?= htmlspecialchars($trainer->getBio()) ?></p>
         <?php if ($trainer->getId() === $session->getId()) { ?>
           <a class="btn medium blue" href="../pages/editProfile.php">Edit Profile</a>
         <?php } ?>
@@ -135,7 +135,7 @@
           <?php drawTime($class['startTimestamp'], $class['endTimestamp']); ?>
           <?php drawClassTypeCapacity($class['capacity']); ?>
 
-          <form method="post" action="../actions/action_schedule_class.php">
+          <form method="post" action="../actions/classes/action_schedule_class.php">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="class_type_id" value="<?= (int) $class['classTypeId'] ?>">
             <input type="hidden" name="start_timestamp" value="<?= htmlspecialchars((string)$class['startTimestamp']) ?>">
@@ -183,7 +183,7 @@
       <?php if (empty($classes)) { ?>
         <p><?= htmlspecialchars($firstname) ?> is not teaching any classes at the moment.</p>
       <?php } else { ?>
-        <?php drawClasses($classes) // TODO: place this function (currently in classes.php) inside common.php? ?>
+        <?php drawClasses($classes)?>
       <?php } ?>
     </section>
   </div>
@@ -197,7 +197,7 @@
         <?php drawScheduledClassInfo($class, $session);
     
         if ($session->getId() === $trainerId) { ?>
-          <button class="btn medium blue see-enrolled" data-class-id="<?= (int) $class->id ?>">See Enrolled Members</button>
+          <button class="btn medium blue see-enrolled" data-class-id="<?= (int) $class->getId() ?>">See Enrolled Members</button>
         <?php } ?>
       </li>
     <?php } ?> 
@@ -230,7 +230,7 @@
 
 <?php function drawTrainerPage(Trainer $trainer, array $allSpecializations, array $allCertifications, array $nextClassesToSchedule, Session $session) {
   drawTrainerIntro($trainer, $session);
-  drawTrainerInfoContainer($trainer->getId(), $trainer->specialitizations, $trainer->certifications, $allSpecializations, $allCertifications, $nextClassesToSchedule, $session);
-  drawTrainerClassesContainer($trainer->getFirstName(), $trainer->classes);
-  drawTrainerScheduledClassesContainer($trainer->getId(), $trainer->scheduledClasses, $session);
+  drawTrainerInfoContainer($trainer->getId(), $trainer->getSpecialitizations(), $trainer->getCertifications(), $allSpecializations, $allCertifications, $nextClassesToSchedule, $session);
+  drawTrainerClassesContainer($trainer->getFirstName(), $trainer->getClasses());
+  drawTrainerScheduledClassesContainer($trainer->getId(), $trainer->getScheduledClasses(), $session);
 } ?>

@@ -12,7 +12,7 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
        <!-- Using a template to be able to clone it when adding new tiers with JS  -->
       <template id="tier-template">
         <article class="card tier-edit-card is-active">
-          <form action="../actions/membership_tier/action_create_membership_tier.php" method="POST" class="tier-form">
+          <form action="../actions/membership/membership_tier/action_create_membership_tier.php" method="POST" class="tier-form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="tier_id">
             <header class="tier-header">
@@ -59,7 +59,7 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
               <!-- formnovalidate allows submitting the form without filling all required fields -->
               <button type="submit"
                       class="btn available"
-                      formaction="../actions/membership_tier/action_enable_membership_tier.php"
+                      formaction="../actions/membership/membership_tier/action_enable_membership_tier.php"
                       formnovalidate>
                 Enable Tier
               </button>
@@ -72,7 +72,7 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
     <div class="tiers">
       <?php foreach ($tiers as $tier) { ?>
         <article class="card tier-edit-card <?= $tier->isActive() ? 'is-active' : 'is-inactive' ?>">
-          <form action="../actions/membership_tier/action_update_tier.php" method="POST" class="tier-form">
+          <form action="../actions/membership/membership_tier/action_update_tier.php" method="POST" class="tier-form">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
             <input type="hidden" name="tier_id" value="<?= (int) $tier->getId() ?>">
             <header class="tier-header">
@@ -126,20 +126,20 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
                 <!-- formnovalidate allows submitting the form without filling all required fields -->
                 <button type="submit"
                         class="btn warning"
-                        formaction="../actions/membership_tier/action_disable_membership_tier.php"
+                        formaction="../actions/membership/membership_tier/action_disable_membership_tier.php"
                         formnovalidate>
                   Disable Tier
                 </button>
               <?php } else { ?>
                 <button type="submit"
                         class="btn available"
-                        formaction="../actions/membership_tier/action_enable_membership_tier.php"
+                        formaction="../actions/membership/membership_tier/action_enable_membership_tier.php"
                         formnovalidate>
                   Enable Tier
                 </button>
                 <button type="submit"
                         class="btn warning"
-                        formaction="../actions/membership_tier/action_delete_membership_tier.php"
+                        formaction="../actions/membership/membership_tier/action_delete_membership_tier.php"
                         formnovalidate>
                   Delete Tier
                 </button>

@@ -61,12 +61,12 @@
     }
 
     function redirectToHomePage() {
-        header('Location: ../pages/index.php');
+        header('Location: /pages/index.php');
         exit;
     }
 
     function redirectToLogin() {
-        header('Location: ../pages/login.php');
+        header('Location: /pages/login.php');
         exit;
     }
 

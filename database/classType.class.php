@@ -2,19 +2,25 @@
     declare (strict_types = 1);
 
     class ClassType {
-        public int $id;
-        public string $name;
-        public int $trainerId;
-        public string $trainerName;
-        public int $capacity;
-        public string $weekday;
-        public string $startTime;
-        public string $endTime;
-        public ?string $description;
+        private int $id;
+        private string $name;
+        private int $trainerId;
+        private string $trainerName;
+        private int $capacity;
+        private string $weekday;
+        private string $startTime;
+        private string $endTime;
+        private ?string $description;
 
-        public function getId() : int {
-            return $this->id;
-        }
+        public function getId() : int { return $this->id; }
+        public function getName() : string { return $this->name; }
+        public function getTrainerId() : int { return $this->trainerId; }
+        public function getTrainerName() : string { return $this->trainerName; }
+        public function getCapacity() : int { return $this->capacity; }
+        public function getWeekday() : string { return $this->weekday; }
+        public function getStartTime() : string { return $this->startTime; }
+        public function getEndTime() : string { return $this->endTime; }
+        public function getDescription() : ?string { return $this->description; }
 
         static array $weekdays = [
             0 => 'Sunday',
@@ -61,7 +67,7 @@
         }
 
         public static function update(PDO $db, int $id, string $name, string $description, int $trainerId, int $capacity, string $startTime, string $endTime, string $weekday) : void {
-            
+
             $weekdayIndex = array_search($weekday, ClassType::$weekdays);
 
             if ($weekdayIndex === false) {
@@ -83,9 +89,9 @@
 
         public static function getAllClassesTypes(PDO $db) : array {
             $stmt = $db->prepare('
-                SELECT DISTINCT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id, 
+                SELECT DISTINCT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id,
                     User.first_name, User.last_name,
-                    ClassType.capacity, ClassType.weekday, ClassType.start_time, 
+                    ClassType.capacity, ClassType.weekday, ClassType.start_time,
                     ClassType.end_time
                 FROM ClassType
                 LEFT JOIN User ON ClassType.trainer_id = User.id');
@@ -103,9 +109,9 @@
 
         public static function getClassTypeById(PDO $db, int $classTypeId) : ?ClassType {
             $stmt = $db->prepare('
-                SELECT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id, 
+                SELECT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id,
                     User.first_name, User.last_name,
-                    ClassType.capacity, ClassType.weekday, ClassType.start_time, 
+                    ClassType.capacity, ClassType.weekday, ClassType.start_time,
                     ClassType.end_time
                 FROM ClassType
                 LEFT JOIN User ON ClassType.trainer_id = User.id
@@ -122,9 +128,9 @@
         // Returns an array where the keys are the weekday indices (0-6) and the values are arrays of ClassType objects for that weekday
         public static function getClassesByWeekday(PDO $db) : array {
             $stmt = $db->prepare('
-                SELECT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id, 
+                SELECT ClassType.id, ClassType.name, ClassType.description, ClassType.trainer_id,
                     User.first_name, User.last_name,
-                    ClassType.capacity, ClassType.weekday, ClassType.start_time, 
+                    ClassType.capacity, ClassType.weekday, ClassType.start_time,
                     ClassType.end_time
                 FROM ClassType
                 LEFT JOIN User ON ClassType.trainer_id = User.id

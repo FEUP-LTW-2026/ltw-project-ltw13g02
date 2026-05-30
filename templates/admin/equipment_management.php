@@ -22,7 +22,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
 } ?>
 
 <?php function drawEquipmentTypeInlineForm(Session $session) { ?>
-  <form id="equipment-type-form" class="inline-admin-form" action="../actions/action_create_equipment_type.php" method="POST" hidden>
+  <form id="equipment-type-form" class="inline-admin-form" action="../actions/equipment/action_create_equipment_type.php" method="POST" hidden>
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
     <label>
       Equipment Type Name
@@ -33,7 +33,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
 <?php } ?>
 
 <?php function drawEquipmentInlineForm(array $equipmentTypes, Session $session) { ?>
-  <form id="equipment-form" class="inline-admin-form" action="../actions/action_create_equipment.php" method="POST" hidden>
+  <form id="equipment-form" class="inline-admin-form" action="../actions/equipment/action_create_equipment.php" method="POST" hidden>
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
     <label>
       Equipment Type
@@ -53,7 +53,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
 <?php } ?>
 
 <?php function drawTimeslotInlineForm(Session $session) { ?>
-  <form id="timeslot-form" class="inline-admin-form" action="../actions/action_create_timeslot.php" method="POST" hidden>
+  <form id="timeslot-form" class="inline-admin-form" action="../actions/equipment/action_create_timeslot.php" method="POST" hidden>
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
     <label>
       Start Time
@@ -68,7 +68,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
 <?php } ?>
 
 <?php function drawEquipmentStatusSelector(Equipment $equipment, EquipmentStatusManager $statusManager, Session $session) { ?>
-  <form class="equipment-status-form" action="../actions/action_change_equipment_status.php" method="POST">
+  <form class="equipment-status-form" action="../actions/equipment/action_change_equipment_status.php" method="POST">
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
     <input type="hidden" name="equipment_id" value="<?= (int)$equipment->getId() ?>">
     <input type="hidden" name="old_status" value="<?= htmlspecialchars($equipment->getStatus()) ?>">
@@ -87,7 +87,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
 
 <?php function drawEquipmentCard(Equipment $equipment, array $equipmentTypes, EquipmentStatusManager $statusManager, Session $session) { ?>
   <article class="card compact-card equipment-card">
-    <form action="../actions/action_update_equipment.php" method="POST" class="equipment-edit-form">
+    <form action="../actions/equipment/action_update_equipment.php" method="POST" class="equipment-edit-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
       <input type="hidden" name="equipment_id" value="<?= (int)$equipment->getId() ?>">
       <label>
@@ -106,7 +106,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
       </label>
       <div class="equipment-card-actions">
         <button type="submit" class="btn blue small">Save</button>
-        <button type="submit" class="btn warning small" formaction="../actions/action_delete_equipment.php" formnovalidate>Delete</button>
+        <button type="submit" class="btn warning small" formaction="../actions/equipment/action_delete_equipment.php" formnovalidate>Delete</button>
       </div>
     </form>
     <?php drawEquipmentStatusSelector($equipment, $statusManager, $session); ?>
@@ -120,7 +120,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
         <h3><?= htmlspecialchars($equipmentType->getName()) ?></h3>
         <p><?= count($equipmentItems) ?> items</p>
       </div>
-      <form action="../actions/action_delete_equipment_type.php" method="POST">
+      <form action="../actions/equipment/action_delete_equipment_type.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <input type="hidden" name="equipment_type_id" value="<?= (int)$equipmentType->getId() ?>">
         <button type="submit" class="btn warning small" formnovalidate>Delete Type</button>
@@ -135,7 +135,7 @@ function getEquipmentTypeName(array $equipmentTypes, int $equipmentTypeId) : str
       <div>
         <h3><?= htmlspecialchars(substr($timeslot->getStartTime(), 0, 5) . ' - ' . substr($timeslot->getEndTime(), 0, 5)) ?></h3>
       </div>
-      <form action="../actions/action_delete_timeslot.php" method="POST">
+      <form action="../actions/equipment/action_delete_timeslot.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <input type="hidden" name="timeslot_id" value="<?= (int)$timeslot->getId() ?>">
         <button type="submit" class="btn warning small" formnovalidate>Delete</button>

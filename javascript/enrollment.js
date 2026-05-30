@@ -1,8 +1,8 @@
 const apiMap = {
-    'enroll': '../api/action_enrollment.php',
-    'cancel': '../api/action_cancel_enrollment.php',
-    'join_waitlist': '../api/action_join_waitlist.php',
-    'leave_waitlist':'../api/action_leave_waitlist.php',
+    'enroll': '../api/classes/action_enrollment.php',
+    'cancel': '../api/classes/action_cancel_enrollment.php',
+    'join_waitlist': '../api/classes/action_join_waitlist.php',
+    'leave_waitlist':'../api/classes/action_leave_waitlist.php',
 };
 
 const nextFormMap = {
@@ -11,6 +11,7 @@ const nextFormMap = {
     'cancelled':    { action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
     'left_waitlist':{ action: 'enroll',        label: 'Enroll Now',       css: 'btn medium blue' },
     'cancelled_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
+    'left_waitlist_full': { action: 'join_waitlist', label: 'Join Waitlist',  css: 'btn medium blue' },
 };
 
 document.querySelectorAll('.js-enrollment').forEach(list => {

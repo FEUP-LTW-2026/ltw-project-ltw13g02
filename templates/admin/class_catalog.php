@@ -5,7 +5,7 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-create-class">
     <div class="dialog-content">
       <h3>Add New Class</h3>
-      <form action="../actions/action_create_class.php" method="POST" enctype="multipart/form-data">
+      <form action="../actions/classes/action_create_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
         <label>Class Name
@@ -70,7 +70,7 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
   <dialog id="dialog-edit-class">
     <section class="dialog-content">
       <h3>Edit Class</h3>
-      <form action="../actions/action_edit_class.php" method="POST" enctype="multipart/form-data">
+      <form action="../actions/classes/action_edit_class.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
         <input type="hidden" name="class_id" id="edit-class-id">
         
@@ -139,26 +139,26 @@ function drawCreateClassForm(Session $session, array $trainers) { ?>
 
       <?php foreach ($classes as $weekdayClass) { ?>
         <article class="schedule-class-card">
-          <strong><?= htmlspecialchars($weekdayClass->name) ?></strong>
+          <strong><?= htmlspecialchars($weekdayClass->getName()) ?></strong>
 
-          <span><?= htmlspecialchars($weekdayClass->startTime) ?> - <?= htmlspecialchars($weekdayClass->endTime) ?></span>
-          <?php drawClassTypeCapacity($weekdayClass->capacity) ?>
+          <span><?= htmlspecialchars($weekdayClass->getStartTime()) ?> - <?= htmlspecialchars($weekdayClass->getEndTime()) ?></span>
+          <?php drawClassTypeCapacity($weekdayClass->getCapacity()) ?>
           <div class="card-actions">
-            <button class="btn blue btn-edit-class" 
-              data-id="<?= htmlspecialchars((string) ($weekdayClass->id ?? '')) ?>"
-              data-name="<?= htmlspecialchars($weekdayClass->name ?? '') ?>"
-              data-description="<?= htmlspecialchars($weekdayClass->description ?? '') ?>"
-              data-trainer-id="<?= htmlspecialchars((string) ($weekdayClass->trainerId ?? '')) ?>"
-              data-capacity="<?= htmlspecialchars((string) ($weekdayClass->capacity ?? '')) ?>"
-              data-weekday="<?= htmlspecialchars((string) ($weekdayClass->weekday ?? '')) ?>"
-              data-start-time="<?= htmlspecialchars($weekdayClass->startTime ?? '') ?>"
-              data-end-time="<?= htmlspecialchars($weekdayClass->endTime ?? '') ?>">
+            <button class="btn blue btn-edit-class"
+              data-id="<?= htmlspecialchars((string) $weekdayClass->getId()) ?>"
+              data-name="<?= htmlspecialchars($weekdayClass->getName()) ?>"
+              data-description="<?= htmlspecialchars($weekdayClass->getDescription() ?? '') ?>"
+              data-trainer-id="<?= htmlspecialchars((string) $weekdayClass->getTrainerId()) ?>"
+              data-capacity="<?= htmlspecialchars((string) $weekdayClass->getCapacity()) ?>"
+              data-weekday="<?= htmlspecialchars($weekdayClass->getWeekday()) ?>"
+              data-start-time="<?= htmlspecialchars($weekdayClass->getStartTime()) ?>"
+              data-end-time="<?= htmlspecialchars($weekdayClass->getEndTime()) ?>">
               Edit
             </button>
 
-            <form action="../actions/action_delete_class.php" method="POST">
+            <form action="../actions/classes/action_delete_class.php" method="POST">
               <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-              <input type="hidden" name="class_id" value="<?= htmlspecialchars((string) ($weekdayClass->id ?? '')) ?>">
+              <input type="hidden" name="class_id" value="<?= htmlspecialchars((string) $weekdayClass->getId()) ?>">
               <button type="submit" class="btn warning">Delete</button>
             </form>
             

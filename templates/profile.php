@@ -20,10 +20,10 @@
 
 <?php function drawClassCardInfo(GymClass $class) { ?>
   <div class="card-info">
-    <h3><?= htmlspecialchars($class->name); ?></h3>
-    <?php drawDate($class->startTimestamp); ?>
-    <?php drawTime($class->startTimestamp, $class->endTimestamp); ?>
-    <?php drawClassCapacity($class->currentEnrollment, $class->capacity); ?>
+    <h3><?= htmlspecialchars($class->getName()); ?></h3>
+    <?php drawDate($class->getStartTimestamp()); ?>
+    <?php drawTime($class->getStartTimestamp(), $class->getEndTimestamp()); ?>
+    <?php drawClassCapacity($class->getCurrentEnrollment(), $class->getCapacity()); ?>
   </div>
 <?php } ?>
 
@@ -31,10 +31,10 @@
   <li class="card">
       <?php drawClassCardInfo($class); ?>
 
-      <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
+      <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->getClassTypeId() ?>">Details</a>
       <form data-action="cancel">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-          <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
+          <input type="hidden" name="class_id" value="<?= (int) $class->getId() ?>" />
           <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
       </form>
     </li>
@@ -63,10 +63,10 @@
   <li class="card">
     <?php drawClassCardInfo($class); ?>
     
-    <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->classTypeId ?>">Details</a>
+    <a class="btn medium blue" href="../pages/class.php?id=<?= (int) $class->getClassTypeId() ?>">Details</a>
     <form data-action="leave_waitlist">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-      <input type="hidden" name="class_id" value="<?= (int) $class->id ?>" />
+      <input type="hidden" name="class_id" value="<?= (int) $class->getId() ?>" />
       <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
     </form>
   </li>
@@ -171,14 +171,14 @@
       <?php foreach ($equipmentBooked as $booking) { ?>
         <li class="card">
           <section class="card-info">
-            <h3><?= htmlspecialchars($booking->equipmentName); ?></h3>
-            <?php drawDate($booking->bookingStartTime); ?>
-            <?php drawTime($booking->bookingStartTime, $booking->bookingEndTime); ?>
+            <h3><?= htmlspecialchars($booking->getEquipmentName()); ?></h3>
+            <?php drawDate($booking->getBookingStartTime()); ?>
+            <?php drawTime($booking->getBookingStartTime(), $booking->getBookingEndTime()); ?>
           </section>
 
           <form data-action="cancel_equipment_booking" method="post">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-            <input type="hidden" name="booking_id" value="<?= (int) $booking->id ?>" />
+            <input type="hidden" name="booking_id" value="<?= (int) $booking->getId() ?>" />
             <button class="btn medium warning outline" type="submit">Cancel Booking</button>
           </form>
         </li>
@@ -191,10 +191,10 @@
 <?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $equipmentBooked, int $numMemberships, Session $session, int $numAttendedClasses) { 
   drawProfile($userId, $name, $username); ?>
   <?php if ($session->isMember()) { ?>
-    <section class="container">
-      <h2 class="detail">YOUR CLASSES</h2> <!-- TODO: consider details being headings instead of paragraphs -->
+    <div class="container">
+      <p class="detail">YOUR CLASSES</p>
       <?php drawEnrolledClassesContainer($classes, $session); ?>
-    </section>
+    </div>
 
 
     <?php if (!empty($waitlistedClasses)) {

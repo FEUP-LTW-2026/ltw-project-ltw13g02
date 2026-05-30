@@ -2,17 +2,29 @@
     declare(strict_types = 1);
 
     class GymClass {
-        // TODO: create getters and setters?
-        public int $id;
-        public int $classTypeId;
-        public int $trainerId;
-        public string $name;
-        public string $trainerName;
-        public string $startTimestamp;
-        public string $endTimestamp;
-        public string $status;
-        public int $currentEnrollment;
-        public int $capacity;
+        private int $id;
+        private int $classTypeId;
+        private int $trainerId;
+        private string $name;
+        private string $trainerName;
+        private string $startTimestamp;
+        private string $endTimestamp;
+        private string $status;
+        private int $currentEnrollment;
+        private int $capacity;
+
+        public function getId() : int { return $this->id; }
+        public function getClassTypeId() : int { return $this->classTypeId; }
+        public function getTrainerId() : int { return $this->trainerId; }
+        public function getName() : string { return $this->name; }
+        public function getTrainerName() : string { return $this->trainerName; }
+        public function getStartTimestamp() : string { return $this->startTimestamp; }
+        public function getEndTimestamp() : string { return $this->endTimestamp; }
+        public function getStatus() : string { return $this->status; }
+        public function getCurrentEnrollment() : int { return $this->currentEnrollment; }
+        public function getCapacity() : int { return $this->capacity; }
+        public function setStartTimestamp(string $timestamp) : void { $this->startTimestamp = $timestamp; }
+        public function setEndTimestamp(string $timestamp) : void { $this->endTimestamp = $timestamp; }
 
         public function __construct(int $id, int $classTypeId, int $trainerId, string $name, string $trainerName, string $startTimestamp, string $endTimestamp, string $status, int $currentEnrollment = 0, int $capacity = 0) {
             $this->id = $id;
@@ -26,7 +38,7 @@
             $this->currentEnrollment = $currentEnrollment;
             $this->capacity = $capacity;
         }
-        
+
         public static function getClassById(PDO $db, int $classId) : ?GymClass {
             $stmt = $db->prepare('
                 SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,
@@ -74,7 +86,7 @@
             ');
 
             $stmt->execute([$classTypeId]);
-            
+
             $classes = [];
             while ($row = $stmt->fetch()) {
                 $classes[] = new GymClass(

@@ -43,7 +43,7 @@
     }
 
     if (!validatePassword($password)) {
-        $session->addErrorMessage('Password must be at least 8 characters.');
+        $session->addErrorMessage('Password must be at least 8 characters and contain uppercase, lowercase, a number, and a special character (!@#$%^&*).');
         redirectToPreviousPage();
     }
 
@@ -67,6 +67,7 @@
     try {
         $user = AuthenticatedUser::createUser($db, $firstName, $lastName, $email, $username, $password);
 
+        session_regenerate_id(true);
         $session->generateCSRFToken();
         $session->setId($user->getId());
         $session->setUsername($user->getUsername());

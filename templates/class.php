@@ -33,8 +33,8 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
   <div class="intro">
     <section class="container">
       <div id="class-hero">
-        <p class="detail"><?= htmlspecialchars($classType->weekday) ?></p>
-        <h1><?= htmlspecialchars($classType->name) ?></h1>
+        <p class="detail"><?= htmlspecialchars($classType->getWeekday()) ?></p>
+        <h1><?= htmlspecialchars($classType->getName()) ?></h1>
         <?php if($classTypeRating === null) { ?>
           <p class="rating">No reviews yet</p>
         <?php } else { ?>
@@ -47,13 +47,13 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
         <?php } ?>
 
         <?php
-          drawTime($classType->startTime, $classType->endTime); 
-          drawClassTrainer($classType->trainerId, $classType->trainerName);
+          drawTime($classType->getStartTime(), $classType->getEndTime());
+          drawClassTrainer($classType->getTrainerId(), $classType->getTrainerName());
         ?>
         <div class="stats">
           <?php
-            drawClassDuration($classType->startTime, $classType->endTime);
-            drawClassTypeCapacity($classType->capacity);
+            drawClassDuration($classType->getStartTime(), $classType->getEndTime());
+            drawClassTypeCapacity($classType->getCapacity());
           ?>
         </div>
         <?php
@@ -69,7 +69,7 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
 <?php 
 function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
     foreach ($enrolledClasses as $enrolledClass) {
-        if ($enrolledClass->id === $classId) {
+        if ($enrolledClass->getId() === $classId) {
             return true;
         }
     }
@@ -78,7 +78,7 @@ function classInEnrolledClasses(int $classId, array $enrolledClasses) : bool {
 
 function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool {
     foreach ($waitlistedClasses as $waitlistedClass) {
-        if ($waitlistedClass->id === $classId) {
+        if ($waitlistedClass->getId() === $classId) {
             return true;
         }
     }
@@ -101,32 +101,32 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
               <li class="card">
                 <?php drawScheduledClassInfo($class, $session); ?>
 
-                <?php if ($session->isMember() && !classInEnrolledClasses($class->id, $enrolledClasses) && !classInWaitlistedClasses($class->id, $waitlistedClasses)) { 
+                <?php if ($session->isMember() && !classInEnrolledClasses($class->getId(), $enrolledClasses) && !classInWaitlistedClasses($class->getId(), $waitlistedClasses)) { 
                     if ($class->hasRemainingCapacity()) { ?>
                     <form data-action="enroll">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                      <input type="hidden" name="class_id" value="<?= $class->id ?>">
+                      <input type="hidden" name="class_id" value="<?= $class->getId() ?>">
                       <button class="btn medium blue" type="submit">Enroll Now</button>
                     </form>
                   <?php } else { ?>
                     <form data-action="join_waitlist">
                       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                      <input type="hidden" name="class_id" value="<?= $class->id ?>">
+                      <input type="hidden" name="class_id" value="<?= $class->getId() ?>">
                       <button class="btn medium blue" type="submit">Join Waitlist</button>
                     </form>
                   <?php } ?>
 
-                <?php } else if ($session->isMember() && classInEnrolledClasses($class->id, $enrolledClasses)) { ?>
+                <?php } else if ($session->isMember() && classInEnrolledClasses($class->getId(), $enrolledClasses)) { ?>
                   <form data-action="cancel">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <input type="hidden" name="class_id" value="<?= $class->getId() ?>" />
                     <button class="btn medium warning outline" type="submit">Cancel Enrollment</button>
                   </form>
 
-                <?php } else if ($session->isMember() && classInWaitlistedClasses($class->id, $waitlistedClasses)) { ?>
+                <?php } else if ($session->isMember() && classInWaitlistedClasses($class->getId(), $waitlistedClasses)) { ?>
                   <form data-action="leave_waitlist">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
-                    <input type="hidden" name="class_id" value="<?= $class->id ?>" />
+                    <input type="hidden" name="class_id" value="<?= $class->getId() ?>" />
                     <button class="btn medium warning outline" type="submit">Leave Waitlist</button>
                   </form>
                 <?php } ?>
@@ -149,7 +149,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php } ?>
 
 <?php function drawReviewForm(int $classTypeId, Session $session) { ?>
-  <form class="comment-form" action="../actions/action_submitReview.php" method="POST">
+  <form class="comment-form" action="../actions/classes/action_submitReview.php" method="POST">
     <h3>Leave a comment</h3>
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
@@ -191,7 +191,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
       </div>
       <?php 
         if($session->isLoggedIn()) {
-            drawReviewForm($classType->id, $session);
+            drawReviewForm($classType->getId(), $session);
         } 
       ?>
     </section>

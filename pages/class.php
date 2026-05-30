@@ -31,7 +31,7 @@
     $reviews = Review::getReviewsByClassType($db, intval($_GET['id']));
     $classTypeRating = Review::getRatingAndCountByClassType($db, intval($_GET['id']));
 
-    drawHeader($session, $generalClass->name, ['class.css', 'classes.css']);
+    drawHeader($session, $generalClass->getName(), ['class.css', 'classes.css']);
 
     drawClassPage($session, $generalClass, $classes, $enrolledClasses, $waitlistedClasses, $reviews, $classTypeRating);
 

@@ -9,7 +9,7 @@ async function getAttendedClassesPage() {
     const attendedClassesPerPage = attendedTableBody.dataset.attendedClassesPerPage;
     const csrfToken = attendedTableBody.dataset.csrfToken;
 
-    const response = await fetch('../api/get_attended_classes_page.php?page=' + attendedPage + '&per_page=' + attendedClassesPerPage);
+    const response = await fetch('../api/classes/get_attended_classes_page.php?page=' + attendedPage + '&per_page=' + attendedClassesPerPage);
     const attendedClasses = await response.json();
 
     attendedClasses.forEach(attendedClass => {
