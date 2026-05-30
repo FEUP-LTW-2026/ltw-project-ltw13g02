@@ -1,20 +1,21 @@
 <?php
     declare(strict_types=1);
 
-    require_once(__DIR__ . '/../utils/session.php');
-    require_once(__DIR__ . '/../database/connection.db.php');
-    require_once(__DIR__ . '/../utils/helpers.php');
+    require_once(__DIR__ . '/../../utils/session.php');
+    require_once(__DIR__ . '/../../database/connection.db.php');
+    require_once(__DIR__ . '/../../utils/helpers.php');
 
     $session = new Session();
 
-    require_once(__DIR__ . '/../utils/protected_file_guard.php');
+    require_once(__DIR__ . '/../../utils/protected_file_guard.php');
 
     if (!$session->isLoggedIn() || !$session->isAdmin()) {
         redirectToLogin();
     }
 
-    if (empty($_POST['tier_id'])) {
-        $session->addErrorMessage('Invalid request.');
+    $required = ['tier_id', 'csrf_token'];
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }
 

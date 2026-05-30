@@ -210,7 +210,7 @@ INSERT INTO EquipmentBooking (id, member_id, equipment_id, timeslot_id, booking_
 (21, 15, 14, 2, '2026-06-29'),
 (22, 16, 3, 3, '2026-06-30');
 
-INSERT INTO MembershipTier (id, name, monthly_fee, booking_window_days, max_enrollments, is_active) VALUES
+INSERT INTO MembershipTier (id, name, monthly_fee, enrollment_window_days, max_enrollments, is_active) VALUES
 (1, 'Starter', 24.90, 1, 2, 1),
 (2, 'Plus', 34.90, 3, 4, 1),
 (3, 'Premium', 49.90, 7, 6, 1);

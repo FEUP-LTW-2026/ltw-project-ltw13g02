@@ -289,18 +289,18 @@ END;
 -- the moment a membership payment is created, that amount is fixed and set by checking the monthly fee of the current membership tier, so already
 -- valid just needs to be implemented in php
 
--- according to the current membership tier, the user can book classes on advance (through the booking_window_days), according to their membership tier
+-- according to the current membership tier, the user can book classes on advance (through the enrollment_window_days), according to their membership tier
 CREATE TABLE MembershipTier(
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
     monthly_fee REAL NOT NULL,
-    booking_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
+    enrollment_window_days INTEGER NOT NULL, -- number of days in advance that the user can book a class session (0 means same day)
     max_enrollments INTEGER NOT NULL, -- maximum number of class enrollments per membership period (4 weeks)
     is_active INTEGER NOT NULL DEFAULT 1, -- whether the tier is active and can be subscribed to by users
     
     CONSTRAINT PK_MembershipTier PRIMARY KEY (id),
     CONSTRAINT ValidMonthlyFee CHECK (monthly_fee > 0),
-    CONSTRAINT ValidBookingWindow CHECK (booking_window_days > 0)
+    CONSTRAINT ValidBookingWindow CHECK (enrollment_window_days > 0)
 );
 
 CREATE TABLE MembershipTierPerk (

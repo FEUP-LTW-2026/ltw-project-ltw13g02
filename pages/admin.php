@@ -75,9 +75,7 @@
     drawFooter();
 ?>
 
-
 <script src="../javascript/adminNav.js" defer></script>
-<script src="../javascript/addInputFields.js" defer></script>
 <script src="../javascript/searchByUserName.js" defer></script>
 <script src="../javascript/addMembershipTier.js" defer></script>
 <script src="../javascript/equipmentAdmin.js" defer></script>

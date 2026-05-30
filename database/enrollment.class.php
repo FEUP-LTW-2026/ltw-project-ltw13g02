@@ -35,7 +35,7 @@
         public static function create(PDO $db, int $memberId, int $classId, string $status) : void {
             // TODO: add here the other perks
             $stmt = $db->prepare('
-                SELECT mt.booking_window_days, mt.max_enrollments
+                SELECT mt.enrollment_window_days, mt.max_enrollments
                 FROM MembershipTier mt
                 JOIN Membership m ON mt.id = m.membership_tier_id
                 WHERE m.member_id = ? AND m.status = "active"
@@ -43,7 +43,7 @@
 
             $stmt->execute([$memberId]);
             $data = $stmt->fetch();
-            $bookingWindowDays = (int)$data['booking_window_days'];
+            $bookingWindowDays = (int)$data['enrollment_window_days'];
 
             if (!self::checkBookingWindow($db, $bookingWindowDays, $classId)) {
                 throw new Exception("Your membership tier only allows you to book classes within {$bookingWindowDays} days of the class date.");
