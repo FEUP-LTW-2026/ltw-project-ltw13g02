@@ -61,18 +61,19 @@ INSERT INTO TrainerSpecialization (trainer_id, specialization_id) VALUES
 (5, 4),
 (6, 5);
 
-INSERT INTO MembershipTier (id, name, monthly_fee, booking_window_days, is_active) VALUES
-(1, 'Starter', 24.90, 1, 1),
-(2, 'Plus', 34.90, 3, 1),
-(3, 'Premium', 49.90, 7, 1);
+INSERT INTO MembershipTier (id, name, monthly_fee, enrollment_window_days, max_enrollments, is_active) VALUES
+(1, 'Starter', 24.90, 1, 2, 1),
+(2, 'Plus', 34.90, 3, 4, 1),
+(3, 'Premium', 49.90, 7, 6, 1);
+
 
 INSERT INTO MembershipTierPerk (id, membership_tier_id, description) VALUES
 (1, 1, 'Full access to the main gym floor'),
 (2, 1, 'Locker room and shower access'),
 (3, 1, 'One group class per week'),
-(4, 1, 'Standard class booking window'),
-(5, 2, 'Unlimited group classes'),
-(6, 2, 'Extended booking window'),
+(4, 1, 'Standard booking window for classes'),
+(5, 2, 'Unlimited group class access'),
+(6, 2, 'Extended class booking window'),
 (7, 2, 'Weekly progress check-in'),
 (8, 2, 'Towel service'),
 (9, 3, 'Priority class booking'),

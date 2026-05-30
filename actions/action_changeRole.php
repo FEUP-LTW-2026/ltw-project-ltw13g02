@@ -20,13 +20,15 @@
         exit;
     }
 
-    if(!$session->verifyCsrfToken($_POST['csrf_token'])) {
-        $session->addErrorMessage('Invalid CSRF token.');
+    $required = ['user_id', 'user_name', 'old_role_table', 'new_role_table', 'csrf_token'];
+
+    if (!validateRequiredFields($required)) {
+        $session->addErrorMessage('All fields are required.');
         redirectToPreviousPage();
     }
 
-    if(empty($_POST['user_id']) || empty($_POST['user_name']) || empty($_POST['old_role_table']) || empty($_POST['new_role_table'])) {
-        $session->addErrorMessage('All fields are required.');
+    if (!$session->verifyCsrfToken($_POST['csrf_token'])) {
+        $session->addErrorMessage('Invalid CSRF token. Please try again.');
         redirectToPreviousPage();
     }
 

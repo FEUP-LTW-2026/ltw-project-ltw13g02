@@ -38,7 +38,7 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap, $db) { ?>  
+<?php function drawMembershipTerminalForm(array $plans, int $plan_id, Session $session, MembershipTierPerksMap $perksMap, PDO $db) { ?>  
   <section id="membership-terminal" class="container">
     <form action="../actions/action_checkout_membership.php" method="POST" id="membership-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
@@ -121,7 +121,9 @@
                 <strong id="summary-total"></strong>
               </div>
               <footer>
-                <button type="submit" class="btn blue large wide btn-cta">Continue to Payment</button>
+                <?php if (!$session->isTrainer() && !$session->isAdmin()) { ?>
+                  <button type="submit" class="btn blue large wide btn-cta">Continue to Payment</button>
+                <?php } ?>
               </footer>
             </aside>
           </div>

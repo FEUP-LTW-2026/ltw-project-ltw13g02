@@ -3,7 +3,6 @@
 
   require_once (__DIR__ . '/admin/navbar.php');
   require_once (__DIR__ . '/admin/overview.php');
-  require_once (__DIR__ . '/admin/trainer_creation.php');
   require_once (__DIR__ . '/admin/account_management.php');
   require_once (__DIR__ . '/admin/class_catalog.php');
   require_once (__DIR__ . '/admin/equipment_management.php');
@@ -15,7 +14,6 @@
   <?php drawNavBar(); ?>    
     <section class="dashboard-content">
       <?php drawOverview($context['db']); ?>
-      <?php drawTrainerCreation($context['session']); ?>
       <?php drawAccountManagement($context['users'], $context['session'], $context['roleManager']); ?>
       <?php drawClassCatalog($context['classesByWeekday'], $context['trainers'], $context['session']); ?>
       <?php drawEquipmentManagement($context['equipmentTypes'], $context['equipmentItems'], $context['timeslots'], $context['session'], $context['statusManager']); ?>

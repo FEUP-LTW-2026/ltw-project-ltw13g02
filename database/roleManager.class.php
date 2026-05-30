@@ -14,6 +14,10 @@
       ];
     }
 
+    public static function getAllRoles(): array {
+      return ['User', 'Admin', 'Trainer', 'Member'];
+    }
+
     public function getAvailableRoles(string $currentRole): array {
       return $this->validTransitions[$currentRole] ?? [];
     }
@@ -34,8 +38,7 @@
         }
 
         // Verify if the role is valid
-        $roleWhitelist = ['User', 'Admin', 'Trainer', 'Member'];
-        if (!in_array($oldRole, $roleWhitelist) || !in_array($newRole, $roleWhitelist)) {
+        if (!in_array($oldRole, self::getAllRoles()) || !in_array($newRole, self::getAllRoles())) {
           $db->rollBack();
           $session->addErrorMessage('Invalid role specified.');
           redirectToPreviousPage();
@@ -67,6 +70,7 @@
         self::updateRoleChangeCount($db, $userId);
       
         $db->commit();
+
         $session->addSuccessMessage('Role for user changed successfully.');
         redirectToPreviousPage();
         

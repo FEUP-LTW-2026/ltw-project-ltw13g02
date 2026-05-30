@@ -27,7 +27,7 @@
     }
     
     $name = trim((string)$_POST['name']);
-    if(!validateText($name)) {
+    if(!validateTextBox($name)) {
         $session->addErrorMessage('Invalid name. Please use only letters and spaces.');
         redirectToPreviousPage();
     }

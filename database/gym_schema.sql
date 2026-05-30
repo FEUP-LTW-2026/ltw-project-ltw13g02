@@ -178,16 +178,16 @@ CREATE TABLE Review (
     CONSTRAINT FK_Review_ClassType 
         FOREIGN KEY (class_type_id) 
         REFERENCES ClassType(id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT FK_Review_Member 
         FOREIGN KEY (member_id) 
         REFERENCES Member(id)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
--- after the capacity is full all tuples should be inserted with status as waitlisted (should be checked in the php file)
--- After the class has ended, the status of all enrollments are changed to attended or missed(decided to do manual update, also update status timestamp)
--- its not possible in sqlite to do time based updates
+
 CREATE TABLE Enrollment (
     id INTEGER NOT NULL,
     member_id INTEGER NOT NULL, -- reference to the member that is enrolling
@@ -201,7 +201,8 @@ CREATE TABLE Enrollment (
     CONSTRAINT FK_Enrollment_member 
         FOREIGN KEY (member_id) 
         REFERENCES Member(id)
-        ON UPDATE CASCADE, -- if a member id is updated, the enrollment is updated as well
+        ON UPDATE CASCADE -- if a member id is updated, the enrollment is updated as well
+        ON DELETE CASCADE, -- if a member is deleted, all enrollments associated with that member are deleted as well
     CONSTRAINT FK_Enrollment_class
         FOREIGN KEY (class_id) 
         REFERENCES Class(id) 
@@ -284,11 +285,6 @@ BEGIN
 END;
 
 
--- guarantee that when a membership tier has its price updated, only new memberships will be affected, current ones will be charged
--- the price before. Only when that user has to pay next months, the new price will be applied
--- the moment a membership payment is created, that amount is fixed and set by checking the monthly fee of the current membership tier, so already
--- valid just needs to be implemented in php
-
 -- according to the current membership tier, the user can book classes on advance (through the enrollment_window_days), according to their membership tier
 CREATE TABLE MembershipTier(
     id INTEGER NOT NULL,
@@ -316,9 +312,6 @@ CREATE TABLE MembershipTierPerk (
         ON DELETE CASCADE
 );
 
--- membership start_timestamp is one day after the payment due date
--- membership end_timestamp is one month after the start date
--- when end_timestamp has passed from an active membership, the status is updated to expired  and update the next one to active (to be done in php)
 
 CREATE TABLE Membership(
     id INTEGER NOT NULL,
@@ -340,7 +333,8 @@ CREATE TABLE Membership(
     CONSTRAINT FK_Membership_MembershipTier
         FOREIGN KEY (membership_tier_id)
         REFERENCES MembershipTier(id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT ValidMembershipStatus CHECK (
         status IN ('active', 'planned', 'pending', 'expired', 'cancelled')
     ),
@@ -355,9 +349,7 @@ CREATE TABLE Membership(
     )
 );
 
--- Create triggers for when some member cancels their enrollment (upon tuple deletion)
--- the oldest timestamp with status as "waitlisted" will be updated to "enrolled" 
--- (if there are any waitlisted members for that class session)
+
 CREATE TRIGGER UpdateWaitlistStatusAfterCancelledEnrollment
 AFTER UPDATE ON Enrollment
 FOR EACH ROW
@@ -372,26 +364,6 @@ BEGIN
     );
 END;
 
--- when a membership is cancelled (to be done in php)
--- if the user has a membership with future months not paid, the access is maintained for paid months but the remaining are cancelled (pending -> cancelled)
--- if the user has a membership with future months paid, the access is maintained for paid months (nothing really happens)
-
--- when a payment is missed, all membership tuples that are pending 
--- have their status changed to suspended and the user is not a member until the value + fine (increases by day)
--- should exist a limit where the user is not allowed to pay anymore and the membership is cancelled and the user is deactivated until the amount is paid
--- if the user eventually pays before the limit due date, the membership is active again
-
--- When the user clicks to subscribe, two tuples are created: 
--- one inside membership and other inside membership payment (to be done as a transaction inside the php file)
--- when a payment is updated to paid before the due date:
--- if the membership is pending and the start date is before or equal to the current date, the membership becomes active
--- if the membership is pending and the start date is after the current date, the membership becomes planned (the user has paid but the membership did not start yet)
-
-
--- user can pay as much months as he wants in advance
--- upgrade tier in current month: user is asked whether he wants to upgrade immediately. If so he pays the difference between the two tiers
--- also, if the user has more than 1 month paid in advance, ask if he wants to make next memberships with the new tier
--- ask if the user only wants to upgrade the tier for the next months and keep the current month with the old tier 
 
 CREATE TRIGGER RemoveFromMemberWhenNoActiveMemberships
 AFTER UPDATE ON Membership
@@ -406,20 +378,6 @@ BEGIN
         AND status IN ('active', 'planned')
     );
 END;
-
-
--- OTHER IDEA FOR SAME MONTH UPGRADE
--- that will result in a new payment with a limit date of that same day
--- Update on a single month
--- maths: 20 / 30 = 0.66 (price by day)
--- maths: 30 / 30 = 1.0 (price by day)
--- remaining days of the month: 5
--- fairly would charge 5 * 1.0 - 5 * 0.66 = 1.7 for the price tier change for the remaining of that month
--- but since that requires multiple logic, updates and so on, charging full price is not that bad
-
--- If a user tries to pay for future months while having unpaid past months the payment is blocked
-
--- o botão é desativado quando é clicado no frontend pelo que um double click não é possível
 
 
 CREATE TRIGGER BlockInsertionOfClassTypes
@@ -451,22 +409,7 @@ BEGIN
     );
 END;
 
--- only delete classes that did not occur yet (start_time > curr_time)
--- deleting every enrollment associated with this class
--- (enrolled, waitlisted, cancelled)
 
---- CREATE TRIGGER DeleteEnrollmentsAfterClassDeletion
---- AFTER DELETE ON Class
---- FOR EACH ROW
---- WHEN datetime(OLD.start_timestamp) > datetime('now', 'localtime')
---- BEGIN
----    DELETE FROM Enrollment
----    WHERE class_id = OLD.id AND status IN ('enrolled', 'waitlisted', 'cancelled');
---- END;
-
--- ON UPDATE TRIGGER: When a user is deactivated, 
--- all enrollments in future classes (start_time > current_time) 
--- are cancelled (enrollment, waitlisted)
 CREATE TRIGGER EraseEnrollementRowsAfterMemberDeactivation
 AFTER UPDATE ON User
 FOR EACH ROW
@@ -481,8 +424,7 @@ BEGIN
     );
 END;
 
--- ON UPDATE TRIGGER: When a user who is a trainer is deactivated, all classes that did not happen yet are deleted 
--- (by checking the current time and the start_time of all of his classes)
+
 CREATE TRIGGER UpdateClassesAfterTrainerDeactivation
 AFTER UPDATE ON User
 FOR EACH ROW
