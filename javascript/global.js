@@ -15,7 +15,7 @@ function showMessage(message, type) {
     setTimeout(() => {
         article.remove();
         if (container.children.length === 0) container.remove();
-    }, 4000);
+    }, 3000);
 }
 
 function encodeForAjax(data) {
@@ -30,6 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
             msg.remove();
             const container = document.querySelector('.messages');
             if (container && container.children.length === 0) container.remove();
-        }, 4000);
+        }, 3000);
     });
 });

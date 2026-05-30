@@ -181,7 +181,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
   <div id="reviews">
     <section class="container">
       <h2>Reviews</h2>
-      <?php if($session->isLoggedIn()) { ?>
+      <?php if($session->isMember()) { ?>
         <p class="detail">LEAVE US YOUR FEEDBACK</p>
       <?php } ?>
       <div id="reviews-list">
@@ -190,7 +190,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
         } ?>
       </div>
       <?php 
-        if($session->isLoggedIn()) {
+        if($session->isMember()) {
             drawReviewForm($classType->getId(), $session);
         } 
       ?>

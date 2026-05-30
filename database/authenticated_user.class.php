@@ -114,8 +114,8 @@
         public static function createUser(PDO $db, string $firstName, string $lastName, string $email, string $username, string $password) : AuthenticatedUser {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             
-            $stmt = $db->prepare('INSERT INTO User (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)');
-            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword]);
+            $stmt = $db->prepare('INSERT INTO User (first_name, last_name, email, username, password, is_active, role_change_count) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([$firstName, $lastName, $email, $username, $hashedPassword, 1, 0]);
             $insertedId = (int) $db->lastInsertId();
 
             return new AuthenticatedUser($insertedId, $firstName, $lastName, $username, $email, true, 'User');

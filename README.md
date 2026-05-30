@@ -48,7 +48,8 @@
 ## Running
 
 ``` bash
-    sqlite3 database/database.db < database/database.sql
+    sudo apt install php-gd # required for profile picture upload
+    sh reset.sh # resets the database, cron job timestamp and populates the db
     php -S localhost:9000
 ```
 
@@ -57,4 +58,9 @@ View website at http://localhost:9000/.
 
 ## Credentials
 
-* Not existent yet.
+| Role   | Username | Password |
+|--------|----------|----------|
+| Admin  | sofiacosta | 123456|
+| Trainer | mferreira | 123456| 
+| Member | msilva | 123456 |
+| User | cgomes | 123456 |

@@ -14,8 +14,8 @@ INSERT INTO User (id, first_name, last_name, username, email, password, is_activ
 (8, 'Marta', 'Silva', 'msilva', 'marta@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
 (9, 'Ana', 'Costa', 'acosta', 'ana@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
 (10, 'Joana', 'Pereira', 'jpereira', 'joana@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
-(11, 'Beatriz', 'Moreira', 'bmoreira', 'beatriz@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0);
-
+(11, 'Beatriz', 'Moreira', 'bmoreira', 'beatriz@email.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0),
+(12, 'Carlos', 'Gomes', 'cgomes', 'carlosg@gmail.com', '$2y$10$cv0GP4.poGgM1S3va/s1BeXEssxgZl4PtjJmoaUSKZhdLU6MjH94S', 1, 0);
 INSERT INTO Admin (id) VALUES
 (1);
 

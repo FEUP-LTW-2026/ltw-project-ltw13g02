@@ -2,9 +2,9 @@
     declare(strict_types=1);
 
     function getProfileImageUrl(?int $userId): string {
-        return file_exists('../img/profiles/' . $userId . '.jpg')
-        ? '../img/profiles/' . $userId . '.jpg'
-        : '../img/profiles/default.jpg';
+        return file_exists(__DIR__ . '/../img/profiles/' . $userId . '.jpg')
+        ? '/../img/profiles/' . $userId . '.jpg'
+        : '/../img/profiles/default.jpg';
     }
 
     function saveClassImage(int $classTypeId): void {
