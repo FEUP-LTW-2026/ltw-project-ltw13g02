@@ -76,7 +76,7 @@
     <dialog id="dialog-add-user">
       <div class="dialog-content">
         <h3>Add New User</h3>
-        <form action="../actions/users/action_create_user.php" method="POST">
+        <form action="../../actions/users/action_create_user.php" method="POST">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
           <label>First Name
@@ -107,8 +107,16 @@
           </label>
 
           <label>Password
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" id="dialog-password-input" name="password" placeholder="Password" required>
           </label>
+
+          <ul class="password-requirements" aria-label="Password requirements">
+            <li id="dialog-req-length">At least 8 characters</li>
+            <li id="dialog-req-uppercase">One uppercase letter</li>
+            <li id="dialog-req-lowercase">One lowercase letter</li>
+            <li id="dialog-req-digit">One number</li>
+            <li id="dialog-req-special">One special character (!@#$%^&*)</li>
+          </ul>
 
           <label>Confirm Password
             <input type="password" name="confirm-password" placeholder="Confirm Password" required>
