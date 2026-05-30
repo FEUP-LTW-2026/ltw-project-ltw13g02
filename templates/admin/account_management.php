@@ -76,7 +76,7 @@
     <dialog id="dialog-add-user">
       <div class="dialog-content">
         <h3>Add New User</h3>
-        <form action="../actions/users/action_create_user.php" method="POST">
+        <form action="../../actions/users/action_create_user.php" method="POST">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 
           <label>First Name
@@ -99,7 +99,7 @@
             <select name="role" required>
               <option value="" disabled selected>Select Role</option>
               <?php 
-                $availableRoles = $roleManager->getAllRoles();
+                $availableRoles = $roleManager->getCreationRoles();
                 foreach ($availableRoles as $role) { ?>
                   <option value="<?= htmlspecialchars($role) ?>"><?= htmlspecialchars($role) ?></option>
               <?php } ?>

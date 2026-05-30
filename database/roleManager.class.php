@@ -4,6 +4,7 @@
 
   class RoleManager {
     private array $validTransitions;
+    private static $allRoles = ['User', 'Admin', 'Trainer', 'Member'];
 
     public function __construct() {
       $this->validTransitions = [
@@ -14,8 +15,10 @@
       ];
     }
 
-    public static function getAllRoles(): array {
-      return ['User', 'Admin', 'Trainer', 'Member'];
+    public static function getCreationRoles() : array {
+      return array_filter(self::$allRoles, function($role) {
+        return $role !== 'Member'; // cannot create a member
+      });
     }
 
     public function getAvailableRoles(string $currentRole): array {
@@ -38,7 +41,7 @@
         }
 
         // Verify if the role is valid
-        if (!in_array($oldRole, self::getAllRoles()) || !in_array($newRole, self::getAllRoles())) {
+        if (!in_array($oldRole, self::$allRoles) || !in_array($newRole, self::$allRoles)) {
           $db->rollBack();
           $session->addErrorMessage('Invalid role specified.');
           redirectToPreviousPage();

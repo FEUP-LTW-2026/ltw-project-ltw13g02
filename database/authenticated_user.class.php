@@ -71,6 +71,12 @@
             $this->isActive = $isActive;
         }
 
+        public static function isUserActive(PDO $db, int $userId): bool {
+            $stmt = $db->prepare('SELECT is_active FROM User WHERE id = ?');
+            $stmt->execute([$userId]);
+            return (bool) $stmt->fetchColumn();
+        }
+
         public static function getUserWithPassword(PDO $db, string $emailUsername, string $password) : ?AuthenticatedUser {
 
             // try with email
@@ -239,12 +245,6 @@
             $stmt = $db->prepare('SELECT role_change_count FROM User WHERE id = ?');
             $stmt->execute([$userId]);
             return $stmt->fetchColumn();
-        }
-
-        public static function isUserActive(PDO $db, int $userId): bool {
-            $stmt = $db->prepare('SELECT is_active FROM User WHERE id = ?');
-            $stmt->execute([$userId]);
-            return (bool) $stmt->fetchColumn();
         }
     }
 ?>

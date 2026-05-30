@@ -336,6 +336,5 @@
             $stmt = $db->prepare('DELETE FROM TrainerCertification WHERE trainer_id = ? AND certification_id = ?');
             $stmt->execute([$trainerId, $certificationId]);
         }
-
     }
 ?>

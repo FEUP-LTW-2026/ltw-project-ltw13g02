@@ -4,7 +4,7 @@
     class ClassType {
         private int $id;
         private string $name;
-        private int $trainerId;
+        private ?int $trainerId;
         private string $trainerName;
         private int $capacity;
         private string $weekday;
@@ -14,7 +14,7 @@
 
         public function getId() : int { return $this->id; }
         public function getName() : string { return $this->name; }
-        public function getTrainerId() : int { return $this->trainerId; }
+        public function getTrainerId() : ?int { return $this->trainerId; }
         public function getTrainerName() : string { return $this->trainerName; }
         public function getCapacity() : int { return $this->capacity; }
         public function getWeekday() : string { return $this->weekday; }
@@ -32,7 +32,7 @@
             6 => 'Saturday',
         ];
 
-        public function __construct(int $id, string $name, int $trainerId, string $trainerName, int $capacity, string $weekday, string $startTime, string $endTime, ?string $description = null) {
+        public function __construct(int $id, string $name, ?int $trainerId, string $trainerName, int $capacity, string $weekday, string $startTime, string $endTime, ?string $description = null) {
             $this->id = $id;
             $this->name = $name;
             $this->trainerId = $trainerId;
@@ -101,6 +101,8 @@
             $classTypes = array();
 
             while($row = $stmt->fetch()) {
+                $trainerId = $row['trainer_id'];
+                if (!AuthenticatedUser::isUserActive($db, $trainerId)) $row['trainer_id'] = null;
                 $classTypes[] = ClassType::build($row);
             }
 
@@ -121,6 +123,7 @@
             $row = $stmt->fetch();
 
             if (empty($row)) return null;
+            if (!AuthenticatedUser::isUserActive($db, $row['trainer_id'])) $row['trainer_id'] = null;
 
             return ClassType::build($row);
         }
