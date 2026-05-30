@@ -16,7 +16,7 @@
 
     drawHeader($session, 'Classes', ['classes.css']);
 
-    drawIntro('WHAT WE OFFER', 'Our <b>classes</b>', '40+ weekly sessions across strength, cardio, flexibility and recovery. Something for every level.');
+    drawIntro('WHAT WE OFFER', 'Our <b>classes</b>', 'Many weekly sessions across strength, cardio, flexibility and recovery. Something for every level.');
 
     drawClassesPage($classes);
     
