@@ -99,7 +99,7 @@
             <select name="role" required>
               <option value="" disabled selected>Select Role</option>
               <?php 
-                $availableRoles = $roleManager->getAllRoles();
+                $availableRoles = $roleManager->getCreationRoles();
                 foreach ($availableRoles as $role) { ?>
                   <option value="<?= htmlspecialchars($role) ?>"><?= htmlspecialchars($role) ?></option>
               <?php } ?>

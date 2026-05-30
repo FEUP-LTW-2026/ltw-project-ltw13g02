@@ -15,10 +15,14 @@ function calculateDurationMinutes(string $startTime, string $endTime) : int {
     return (int)$interval->format('%i') + ((int)$interval->format('%h') * 60);
 } ?>
 
-<?php function drawClassTrainer(int $trainerId, string $trainerName) { ?>
+<?php function drawClassTrainer(?int $trainerId, string $trainerName) { ?>
   <p>
     <span class="symbol">sports</span>
-    Trainer: <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= htmlspecialchars($trainerName); ?></a>
+    Trainer: <?php if ($trainerId !== null) { ?>
+        <a class="trainer" href="../pages/trainer.php?id=<?= $trainerId; ?>"><?= htmlspecialchars($trainerName); ?></a>
+      <?php } else { ?>
+        Not assigned yet
+      <?php } ?>
   </p>
 <?php } ?>
 

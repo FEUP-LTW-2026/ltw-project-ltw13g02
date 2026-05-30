@@ -34,7 +34,7 @@
     $confirm   = (string) $_POST['confirm-password'];
     $role      = (string) $_POST['role'];
 
-    $availableRoles = RoleManager::getAllRoles();
+    $availableRoles = RoleManager::getCreationRoles();
 
     if (!in_array($role, $availableRoles)) {
         $session->addErrorMessage('Invalid role selected.');
@@ -88,9 +88,10 @@
 
         $user = AuthenticatedUser::createUser($db, $firstName, $lastName, $email, $username, $password);
 
-
-        $stmt = $db->prepare("INSERT INTO $role (id) VALUES (?)");
-        $stmt->execute([$user->getId()]);
+        if ($role !== 'User') {
+            $stmt = $db->prepare("INSERT INTO $role (id) VALUES (?)");
+            $stmt->execute([$user->getId()]);
+        }
 
         $session->addSuccessMessage('Account created successfully.');
         $db->commit();
