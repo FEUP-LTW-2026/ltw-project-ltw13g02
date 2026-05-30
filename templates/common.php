@@ -184,3 +184,16 @@
     <?= date('g:i A', strtotime($startTimestamp)) ?> - <?= date('g:i A', strtotime($endTimestamp)) ?>
   </p>
 <?php } ?>
+
+<?php function drawMembershipPerks(string $planName, float $price,int $bookingWindowDays, int $maxEnrollments, array $perks) { ?>
+  <h3><?= htmlspecialchars($planName) ?></h3>
+  <p><span><?= $price; ?>€</span>/4 weeks</p>
+  <p>What's included:</p>
+  <ul>
+    <li><?= $bookingWindowDays ?> days of class enrollment window</li>
+    <li>Includes <?= $maxEnrollments ?> class enrollments</li>
+    <?php foreach ($perks as $perk) { ?>
+      <li><?= htmlspecialchars($perk->getDescription()) ?></li>
+    <?php } ?>
+  </ul>
+<?php } ?>

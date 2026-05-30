@@ -1,14 +1,7 @@
-<?php function drawMembershipTerminal(int $id, string $planName, float $price, int $plan_id, array $perks) { ?>
+<?php function drawMembershipTerminal(int $id, string $planName, float $price, int $bookingWindowDays, int $maxEnrollments, int $plan_id, array $perks) { ?>
   <label class="card membership-plan">
     <article>
-      <h3><?= htmlspecialchars($planName) ?></h3>
-      <p><span><?= $price; ?>€</span>/4 weeks</p>
-      <p>What's included:</p>
-      <ul>
-        <?php foreach ($perks as $perk) { ?>
-          <li><?= htmlspecialchars($perk->getDescription()) ?></li>
-        <?php } ?>
-      </ul>
+      <?php drawMembershipPerks($planName, $price, $bookingWindowDays, $maxEnrollments, $perks); ?>
       <input type="radio" 
              name="tier_id" 
              id="tier-<?= $id; ?>" 
@@ -25,7 +18,7 @@
 <?php function drawMembershipPlansTerminal(array $plans, int $plan_id, MembershipTierPerksMap $perksMap) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      drawMembershipTerminal($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $plan_id, $perksMap->getPerksForMembershipTierId($plan->getId()));
+      drawMembershipTerminal($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $plan->getBookingWindowDays(), $plan->getMaxEnrollments(), $plan_id, $perksMap->getPerksForMembershipTierId($plan->getId()));
     } ?>
   </div>
 <?php } ?>

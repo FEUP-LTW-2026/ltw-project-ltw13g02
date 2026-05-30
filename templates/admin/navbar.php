@@ -10,7 +10,7 @@ function drawNavBar() { ?>
 
     <nav class="admin-nav">
       <ul>
-        <li><a href="#overview" class="active" data-section="overview">Monthly Overview</a></li>
+        <li><a href="#overview" class="active" data-section="overview">Gym Overview</a></li>
         <li><a href="#account-management" data-section="accounts">Manage Accounts</a></li>
         <li><a href="#class-catalog" data-section="catalog">Class Catalog</a></li>
         <li><a href="#equipment-management" data-section="equipment">Manage Equipment</a></li>

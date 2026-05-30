@@ -8,12 +8,11 @@
   <article class="dashboard-section active" id="overview">
     <header>
       <div class="section-header">
-        <h2>Monthly Overview</h2>
+        <h2>Gym Overview</h2>
         <p>Welcome to the admin dashboard. Here you have a bird's-eye view of your gym.</p>
       </div>
     </header>
 
-    <!-- Example mock cards for Overview -->
     <ul class="stats-grid">
       <li>
         <article class="stat-card">

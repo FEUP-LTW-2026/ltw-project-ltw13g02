@@ -23,18 +23,12 @@
   </div>
 <?php } ?>
 
-<?php function drawMembershipPlan(int $id, string $planName, float $price, Session $session, MembershipTierPerksMap $perksMap) { ?>
+<?php function drawMembershipPlan(int $id, string $planName, float $price, int $bookingWindowDays, int $maxEnrollments, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <article class="card membership-plan">
-    <h3><?= htmlspecialchars($planName) ?></h3>
-    <p><span><?= $price; ?>€</span>/4 weeks</p>
-    <p>What's included:</p>
-    <ul>
-      <?php $perks = $perksMap->getPerksForMembershipTierId($id);
-      foreach ($perks as $perk) { ?>
-        <li><?= htmlspecialchars($perk->getDescription()) ?></li>
-      <?php } ?>
-    </ul>
-    <?php if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
+    <?php
+    $perks = $perksMap->getPerksForMembershipTierId($id);
+    drawMembershipPerks($planName, $price, $bookingWindowDays, $maxEnrollments, $perks);
+    if ($session->isLoggedIn() && (!$session->isTrainer())) { ?>
       <form method="POST" action="../pages/membership_terminal.php">
         <input type="hidden" name="plan_id" value="<?= (int) $id; ?>">
         <button type="submit" class="btn large wide blue">Choose <?= htmlspecialchars($planName) ?></button>
@@ -48,7 +42,7 @@
 <?php function drawMembershipPlans(array $plans, Session $session, MembershipTierPerksMap $perksMap) { ?>
   <div class="plans">
     <?php foreach ($plans as $plan) {
-      drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $session, $perksMap);
+      drawMembershipPlan($plan->getId(), $plan->getName(), $plan->getMonthlyFee(), $plan->getBookingWindowDays(), $plan->getMaxEnrollments(), $session, $perksMap);
     } ?>
   </div>
 <?php } ?>
