@@ -149,7 +149,7 @@ function classInWaitlistedClasses(int $classId, array $waitlistedClasses) : bool
 <?php } ?>
 
 <?php function drawReviewForm(int $classTypeId, Session $session) { ?>
-  <form class="comment-form" action="../actions/action_sumbitReview.php" method="POST">
+  <form class="comment-form" action="../actions/action_submitReview.php" method="POST">
     <h3>Leave a comment</h3>
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($session->getCSRFToken()) ?>">
 

@@ -128,6 +128,42 @@
   <?php }
 } ?>
 
+<?php function drawAttendedClasses(int $numAttendedClasses, Session $session) { ?>
+  <section class="container">
+    <h2>Attended Classes</h2>
+    <?php if ($numAttendedClasses === 0) { ?>
+      <p>You haven't attended any classes yet.</p>
+      <a class="btn medium blue" href="../pages/index.php#classes">Book a Class</a>
+    <?php } else { ?>
+      <div class="table-container">
+        <table class="data-table attended-classes-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody 
+            id="attended-classes-table-body"
+            data-page="1"
+            data-attended-classes-per-page="5"
+            data-num-attended-classes="<?= $numAttendedClasses ?>"
+            data-csrf-token="<?= htmlspecialchars($session->getCSRFToken()) ?>"
+          >
+          </tbody>
+        </table>
+      </div>
+      <nav class="pagination">
+        <button class="btn medium transparent-dark" id="prev-attended-classes-page">Previous</button>
+        <button class="btn medium transparent-dark" id="next-attended-classes-page">Next</button>
+      </nav>
+
+    </section>
+  <?php } ?>
+<?php } ?>
+
 <?php function drawEquipmentReservationsContainer(array $equipmentBooked, Session $session) { ?>
   <section class="container">
     <h2>My Equipment Reservations</h2>
@@ -152,7 +188,7 @@
 <?php } ?>
   
 
-<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $equipmentBooked, int $numMemberships, Session $session) {
+<?php function drawProfilePage(int $userId, string $name, string $username, array $classes, array $waitlistedClasses, array $equipmentBooked, int $numMemberships, Session $session, int $numAttendedClasses) { 
   drawProfile($userId, $name, $username); ?>
   <?php if ($session->isMember()) { ?>
     <section class="container">
@@ -169,7 +205,9 @@
         drawEquipmentReservationsContainer($equipmentBooked, $session);
       }
 
-      drawMemberships($numMemberships, $session); ?>
+      drawMemberships($numMemberships, $session); 
+      drawAttendedClasses($numAttendedClasses, $session);
+      ?>
     </section>
   
   <?php } ?>
