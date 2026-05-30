@@ -34,11 +34,13 @@
     $waitlistedClasses = Enrollment::getWaitlistedClasses($db, $session->getId());
     $equipmentBooked = EquipmentBooking::getUserEquipmentBookings($db, $session->getId());
     $numMemberships = Membership::getNumMemberships($db, $session->getId());
+    $numAttendedClasses = Enrollment::getNumAttendedClasses($db, $session->getId());
 
     drawHeader($session, 'Profile', ['profile.css']);
-    drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $equipmentBooked, $numMemberships, $session);
+    drawProfilePage($session->getId(), $user->getFullName(), $user->getUsername(), $classes, $waitlistedClasses, $equipmentBooked, $numMemberships, $session, $numAttendedClasses);
     drawFooter();
 ?>
 
 <script src="../javascript/enrollment.js" defer></script>
 <script src="../javascript/membershipsPaging.js" defer></script>
+<script src="../javascript/attendedClassesPaging.js" defer></script>

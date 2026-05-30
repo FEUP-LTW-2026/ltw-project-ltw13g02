@@ -109,6 +109,8 @@
             return $stmt->fetch() !== false;
         }
 
+        
+
         public static function cancelEnrollment(PDO $db, int $memberId, int $classId) : void {
             $stmt = $db->prepare("
                 UPDATE Enrollment 
@@ -140,6 +142,18 @@
                 )
             ');
             $stmt->execute([$currentTimestamp, $currentTimestamp]);
+        }
+
+        public static function getNumAttendedClasses(PDO $db, int $memberId) : int {
+            $stmt = $db->prepare('
+                SELECT COUNT(*) as attended_count
+                FROM Enrollment e
+                JOIN Class c ON e.class_id = c.id
+                WHERE e.member_id = ? AND e.status = "attended"
+            ');
+            $stmt->execute([$memberId]);
+            $row = $stmt->fetch();
+            return (int) ($row['attended_count'] ?? 0);
         }
     }
 ?>

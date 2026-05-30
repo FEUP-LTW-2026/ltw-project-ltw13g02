@@ -79,7 +79,7 @@ function drawMembershipTiers(array $tiers, Session $session, MembershipTierPerks
             </header>
             
             <label>
-              Description (add each perk separately):
+              Description (add each perk separately): 
               <div class="perks-container">
                 <?php
                       $perks = $perksMap->getPerksForMembershipTierId($tier->getId());

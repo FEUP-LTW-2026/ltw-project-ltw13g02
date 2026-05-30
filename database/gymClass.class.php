@@ -132,5 +132,46 @@
             $stmt = $db->prepare('UPDATE Class SET status = ? WHERE end_timestamp <= ?');
             $stmt->execute([$newStatus, $endTimestamp]);
         }
+
+        public static function getAttendedClassesPage(PDO $db, int $memberID, int $page, int $perPage) : array {
+            $offset = ($page - 1) * $perPage;
+            $stmt = $db->prepare('
+                SELECT Class.id, Class.class_type_id, ClassType.trainer_id, ClassType.name, ClassType.capacity,
+                    CONCAT(User.first_name, " ", User.last_name) AS trainer_name,
+                    Class.start_timestamp, Class.end_timestamp, Class.status,
+                    (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.class_id = Class.id AND Enrollment.status = "enrolled") AS current_enrollment,
+                    EXISTS(
+                        SELECT 1 FROM Review
+                        WHERE Review.member_id = Enrollment.member_id
+                        AND Review.class_type_id = Class.class_type_id
+                    ) AS has_review
+                FROM Enrollment
+                JOIN Class ON Enrollment.class_id = Class.id
+                JOIN ClassType ON Class.class_type_id = ClassType.id
+                LEFT JOIN User ON ClassType.trainer_id = User.id
+                WHERE Enrollment.member_id = ? AND Enrollment.status = "attended" AND Class.status = "completed"
+                ORDER BY Class.start_timestamp DESC
+                LIMIT ? OFFSET ?
+            ');
+
+            $stmt->execute([$memberID, $perPage, $offset]);
+
+            $classes = [];
+            while ($row = $stmt->fetch()) {
+                $classes[] = [
+                    'id' => $row['id'],
+                    'classTypeId' => $row['class_type_id'],
+                    'trainerId' => $row['trainer_id'],
+                    'name' => $row['name'],
+                    'trainerName' => $row['trainer_name'],
+                    'startTimestamp' => $row['start_timestamp'],
+                    'endTimestamp' => $row['end_timestamp'],
+                    'status' => $row['status'],
+                    'hasReview' => (bool)$row['has_review']
+                ];
+            }
+
+            return $classes;
+        }
     }
 ?>
