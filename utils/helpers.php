@@ -8,17 +8,22 @@
     }
 
     function saveClassImage(int $classTypeId): void {
-        if (!isset($_FILES['class-image']) || $_FILES['class-image']['error'] !== UPLOAD_ERR_OK) return;
+        // No file uploaded — skip silently (image is optional)
+        if (!isset($_FILES['class-image']) || $_FILES['class-image']['error'] === UPLOAD_ERR_NO_FILE) return;
 
-        if (!is_dir('../img')) mkdir('../img');
-        if (!is_dir('../img/classes')) mkdir('../img/classes');
+        if ($_FILES['class-image']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception('Image upload failed with error code: ' . $_FILES['class-image']['error']);
+        }
+
+        $classesDir = __DIR__ . '/../img/classes';
+        if (!is_dir($classesDir) && !mkdir($classesDir, 0777, true)) {
+            throw new Exception('Could not create image directory.');
+        }
 
         $tempFileName = $_FILES['class-image']['tmp_name'];
 
-        $img = @imagecreatefromjpeg($tempFileName);
-        if (!$img) $img = @imagecreatefrompng($tempFileName);
-        if (!$img) $img = @imagecreatefromgif($tempFileName);
-        if (!$img) return;
+        $img = @imagecreatefromstring(file_get_contents($tempFileName));
+        if (!$img) throw new Exception('Unsupported image format. Please upload a JPG, PNG, GIF, or WebP.');
 
         $width  = imagesx($img);
         $height = imagesy($img);
@@ -27,21 +32,25 @@
         $targetRatio = 800 / 534;
         $srcRatio    = $width / $height;
 
-        if ($srcRatio > $targetRatio) { // too wide — crop sides
+        if ($srcRatio > $targetRatio) {
             $cropW = (int)($height * $targetRatio);
             $cropH = $height;
-        } else {                        // too tall — crop top/bottom
+        } else {
             $cropW = $width;
             $cropH = (int)($width / $targetRatio);
         }
 
-        $cropX = (int)(($width  - $cropW) / 2);
+        $cropX = (int)(($width - $cropW) / 2);
         $cropY = (int)(($height - $cropH) / 2);
 
         $final = imagecreatetruecolor(800, 534);
         imagecopyresized($final, $img, 0, 0, $cropX, $cropY, 800, 534, $cropW, $cropH);
 
-        imagejpeg($final, '../img/classes/' . $classTypeId . '.jpg');
+        $dest = $classesDir . '/' . $classTypeId . '.jpg';
+        if (!imagejpeg($final, $dest)) {
+            throw new Exception('Could not write image to: ' . $dest);
+        }
+
         imagedestroy($img);
         imagedestroy($final);
     }

@@ -28,7 +28,7 @@
 
         public static function getMemberMemberships(PDO $db, int $memberId): array {
             $stmt = $db->prepare('
-                SELECT m.id, m.membership_tier_id AS membershipTierId, m.start_timestamp AS startTimestamp, m.end_timestamp AS endTimestamp, m.status, m.payment_status AS paymentStatus, mt.name AS tierName, mt.description AS tierDescription, mt.monthly_fee AS monthlyFee, mt.booking_window_days AS bookingWindowDays
+                SELECT m.id, m.membership_tier_id AS membershipTierId, m.start_timestamp AS startTimestamp, m.end_timestamp AS endTimestamp, m.status, m.payment_status AS paymentStatus, mt.name AS tierName, mt.description AS tierDescription, mt.monthly_fee AS monthlyFee, mt.enrollment_window_days AS bookingWindowDays
                 FROM Membership m
                 JOIN MembershipTier mt ON m.membership_tier_id = mt.id
                 WHERE m.member_id = ?

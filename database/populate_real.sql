@@ -102,14 +102,16 @@ INSERT INTO ClassType (id, trainer_id, name, description, capacity, start_time, 
 (8, 5, 'Recovery Reset', 'Mobility, stretching, and recovery work to finish the week well.', 12, '10:00', '11:00', 6);
 
 INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VALUES
-(1, 1, '2026-04-01 07:00:00', '2026-04-01 08:00:00', 'scheduled'),
-(2, 5, '2026-04-01 18:30:00', '2026-04-01 19:30:00', 'scheduled'),
+(37, 8, '2026-05-30 07:00:00', '2026-05-30 08:00:00', 'scheduled'),
+(38, 8, '2026-05-30 13:00:00', '2026-05-30 14:00:00', 'scheduled'),
+(1, 1, '2026-06-01 07:00:00', '2026-06-01 08:00:00', 'scheduled'),
+(2, 5, '2026-06-01 18:30:00', '2026-06-01 19:30:00', 'scheduled'),
 (3, 3, '2026-06-02 07:30:00', '2026-06-02 08:30:00', 'scheduled'),
 (4, 7, '2026-06-02 18:00:00', '2026-06-02 19:00:00', 'scheduled'),
 (5, 6, '2026-06-03 07:00:00', '2026-06-03 08:00:00', 'scheduled'),
 (6, 2, '2026-06-04 18:00:00', '2026-06-04 19:15:00', 'scheduled'),
 (7, 4, '2026-06-05 19:00:00', '2026-06-05 20:00:00', 'scheduled'),
-(8, 8, '2026-06-06 10:00:00', '2026-06-06 11:00:00', 'scheduled'),
+(8, 8, '2026-05-30 10:00:00', '2026-05-30 11:00:00', 'scheduled'),
 (9, 1, '2026-06-08 07:00:00', '2026-06-08 08:00:00', 'scheduled'),
 (10, 5, '2026-06-08 18:30:00', '2026-06-08 19:30:00', 'scheduled'),
 (11, 3, '2026-06-09 07:30:00', '2026-06-09 08:30:00', 'scheduled'),
@@ -117,7 +119,7 @@ INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VA
 (13, 6, '2026-06-10 07:00:00', '2026-06-10 08:00:00', 'scheduled'),
 (14, 2, '2026-06-11 18:00:00', '2026-06-11 19:15:00', 'scheduled'),
 (15, 4, '2026-06-12 19:00:00', '2026-06-12 20:00:00', 'scheduled'),
-(16, 8, '2026-06-13 10:00:00', '2026-06-13 11:00:00', 'scheduled'),
+(16, 8, '2026-06-06 10:00:00', '2026-06-06 11:00:00', 'scheduled'),
 (17, 1, '2026-06-15 07:00:00', '2026-06-15 08:00:00', 'scheduled'),
 (18, 5, '2026-06-15 18:30:00', '2026-06-15 19:30:00', 'scheduled'),
 (19, 3, '2026-06-16 07:30:00', '2026-06-16 08:30:00', 'scheduled'),
@@ -125,7 +127,7 @@ INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VA
 (21, 6, '2026-06-17 07:00:00', '2026-06-17 08:00:00', 'scheduled'),
 (22, 2, '2026-06-18 18:00:00', '2026-06-18 19:15:00', 'scheduled'),
 (23, 4, '2026-06-19 19:00:00', '2026-06-19 20:00:00', 'scheduled'),
-(24, 8, '2026-06-20 10:00:00', '2026-06-20 11:00:00', 'scheduled'),
+(24, 8, '2026-06-13 10:00:00', '2026-06-13 11:00:00', 'scheduled'),
 (25, 1, '2026-06-22 07:00:00', '2026-06-22 08:00:00', 'scheduled'),
 (26, 5, '2026-06-22 18:30:00', '2026-06-22 19:30:00', 'scheduled'),
 (27, 3, '2026-06-23 07:30:00', '2026-06-23 08:30:00', 'scheduled'),
@@ -133,7 +135,7 @@ INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VA
 (29, 6, '2026-06-24 07:00:00', '2026-06-24 08:00:00', 'scheduled'),
 (30, 2, '2026-06-25 18:00:00', '2026-06-25 19:15:00', 'scheduled'),
 (31, 4, '2026-06-26 19:00:00', '2026-06-26 20:00:00', 'scheduled'),
-(32, 8, '2026-06-27 10:00:00', '2026-06-27 11:00:00', 'scheduled'),
+(32, 8, '2026-06-20 10:00:00', '2026-06-20 11:00:00', 'scheduled'),
 (33, 1, '2026-06-29 07:00:00', '2026-06-29 08:00:00', 'scheduled'),
 (34, 5, '2026-06-29 18:30:00', '2026-06-29 19:30:00', 'scheduled'),
 (35, 3, '2026-06-30 07:30:00', '2026-06-30 08:30:00', 'scheduled'),
@@ -208,10 +210,10 @@ INSERT INTO EquipmentBooking (id, member_id, equipment_id, timeslot_id, booking_
 (21, 15, 14, 2, '2026-06-29'),
 (22, 16, 3, 3, '2026-06-30');
 
-INSERT INTO MembershipTier (id, name, monthly_fee, booking_window_days, is_active) VALUES
-(1, 'Starter', 24.90, 1, 1),
-(2, 'Plus', 34.90, 3, 1),
-(3, 'Premium', 49.90, 7, 1);
+INSERT INTO MembershipTier (id, name, monthly_fee, enrollment_window_days, max_enrollments, is_active) VALUES
+(1, 'Starter', 24.90, 1, 2, 1),
+(2, 'Plus', 34.90, 3, 4, 1),
+(3, 'Premium', 49.90, 7, 6, 1);
 
 INSERT INTO MembershipTierPerk (id, membership_tier_id, description) VALUES
 (1, 1, 'Full access to the main gym floor'),

@@ -48,9 +48,7 @@
 
     try {
         ClassType::update($db, $classTypeId, $name, $description, $trainerId, $capacity, $startTime, $endTime, $weekday);
-        saveClassImage($classTypeId);
         $session->addSuccessMessage('Class updated successfully.');
-        redirectToPreviousPage();
     } catch (Exception $e) {
         if (str_contains($e->getMessage(), 'Cannot update to overlapping classes for the same trainer.')) {
             $session->addErrorMessage('Error editing class: This class overlaps with another class for the same trainer.');
@@ -61,4 +59,12 @@
         }
         redirectToPreviousPage();
     }
+
+    try {
+        saveClassImage($classTypeId);
+    } catch (Exception $e) {
+        $session->addErrorMessage('Class saved but image upload failed: ' . $e->getMessage());
+    }
+
+    redirectToPreviousPage();
 ?>
