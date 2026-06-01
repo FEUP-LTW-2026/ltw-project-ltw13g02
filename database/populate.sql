@@ -141,7 +141,9 @@ INSERT INTO Class (id, class_type_id, start_timestamp, end_timestamp, status) VA
 (26, 7, '2026-06-06 18:00:00', '2026-06-06 19:00:00', 'scheduled'),
 (27, 8, '2026-06-07 10:00:00', '2026-06-07 11:00:00', 'scheduled'),
 (28, 9, '2026-06-08 09:00:00', '2026-06-08 10:00:00', 'scheduled'),
-(29, 10, '2026-06-09 07:00:00', '2026-06-09 08:00:00', 'scheduled');
+(29, 10, '2026-06-09 07:00:00', '2026-06-09 08:00:00', 'scheduled'),
+(30, 1, '2026-06-08 07:00:00', '2026-06-08 08:00:00', 'scheduled'),
+(31, 1, '2026-06-15 07:00:00', '2026-06-15 08:00:00', 'scheduled');
 
 INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp) VALUES
 (1, 7, 1, 'attended', '2026-05-18 08:10:00'),
@@ -162,7 +164,9 @@ INSERT INTO Enrollment (id, member_id, class_id, status, status_update_timestamp
 (16, 7, 26, 'enrolled', '2026-06-01 09:20:00'),
 (17, 7, 27, 'enrolled', '2026-06-01 09:25:00'),
 (18, 7, 28, 'enrolled', '2026-06-01 09:30:00'),
-(19, 7, 29, 'enrolled', '2026-06-01 09:35:00');
+(19, 7, 29, 'enrolled', '2026-06-01 09:35:00'),
+(20, 7, 30, 'enrolled', '2026-06-01 09:40:00'),
+(21, 8, 30, 'enrolled', '2026-06-01 09:45:00');
 
 INSERT INTO Review (id, review_text, rating, review_timestamp, class_type_id, member_id) VALUES
 (1, 'Early Burn HIIT was intense but well paced and easy to follow.', 5, '2026-05-20 18:30:00', 1, 7),
